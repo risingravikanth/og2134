@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	
+	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
+		<property name="dataServiceImpl" ref="dataServiceImpl"/>
+	</bean>-->
+	
+	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
+		<property name="crudeOilDao" ref="crudeOilDao"/>
+		<property name="explorationDao" ref="explorationDao"/>
+		<property name="lngDao" ref="lngDao"/>
+		<property name="naturalGasDao" ref="naturalGasDao"/>
+		<property name="pipeLineDao" ref="pipeLineDao"/>
+		<property name="refineryDao" ref="refineryDao"/>
+		<property name="storageDao" ref="storageDao"/>
+	</bean>
+</beans>

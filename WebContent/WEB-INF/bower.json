@@ -1,0 +1,18 @@
+{
+  "name": "oganalysis",
+  "description": "OG Analysis",
+  "main": "index.html",
+  "license": "yes",
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angularjs-dropdown-multiselect": "^1.5.2"
+  }
+}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/lnganalysis"/>
+		<property name="username" value="root"/>
+		<property name="password" value="mysqlroot123"/>
+	</bean>
+	
+	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>com/oganalysis/entities/CrudeOil.hbm.xml</value>
+				<value>com/oganalysis/entities/Exploration.hbm.xml</value>
+				<value>com/oganalysis/entities/Lng.hbm.xml</value>
+				<value>com/oganalysis/entities/NaturalGas.hbm.xml</value>
+				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
+				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
+				<value>com/oganalysis/entities/Storage.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="crudeOilDao" class="com.oganalysis.dao.impl.CrudeOilDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="explorationDao" class="com.oganalysis.dao.impl.ExplorationDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="lngDao" class="com.oganalysis.dao.impl.LngDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="naturalGasDao" class="com.oganalysis.dao.impl.NaturalGasDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>	
+	
+	<bean id="pipeLineDao" class="com.oganalysis.dao.impl.PipeLineDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	<bean id="refineryDao" class="com.oganalysis.dao.impl.RefineryDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="storageDao" class="com.oganalysis.dao.impl.StorageDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+		
+	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
+		<property name="dataServiceImpl" ref="dataServiceImpl"/>
+	</bean>-->
+	
+	<!-- <bean id="explorationDao" class="com.oganalysis.dao.impl.ExplorationDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="refineryDao" class="com.oganalysis.dao.impl.RefineryDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
+		<property name="explorationDao" ref="explorationDao"/>
+		<property name="refineryDao" ref="refineryDao"/>
+	</bean>-->
+</beans>

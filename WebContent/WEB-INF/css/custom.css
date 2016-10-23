@@ -1,0 +1,15 @@
+.filter-control{
+		padding: 0;
+} 
+.filter-control .btn-group, .filter-control .btn {
+	width:100%;
+}
+.filter-control .dropdown-menu{
+	min-width: 200px;
+}
+.subheader{
+	padding: 10px 3px 3px;
+}
+.textCap{
+	text-transform: capitalize;
+}

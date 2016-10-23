@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="PipeLine">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+		<property name="pipeline" type="string"/>
+		<property name="subPipelines" type="string"/>
+		<property name="status" type="string"/>
+		<property  name="commodity" type="string"/>
+		<property name="startPoint" type="string"/>
+		<property name="endPoint" type="string"/>
+		<property name="country" type="string"/>
+		<property name="region" type="string"/>
+		<property name="startCountry" type="string"/>
+		<property name="startRegion" type="string"/>
+		<property name="endCountry" type="string"/>
+		<property name="endRegion" type="string"/>
+		<property name="route" type="string"/> 
+		<property name="pipelineType" type="string"/>
+		<property name="onshoreOrOffshore" type="string"/>
+		<property name="startDate" type="date"/>
+		<property name="commodityDetails" type="string"/>
+		<property name="basicDetailsSource" type="string"/>
+		<property name="basicDetailNotes" type="string"/>
+		<property name="operator" type="string"/>
+		<property name="equityPartners" type="string"/>
+		<property name="equityStakes" type="double"/>
+		<property name="companySource" type="string"/>
+		<property name="companyNotes" type="string"/>
+		<property name="length" type="double"/>
+		<property name="diameter" type="string"/>
+		<property name="capacity" type="double"/>
+		<property name="capex" type="double"/>
+		<property name="parameterSource" type="string"/>
+		<property name="parameterNotes" type="string"/>			
+	</class>
+	
+</hibernate-mapping>	

@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<script src="http://localhost:8080/oganalysis/jquery-1.11.1.min.js"></script>
+		<script src="http://localhost:8080/oganalysis/ajax.js"></script>
+	</head>
+	<form id="myform" method="post">
+		<input type="text" name="userName">Iam in home
+		
+		<input type="radio" name="tabs" value="crudeoil"/>CrudeOil
+		<input type="radio" name="tabs" value="exploration"/>Exploration
+		<input type="radio" name="tabs" value="lng"/>Lng
+		<input type="radio" name="tabs" value="naturalgas"/>NaturalGas
+		<input type="radio" name="tabs" value="pipeline"/>Pipeline
+		<input type="radio" name="tabs" value="refinery"/>Refinery	
+		<input type="radio" name="tabs" value="storage"/>Storage	
+		<br>
+		<br>
+		<label><b>Country</b></label><br>
+		<input type="checkbox" name="country1" value="india">India
+		<input type="checkbox" name="country2" value="algeria">Algeria
+		<br>
+		<br>
+		<label><b>Region</b></label><br>
+		<input type="checkbox" name="region1" value="asia pacific">Asia Pacific
+		<input type="checkbox" name="region2" value="Africa">Africa
+		<input type="checkbox" name="region3" value="Australia">Australia
+	</form>
+	<div id="response">
+		<table border="1px">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Region</th>
+					<th>Country</th>
+				</tr>								
+			</thead>
+			<tbody id="resultBody">
+				
+			</tbody>
+		</table>
+	</div>
+</html>

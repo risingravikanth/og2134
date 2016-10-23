@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="Lng">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+		<property name="name" type="string"/>
+		<property name="country" type="string"/>
+		<property name="area" type="string"/>
+		<property name="region" type="string"/>
+		<property name="type" type="string"/>
+		<property name="status" type="string"/>
+		<property name="feedDetails" type="string"/>
+		<property name="fidDetails" type="string"/>
+		<property name="constructionStatusDetails" type="string"/>
+		<property name="sources" type="string"/>
+		<property name="OtherStatusDetails" type="string"/>
+		<property name="statusDate" type="date"/>
+		<property name="statusSource" type="string"/>
+		<property name="OnshoreOrOffshore" type="string"/>
+		<property name="expectedStartYear" type="date"/> 
+		<property name="scheduledStartYear" type="date"/>
+		<property name="delayOrInitialStartYear" type="date"/>
+		<property name="delayDetails" type="string"/>
+		<property name="technologyDetails" type="string"/>
+		<property name="numberOfTrainsOrNumberOfVaporizers" type="double"/>
+		<property name="capacity" type="double"/>
+		<property name="capacityYear" type="int"/>
+		<property name="expansionDetail" type="string"/>
+		<property name="source" type="string"/>
+		<property name="additionalProducts" type="string"/>
+		<property name="additionalProductsProduction" type="double"/>
+		<property name="additionalProductsProductionUnit" type="string"/>
+		<property name="numberOfStorageTanks" type="double"/>
+		<property name="totalLngStorageCapacity" type="double"/>
+		<property name="sourcesOther" type="string"/>
+		<property name="operator" type="string"/>
+		<property name="equityPartners" type="string"/>
+		<property name="equityStakes" type="double"/>
+		<property name="equityNotes" type="string"/>
+		<property name="historicOperator" type="string"/>
+		<property name="historicEquityPartner" type="string"/>
+		<property name="historicEquityStake" type="double"/>
+		<property name="historicEquityYear" type="int"/> 
+		<property name="equitySources" type="string"/> 
+		<property name="feedOrInputType" type="string"/>
+		<property name="feedOrInputName" type="string"/>
+		<property name="feedOrInputDetails" type="string"/>
+		<property name="disttributionOrOutputType" type="string"/>
+		<property name="disttributionOrOutputName" type="string"/>
+		<property name="disttributionOrOutputDetails" type="string"/>
+		<property name="jettyInfo_m3" type="double"/>
+		<property name="capex" type="double"/>
+		<property name="capexYear" type="int"/>
+		<property name="capexDetails" type="string"/>
+		<property name="sources1" type="string"/>
+		<property name="constructionStart" type="int"/>
+		<property name="constructionEnd" type="int"/>
+		<property name="constructionCompanyName" type="string"/>
+		<property name="constructionContractDetails" type="string"/>
+		<property name="otherContractsDetails" type="string"/> 
+		<property name="lngTerminalOtherNames" type="string"/>
+		<property name="relatedCompanies" type="string"/>
+		<property name="relatedCompanyDetails" type="string"/>
+		<property name="sources2" type="string"/>
+		<property name="moreInfo" type="string"/>
+		<property name="units" type="string"/>	
+	</class>
+	
+</hibernate-mapping>	
