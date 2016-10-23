@@ -28,6 +28,7 @@ public class DataDisplayController {
 	{
 		String name=req.getParameter("userName");
 		
+		
 		System.out.println("CrudeOil"+name+"session:"+req.getSession());
 		
 		Enumeration<String> countryNames=req.getParameterNames();
