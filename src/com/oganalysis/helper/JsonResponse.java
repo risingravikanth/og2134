@@ -12,6 +12,8 @@ import com.oganalysis.entities.NaturalGas;
 import com.oganalysis.entities.PipeLine;
 import com.oganalysis.entities.Refinery;
 import com.oganalysis.entities.Storage;
+import com.oganalysis.entities.source.Countries;
+import com.oganalysis.entities.source.Region;
 
 public class JsonResponse {
 	
@@ -215,6 +217,52 @@ public class JsonResponse {
 				  jsonObj.put("name",storage.getTankFarm());				  			 
 				  jsonObj.put("country",storage.getCountry());
 				  jsonObj.put("region",storage.getRegion());							      			      
+			      array.add(jsonObj);
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createRegionsResponse(List dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			for(Object object:dataList)
+			{
+				 Region region=(Region)object;
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  jsonObj.put("id",region.getId());				  			 
+				  jsonObj.put("name",region.getName());
+				  						      			      
+			      array.add(jsonObj);
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createCountriesResponse(List<Countries> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			for(Countries countries:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  jsonObj.put("id",countries.getId());				  			 
+				  jsonObj.put("name",countries.getName());
+				  						      			      
 			      array.add(jsonObj);
 			}
 			

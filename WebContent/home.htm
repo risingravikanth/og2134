@@ -15,6 +15,10 @@
 		<input type="radio" name="tabs" value="storage"/>Storage	
 		<br>
 		<br>
+		<input type="radio" name="source" value="filterRegions"/>Regions
+		<input type="radio" name="source" value="filterCountries"/>Countries
+		<br>
+		<br>
 		<label><b>Country</b></label><br>
 		<input type="checkbox" name="country1" value="india">India
 		<input type="checkbox" name="country2" value="algeria">Algeria
@@ -24,7 +28,13 @@
 		<input type="checkbox" name="region1" value="asia pacific">Asia Pacific
 		<input type="checkbox" name="region2" value="Africa">Africa
 		<input type="checkbox" name="region3" value="Australia">Australia
+		
+		
 	</form>
+		<div align="center">
+        <h1>Sample Report in Excel</h1>
+        <h3><a href="excelReport">Download Excel Document</a></h3>
+    </div>
 	<div id="response">
 		<table border="1px">
 			<thead>
@@ -35,6 +45,23 @@
 				</tr>								
 			</thead>
 			<tbody id="resultBody">
+				
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<br>
+	
+	<b>Source List</b>
+	<div id="sourceResponse">
+		<table border="1px">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Region Name</th>					
+				</tr>								
+			</thead>
+			<tbody id="sourceResultBody">
 				
 			</tbody>
 		</table>

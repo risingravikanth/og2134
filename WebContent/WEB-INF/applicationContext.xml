@@ -22,4 +22,10 @@
 		<property name="refineryDao" ref="refineryDao"/>
 		<property name="storageDao" ref="storageDao"/>
 	</bean>
+	
+	
+	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
+		<property name="filterDataDao" ref="filterDataDao"/>
+		
+	</bean>
 </beans>

@@ -27,6 +27,8 @@
 				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
+				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
+				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -62,6 +64,10 @@
 	</bean>
 	
 	<bean id="storageDao" class="com.oganalysis.dao.impl.StorageDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="filterDataDao" class="com.oganalysis.dao.impl.FilterDataDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	

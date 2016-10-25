@@ -178,41 +178,42 @@
 		
 		if(URL.LIVE == true){
 			HttpService.get("/exploration").then(function(resp) {
-				$scope.gridDataList = angular.copy(resp.data);
+				$scope.gridDataList = angular.copy(resp);
+				$("#example1").DataTable({
+					"columnDefs": [
+		            {
+		                // The `data` parameter refers to the data for the cell (defined by the
+		                // `data` option, which defaults to the column being worked with, in
+		                // this case `data: 0`.
+		                "render": function ( data, type, row ) {
+		                    return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+		                },
+		                "targets": 0
+		            }
+					],
+				 	columns: [
+						{ title: "Region",
+						  data: "region"
+						},
+						{ title: "Status",
+						  data: "status"
+						},
+						{ title: "Country",
+						  data: "country"
+						},
+						{ title: "Block No",
+						  data: "blockNo"
+						} 
+					],
+					data : $scope.gridDataList
+			 	});
 			});
 		}else{
 			$scope.gridDataList = HttpService.getData();
 		}
  		
 	
-		$("#example1").DataTable({
-			"columnDefs": [
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-                },
-                "targets": 0
-            }
-			],
-		 	columns: [
-				{ title: "Region",
-				  data: "region"
-				},
-				{ title: "Status",
-				  data: "status"
-				},
-				{ title: "Country",
-				  data: "country"
-				},
-				{ title: "Block No",
-				  data: "blockNo"
-				} 
-			],
-			data : $scope.gridDataList
-	 	});
+		
 		
 	}
 

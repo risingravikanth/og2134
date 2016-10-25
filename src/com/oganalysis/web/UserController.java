@@ -23,7 +23,7 @@ public class UserController {
 		String email=(String)request.getParameter("email");
 		String password=request.getParameter("password");
 		System.out.println("Email:"+email+"password:"+password+"session:"+request.getSession());
-		return "home.htm";
+		return "home";
 	}
 	
 	@RequestMapping(value="/login",method={RequestMethod.POST},produces="text/plain")
