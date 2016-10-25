@@ -13,3 +13,9 @@
 .textCap{
 	text-transform: capitalize;
 }
+
+.filterAlignment{
+	margin-left: 42px;
+    margin-right: -112px;
+}
+ 

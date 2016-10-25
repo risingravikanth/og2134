@@ -96,16 +96,12 @@
 
  });
  
- angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope) {
+ angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In common ctrl");
-	
-	
-	console.log($state)
+ 	console.log($state)
 	
 	$scope.example1model = []; 
 	$scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
-	
-	
 	
 	
 	if($state.current.name == "exploration"){
@@ -178,6 +174,17 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
+		$scope.gridDataList = [];
+		
+		if(URL.LIVE == true){
+			HttpService.get("/exploration").then(function(resp) {
+				$scope.gridDataList = angular.copy(resp.data);
+			});
+		}else{
+			$scope.gridDataList = HttpService.getData();
+		}
+ 		
+	
 		$("#example1").DataTable({
 			"columnDefs": [
             {
@@ -189,7 +196,22 @@
                 },
                 "targets": 0
             }
-			]
+			],
+		 	columns: [
+				{ title: "Region",
+				  data: "region"
+				},
+				{ title: "Status",
+				  data: "status"
+				},
+				{ title: "Country",
+				  data: "country"
+				},
+				{ title: "Block No",
+				  data: "blockNo"
+				} 
+			],
+			data : $scope.gridDataList
 	 	});
 		
 	}
