@@ -180,7 +180,7 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header text-center">MAIN NAVIGATION</li>
+        <!-- <li class="header text-center">MAIN NAVIGATION</li> -->
 		
 		<!-- EXPLORATION -->
 		<li>
@@ -442,14 +442,14 @@
 	Offshore/Onshore
 	Type -->
 
-  <aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" >
+  <aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" ng-init="initFilter()">
 		 
 		<div class="tab-content">
 			<div class="form-group" ng-show="filterObj.regionField">
 				<label class="control-sidebar-subheading">
 						Region
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="example1data" selected-model="example1model"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.countryField">

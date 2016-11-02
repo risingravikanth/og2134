@@ -57,7 +57,7 @@
   }]);
   
   
-  angular.module('OGAnalysis').controller('FilterCtrl', function($scope,$state,$rootScope) {
+  angular.module('OGAnalysis').controller('FilterCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In FilterCtrl ctrl");
 	/*	
 	Region
@@ -81,6 +81,11 @@
 	$scope.example9settings = {enableSearch: true};
 	
 	
+	/* region filter */
+	$scope.regionData = [];
+	$scope.regionModel = [];
+	
+	
 	$rootScope.filterObj = {
 		regionField :true,
 		countryField :true,
@@ -92,6 +97,26 @@
 		offshoreField : true,
 		typeField :true
 	};
+	
+	if(URL.LIVE == true){
+	 	
+	 	HttpService.get('/regions').then(function(resp) {
+			
+		});
+		
+		HttpService.get('/countries').then(function(resp) {
+			
+		});
+	}else{
+		
+	}
+	
+	/*$scope.initFilter = function(){
+		console.log("in side filter initialization")
+		
+	};)*/
+	
+	
  
 
  });
@@ -103,68 +128,114 @@
 	$scope.example1model = []; 
 	$scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
 	
+	$scope.setConfigurations = function(){
+		
+		if($state.current.name == "exploration"){
+			$scope.url = "/exploration";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : false,
+				ownerField : false,
+				statusField : false,
+				unitsField : false,
+				offshoreField : false,
+				typeField :true
+			};
+		}else if($state.current.name == "lng"){
+			$scope.url = "/lng";
+			$rootScope.filterObj = {
+				regionField :true,
+				countryField :true,
+				locationField : true,
+				operatorField : true,
+				ownerField : true,
+				statusField : true,
+				unitsField : true,
+				offshoreField : true,
+				typeField :true
+			};
+		}else if($state.current.name == "pipelines"){
+			$scope.url = "/pipeline";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : true,
+				ownerField : true,
+				statusField : false,
+				unitsField : true,
+				offshoreField : false,
+				typeField :false
+			};
+		}else if($state.current.name == "crude"){
+			$scope.url = "/crudeoil";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : true,
+				ownerField : true,
+				statusField : false,
+				unitsField : true,
+				offshoreField : false,
+				typeField :false
+			};
+		}else if($state.current.name == "naturalgas"){
+			$scope.url = "/naturalgas";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : true,
+				ownerField : true,
+				statusField : false,
+				unitsField : true,
+				offshoreField : false,
+				typeField :false
+			};
+		} else if($state.current.name == "refineries"){
+			$scope.url = "/refinery";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : true,
+				ownerField : true,
+				statusField : false,
+				unitsField : true,
+				offshoreField : false,
+				typeField :false
+			};
+		} else if($state.current.name == "storage"){
+			$scope.url = "/storage";
+			$rootScope.filterObj = {
+				regionField :false,
+				countryField :false,
+				locationField : false,
+				operatorField : true,
+				ownerField : true,
+				statusField : false,
+				unitsField : true,
+				offshoreField : false,
+				typeField :false
+			};
+		} 
+		
+	};
 	
-	if($state.current.name == "exploration"){
-		$rootScope.filterObj = {
-			regionField :false,
-			countryField :false,
-			locationField : false,
-			operatorField : false,
-			ownerField : false,
-			statusField : false,
-			unitsField : false,
-			offshoreField : false,
-			typeField :true
-		};
-	}else if($state.current.name == "lng"){
-		$rootScope.filterObj = {
-			regionField :true,
-			countryField :true,
-			locationField : true,
-			operatorField : true,
-			ownerField : true,
-			statusField : true,
-			unitsField : true,
-			offshoreField : true,
-			typeField :true
-		};
-	}else if($state.current.name == "pipelines"){
-		$rootScope.filterObj = {
-			regionField :false,
-			countryField :false,
-			locationField : false,
-			operatorField : true,
-			ownerField : true,
-			statusField : false,
-			unitsField : true,
-			offshoreField : false,
-			typeField :false
-		};
-	}else if($state.current.name == "crude"){
-		$rootScope.filterObj = {
-			regionField :false,
-			countryField :false,
-			locationField : false,
-			operatorField : true,
-			ownerField : true,
-			statusField : false,
-			unitsField : true,
-			offshoreField : false,
-			typeField :false
-		};
-	}else if($state.current.name == "naturalgas"){
-		$rootScope.filterObj = {
-			regionField :false,
-			countryField :false,
-			locationField : false,
-			operatorField : true,
-			ownerField : true,
-			statusField : false,
-			unitsField : true,
-			offshoreField : false,
-			typeField :false
-		};
-	} 
+	$scope.setDisplayPeriod = function(){
+		for(var i =2000;i <= 2020 ;i++){
+			var obj = {
+				id : i,
+				name : i
+			}
+			$scope.displayPeriodList.push(obj);
+		}
+		
+	}
+	
 	
 	openModel = function(){
 		console.log("in model");
@@ -175,39 +246,46 @@
 	$scope.init = function(){
 		$scope.title = $state.current.name;
 		$scope.gridDataList = [];
+		$scope.displayPeriodList = [];
+		$scope.url = "";
+		
+		$scope.setConfigurations();
+		$scope.setDisplayPeriod();
 		
 		if(URL.LIVE == true){
-			HttpService.get("/exploration").then(function(resp) {
-				$scope.gridDataList = angular.copy(resp);
-				$("#example1").DataTable({
-					"columnDefs": [
-		            {
-		                // The `data` parameter refers to the data for the cell (defined by the
-		                // `data` option, which defaults to the column being worked with, in
-		                // this case `data: 0`.
-		                "render": function ( data, type, row ) {
-		                    return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-		                },
-		                "targets": 0
-		            }
-					],
-				 	columns: [
-						{ title: "Region",
-						  data: "region"
-						},
-						{ title: "Status",
-						  data: "status"
-						},
-						{ title: "Country",
-						  data: "country"
-						},
-						{ title: "Block No",
-						  data: "blockNo"
-						} 
-					],
-					data : $scope.gridDataList
-			 	});
-			});
+			if($scope.url != ''){
+				HttpService.get($scope.url).then(function(resp) {
+					$scope.gridDataList = angular.copy(resp);
+					$("#example1").DataTable({
+						"columnDefs": [
+						{
+							// The `data` parameter refers to the data for the cell (defined by the
+							// `data` option, which defaults to the column being worked with, in
+							// this case `data: 0`.
+							"render": function ( data, type, row ) {
+								return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+							},
+							"targets": 0
+						}
+						],
+						columns: [
+							{ title: "Region",
+							  data: "region"
+							},
+							{ title: "Status",
+							  data: "status"
+							},
+							{ title: "Country",
+							  data: "country"
+							},
+							{ title: "Block No",
+							  data: "blockNo"
+							} 
+						],
+						data : $scope.gridDataList
+					});
+				});
+			}
 		}else{
 			$scope.gridDataList = HttpService.getData();
 		}
