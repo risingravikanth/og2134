@@ -60,8 +60,8 @@
 	
 	<mvc:annotation-driven />
 	 	
-	<!--  <mvc:resources mapping="/**" location="/" />-->
-	<!--  This is with angular js --><mvc:resources mapping="/**" location="/WEB-INF/" />
+	 <mvc:resources mapping="/**" location="/" />
+	<!--  This is with angular js <mvc:resources mapping="/**" location="/WEB-INF/" />-->
 	
 	<!-- Below is the bean to generate excel report -->
 	<bean id="viewResolver1" class="org.springframework.web.servlet.view.XmlViewResolver">

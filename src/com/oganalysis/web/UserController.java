@@ -3,6 +3,7 @@ package com.oganalysis.web;
 import java.awt.PageAttributes.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,8 @@ public class UserController {
 	{
 		String email=(String)request.getParameter("email");
 		String password=request.getParameter("password");
+		HttpSession session=request.getSession();
+		session.setAttribute("email",email);
 		System.out.println("I am in post method Email:"+email+"password:"+password+"session:"+request.getSession());
 		return "redirect:/home.htm";
 	}

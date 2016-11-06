@@ -16,7 +16,7 @@
 	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
 		<property name="crudeOilDao" ref="crudeOilDao"/>
 		<property name="explorationDao" ref="explorationDao"/>
-		<property name="lngDao" ref="lngDao"/>
+		<!-- <property name="lngDao" ref="lngDao"/>-->
 		<property name="naturalGasDao" ref="naturalGasDao"/>
 		<property name="pipeLineDao" ref="pipeLineDao"/>
 		<property name="refineryDao" ref="refineryDao"/>
@@ -25,7 +25,14 @@
 	
 	
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
-		<property name="filterDataDao" ref="filterDataDao"/>
-		
+		<property name="filterDataDao" ref="filterDataDao"/>		
+	</bean>
+	
+	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
+		<property name="lngBusinessServiceImpl" ref="lngBusinessServiceImpl"/>		
+	</bean>
+	
+	<bean id="lngBusinessServiceImpl" class="com.oganalysis.business.impl.LngBusinessServiceImpl">
+		<property name="lngDao" ref="lngDao"/>		
 	</bean>
 </beans>

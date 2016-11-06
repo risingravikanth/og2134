@@ -14,6 +14,8 @@ import com.oganalysis.entities.Refinery;
 import com.oganalysis.entities.Storage;
 import com.oganalysis.entities.source.Countries;
 import com.oganalysis.entities.source.Region;
+import com.oganalysis.entities.source.Status;
+import com.oganalysis.entities.source.Type;
 
 public class JsonResponse {
 	
@@ -26,8 +28,7 @@ public class JsonResponse {
 			for(Object object:dataList)
 			{
 				 Exploration exploration=(Exploration)object;
-				 JSONObject jsonObj=new JSONObject();
-				 							
+				 JSONObject jsonObj=new JSONObject();				 
 				  jsonObj.put("blockNo",exploration.getBlockNo());
 				  jsonObj.put("region",exploration.getRegion());
 				  jsonObj.put("country",exploration.getCountry());
@@ -50,10 +51,10 @@ public class JsonResponse {
 				  jsonObj.put("notes",exploration.getNotes());
 				  jsonObj.put("source",exploration.getSource());
 				  jsonObj.put("licenseNo", exploration.getLicenseNo());
-			      			      
+			      			
+				  
 			      array.add(jsonObj);
-			}
-			
+			}			
 			
 			response=array.toString();		      
 		}
@@ -95,7 +96,78 @@ public class JsonResponse {
 				  else
 					  jsonObj.put("decomissionedYear","");
 				  jsonObj.put("assetOrStartSource",refinery.getAssetOrStartSource());
-			      			      
+				  
+				  jsonObj.put("currentOperator", refinery.getCurrentOperator());
+				  jsonObj.put("currentEquityPartners",refinery.getCurrentEquityPartners());
+				  jsonObj.put("currentEquityStakes", refinery.getCurrentEquityStakes());
+				  jsonObj.put("equityDetails", refinery.getEquityDetails());
+				  jsonObj.put("historicOperator", refinery.getHistoricOperator());
+				  jsonObj.put("historicEquityPartners",refinery.getHistoricEquityPartners());
+				  jsonObj.put("historicEquityStakes",refinery.getHistoricEquityStakes());
+				  jsonObj.put("historicEquityYear",refinery.getHistoricEquityYear());
+				  jsonObj.put("equitySource",refinery.getEquitySource());
+				  jsonObj.put("refiningCapacity",refinery.getRefiningCapacity());
+				  jsonObj.put("vduCapacity",refinery.getVduCapacity());
+				  jsonObj.put("cokingCapacity",refinery.getCokingCapacity());
+				  jsonObj.put("fcc",refinery.getFcc());
+				  jsonObj.put("hydroCrackingCapacity",refinery.getHydroCrackingCapacity());
+				  jsonObj.put("sourceCapacities",refinery.getSourceCapacities());
+				  jsonObj.put("crudeStorageUnitOrTanksNo",refinery.getCrudeStorageUnitOrTanksNo());
+				  jsonObj.put("crudeStorageCapacity",refinery.getCrudeStorageCapacity());
+				  jsonObj.put("nelsonComplexityIndex",refinery.getNelsonComplexityIndex());
+				  jsonObj.put("crudeThroughput", refinery.getCrudeThroughput());
+				  jsonObj.put("crudeType",refinery.getCrudeType());
+				  jsonObj.put("api",refinery.getApi());
+				  jsonObj.put("sulphur",refinery.getSulphur());
+				  jsonObj.put("sourceInput",refinery.getSourceInput());
+				  jsonObj.put("visbreakingCapacity",refinery.getVisbreakingCapacity());
+				  jsonObj.put("reformerCapacity",refinery.getReformerCapacity());
+				  jsonObj.put("hydrotreatingCapacity",refinery.getHydrotreatingCapacity());
+				  jsonObj.put("alkylationCapacity",refinery.getAlkylationCapacity());
+				  jsonObj.put("alkylationCapacityUnit",refinery.getAlkylationCapacityUnit());
+				  jsonObj.put("aromaticsCapacity",refinery.getAromaticsCapacity());
+				  jsonObj.put("aromaticsCapacityUnit",refinery.getAromaticsCapacityUnit());
+				  jsonObj.put("isomerizationCapacity",refinery.getIsomerizationCapacity());
+				  jsonObj.put("polymerizationCapacity",refinery.getPolymerizationCapacity());
+				  jsonObj.put("polymerizationCapacityUnit",refinery.getPolymerizationCapacityUnit());
+				  jsonObj.put("lubesCapacity",refinery.getLubesCapacity());
+				  jsonObj.put("lubesCapacityUnit",refinery.getLubesCapacityUnit());
+				  jsonObj.put("oxygenatesCapacity",refinery.getOxygenatesCapacity());
+				  jsonObj.put("oxygenatesCapacityUnit",refinery.getOxygenatesCapacityUnit());
+				  jsonObj.put("cokeCapacity",refinery.getCokeCapacity());
+				  jsonObj.put("cokeCapacityUnit",refinery.getCokeCapacityUnit());
+				  jsonObj.put("sulphurCapacity",refinery.getSulphurCapacity());
+				  jsonObj.put("sulphurCapacityUnit",refinery.getSulphurCapacityUnit());
+				  jsonObj.put("hydrogenCapacity",refinery.getHydrogenCapacity());
+				  jsonObj.put("hydrogenCapacityUnit",refinery.getHydrogenCapacityUnit());
+				  jsonObj.put("asphaltCapacity",refinery.getAsphaltCapacity());
+				  jsonObj.put("asphaltCapacityUnit",refinery.getAsphaltCapacityUnit());
+				  jsonObj.put("othersCapacity",refinery.getOthersCapacity());
+				  jsonObj.put("refineryProducts",refinery.getRefineryProducts());
+				  jsonObj.put("sourceProducts",refinery.getSourceProducts());
+				  jsonObj.put("refineryUtilization",refinery.getRefineryUtilization());
+				  jsonObj.put("grm",refinery.getGrm());
+				  jsonObj.put("capex",refinery.getCapex());
+				  jsonObj.put("capexYear",refinery.getCapexYear());
+				  jsonObj.put("capexDetails",refinery.getCapexDetails());
+				  jsonObj.put("sourceCapex",refinery.getSourceCapex());
+				  jsonObj.put("constructionCompanyName",refinery.getConstructionCompanyName());
+				  jsonObj.put("constructionContractDetails",refinery.getConstructionContractDetails());
+				  jsonObj.put("refineryOtherNames",refinery.getRefineryOtherNames());
+				  jsonObj.put("otherSources",refinery.getOtherSources());
+				  jsonObj.put("contact",refinery.getContact());
+				  jsonObj.put("gasolinePetrol",refinery.getGasolinePetrol());
+				  jsonObj.put("lpg",refinery.getLpg());
+				  jsonObj.put("kerosine",refinery.getKerosine());
+				  jsonObj.put("jetFuel",refinery.getJetFuel());
+				  jsonObj.put("diesel",refinery.getDiesel());
+				  jsonObj.put("propylene",refinery.getPropylene());
+				  jsonObj.put("lightNaphtha",refinery.getLightNaphtha());
+				  jsonObj.put("heavyNaphtha",refinery.getHeavyNaphtha());
+				  jsonObj.put("kerojet", refinery.getKerojet());
+				  jsonObj.put("benzeneSaturationUnit",refinery.getBenzeneSaturationUnit());
+				  jsonObj.put("productsSources",refinery.getProductsSources());
+				  			      			      
 			      array.add(jsonObj);
 			}
 			
@@ -232,15 +304,17 @@ public class JsonResponse {
 		if(dataList.size()>0)
 		{
 			JSONArray array=new JSONArray();
+			
 			for(Object object:dataList)
 			{
 				 Region region=(Region)object;
 				 JSONObject jsonObj=new JSONObject();
 				 							
-				  jsonObj.put("id",region.getId());				  			 
-				  jsonObj.put("name",region.getName());
+				  				  			 
+				  jsonObj.put("region",region.getName());
 				  						      			      
 			      array.add(jsonObj);
+			      
 			}
 			
 			response=array.toString();		      
@@ -255,15 +329,67 @@ public class JsonResponse {
 		if(dataList.size()>0)
 		{
 			JSONArray array=new JSONArray();
+			
 			for(Countries countries:dataList)
 			{
 				 
 				 JSONObject jsonObj=new JSONObject();
 				 							
-				  jsonObj.put("id",countries.getId());				  			 
-				  jsonObj.put("name",countries.getName());
+				  				  			 
+				  jsonObj.put("country",countries.getName());
 				  						      			      
 			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createStatusResponse(List<Status> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(Status status:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  				  			 
+				  jsonObj.put("status",status.getName());
+				  						      			      
+			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createTypeResponse(List<Type> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(Type type:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  			  			 
+				  jsonObj.put("type",type.getName());
+				  						      			      
+			      array.add(jsonObj);
+			      
 			}
 			
 			response=array.toString();		      
