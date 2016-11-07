@@ -37,7 +37,7 @@
 	<!-- jQuery 2.2.3 -->
 	<script src="./js/plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<!-- Bootstrap 3.3.6 -->
-	<script src="./js/plugins/js/bootstrap.min.js"></script>
+	<script src="./js/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="./js/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
@@ -64,6 +64,7 @@
 	<script src="./js/main.js"></script>
 	<script src="./js/services.js"></script>
 	<script src="./js/controllers/commonCtrl.js"></script>
+	<script src="./js/controllers/capacityCtrl.js"></script>
   
   
   
@@ -189,11 +190,23 @@
            </a>
         </li>
 		
-		<li>
+		<!-- <li>
           <a href="#/lng">
             <i class="fa fa-th"></i> <span>LNG</span>
            </a>
-        </li> 
+        </li>  -->
+        
+        <li class="treeview">
+          <a href="javascript:void(0)">
+            <i class="fa fa-dashboard"></i> <span>LNG</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li>
+            </ul>
+        </li>
 		
 		<li>
 		<a href="#/pipelines">
@@ -227,7 +240,11 @@
             <i class="fa fa-th"></i> <span>STORAGE</span>
            </a>
         </li>
-		
+		<li>
+		<a href="#/reports">
+            <i class="fa fa-th"></i> <span>REPORTS</span>
+           </a>
+        </li>
 		
 		
 		
@@ -456,7 +473,7 @@
 				<label class="control-sidebar-subheading">
 						Country
 				</label>
-				<div ng-dropdown-multiselect="" options="example9data" class="form-control filter-control col-md-12" selected-model="example9model" extra-settings="example9settings"></div>
+				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.locationField">

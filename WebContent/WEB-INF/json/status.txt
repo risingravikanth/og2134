@@ -1,0 +1,19 @@
+[{
+	"status": "Available"
+}, {
+	"status": "Awarded"
+}, {
+	"status": "Depleted"
+}, {
+	"status": "Operational"
+}, {
+	"status": "Planned"
+}, {
+	"status": "Proposed"
+}, {
+	"status": "Relinquished"
+}, {
+	"status": "Shutdown"
+}, {
+	"status": "Under Construction"
+}]

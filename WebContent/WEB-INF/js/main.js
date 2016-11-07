@@ -54,6 +54,16 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  .state('capacity', {
+        url:'/capacity',
+        templateUrl: 'views/commonpage.html',
+		controller:"CapacityCtrl"
+	  })
+	  .state('reports', {
+        url:'/reports',
+        templateUrl: 'views/commonpage.html',
+		controller:"CommonCtrl"
+	  })
   }]);
   
   
@@ -85,6 +95,11 @@
 	$scope.regionData = [];
 	$scope.regionModel = [];
 	
+	/* country filter */
+	$scope.countryData = [];
+	$scope.countryModel = [];
+	$scope.countrySettings = {enableSearch: true};
+	
 	
 	$rootScope.filterObj = {
 		regionField :true,
@@ -97,19 +112,28 @@
 		offshoreField : true,
 		typeField :true
 	};
-	
-	if(URL.LIVE == true){
+ 
 	 	
-	 	HttpService.get('/regions').then(function(resp) {
-			
-		});
-		
-		HttpService.get('/countries').then(function(resp) {
-			
-		});
-	}else{
-		
-	}
+ 	HttpService.get('/regions').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : i ,
+					label : resp[i].region
+			}
+			$scope.regionData.push(obj);
+		}
+	});
+	
+	HttpService.get('/countries').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : i ,
+					label : resp[i].country
+			}
+			$scope.countryData.push(obj);
+		}
+	});
+	 
 	
 	/*$scope.initFilter = function(){
 		console.log("in side filter initialization")
@@ -169,6 +193,18 @@
 				offshoreField : false,
 				typeField :false
 			};
+			$scope.columns = [
+								{ title: "Name",
+									  data: "name"
+								} ,
+								{ title: "Region",
+								  data: "region"
+								},
+						 		{ title: "Country",
+								  data: "country"
+								}
+								
+							];
 		}else if($state.current.name == "crude"){
 			$scope.url = "/crudeoil";
 			$rootScope.filterObj = {
@@ -195,6 +231,18 @@
 				offshoreField : false,
 				typeField :false
 			};
+			$scope.columns = [
+								{ title: "Name",
+									  data: "name"
+								} ,
+								{ title: "Region",
+								  data: "region"
+								},
+						 		{ title: "Country",
+								  data: "country"
+								}
+								
+							];
 		} else if($state.current.name == "refineries"){
 			$scope.url = "/refinery";
 			$rootScope.filterObj = {
@@ -221,6 +269,19 @@
 				offshoreField : false,
 				typeField :false
 			};
+			
+			$scope.columns = [
+								{ title: "Name",
+									  data: "name"
+								} ,
+								{ title: "Region",
+								  data: "region"
+								},
+						 		{ title: "Country",
+								  data: "country"
+								}
+								
+							];
 		} 
 		
 	};
@@ -248,51 +309,45 @@
 		$scope.gridDataList = [];
 		$scope.displayPeriodList = [];
 		$scope.url = "";
+		$scope.columns = [
+							{ title: "Region",
+								  data: "region"
+								},
+								{ title: "Status",
+								  data: "status"
+								},
+								{ title: "Country",
+								  data: "country"
+								},
+								{ title: "Block No",
+								  data: "blockNo"
+								} 
+							];
 		
 		$scope.setConfigurations();
 		$scope.setDisplayPeriod();
 		
-		if(URL.LIVE == true){
-			if($scope.url != ''){
-				HttpService.get($scope.url).then(function(resp) {
-					$scope.gridDataList = angular.copy(resp);
-					$("#example1").DataTable({
-						"columnDefs": [
-						{
-							// The `data` parameter refers to the data for the cell (defined by the
-							// `data` option, which defaults to the column being worked with, in
-							// this case `data: 0`.
-							"render": function ( data, type, row ) {
-								return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-							},
-							"targets": 0
-						}
-						],
-						columns: [
-							{ title: "Region",
-							  data: "region"
-							},
-							{ title: "Status",
-							  data: "status"
-							},
-							{ title: "Country",
-							  data: "country"
-							},
-							{ title: "Block No",
-							  data: "blockNo"
-							} 
-						],
-						data : $scope.gridDataList
-					});
+		 
+		if($scope.url != ''){
+			HttpService.get($scope.url).then(function(resp) {
+				$scope.gridDataList = angular.copy(resp);
+				$("#example1").DataTable({
+					"columnDefs": [
+					{
+						// The `data` parameter refers to the data for the cell (defined by the
+						// `data` option, which defaults to the column being worked with, in
+						// this case `data: 0`.
+						"render": function ( data, type, row ) {
+							return '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+						},
+						"targets": 0
+					}
+					],
+					columns: $scope.columns,
+					data : $scope.gridDataList
 				});
-			}
-		}else{
-			$scope.gridDataList = HttpService.getData();
+			});
 		}
- 		
-	
-		
-		
-	}
+ 	}
 
  });

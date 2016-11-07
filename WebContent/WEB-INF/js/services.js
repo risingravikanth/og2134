@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = true;
+		this.LIVE = false;
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		
@@ -56,10 +56,31 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 		alert(URL.contextPath + URL.apiversion + url);
 	 	return this.post(URL.contextPath + URL.apiversion + url, payload)
  	},
+ 	
+ 	this.getJsonURL = function(url){
+  		if(this.LIVE == true){
+	 		return url;
+	 	}else{
+	 		 var jsonMap = {
+ 				 "/countries":"/json/countries.txt",
+ 				 "/regions":"/json/regions.txt",
+ 				"/capacity":"/json/capacityByCountry.txt",
+ 				"/storage":"/json/storage.txt",
+ 				"/refinery":"/json/refinery.txt",
+ 				"/naturalgas":"/json/naturalGas.txt",
+ 				"/pipeline":"/json/pipeline.txt" 
+ 				 
+	 		 };
+	  		                 
+	 		return (jsonMap[url] == undefined) ? url : jsonMap[url]; 
+	 	}
+ 	},
 	 
 	this.get = function(url){
 	 	var deferred = $q.defer();
-		var request = {
+	 	url = this.getJsonURL(url);
+	 	
+	  	var request = {
 			method: 'GET',
 		 	url: URL.contextPath + URL.apiversion + url,
 			headers: URL.headerRequest

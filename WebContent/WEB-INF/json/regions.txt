@@ -1,0 +1,13 @@
+[{
+	"region": "Africa"
+}, {
+	"region": "Asia Pacific"
+}, {
+	"region": "Asia-Pacific"
+}, {
+	"region": "Europe"
+}, {
+	"region": "Middle East"
+}, {
+	"region": "South and Central America"
+}]

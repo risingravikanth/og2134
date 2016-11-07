@@ -60,7 +60,7 @@
 	
 	<mvc:annotation-driven />
 	 	
-	<!--  <mvc:resources mapping="/**" location="/" />-->
+	 <!--  <mvc:resources mapping="/**" location="/" /> This is normal one-->
 	<!--  This is with angular js --><mvc:resources mapping="/**" location="/WEB-INF/" />
 	
 	<!-- Below is the bean to generate excel report -->
