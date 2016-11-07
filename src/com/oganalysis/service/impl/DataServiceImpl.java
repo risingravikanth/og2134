@@ -20,7 +20,7 @@ public class DataServiceImpl implements DataService {
 	
 	private OGDao crudeOilDao;
 	private OGDao explorationDao;
-	private OGDao lngDao;
+//	private LDao lngDao;
 	private OGDao naturalGasDao;
 	private OGDao pipeLineDao;
 	private OGDao refineryDao;
@@ -64,25 +64,25 @@ public class DataServiceImpl implements DataService {
 		String response=res.createExplorationResponse(explorationList);
 		return response;
 	}
-	@Override
-	public String getLngData(Map<String, List> selectedOptions) {
-		// TODO Auto-generated method stub
-		List lngList=null;
-		if(selectedOptions.size()>0)
-			lngList=lngDao.getOGAnalysisCriteriaData(selectedOptions);
-		else
-			lngList=lngDao.getOGAnalysisData();
-		for(int i=0;i<lngList.size();i++)
-		{
-			Lng lng=(Lng)lngList.get(i);
-			
-			
-			System.out.println("ID:"+lng.getId()+" Name:"+lng.getName()+" Region:"+lng.getRegion()+" Country:"+lng.getCountry());
-		}
-		JsonResponse res=new JsonResponse();
-		String response=res.createLngResponse(lngList);
-		return response;
-	}
+//	@Override
+//	public String getLngData(Map<String, List> selectedOptions) {
+//		// TODO Auto-generated method stub
+//		List lngList=null;
+//		if(selectedOptions.size()>0)
+//			lngList=lngDao.getOGAnalysisCriteriaData(selectedOptions);
+//		else
+//			lngList=lngDao.getOGAnalysisData();
+//		for(int i=0;i<lngList.size();i++)
+//		{
+//			Lng lng=(Lng)lngList.get(i);
+//			
+//			
+//			System.out.println("ID:"+lng.getId()+" Name:"+lng.getName()+" Region:"+lng.getRegion()+" Country:"+lng.getCountry());
+//		}
+//		JsonResponse res=new JsonResponse();
+//		String response=res.createLngResponse(lngList);
+//		return response;
+//	}
 	@Override
 	public String getNaturalGasData(Map<String, List> selectedOptions) {
 		// TODO Auto-generated method stub
@@ -178,12 +178,12 @@ public class DataServiceImpl implements DataService {
 	public void setCrudeOilDao(OGDao crudeOilDao) {
 		this.crudeOilDao = crudeOilDao;
 	}
-	public OGDao getLngDao() {
-		return lngDao;
-	}
-	public void setLngDao(OGDao lngDao) {
-		this.lngDao = lngDao;
-	}
+//	public OGDao getLngDao() {
+//		return lngDao;
+//	}
+//	public void setLngDao(OGDao lngDao) {
+//		this.lngDao = lngDao;
+//	}
 	public OGDao getNaturalGasDao() {
 		return naturalGasDao;
 	}

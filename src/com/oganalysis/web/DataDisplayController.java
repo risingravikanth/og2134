@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,16 +27,18 @@ public class DataDisplayController {
 	@RequestMapping(value="/crudeoil",method={RequestMethod.GET})
 	public String getCrudeOilData(HttpServletRequest req)
 	{
-		String name=req.getParameter("userName");
-		
-		
-		System.out.println("CrudeOil"+name+"session:"+req.getSession());
-		
-		Enumeration<String> countryNames=req.getParameterNames();
-		Map<String,List> selectedOptions=getSelectedOptionsData(req);
 		String response=null;
-		
+//		if(validateUser(req)) This is to check whether user login and available in session
+//		{
+			String name=req.getParameter("userName");				
+			System.out.println("CrudeOil"+name+"session:"+req.getSession());
+			
+			Enumeration<String> countryNames=req.getParameterNames();
+			Map<String,List> selectedOptions=getSelectedOptionsData(req);			
+			
 			response=dataServiceImpl.getCrudeOilData(selectedOptions);
+//		}
+		
 			
 		return response;
 	}
@@ -43,34 +46,44 @@ public class DataDisplayController {
 	@RequestMapping(value="/exploration",method={RequestMethod.GET})
 	public String getExplorationData(HttpServletRequest req)
 	{
-		String name=req.getParameter("userName");
-		
-		System.out.println("Exploration"+name);
-		
-		Enumeration<String> countryNames=req.getParameterNames();
-		Map<String,List> selectedOptions=getSelectedOptionsData(req);
 		String response=null;
-		
+//		if(validateUser(req))This is to check whether user login and available in session
+//		{
+			String name=req.getParameter("userName");
+			String startDate = req.getParameter("startDate");
+			String endDate=req.getParameter("endDate");
+			System.out.println("Exploration"+name +"startDate:"+startDate +"  End date:"+endDate);
+			
+			Enumeration<String> countryNames=req.getParameterNames();
+			Map<String,List> selectedOptions=getSelectedOptionsData(req);			
+			
 			response=dataServiceImpl.getExplorationData(selectedOptions);
+//		}
+	
 		
 		return response;
 	}
-	@ResponseBody
-	@RequestMapping(value="/lng",method={RequestMethod.GET})
-	public String getLngData(HttpServletRequest req)
-	{
-		String name=req.getParameter("userName");
-		
-		System.out.println("lng"+name);
-		
-		Enumeration<String> countryNames=req.getParameterNames();
-		Map<String,List> selectedOptions=getSelectedOptionsData(req);
-		String response=null;
-		
-			response=dataServiceImpl.getLngData(selectedOptions);
-		
-		return response;
-	}
+//	@ResponseBody
+//	@RequestMapping(value="/lng",method={RequestMethod.GET})
+//	public String getLngData(HttpServletRequest req)
+//	{
+//		String name=req.getParameter("userName");
+//		
+//		System.out.println("lng"+name);
+//		
+//		Enumeration<String> countryNames=req.getParameterNames();
+//		Map<String,List> selectedOptions=getSelectedOptionsData(req);
+//		
+//		String startDate=req.getParameter("startDate");
+//		String endDate=req.getParameter("endDate");
+//		
+//		String displayType=req.getParameter("displayType");
+//		String response=null;
+//		
+//			response=dataServiceImpl.getLngData(selectedOptions);
+//		
+//		return response;
+//	}
 	@ResponseBody
 	@RequestMapping(value="/naturalgas",method={RequestMethod.GET})
 	public String getNaturalGasData(HttpServletRequest req)
@@ -163,6 +176,15 @@ public class DataDisplayController {
 		
 		return optionsMap;
 	}
+	private boolean validateUser(HttpServletRequest req)
+	{
+		HttpSession session=req.getSession();
+		String email=(String)session.getAttribute("email");
+		if(email!=null)
+			return true;
+		else
+			return false;
+	}
 	public DataService getDataServiceImpl() {
 		return dataServiceImpl;
 	}
@@ -170,7 +192,7 @@ public class DataDisplayController {
 	public void setDataServiceImpl(DataService dataServiceImpl) {
 		this.dataServiceImpl = dataServiceImpl;
 	}
-
+    
 	
 	
 }

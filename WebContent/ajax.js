@@ -88,6 +88,17 @@ $(document).ready(function(){
 	        								
 	        	});
 	         }
+	         else if(selectedTab=='capacity')
+	         {
+	        	 $.ajax({url: "/oganalysis/capacity", 
+	        			type:"get",  
+	        			data:formData,
+	        			contentType:"application/x-www-form-urlencoded",
+	    				processData:false,	    				
+	        			success:renderCapacityResult		
+	        								
+	        	});
+	         }
 	    });
 	 	
 	 $('input[type=radio][name=source]').change(function(){
@@ -115,6 +126,28 @@ $(document).ready(function(){
         			contentType:"application/x-www-form-urlencoded",
     				processData:false,	    				
         			success:renderCountryResult		
+        								
+        	});
+         }
+ 		 else if(selectedTab=='filterStatus')
+         {
+        	 $.ajax({url: "/oganalysis/status", 
+        			type:"get",
+        			data:formData,
+        			contentType:"application/x-www-form-urlencoded",
+    				processData:false,	    				
+        			success:renderStatusResult		
+        								
+        	});
+         }
+ 		 else if(selectedTab=='filterType')
+         {
+        	 $.ajax({url: "/oganalysis/type", 
+        			type:"get",
+        			data:formData,
+        			contentType:"application/x-www-form-urlencoded",
+    				processData:false,	    				
+        			success:renderTypeResult		
         								
         	});
          }
@@ -276,13 +309,13 @@ function renderRegionResult(res)
 			for(var i=0;i<dataArray.length;i++)
 			{
 				var val=dataArray[i];
-				htmlContent=htmlContent+"<tr><td>"+val.id+"</td><td>"+ val.name+"</td></tr>";
+				htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+ val.region+"</td></tr>";
 			}
 			
 			$("#sourceResultBody").html(htmlContent);
 	    }
 }
-renderCountryResult
+
 function renderCountryResult(res)
 {
 	 if(res=='')
@@ -297,9 +330,54 @@ function renderCountryResult(res)
 			for(var i=0;i<dataArray.length;i++)
 			{
 				var val=dataArray[i];
-				htmlContent=htmlContent+"<tr><td>"+val.id+"</td><td>"+ val.name+"</td></tr>";
+				htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+ val.country+"</td></tr>";
 			}
 			
 			$("#sourceResultBody").html(htmlContent);
 	    }
+}
+
+function renderStatusResult(res)
+{
+	 if(res=='')
+	    {
+	    	$("#sourceResultBody").html("");
+	    }	
+	    else
+	    {
+	    	var dataArray=JSON.parse(res);
+			var htmlContent="";
+			
+			for(var i=0;i<dataArray.length;i++)
+			{
+				var val=dataArray[i];
+				htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+ val.status+"</td></tr>";
+			}
+			
+			$("#sourceResultBody").html(htmlContent);
+	    }
+}
+function renderTypeResult(res)
+{
+	 if(res=='')
+	    {
+	    	$("#sourceResultBody").html("");
+	    }	
+	    else
+	    {
+	    	var dataArray=JSON.parse(res);
+			var htmlContent="";
+			
+			for(var i=0;i<dataArray.length;i++)
+			{
+				var val=dataArray[i];
+				htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+val.type+"</td></tr>";
+			}
+			
+			$("#sourceResultBody").html(htmlContent);
+	    }
+}
+function renderCapacityResult(res)
+{
+	alert('hi iam in renderCapacityResult')
 }
