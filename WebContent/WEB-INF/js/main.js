@@ -297,13 +297,13 @@
 			};
 			
 			$scope.columns = [
-								{ title: "Name",
+								{ title: "Title",
 									  data: "name"
 								} ,
-								{ title: "Region",
+								{ title: "Description",
 								  data: "region"
 								},
-						 		{ title: "Country",
+						 		{ title: "Published Date",
 								  data: "country"
 								}
 						 	];
