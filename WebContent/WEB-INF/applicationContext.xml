@@ -25,7 +25,8 @@
 	
 	
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
-		<property name="filterDataDao" ref="filterDataDao"/>		
+		<property name="filterDataDao" ref="filterDataDao"/>
+		<property name="lngDao" ref="lngDao"/>		
 	</bean>
 	
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
@@ -34,5 +35,9 @@
 	
 	<bean id="lngBusinessServiceImpl" class="com.oganalysis.business.impl.LngBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
+	</bean>
+	
+	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
+		<property name="pdfReportsDao" ref="pdfReportsDao"/>		
 	</bean>
 </beans>

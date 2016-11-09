@@ -27,6 +27,7 @@
 				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
+				<value>com/oganalysis/entities/Report.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -73,6 +74,9 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	
+	<bean id="pdfReportsDao" class="com.oganalysis.dao.impl.PdfReportsDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
 		
 	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
 		<property name="dataServiceImpl" ref="dataServiceImpl"/>

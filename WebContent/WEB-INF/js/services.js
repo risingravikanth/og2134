@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = false;
+		this.LIVE = false; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		
@@ -61,14 +61,17 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
   		if(this.LIVE == true){
 	 		return url;
 	 	}else{
-	 		 var jsonMap = {
- 				 "/countries":"/json/countries.txt",
- 				 "/regions":"/json/regions.txt",
+ 		 	 var jsonMap = {
+ 				"/countries":"/json/countries.txt",
+ 				"/regions":"/json/regions.txt",
  				"/capacity":"/json/capacityByCountry.txt",
  				"/storage":"/json/storage.txt",
  				"/refinery":"/json/refinery.txt",
  				"/naturalgas":"/json/naturalGas.txt",
- 				"/pipeline":"/json/pipeline.txt" 
+ 				"/pipeline":"/json/pipeline.txt" ,
+ 				"/pdfReports":"/json/pdfReports.txt"  ,
+ 				"/status":"/json/status.txt"
+ 					
  				 
 	 		 };
 	  		                 
@@ -76,7 +79,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	}
  	},
 	 
-	this.get = function(url){
+	this.get = function(url,formData){
 	 	var deferred = $q.defer();
 	 	url = this.getJsonURL(url);
 	 	
@@ -85,6 +88,10 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 		 	url: URL.contextPath + URL.apiversion + url,
 			headers: URL.headerRequest
 		};
+	  	 
+	  	if(formData != undefined){
+	  		request.data = formData;
+	  	}
 		
 		$http(request).success(function (resp){
 			if(resp.status == "fail"){
