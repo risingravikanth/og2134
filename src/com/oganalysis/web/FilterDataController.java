@@ -49,6 +49,22 @@ public class FilterDataController {
 		String response=filterDataServiceImpl.getType();		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/locations",method={RequestMethod.GET})
+	public String getLocations()
+	{			
+		
+		String response=filterDataServiceImpl.getLocations();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/operators",method={RequestMethod.GET})
+	public String getOperator()
+	{			
+		
+		String response=filterDataServiceImpl.getOperator();		
+		return response;
+	}
 	public FilterDataService getFilterDataServiceImpl() {
 		return filterDataServiceImpl;
 	}

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -131,5 +132,35 @@ public class LngDaoImpl implements LngDao {
 //		session.close();
 //		return list;
 //	}
+	/* Method is to get the list of locations(i.e area) to display in filter*/
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("area")));
+		
+		List<String> locations=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return locations;
+	}
 
+	@Override
+	public List<String> getOperator() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("operator")));
+		
+		List<String> operators=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return operators;
+	}
+	
 }

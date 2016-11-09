@@ -12,4 +12,5 @@ public interface FilterDataDao {
 	public List<Countries> getCountries();
 	public List<Status> getStatus();
 	public List<Type> getType();
+	
 }

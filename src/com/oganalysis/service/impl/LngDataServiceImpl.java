@@ -21,7 +21,25 @@ public class LngDataServiceImpl implements LngDataService{
 			Map<String, List> selectedOptions, String startDate,
 			String endDate, String displayType) {
 		// TODO Auto-generated method stub
+		String capacityDataRes=null;
+		if(displayType.equalsIgnoreCase("country"))
+		{
+			capacityDataRes=getCapacityByCountry(selectedOptions,startDate,endDate);
+		}
+		else if(displayType.equalsIgnoreCase("terminal"))
+		{
+			capacityDataRes=getCapacityByTerminal(selectedOptions,startDate,endDate);
+		}
 		
+		
+		return capacityDataRes;
+	}
+	private String getCapacityByTerminal(Map<String, List> selectedOptions, String startDate,String endDate)
+	{
+		return null;
+	}
+	private String getCapacityByCountry(Map<String, List> selectedOptions, String startDate,String endDate)
+	{
 		Map<String,Map<Integer,Double>> liquefaction=lngBusinessServiceImpl.getLiquefactionCapacityByCountry(selectedOptions,startDate,endDate);
 		Map<String,Map<Integer,Double>> regasification=lngBusinessServiceImpl.getRegasificationCapacityByCountry(selectedOptions, startDate, endDate);
 		
@@ -30,11 +48,9 @@ public class LngDataServiceImpl implements LngDataService{
 		capacityData.put(REGASIFICATION, regasification);
 		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
-		String capacityDataRes=lngJsonResponse.createCapacityByCountryRes(capacityData,startDate,endDate);
-		
-		return capacityDataRes;
+		String capacityDataByCountryRes=lngJsonResponse.createCapacityByCountryRes(capacityData,startDate,endDate);
+		return capacityDataByCountryRes;
 	}
-
 	public LngBusinessService getLngBusinessServiceImpl() {
 		return lngBusinessServiceImpl;
 	}

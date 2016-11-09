@@ -38,7 +38,7 @@ public class LngDataDisplayController {
 		
 		String displayType=req.getParameter("displayType");
 		String response=null;
-		
+				
 		response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
 		
 		return response;

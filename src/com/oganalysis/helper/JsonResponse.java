@@ -11,6 +11,7 @@ import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.NaturalGas;
 import com.oganalysis.entities.PipeLine;
 import com.oganalysis.entities.Refinery;
+import com.oganalysis.entities.Report;
 import com.oganalysis.entities.Storage;
 import com.oganalysis.entities.source.Countries;
 import com.oganalysis.entities.source.Region;
@@ -389,6 +390,85 @@ public class JsonResponse {
 				  jsonObj.put("type",type.getName());
 				  						      			      
 			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createPdfReportsResponse(List<Report> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(Report report:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  			  			 
+				  jsonObj.put("reportName",report.getReportTitle());
+				  						      			      
+			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	public String createLocationsResponse(List<String> locationsList)
+	{
+		String response=null;
+		if(locationsList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String locations:locationsList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  if(locations!=null && !locations.equalsIgnoreCase(""))
+				  {
+					  jsonObj.put("location",locations);				  						      			     
+				      array.add(jsonObj);
+				  }
+				 
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
+	
+	public String createOperatorResponse(List<String> operatorsList)
+	{
+		String response=null;
+		if(operatorsList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String operator:operatorsList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(operator!=null && !operator.equalsIgnoreCase(""))
+				 { 
+					 jsonObj.put("operator",operator);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
 			      
 			}
 			

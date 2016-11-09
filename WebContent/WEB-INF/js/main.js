@@ -282,31 +282,6 @@
 								}
 								
 							];
-		}  else if($state.current.name == "reports"){
-			$scope.url = "/reports";
-			$rootScope.filterObj = {
-				regionField :true,
-				countryField :true,
-				locationField : false,
-				operatorField : false,
-				ownerField : false,
-				statusField : false,
-				unitsField : false,
-				offshoreField : false,
-				typeField :false
-			};
-			
-			$scope.columns = [
-								{ title: "Title",
-									  data: "name"
-								} ,
-								{ title: "Description",
-								  data: "region"
-								},
-						 		{ title: "Published Date",
-								  data: "country"
-								}
-						 	];
 		} 
 		
 	};

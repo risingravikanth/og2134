@@ -8,5 +8,6 @@ import com.oganalysis.entities.Lng;
 public interface LngDao {
 	List<Lng> getRegasificationCriteriaData(Map<String,List> selectedOptions,int startDate,int endDate);
 	List<Lng> getLiquefactionCriteriaData(Map<String,List> selectedOptions,int startDate,int endDate);
-	
+	List<String> getLocations();
+	List<String> getOperator();
 }

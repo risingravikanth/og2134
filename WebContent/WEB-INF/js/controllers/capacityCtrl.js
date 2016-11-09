@@ -70,24 +70,8 @@
 			for(var k=0; k < resp.length; k++){
 				if(resp[k].type =="Liquefaction"){
 			 		$scope.liquefactionData = resp[k].country;
-			 		var tempCapacity = resp[k].totalCapacity;
-			 		tempCapacity.name = " Total";
-			 	 	$scope.liquefactionData.push(tempCapacity);
-			 	 	
-			 	 	var reverseOrder = $scope.liquefactionData.slice();
-			 	 	$scope.liquefactionData = [];
-			 	 	$scope.liquefactionData = reverseOrder.reverse();
-			 	 	
 				}else if(resp[k].type =="Regasification"){
 				 	$scope.regasification = resp[k].country;
-				 	
-				 	var tempCapacity = resp[k].totalCapacity;
-			 		tempCapacity.name = " Total";
-			 	 	$scope.regasification.push(tempCapacity);
-			 	 	
-			 	 	var reverseOrder = $scope.regasification.slice();
-			 	 	$scope.regasification = [];
-			 	 	$scope.regasification = reverseOrder.reverse();
 				}
 				
 			}
