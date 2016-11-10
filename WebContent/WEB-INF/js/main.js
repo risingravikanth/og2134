@@ -93,44 +93,50 @@
 	
 	/* region filter */
 	$scope.regionData = [];
-	$scope.regionModel = [];
+	$rootScope.regionModel = [];
 	$scope.regionEvents = {
 		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'region') }
 	};
+	
+	/* country filter */
+	$scope.countryData = [];
+	$rootScope.countryModel = [];
+	$scope.countrySettings = {enableSearch: true};
+	$scope.contryEvents = {
+			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
+		};
+	/*location */
+	
+	/*operator*/
+	
+	/* owner*/
+	
+	/* Status filter */
+	$scope.statusData = [];
+	$rootScope.statusModel = [];
+	
  	
 	/*units filter*/
-	$scope.unitsModel = [];
+	$rootScope.unitsModel = [];
 	$scope.unitsData = [{id: 'BCF', label: "BCF"}, {id: 'MTPA', label: "MTPA"}];
 	$scope.unitSettings = {selectionLimit: 1};
 	
+ 	/*offshore filter*/
+	$rootScope.offshoreModel = [];
+	$scope.offshoreData = [{id: 'Not Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
+	 	
+	/*type filter*/
+	$rootScope.typeModel = [];
+	$scope.typeData = [{id: 'Liquefaction', label: "Liquefaction"}, {id: 'Regasification', label: "Regasification"}];
+	 	
 	/*sector filter*/
-	$scope.sectorModel = [];
+	$rootScope.sectorModel = [];
 	$scope.sectorData = [{id: 'Exploration', label: "Exploration"}, {id: 'LNG', label: "LNG"}, {id: 'Pipeline', label: "Pipe line"}, {id: 'Refinery', label: "Refinery"}, {id: 'Storage', label: "Storage"}];
 	$scope.sectorSettings = {selectionLimit: 1};
 	$scope.sectorEvents = {
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'sector') }
 		};
 	
-	/*offshore filter*/
-	$scope.offshoreModel = [];
-	$scope.offshoreData = [{id: 'Not Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
-	 	
-	/*type filter*/
-	$scope.typeModel = [];
-	$scope.typeData = [{id: 'Liquefaction', label: "Liquefaction"}, {id: 'Regasification', label: "Regasification"}];
-	 	
-	
-	/* Status filter */
-	$scope.statusData = [];
-	$scope.statusModel = [];
-	
-	/* country filter */
-	$scope.countryData = [];
-	$scope.countryModel = [];
-	$scope.countrySettings = {enableSearch: true};
-	$scope.contryEvents = {
-			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
-		};
 	
 	
 	$rootScope.filterObj = {
@@ -191,7 +197,7 @@
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In common ctrl");
  	console.log($state);
- 	debugger;
+ 
  	$scope.formData = new FormData();
  	$scope.selectedRegions = [];
 	$scope.selectedCountries =[];
@@ -379,11 +385,54 @@
 		
 	};
 	
+	$scope.generateFormData = function(ary,key){
+		for(var i=0;i< ary.length; i++){
+			$scope.formData.append(key+i, ary[i].id);
+		}
+	}
+	
+	$rootScope.filterSubmit = function(){
+	 		
+		if($rootScope.filterObj.regionField == true){
+			$scope.generateFormData($rootScope.regionModel,'region');
+ 		}else if($rootScope.filterObj.countryField == true){
+ 			$scope.generateFormData($rootScope.countryModel,'country');
+ 		}else if($rootScope.filterObj.locationField == true){
+		
+ 		}else if($rootScope.filterObj.operatorField == true){
+		
+ 		}else if($rootScope.filterObj.ownerField == true){
+		
+ 		}else if($rootScope.filterObj.statusField == true){
+		
+ 		}else if($rootScope.filterObj.unitsField == true){
+		
+ 		}else if($rootScope.filterObj.offshoreField == true){
+		
+ 		}else if($rootScope.filterObj.typeField == true){
+		
+ 		}else if($rootScope.filterObj.sectorField == true){
+ 			$scope.generateFormData($rootScope.sectorModel,'sector');
+ 		}
+
+		HttpService.get($scope.url,$scope.formData).then(function(resp) {
+ 			 if($rootScope.table.inst != ""){
+ 				$rootScope.table.inst.clear().draw();
+ 				$rootScope.table.inst.rows.add(resp);
+ 				$rootScope.table.inst.draw();
+ 			 }
+ 	 	});
+ 	};
+ 	
+ 	$rootScope.resetFilter = function(){
+ 		$rootScope.regionModel = [];
+ 		$rootScope.countryModel =[];
+ 		$rootScope.sectorModel =[];
+ 		
+ 	}
+	
 	$rootScope.onFilterSelect = function(item,filterType){
-		//console.log(item);
-		//console.log($scope.url);
-		//console.log($state.current.name);
-		if( filterType == 'region'){
+ 		if( filterType == 'region'){
 			$scope.selectedRegions.push(item.id);
 		}else if(filterType == 'country'){
 			$scope.selectedCountries.push(item.id);
@@ -464,8 +513,7 @@
 					data : $scope.gridDataList
 				});
 				$rootScope.table.inst = tableInst;
-				console.log("table iNst ",tableInst)
-			});
+ 			});
 		}
  	}
 

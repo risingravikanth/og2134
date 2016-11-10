@@ -466,14 +466,14 @@
 				<label class="control-sidebar-subheading">
 						Region
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel" events="regionEvents"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel" ></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.countryField">
 				<label class="control-sidebar-subheading">
 						Country
 				</label>
-				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings" events="contryEvents"></div>
+				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings" ></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.locationField">
@@ -527,9 +527,9 @@
 			
 			<div class="form-group" ng-show="filterObj.sectorField">
 				<label class="control-sidebar-subheading">
-						Type
+						Sector
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="sectorData" selected-model="sectorModel" events="sectorEvents"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="sectorData" selected-model="sectorModel" ></div>
 			</div>
 			
 	 		
@@ -554,8 +554,19 @@
 					<option value="Storage">Storage</option>
 			 	</select>
 			</div>-->
+			<div class="form-group" ng-show="filterObj.sectorField">
+				<label class="control-sidebar-subheading">
+						&nbsp;
+				</label>
+	 		</div>
 			
-			
+			 
+			<div class="form-group" style="margin-top: 15px;">
+				<button type="button" class="btn btn-block btn-success" ng-click="filterSubmit()">Submit</button>
+			</div> 
+			<div class="form-group" >
+				<button type="button" class="btn btn-block btn-danger" ng-click="resetFilter()">Reset</button>
+			</div> 
 		
 		</div>
   </aside>
