@@ -191,7 +191,7 @@
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In common ctrl");
  	console.log($state);
- 	
+ 	debugger;
  	$scope.formData = new FormData();
  	$scope.selectedRegions = [];
 	$scope.selectedCountries =[];
@@ -453,7 +453,7 @@
 						"render": function ( data, type, row ) {
 							var commonHref = '<a data-toggle="modal" href="#myModal">'+data +'</a>';
 							if($scope.url == "/pdfReports"){
-								commonHref =  '<a href="/pdf/reports/'+data+'" target="_blank">'+data +'</a>';
+								commonHref =  '<a href="pdf/reports/'+data+'">'+data +'</a>';
 							}
 							return commonHref;
 						},
