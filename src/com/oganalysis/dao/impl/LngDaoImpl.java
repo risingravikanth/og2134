@@ -162,5 +162,21 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return operators;
 	}
+
+	@Override
+	public List<Lng> getLiquefactionCriteriaData(
+			Map<String, List> selectedOptions) {
+		// TODO Auto-generated method stub
+		List<Lng> liquefaction=getLiquefactionCriteriaData(selectedOptions, 0,0);
+		return liquefaction;
+	}
+
+	@Override
+	public List<Lng> getRegasificationCriteriaData(
+			Map<String, List> selectedOptions) {
+		// TODO Auto-generated method stub
+		List<Lng> regasification=getRegasificationCriteriaData(selectedOptions, 0,0);
+		return regasification;
+	}
 	
 }

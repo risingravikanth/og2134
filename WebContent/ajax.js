@@ -99,6 +99,28 @@ $(document).ready(function(){
 	        								
 	        	});
 	         }
+	         else if(selectedTab=='infrastructure')
+	         {
+	        	 $.ajax({url: "/oganalysis/infrastructure", 
+	        			type:"get",  
+	        			data:formData,
+	        			contentType:"application/x-www-form-urlencoded",
+	    				processData:false,	    				
+	        			success:renderCapacityResult		
+	        								
+	        	});
+	         }
+	         else if(selectedTab=='report')
+	         {
+	        	 $.ajax({url: "/oganalysis/pdfReports", 
+	        			type:"get",  
+	        			data:formData,
+	        			contentType:"application/x-www-form-urlencoded",
+	    				processData:false,	    				
+	        			success:renderPdfReportsResult		
+	        								
+	        	});
+	         }
 	    });
 	 	
 	 $('input[type=radio][name=source]').change(function(){
@@ -151,6 +173,28 @@ $(document).ready(function(){
         								
         	});
          }
+ 		 else if(selectedTab=='filterLocations')
+         {
+        	 $.ajax({url: "/oganalysis/locations", 
+        			type:"get",
+        			data:formData,
+        			contentType:"application/x-www-form-urlencoded",
+    				processData:false,	    				
+        			success:renderLocationsResult		
+        								
+        	});
+         }
+ 		else if(selectedTab=='filterOperators')
+        {
+       	 $.ajax({url: "/oganalysis/operators", 
+       			type:"get",
+       			data:formData,
+       			contentType:"application/x-www-form-urlencoded",
+   				processData:false,	    				
+       			success:renderOperatorsResult		
+       								
+       	});
+        }
 	 });
     	
 }); // This the closing of document.onReady()
@@ -376,6 +420,70 @@ function renderTypeResult(res)
 			
 			$("#sourceResultBody").html(htmlContent);
 	    }
+}
+
+function renderPdfReportsResult(res)
+{
+	 if(res=='')
+	    {
+	    	$("#sourceResultBody").html("");
+	    }	
+	    else
+	    {
+	    	var dataArray=JSON.parse(res);
+			var htmlContent="";
+			
+			for(var i=0;i<dataArray.length;i++)
+			{
+				var val=dataArray[i];
+//				htmlContent=htmlContent+"<tr><td>"+i+"</td><td><a href='/pdf/report/"+val.reportName+"'>"+val.reportName+"'</a></td></tr>";
+				htmlContent=htmlContent+"<tr><td>"+i+"</td><td><a href='pdf/reports/"+val.reportName+"'>"+val.reportName+"</a></td></tr>";
+			}
+			
+			$("#sourceResultBody").html(htmlContent);
+	    }
+}
+function renderLocationsResult(res)
+{
+	if(res=='')
+    {
+    	$("#sourceResultBody").html("");
+    }	
+    else
+    {
+    	var dataArray=JSON.parse(res);
+		var htmlContent="";
+		
+		for(var i=0;i<dataArray.length;i++)
+		{
+			var val=dataArray[i];
+//			htmlContent=htmlContent+"<tr><td>"+i+"</td><td><a href='/pdf/report/"+val.reportName+"'>"+val.reportName+"'</a></td></tr>";
+			htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+val.location+"</td></tr>";
+		}
+		
+		$("#sourceResultBody").html(htmlContent);
+    }
+}
+function renderOperatorsResult(res)
+{
+	if(res=='')
+    {
+    	$("#sourceResultBody").html("");
+    }	
+    else
+    {
+    	var dataArray=JSON.parse(res);
+		var htmlContent="";
+		
+		for(var i=0;i<dataArray.length;i++)
+		{
+			var val=dataArray[i];
+//			htmlContent=htmlContent+"<tr><td>"+i+"</td><td><a href='/pdf/report/"+val.reportName+"'>"+val.reportName+"'</a></td></tr>";
+			htmlContent=htmlContent+"<tr><td>"+i+"</td><td>"+val.operator+"</td></tr>";
+		}
+		
+		$("#sourceResultBody").html(htmlContent);
+    }
 }
 function renderCapacityResult(res)
 {

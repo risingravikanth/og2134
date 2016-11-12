@@ -55,7 +55,7 @@ public class PdfReportsController {
 	    try {
  	        
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	        baos = convertPDFToByteArrayOutputStream(temperotyFilePath+"\\"+actualFileName);
+	        baos = pdfReportsServiceImpl.convertPDFToByteArrayOutputStream(temperotyFilePath+"\\"+actualFileName);
 	        OutputStream os = response.getOutputStream();
 	        baos.writeTo(os);
 	        os.flush();
@@ -65,58 +65,36 @@ public class PdfReportsController {
  
 	}
 	
-	private ByteArrayOutputStream convertPDFToByteArrayOutputStream(String fileName) {
- 
-		InputStream inputStream = null;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
- 
-			inputStream = new FileInputStream(fileName);
-			byte[] buffer = new byte[1024];
-			baos = new ByteArrayOutputStream();
- 
-			int bytesRead;
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-				baos.write(buffer, 0, bytesRead);
-			}
- 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return baos;
-	}
+	
 	private Map<String,List> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();
 		Map<String,List> optionsMap=new HashMap<String,List>();
 		List<String> selectedCountries=new ArrayList<String>();
 		List<String> selectedRegions=new ArrayList<String>();
+		List<String> selectedSectors=new ArrayList<String>();
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
 			if(option.contains("country"))
 			{
+				
 				selectedCountries.add(request.getParameter(option));
 			}
 			else if(option.contains("region"))
 			{
 				selectedRegions.add(request.getParameter(option));
 			}
+			else if(option.contains("sector"))
+			{
+				selectedSectors.add(request.getParameter(option));
+			}
 		}
-		if(selectedCountries.size()>0 || selectedRegions.size()>0)
+		if(selectedCountries.size()>0 || selectedRegions.size()>0 || selectedSectors.size()>0)
 		{	
 			optionsMap.put("countries", selectedCountries);
 			optionsMap.put("regions",selectedRegions);
+			optionsMap.put("sectors", selectedSectors);
 		}	
 		
 		
