@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface LngDataService {
 	   public String getCapacityData(Map<String,List> selectedOptions,String startDate,String endDate,String displayType);
+	   public String getInfrastructureData(Map<String,List> selectedOptions);
 }	

@@ -418,7 +418,7 @@ public class JsonResponse {
 			      
 			}
 			
-			response=array.toString();		      
+			response=array.toJSONString();      
 		}
 		else
 			response="";

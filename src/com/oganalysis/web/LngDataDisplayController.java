@@ -24,7 +24,7 @@ public class LngDataDisplayController {
 	
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
-	public String getLngData(HttpServletRequest req)
+	public String getLngCapacityData(HttpServletRequest req)
 	{
 		String name=req.getParameter("userName");
 		
@@ -40,6 +40,19 @@ public class LngDataDisplayController {
 		String response=null;
 				
 		response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
+		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/infrastructure",method={RequestMethod.GET})
+	public String getLngInfrastructureData(HttpServletRequest req)
+	{
+		
+		String response=null;
+		Enumeration<String> countryNames=req.getParameterNames();
+		Map<String,List> selectedOptions=getSelectedOptionsData(req);				
+				
+		response=lngDataServiceImpl.getInfrastructureData(selectedOptions);
 		
 		return response;
 	}

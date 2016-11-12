@@ -13,13 +13,17 @@
 		<input type="radio" name="tabs" value="pipeline"/>Pipeline
 		<input type="radio" name="tabs" value="refinery"/>Refinery	
 		<input type="radio" name="tabs" value="storage"/>Storage	
-		<input type="radio" name="tabs" value="capacity"/>Capacity	
+		<input type="radio" name="tabs" value="capacity"/>Capacity
+		<input type="radio" name="tabs" value="infrastructure"/>Infrastructure
+		<input type="radio" name="tabs" value="report"/>Reports	
 		<br>
 		<br>
 		<input type="radio" name="source" value="filterRegions"/>Regions
 		<input type="radio" name="source" value="filterCountries"/>Countries
 		<input type="radio" name="source" value="filterStatus"/>Status
 		<input type="radio" name="source" value="filterType"/>Type
+		<input type="radio" name="source" value="filterLocations"/>Locations
+		<input type="radio" name="source" value="filterOperators"/>Operators
 		<br>
 		<br>
 		<br>
@@ -82,21 +86,34 @@
 		<br>
 		<br>
 		<label><b>Country</b></label><br>
+		<input type="checkbox" name="country5" value="china">China
 		<input type="checkbox" name="country1" value="india">India
+		<input type="checkbox" name="country5" value="germany">Germany
 		<input type="checkbox" name="country2" value="algeria">Algeria
 		<input type="checkbox" name="country3" value="albania">Albania
+		<input type="checkbox" name="country4" value="nigeria">Nigeria
+		
+		
 		<br>
 		<br>
 		<label><b>Region</b></label><br>
 		<input type="checkbox" name="region1" value="asia pacific">Asia Pacific
 		<input type="checkbox" name="region2" value="Africa">Africa
 		<input type="checkbox" name="region3" value="Australia">Australia
+		<input type="checkbox" name="region4" value="europe">Europe
 		
-		
+		Sector <select name="sectors">
+						<option value="lng">Lng</option>
+						<option value="refinery">Refinery</option>
+						<option value="exploration">Exploration</option>
+						<option value="naturalgas">NaturalGas</option>
+						<option value="crudeoil">CrudeOil</option>												
+				   </select>		   
 	</form>
 		<div align="center">
         <h1>Sample Report in Excel</h1>
         <h3><a href="excelReport">Download Excel Document</a></h3>
+        <h3><a href="pdfdownload">Download Pdf Document</a></h3>
     </div>
 	<div id="response">
 		<table border="1px">
