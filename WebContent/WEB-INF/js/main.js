@@ -399,23 +399,32 @@
 	 		
 		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
- 		}else if($rootScope.filterObj.countryField == true){
+ 		}
+		if($rootScope.filterObj.countryField == true){
  			$scope.generateFormData($rootScope.countryModel,'country');
- 		}else if($rootScope.filterObj.locationField == true){
+ 		}
+		if($rootScope.filterObj.locationField == true){
 		
- 		}else if($rootScope.filterObj.operatorField == true){
+ 		}
+		if($rootScope.filterObj.operatorField == true){
 		
- 		}else if($rootScope.filterObj.ownerField == true){
+ 		}
+ 		if($rootScope.filterObj.ownerField == true){
 		
- 		}else if($rootScope.filterObj.statusField == true){
+ 		}
+ 		if($rootScope.filterObj.statusField == true){
 		
- 		}else if($rootScope.filterObj.unitsField == true){
+ 		}
+ 		if($rootScope.filterObj.unitsField == true){
 		
- 		}else if($rootScope.filterObj.offshoreField == true){
+ 		}
+ 		if($rootScope.filterObj.offshoreField == true){
 		
- 		}else if($rootScope.filterObj.typeField == true){
+ 		} 
+ 		if($rootScope.filterObj.typeField == true){
 		
- 		}else if($rootScope.filterObj.sectorField == true){
+ 		}
+ 		if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
 		console.log('---',$scope.formData.get('region0'));
