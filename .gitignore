@@ -50,6 +50,7 @@ gulp.1
 build
 
 /build/ 
+/WebContent/WEB-INF/classes/
 
  
 
