@@ -431,6 +431,7 @@
  
 		HttpService.getFomData($scope.url,$scope.formDataJSON).then(function(resp) {
  			 if($rootScope.table.inst != ""){
+ 				resp = JSON.parse(resp);
  				$rootScope.table.inst.clear().draw();
  				$rootScope.table.inst.rows.add(resp);
  				$rootScope.table.inst.draw();
