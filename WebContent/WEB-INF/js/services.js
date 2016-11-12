@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = true; //false
+		this.LIVE = false; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		
@@ -32,7 +32,7 @@ angular.module('OGAnalysis')
 		};
 		
 		this.headerRequest = {	// TODO: Once api need user token then uncomment this.
-			"Content-type": 'application/json',
+			"Content-type": 'application/x-www-form-urlencoded',
 			'Access-Control-Allow-Origin':'*'
 		};
 		
@@ -69,7 +69,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
  				"/refinery":"/json/refinery.txt",
  				"/naturalgas":"/json/naturalGas.txt",
  				"/pipeline":"/json/pipeline.txt" ,
- 				"/pdfReports":"/json/pdfReports.txt"  ,
+ 				"/pdfReports1":"/json/pdfReports.txt"  ,
  				"/status":"/json/status.txt"
  					
  				 
@@ -88,9 +88,9 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 		 	url: URL.contextPath + URL.apiversion + url,
 			headers: URL.headerRequest
 		};
-	  	 
-	  	if(formData != undefined){
-	  		request.data = formData;
+ 	  	if(formData != undefined){
+ 	  		//console.log(formData.get('region0'));
+	  		request.params = formData;
 	  	}
 		
 		$http(request).success(function (resp){
@@ -102,6 +102,26 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 			deferred.reject(resp);
         });
 		
+		return deferred.promise;
+ 	},
+ 	
+ 	this.getFomData =function(url,formData){
+	 	var deferred = $q.defer();
+	 	url = this.getJsonURL(url);
+	 	
+	   	function renderCrudeOilResult(resp){
+ 	  		deferred.resolve(resp);
+ 	  		//deferred.reject(resp);
+ 	   	}
+ 	  	
+ 	  	$.ajax({url: URL.contextPath + URL.apiversion + url,
+				type:"get",
+				data:$.param(formData),
+				contentType:"application/x-www-form-urlencoded",
+				processData:false,	    				
+				success:renderCrudeOilResult		
+	 	});
+ 	  	
 		return deferred.promise;
  	},
 	

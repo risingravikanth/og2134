@@ -199,6 +199,7 @@
  	console.log($state);
  
  	$scope.formData = new FormData();
+ 	$scope.formDataJSON = {};
  	$scope.selectedRegions = [];
 	$scope.selectedCountries =[];
 	$scope.selectedSectors =[];
@@ -387,7 +388,10 @@
 	
 	$scope.generateFormData = function(ary,key){
 		for(var i=0;i< ary.length; i++){
-			$scope.formData.append(key+i, ary[i].id);
+			var fromkey = key+i
+			$scope.formData.append(fromkey, ary[i].id);
+			$scope.formDataJSON[fromkey] = ary[i].id;
+			console.log('loop--',$scope.formData.get('region0'));
 		}
 	}
 	
@@ -414,8 +418,9 @@
  		}else if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
-
-		HttpService.get($scope.url,$scope.formData).then(function(resp) {
+		console.log('---',$scope.formData.get('region0'));
+ 
+		HttpService.getFomData($scope.url,$scope.formDataJSON).then(function(resp) {
  			 if($rootScope.table.inst != ""){
  				$rootScope.table.inst.clear().draw();
  				$rootScope.table.inst.rows.add(resp);
