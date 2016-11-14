@@ -109,6 +109,13 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	var deferred = $q.defer();
 	 	url = this.getJsonURL(url);
 	 	
+	 	
+	 	var fd = new FormData();
+	 	console.log("in service",formData);
+	 	for(var i in formData){
+	 		fd.append(i,formData[i])
+	 	}
+	 	
 	   	function renderCrudeOilResult(resp){
  	  		deferred.resolve(resp);
  	  		//deferred.reject(resp);
@@ -116,7 +123,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
  	  	
  	  	$.ajax({url: URL.contextPath + URL.apiversion + url,
 				type:"get",
-				data:$.param(formData),
+				data: $.param(fd),
 				contentType:"application/x-www-form-urlencoded",
 				processData:false,	    				
 				success:renderCrudeOilResult		

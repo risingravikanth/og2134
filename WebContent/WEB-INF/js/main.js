@@ -427,9 +427,8 @@
  		if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
-		console.log('---',$scope.formData.get('region0'));
  
-		HttpService.getFomData($scope.url,$scope.formDataJSON).then(function(resp) {
+ 		HttpService.getFomData($scope.url,$scope.formDataJSON).then(function(resp) {
  			 if($rootScope.table.inst != ""){
  				if(resp != ""){
  					resp = JSON.parse(resp);
