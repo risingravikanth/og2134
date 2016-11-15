@@ -24,15 +24,17 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 		int endDateVal=Integer.parseInt(endDate);
 		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);		
 				
-		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByCountry(regasificationList);						
+		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByCountry(regasificationList);	
+		
+		
 		
 		return regasification;
 	}
 	@Override
 	public Map<String,Map<Integer,Double>> getLiquefactionCapacityByCountry(Map<String,List>selectedOptions,String startDate,String endDate) {
 		// TODO Auto-generated method stub
-		int startDateVal=Integer.parseInt("2010"); // Time being hard code
-		int endDateVal=Integer.parseInt("2020");
+		int startDateVal=Integer.parseInt(startDate); 
+		int endDateVal=Integer.parseInt(endDate);
 			
 		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByCountry(liquefactionList);
@@ -55,7 +57,7 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 	public Map<String, Map<Integer, Double>> getLiquefactionCapacityByTerminal(
 			Map<String, List> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
-		int startDateVal=Integer.parseInt(startDate); // Time being hard code
+		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 			
 		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
@@ -80,7 +82,7 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 	public Map<String, Map<Integer, Double>> getLiquefactionCapacityByCompany(
 			Map<String, List> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
-		int startDateVal=Integer.parseInt(startDate); // Time being hard code
+		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 			
 		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
@@ -90,46 +92,97 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 	}
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<Lng> dataList)
 	{
-
-		Set<String> trackerCompany=new HashSet<String>();		
-		List<Lng> copyDataList=dataList;
-		List<Lng> copyDataList2=dataList;
+		List<Lng> lngList=lngDao.getLngData();
+		Set<String> companies=getCompanies(lngList);		
+		Map<String,Set<String>> companyTerminals=getCompanyTerminals(lngList);
 		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
-		Map<Integer,Double> yearMap=null;
-		for(Lng lng:dataList)
+		for(String companyName:companies)
 		{
-			String companyName=lng.getEquityPartners();
-			if(!trackerCompany.contains(companyName))
-			{
-				yearMap=new HashMap<Integer, Double>();
-				Set<Integer> trackerYear=new HashSet<Integer>();
-				for(Lng lngCopy1:copyDataList)
-				{
-					if(companyName.equals(lngCopy1.getEquityPartners()))
+				Set<String> terminals=companyTerminals.get(companyName);
+//				List<Map<String,Map<Integer,Double>>> terminalsList=getCapacityByTerminalForCompany(companyName, dataList,terminals,lngList);
+				Map<String,Map<Integer,Double>> terminalYearCapacityMap=getCapacityByTerminalForCompany(companyName, dataList,terminals,lngList);
+				Map<Integer,Double> companyYearCapacityMap=new HashMap<Integer, Double>();
+				double capacity=0.0;
+//				for(Map<String,Map<Integer,Double>> terminalYearCapacityMap:terminalsList)
+//				{
+					Set<String> terminalKeys=terminalYearCapacityMap.keySet();
+					for(String terminalName:terminalKeys)
 					{
-						int capacityYear=lngCopy1.getCapacityYear();
-						if(!trackerYear.contains(capacityYear))
-						{							
-							double soc=0;
-							for(Lng lngCopy2:copyDataList2)
+						Map<Integer,Double> yearCapacityMap=terminalYearCapacityMap.get(terminalName);
+						Set<Integer> yearKeys=yearCapacityMap.keySet();
+						for(Integer year:yearKeys)
+						{
+							if(companyYearCapacityMap.containsKey(year))
 							{
-//								System.out.println(lngCopy2.getName()+" Year:"+lngCopy2.getCapacityYear());
-								if(capacityYear==lngCopy2.getCapacityYear() && companyName.equalsIgnoreCase(lngCopy2.getEquityPartners()))
-									soc=soc+lngCopy2.getCapacity();
+								double capacityVal=companyYearCapacityMap.get(year);
+								capacity=capacityVal+yearCapacityMap.get(year);
+								companyYearCapacityMap.put(year,capacity);
 							}
-							trackerYear.add(capacityYear);
-							yearMap.put(capacityYear,soc);
+							else
+							{	
+								capacity=yearCapacityMap.get(year);
+								companyYearCapacityMap.put(year,capacity);
+							}	
+							
 						}
-						
 					}
-				}
-				trackerCompany.add(companyName);
-				companyMap.put(companyName, yearMap);
-			}
-			
+//				}
+				companyMap.put(companyName, companyYearCapacityMap);							
 		}
 		return companyMap;
-	
+	}
+//	List<Map<String,Map<Integer,Double>>> 
+	private Map<String,Map<Integer,Double>> getCapacityByTerminalForCompany(String companyName,List<Lng> dataList,Set<String> terminals,List<Lng> lngList)
+	{
+			
+		Map<String,Double> stakeMap=getCompanyTerminalStake(lngList);
+		List<Lng> lngCopyDataList1=dataList;
+		List<Lng> lngCopyDataList2=dataList;
+//		List<Map<String,Map<Integer,Double>>> totalTerminals=new ArrayList<Map<String,Map<Integer,Double>>>();
+		Map<String,Map<Integer,Double>> terminalMap=new HashMap<String, Map<Integer,Double>>();
+		for(String terminalName:terminals)
+		{
+			String key=terminalName+"_"+companyName;
+			Set<String> terminalTracker=new HashSet<String>();
+			double stake=stakeMap.get(key);
+//			Map<String,Map<Integer,Double>> terminalMap=new HashMap<String, Map<Integer,Double>>();
+			for(Lng lng:dataList)
+			{				
+				if(terminalName.equalsIgnoreCase(lng.getName()))
+				{					
+					if(!terminalTracker.contains(terminalName))
+					{
+						HashMap<Integer,Double> yearMap=new HashMap<Integer, Double>();
+						Set<Integer> trackerYear=new HashSet<Integer>();						
+						for(Lng lngCopy1:lngCopyDataList1)
+						{
+							if(terminalName.equalsIgnoreCase(lngCopy1.getName()))
+							{
+								int capacityYear=lngCopy1.getCapacityYear();							
+								if(!trackerYear.contains(capacityYear)){
+									double soc=0.0;
+									for(Lng lngCopy2:lngCopyDataList2)
+									{
+										if(lngCopy2.getCapacityYear()==capacityYear && terminalName.equalsIgnoreCase(lngCopy2.getName()))
+										{
+											soc=soc+(lngCopy2.getCapacity()*(stake/100));
+										}
+									}
+									
+									trackerYear.add(capacityYear);
+									yearMap.put(capacityYear,soc);
+								}
+							}
+							
+						}
+						terminalTracker.add(terminalName);
+						terminalMap.put(terminalName,yearMap);
+					}
+				}
+			}
+//			totalTerminals.add(terminalMap);
+		}
+		return terminalMap;
 	}
 	//This is to calculate capacities by Terminal i.e with name field
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<Lng> dataList)
@@ -212,15 +265,9 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 				trackerCountry.add(countryName);
 				countryMap.put(countryName, yearMap);
 			}
-//			countryMap.put(countryName, yearMap);
+			
 		}
 		return countryMap;
-	}
-	public LngDao getLngDao() {
-		return lngDao;
-	}
-	public void setLngDao(LngDao lngDao) {
-		this.lngDao = lngDao;
 	}
 	@Override
 	public List<Map<String,String>> getRegasificationInfrastructure(
@@ -266,7 +313,90 @@ public class LngBusinessServiceImpl implements LngBusinessService {
 		}
 		return mapList;
 	}
-	
-	
-	
+	private Map<String,Double> getCompanyTerminalStake(List<Lng> lngList)
+	{
+		
+		Set<String> terminalTracker=new HashSet<String>();
+		Map<String,Double> companyTerminalStake=new HashMap<String, Double>();
+		List<Lng> dataList=null;
+		if(lngList==null)
+			dataList=lngDao.getLngData();
+		else
+			dataList=lngList;
+		List<Lng> lngCopyDataList=dataList;
+		for(Lng lng:dataList)
+		{
+			String terminalName=lng.getName();
+			String companyName=lng.getEquityPartners();
+			
+			if(null!=companyName && !("").equalsIgnoreCase(companyName))
+			{
+				if(!terminalTracker.contains(terminalName))
+				{
+					for(Lng lngCopy:lngCopyDataList)
+					{
+						if(terminalName.equalsIgnoreCase(lngCopy.getName()) && !lngCopy.getEquityPartners().equalsIgnoreCase(""))
+						{	
+							String key=terminalName+"_"+lngCopy.getEquityPartners();
+							companyTerminalStake.put(key, lngCopy.getEquityStakes());
+						}	
+					}
+					terminalTracker.add(terminalName);
+				}
+			}
+			
+		}
+		return companyTerminalStake;
+	}
+	private Map<String,Set<String>> getCompanyTerminals(List<Lng> lngList)
+	{
+		Set<String> companyTracker=new HashSet<String>();
+		Map<String,Set<String>> terminalCompany=new HashMap<String, Set<String>>();
+		List<Lng> dataList=null;
+		if(lngList==null)
+			dataList=lngDao.getLngData();
+		else
+			dataList=lngList;
+		List<Lng> lngCopyDataList=dataList;
+		for(Lng lng:dataList)
+		{
+			String companyName=lng.getEquityPartners();		
+			Set<String> terminals=new HashSet<String>();
+			if(null!=companyName && !("").equalsIgnoreCase(companyName))
+			{
+				if(!companyTracker.contains(companyName)){
+					for(Lng lngCopy:lngCopyDataList)
+					{
+						if(companyName.equalsIgnoreCase(lngCopy.getEquityPartners()) && !(lngCopy.getEquityPartners().equalsIgnoreCase("")))
+							terminals.add(lngCopy.getName());
+					}
+					companyTracker.add(companyName);
+					terminalCompany.put(companyName, terminals);
+				}
+			}
+			
+		}
+		return terminalCompany;
+	}
+	private Set<String> getCompanies(List<Lng> lngList)
+	{
+		List<Lng> dataList=null;
+		if(lngList==null)
+			dataList=lngDao.getLngData();
+		else
+			dataList=lngList;
+		Set<String> companiesList=new HashSet<String>();
+		for(Lng lng:dataList)
+		{
+			if(null!=lng.getEquityPartners() && !("").equalsIgnoreCase(lng.getEquityPartners()))
+				companiesList.add(lng.getEquityPartners());
+		}
+		return companiesList;
+	}
+	public LngDao getLngDao() {
+		return lngDao;
+	}
+	public void setLngDao(LngDao lngDao) {
+		this.lngDao = lngDao;
+	}
 }

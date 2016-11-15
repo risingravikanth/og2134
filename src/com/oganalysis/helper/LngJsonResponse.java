@@ -204,15 +204,15 @@ public class LngJsonResponse {
 		return capacityByCountry.toJSONString();
 		
 	}
-	private JSONObject getTotalCapacityOfYear(JSONArray allYearsCapacityByCountry,int startDate,int endDate)
+	private JSONObject getTotalCapacityOfYear(JSONArray allYearsCapacity,int startDate,int endDate)
 	{
 		JSONObject totalCapcityJsonObj=new JSONObject();
 		for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 		{
 			double totalCapacity=0;
-			for(int i=0;i<allYearsCapacityByCountry.size();i++)
+			for(int i=0;i<allYearsCapacity.size();i++)
 			{
-				JSONObject yearJsonObj=(JSONObject)allYearsCapacityByCountry.get(i);
+				JSONObject yearJsonObj=(JSONObject)allYearsCapacity.get(i);
 				double capacityVal=(Double)yearJsonObj.get(yearCount);
 				totalCapacity=totalCapacity+capacityVal;
 			}
@@ -220,28 +220,28 @@ public class LngJsonResponse {
 		}
 		return totalCapcityJsonObj;
 	}
-	private JSONArray getAllYearsCapacity(Map<String,Map<Integer,Double>> capacityDataByCountry,int startDate,int endDate)
+	private JSONArray getAllYearsCapacity(Map<String,Map<Integer,Double>> capacityData,int startDate,int endDate)
 	{
-		JSONArray countryArray=new JSONArray();
-		Set<String> countrySet=capacityDataByCountry.keySet();
-		for(Object countryName:countrySet)
+		JSONArray allYearsCapacityArray=new JSONArray();
+		Set<String> nameSet=capacityData.keySet();
+		for(Object nameObj:nameSet)
 		{
-			JSONObject countryJsonObj=new JSONObject();
-			Map<Integer,Double> yearMap=capacityDataByCountry.get(countryName);
-			countryJsonObj.put("name",(String)countryName);
+			JSONObject jsonObj=new JSONObject();
+			Map<Integer,Double> yearMap=capacityData.get(nameObj);
+			jsonObj.put("name",(String)nameObj);
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
 				if(yearMap.containsKey(yearCount))
 				{
-					countryJsonObj.put(yearCount,yearMap.get(yearCount));
+					jsonObj.put(yearCount,yearMap.get(yearCount));
 				}
 				else
-					countryJsonObj.put(yearCount,0.0);			
+					jsonObj.put(yearCount,0.0);			
 					
 			}
 			
-			countryArray.add(countryJsonObj);
+			allYearsCapacityArray.add(jsonObj);
 		}
-		return countryArray;
+		return allYearsCapacityArray;
 	}
 }

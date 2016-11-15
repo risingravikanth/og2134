@@ -37,6 +37,7 @@ public class PdfReportsController {
 		String response=null;
 		Map<String,List> selectedOptions=getSelectedOptionsData(request);
 		response=pdfReportsServiceImpl.getReportsList(selectedOptions);
+		String temp;
 		return response;
 	}
 

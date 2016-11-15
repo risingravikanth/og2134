@@ -178,5 +178,20 @@ public class LngDaoImpl implements LngDao {
 		List<Lng> regasification=getRegasificationCriteriaData(selectedOptions, 0,0);
 		return regasification;
 	}
+
+	@Override
+	public List<Lng> getLngData() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+		
+		List<Lng> lngData=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return lngData;
+	}
 	
 }

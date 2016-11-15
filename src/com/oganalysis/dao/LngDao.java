@@ -12,4 +12,5 @@ public interface LngDao {
 	List<Lng> getRegasificationCriteriaData(Map<String,List> selectedOptions);
 	List<String> getLocations();
 	List<String> getOperator();
+	List<Lng> getLngData();
 }
