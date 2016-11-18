@@ -193,5 +193,37 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return lngData;
 	}
+
+	@Override
+	public List<Lng> getLiquefactionData() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+		
+		Criterion regasificationCriterion=Restrictions.eq("type",LIQUEFACTION);
+		criteria.add(regasificationCriterion);
+		List<Lng> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<Lng> getRegasificationData() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+				
+		Criterion regasificationCriterion=Restrictions.eq("type",REGASIFICATION);
+		criteria.add(regasificationCriterion);
+		List<Lng> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
 	
 }

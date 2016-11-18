@@ -30,10 +30,15 @@
 	</bean>
 	
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
-		<property name="lngBusinessServiceImpl" ref="lngBusinessServiceImpl"/>		
+		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
+		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>		
 	</bean>
 	
-	<bean id="lngBusinessServiceImpl" class="com.oganalysis.business.impl.LngBusinessServiceImpl">
+	<bean id="lngCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.LngCapacityBusinessServiceImpl">
+		<property name="lngDao" ref="lngDao"/>		
+	</bean>
+	
+	<bean id="lngInfraBusinessServiceImpl" class="com.oganalysis.business.impl.LngInfraBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
 	</bean>
 	

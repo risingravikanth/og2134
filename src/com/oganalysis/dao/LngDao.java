@@ -13,4 +13,7 @@ public interface LngDao {
 	List<String> getLocations();
 	List<String> getOperator();
 	List<Lng> getLngData();
+	List<Lng> getLiquefactionData();
+	List<Lng> getRegasificationData();
+	
 }
