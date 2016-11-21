@@ -4,14 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.oganalysis.business.LngBusinessService;
+import com.oganalysis.business.LngCapacityBusinessService;
+import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.service.LngDataService;
 
 public class LngDataServiceImpl implements LngDataService{
 	
 	
-	private LngBusinessService lngBusinessServiceImpl;
+	private LngCapacityBusinessService lngCapacityBusinessServiceImpl;
+	private LngInfraBusinessService lngInfraBusinessServiceImpl;
 	
 	public static final String REGASIFICATION="Regasification";
 	public static final String LIQUEFACTION="Liquefaction";
@@ -39,8 +41,8 @@ public class LngDataServiceImpl implements LngDataService{
 	}
 	private String getCapacityByCompany(Map<String, List> selectedOptions, String startDate,String endDate)
 	{
-		Map<String,Map<Integer,Double>> liquefaction=lngBusinessServiceImpl.getLiquefactionCapacityByCompany(selectedOptions, startDate, endDate);
-		Map<String,Map<Integer,Double>> regasification=lngBusinessServiceImpl.getRegasificationCapacityByCompany(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByCompany(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCompany(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByCompany=new HashMap<String, Map<String,Map<Integer,Double>>>(); 
 		capacityDataByCompany.put(LIQUEFACTION, liquefaction);
@@ -52,8 +54,8 @@ public class LngDataServiceImpl implements LngDataService{
 	}
 	private String getCapacityByTerminal(Map<String, List> selectedOptions, String startDate,String endDate)
 	{
-		Map<String,Map<Integer,Double>> liquefaction=lngBusinessServiceImpl.getLiquefactionCapacityByTerminal(selectedOptions, startDate, endDate);
-		Map<String,Map<Integer,Double>> regasification=lngBusinessServiceImpl.getRegasificationCapacityByTerminal(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByTerminal(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByTerminal(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByTerminal=new HashMap<String, Map<String,Map<Integer,Double>>>(); 
 		capacityDataByTerminal.put(LIQUEFACTION, liquefaction);
@@ -65,8 +67,8 @@ public class LngDataServiceImpl implements LngDataService{
 	}
 	private String getCapacityByCountry(Map<String, List> selectedOptions, String startDate,String endDate)
 	{
-		Map<String,Map<Integer,Double>> liquefaction=lngBusinessServiceImpl.getLiquefactionCapacityByCountry(selectedOptions,startDate,endDate);
-		Map<String,Map<Integer,Double>> regasification=lngBusinessServiceImpl.getRegasificationCapacityByCountry(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByCountry(selectedOptions,startDate,endDate);
+		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCountry(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByCountry=new HashMap<String, Map<String,Map<Integer,Double>>>();
 		capacityDataByCountry.put(LIQUEFACTION, liquefaction);
@@ -80,8 +82,8 @@ public class LngDataServiceImpl implements LngDataService{
 	public String getInfrastructureData(Map<String,List> selectedOptions) {
 		// TODO Auto-generated method stub
 		String infrastructureDataRes=null;;
-		List<Map<String,String>> liquefaction=lngBusinessServiceImpl.getLiquefactionInfrastructure(selectedOptions);
-		List<Map<String,String>> regasification=lngBusinessServiceImpl.getRegasificationInfrastructure(selectedOptions);
+		List<Map<String,String>> liquefaction=lngInfraBusinessServiceImpl.getLiquefactionInfrastructure(selectedOptions);
+		List<Map<String,String>> regasification=lngInfraBusinessServiceImpl.getRegasificationInfrastructure(selectedOptions);
 		Map<String,List<Map<String,String>>> infrastructureMap=new HashMap<String, List<Map<String,String>>>();
 		infrastructureMap.put(LIQUEFACTION, liquefaction);
 		infrastructureMap.put(REGASIFICATION, regasification);
@@ -89,17 +91,21 @@ public class LngDataServiceImpl implements LngDataService{
 		infrastructureDataRes=lngJsonResponse.createInfrastructureRes(infrastructureMap);
 		return infrastructureDataRes;
 	}
-	public LngBusinessService getLngBusinessServiceImpl() {
-		return lngBusinessServiceImpl;
+	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
+		return lngCapacityBusinessServiceImpl;
 	}
-
-	public void setLngBusinessServiceImpl(LngBusinessService lngBusinessServiceImpl) {
-		this.lngBusinessServiceImpl = lngBusinessServiceImpl;
+	public void setLngCapacityBusinessServiceImpl(
+			LngCapacityBusinessService lngCapacityBusinessServiceImpl) {
+		this.lngCapacityBusinessServiceImpl = lngCapacityBusinessServiceImpl;
+	}
+	public LngInfraBusinessService getLngInfraBusinessServiceImpl() {
+		return lngInfraBusinessServiceImpl;
+	}
+	public void setLngInfraBusinessServiceImpl(
+			LngInfraBusinessService lngInfraBusinessServiceImpl) {
+		this.lngInfraBusinessServiceImpl = lngInfraBusinessServiceImpl;
 	}
 	
 
-	
-
-	
 
 }
