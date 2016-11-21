@@ -1,7 +1,38 @@
  
-	<nav ng-if=" url != '/pdfReports'" class="navbar navbar-default" role="navigation" id="submenu" ng-init="init()">
-		 <div class="row subheader">
+	<nav ng-if=" url != '/pdfReports'" class="navbar navbar-default custom-navbar" role="navigation" id="submenu" ng-init="init()">
+		 
+		  <div class="row subheader">
+			 <form class="form-inline">
 			 
+			  <div class="form-group">
+			    <label for="email">Display Period From:</label>
+			     <select class="form-control" name="displayForm" ng-model="searchFilterObj.displayFrom">
+					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
+		         </select>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="pwd">Display Period To:</label>
+			    <select class="form-control" name="displayTo" ng-model="searchFilterObj.displayTo">
+					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
+			 	</select>
+			  </div>
+			  
+			  <div class="form-group pull-right">
+					<label class="control-label" for="inputEmail3">Display Type : </label>
+                    <label ng-repeat="option in occurrenceOptions track by $index">
+                      <input type="radio" name="displayType" class="minimal" ng-value="option.value" ng-change="typeChangeFn()" ng-model="searchFilterObj.displayType" checked>
+                      {{ option.name }}
+                    </label>
+              </div>
+		 	</form>
+		 </div>
+		 
+		<!--  <div class="row subheader">
+			
+			
+			
+			
 			<div class="col-xs-2 filterAlignment">
 				<label class="control-label" for="inputEmail3">Display Period From:</label>
 			</div>
@@ -18,16 +49,31 @@
 					<option ng-repeat="item in displayPeriodList" value={{ item.id}}>{{ item.name }}</option>
 			 </select>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 			  
 			</div>
 			<div class="col-xs-4">
-				<label class="control-label" for="inputEmail3">Display Type : </label>
+				 <div class="form-group">
+					<label class="control-label" for="inputEmail3">Display Type : </label>
+                    <label>
+                      <input type="checkbox" value="country" class="minimal" checked>
+                      Country
+                    </label>
+                    <label>
+                      <input type="checkbox" value="company" class="minimal">
+                      Company
+                    </label>
+                    <label>
+                      <input type="checkbox" value="terminal" class="minimal" >
+                     	Terminal
+                    </label>
+                  </div>
+				<!-- <label class="control-label" for="inputEmail3">Display Type : </label>
 				<label class="radio-inline"><input type="radio" value="country" name="optradio">Country</label>
 				<label class="radio-inline"><input type="radio"  value="company"name="optradio">Company</label>
-				<label class="radio-inline"><input type="radio" value="terminal" name="optradio">Terminal</label>
-			</div>
-		  </div>
+				<label class="radio-inline"><input type="radio" value="terminal" name="optradio">Terminal</label> ->
+			</div> 
+		  </div>-->
    </nav>
 <!-- Content Header (Page header) -->
     <section class="content-header">

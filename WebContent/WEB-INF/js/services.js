@@ -113,7 +113,9 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	var fd = new FormData();
 	 	console.log("in service",formData);
 	 	for(var i in formData){
-	 		fd.append(i,formData[i])
+	 		
+	 	 	fd.append(i,formData[i]);
+	 	 	console.log(fd)
 	 	}
 	 	
 	   	function renderCrudeOilResult(resp){

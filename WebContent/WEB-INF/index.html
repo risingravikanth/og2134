@@ -67,12 +67,6 @@
 	<script src="./js/controllers/capacityCtrl.js"></script>
   
   
-  
-  
-  
-  
-  
-  
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- Site wrapper  ( sidebar-collapse control-sidebar-open )-->
@@ -480,21 +474,21 @@
 				<label class="control-sidebar-subheading">
 						Locations
 				</label>
-				<div ng-dropdown-multiselect="" options="example9data" class="form-control filter-control col-md-12" selected-model="example9model" extra-settings="example9settings"></div>
+				<div ng-dropdown-multiselect="" options="locationData" class="form-control filter-control col-md-12" selected-model="locationModel" extra-settings="locationSettings"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.operatorField">
 				<label class="control-sidebar-subheading">
 						Operator
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="example1data" selected-model="example1model"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="operatorData" selected-model="operatorModel"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.ownerField">
 				<label class="control-sidebar-subheading">
 						Owner
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="example1data" selected-model="example1model"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.statusField">
@@ -554,7 +548,7 @@
 					<option value="Storage">Storage</option>
 			 	</select>
 			</div>-->
-			<div class="form-group" ng-show="filterObj.sectorField">
+			<div class="form-group">
 				<label class="control-sidebar-subheading">
 						&nbsp;
 				</label>

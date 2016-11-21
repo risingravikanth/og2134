@@ -106,11 +106,17 @@
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
 		};
 	/*location */
-	
-	/*operator*/
-	
+		$scope.locationData = [];
+		$rootScope.locationModel = [];
+		$scope.locationSettings = {enableSearch: true};
+	/*operator*/	
+		$scope.operatorData = [];
+		$rootScope.operatorModel = [];
+ 	
 	/* owner*/
-	
+		$scope.ownerData = [];
+		$rootScope.ownerModel = [];
+  
 	/* Status filter */
 	$scope.statusData = [];
 	$rootScope.statusModel = [];
@@ -183,6 +189,20 @@
 		}
 	});
 	 
+	$rootScope.resetFilter = function(){
+ 		$rootScope.regionModel = [];
+ 		$rootScope.countryModel =[];
+ 	 	$rootScope.locationModel= [];
+ 		$rootScope.operatorModel= [];
+ 		$rootScope.ownerModel= [];
+ 		$rootScope.statusModel= [];
+ 		$rootScope.unitsModel= [];
+ 		$rootScope.offshoreModel= [];
+ 		$rootScope.typeModel= [];
+ 		$rootScope.sectorModel =[];
+ 		$scope.formDataJSON ={};
+ 		
+ 	}
 	
 	/*$scope.initFilter = function(){
 		console.log("in side filter initialization")
@@ -204,9 +224,6 @@
 	$scope.selectedCountries =[];
 	$scope.selectedSectors =[];
  	
-	$scope.example1model = []; 
-	$scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
-	
 	$scope.setConfigurations = function(){
 		
 		if($state.current.name == "exploration"){
@@ -391,8 +408,7 @@
 			var fromkey = key+i
 			$scope.formData.append(fromkey, ary[i].id);
 			$scope.formDataJSON[fromkey] = ary[i].id;
-			console.log('loop--',$scope.formData.get('region0'));
-		}
+ 		}
 	}
 	
 	$rootScope.filterSubmit = function(){
@@ -443,15 +459,8 @@
  	 	});
  	};
  	
- 	$rootScope.resetFilter = function(){
- 		$rootScope.regionModel = [];
- 		$rootScope.countryModel =[];
- 		$rootScope.sectorModel =[];
- 		$scope.formDataJSON ={};
- 		
- 	}
-	
-	$rootScope.onFilterSelect = function(item,filterType){
+  	
+	/*$rootScope.onFilterSelect = function(item,filterType){
  		if( filterType == 'region'){
 			$scope.selectedRegions.push(item.id);
 		}else if(filterType == 'country'){
@@ -480,7 +489,12 @@
   			 }
   	 	});
 		
-  	}
+  	};*/
+  	
+	$rootScope.typeChangeFn = function(){
+		console.log($rootScope.searchFilterObj.displayType)
+	};
+	
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
@@ -490,25 +504,48 @@
 		$rootScope.tableInst = "";
 		$rootScope.table = {
 				inst : ""
-		}
+		};
+ 		
+		$scope.occurrenceOptions = [
+            {
+    			name : "Country",
+    			value : "country",
+    			checked :true
+            },{
+    			name : "Company",
+    			value : "company",
+    			checked :false
+            },{
+    			name : "Terminal",
+    			value : "terminal",
+    			checked :false
+            }];
+		 
+		
 		$scope.columns = [
-							{ title: "Region",
-								  data: "region"
-								},
-								{ title: "Status",
-								  data: "status"
-								},
-								{ title: "Country",
-								  data: "country"
-								},
-								{ title: "Block No",
-								  data: "blockNo"
-								} 
-							];
+               { title: "Region",
+				  data: "region"
+				},
+				{ title: "Status",
+				  data: "status"
+				},
+				{ title: "Country",
+				  data: "country"
+				},
+				{ title: "Block No",
+				  data: "blockNo"
+				} 
+			];
+		
+		$rootScope.searchFilterObj = {
+				displayType:"country",
+				displayFrom:"",
+				displayTo:""
+		};
 		
 		$scope.setConfigurations();
 		$scope.setDisplayPeriod();
-		
+		$rootScope.resetFilter();
 		 
 		if($scope.url != ''){
 			HttpService.get($scope.url).then(function(resp) {
@@ -520,9 +557,17 @@
 						// `data` option, which defaults to the column being worked with, in
 						// this case `data: 0`.
 						"render": function ( data, type, row ) {
-							var commonHref = '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+							var commonHref = "";
 							if($scope.url == "/pdfReports"){
 								commonHref =  '<a href="pdf/reports/'+data+'">'+data +'</a>';
+							}else if($scope.url == "/capacity"){
+								if(data != 'Total'){
+									commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+								}else{
+									commonHref =  '<p>'+data+'</p>';
+								}
+							}else{
+								 commonHref = '<a data-toggle="modal" href="#myModal">'+data +'</a>'
 							}
 							return commonHref;
 						},
