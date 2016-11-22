@@ -56,7 +56,7 @@
 	  })
 	  .state('capacity', {
         url:'/capacity',
-        templateUrl: 'views/commonpage.html',
+        templateUrl: 'views/capacity.html',
 		controller:"CapacityCtrl"
 	  })
 	  .state('reports', {
@@ -129,7 +129,7 @@
 	
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];
-	$scope.offshoreData = [{id: 'Not Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
+	$scope.offshoreData = [{id: 'Not_Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
 	 	
 	/*type filter*/
 	$rootScope.typeModel = [];
@@ -539,8 +539,8 @@
 		
 		$rootScope.searchFilterObj = {
 				displayType:"country",
-				displayFrom:"",
-				displayTo:""
+				startDate:"2016",
+				endDate:"2020"
 		};
 		
 		$scope.setConfigurations();

@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = false; //false
+		this.LIVE = true; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		
@@ -105,6 +105,32 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 		return deferred.promise;
  	},
  	
+ 	this.getHttp = function(url,formData){
+	 	var deferred = $q.defer();
+	 	url = this.getJsonURL(url);
+
+	 	var request = {
+			method: 'GET',
+		 	url: URL.contextPath + URL.apiversion + url,
+			headers: URL.headerRequest
+		};
+	  	
+ 	  	if(formData != undefined){
+ 	  	 	request.params = formData;
+	  	}
+		
+		$http(request).success(function (resp){
+			if(resp.status == "fail"){
+				 
+			}
+		    deferred.resolve(resp);
+	    }).error(function (resp){
+			deferred.reject(resp);
+        });
+		
+		return deferred.promise;
+ 	},
+ 	
  	this.getFomData =function(url,formData){
 	 	var deferred = $q.defer();
 	 	url = this.getJsonURL(url);
@@ -112,9 +138,11 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	
 	 	var fd = new FormData();
 	 	console.log("in service",formData);
-	 	for(var i in formData){
-	 		
-	 	 	fd.append(i,formData[i]);
+	 	for(var key in formData){
+	 		console.log(key);
+	 		console.log(formData[key]);
+	 		console.log(typeof(formData[key]));
+	  	 	fd.append(key ,formData[key]);
 	 	 	console.log(fd)
 	 	}
 	 	
@@ -126,7 +154,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
  	  	$.ajax({url: URL.contextPath + URL.apiversion + url,
 				type:"get",
 				data: $.param(fd),
-				contentType:"application/x-www-form-urlencoded",
+				contentType:false,
 				processData:false,	    				
 				success:renderCrudeOilResult		
 	 	});

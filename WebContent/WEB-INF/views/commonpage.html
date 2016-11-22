@@ -6,14 +6,14 @@
 			 
 			  <div class="form-group">
 			    <label for="email">Display Period From:</label>
-			     <select class="form-control" name="displayForm" ng-model="searchFilterObj.displayFrom">
+			     <select class="form-control" name="displayForm" ng-model="searchFilterObj.startDate">
 					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
 		         </select>
 			  </div>
 			  
 			  <div class="form-group">
 			    <label for="pwd">Display Period To:</label>
-			    <select class="form-control" name="displayTo" ng-model="searchFilterObj.displayTo">
+			    <select class="form-control" name="displayTo" ng-model="searchFilterObj.endDate">
 					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
 			 	</select>
 			  </div>

@@ -14,5 +14,9 @@
   ],
   "devDependencies": {
     "angularjs-dropdown-multiselect": "^1.5.2"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "Ionicons": "ionicons#^2.0.1"
   }
 }
