@@ -139,12 +139,8 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	var fd = new FormData();
 	 	console.log("in service",formData);
 	 	for(var key in formData){
-	 		console.log(key);
-	 		console.log(formData[key]);
-	 		console.log(typeof(formData[key]));
-	  	 	fd.append(key ,formData[key]);
-	 	 	console.log(fd)
-	 	}
+ 	  	 	fd.append(key ,formData[key]);
+ 	 	}
 	 	
 	   	function renderCrudeOilResult(resp){
  	  		deferred.resolve(resp);
@@ -154,7 +150,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
  	  	$.ajax({url: URL.contextPath + URL.apiversion + url,
 				type:"get",
 				data: $.param(fd),
-				contentType:false,
+				contentType:"application/x-www-form-urlencoded",
 				processData:false,	    				
 				success:renderCrudeOilResult		
 	 	});

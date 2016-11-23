@@ -88,7 +88,108 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		
 		return liquefaction;
 	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see com.oganalysis.business.LngCapacityBusinessService#getLiqueModalCapacityForRecord(java.util.Map, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 * Modal data for a record of type Liquefaction
+	 */
+	@Override
+	public Map<String, Map<Integer, Double>> getLiqueModalCapacityForRecord(
+			Map<String, List> selectedOptions, String startDate,
+			String endDate, String displayType, String recordName) {
+		// TODO Auto-generated method stub
+		int startDateVal=Integer.parseInt(startDate); 
+		int endDateVal=Integer.parseInt(endDate);
+			Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);
+		if(null!=displayType && displayType.equalsIgnoreCase("country"))
+			terminalCapacities=getTerminalsCapacityForCountry(liquefactionList,recordName);
+		else if(null!=displayType && displayType.equalsIgnoreCase("company"))
+			terminalCapacities=getTerminalsCapacityForCompany(liquefactionList,recordName,LIQUEFACTION);
+		
+		return terminalCapacities;
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see com.oganalysis.business.LngCapacityBusinessService#getRegasModalCapacityForRecord(java.util.Map, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 * Modal data for a record of type Regasifiation
+	 */
+	@Override
+	public Map<String, Map<Integer, Double>> getRegasModalCapacityForRecord(
+			Map<String, List> selectedOptions, String startDate,
+			String endDate, String displayType, String recordName) {
+		// TODO Auto-generated method stub
+		int startDateVal=Integer.parseInt(startDate); 
+		int endDateVal=Integer.parseInt(endDate);
+		
+		Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions, startDateVal, endDateVal);
+		if(null!=displayType && displayType.equalsIgnoreCase("country"))
+			terminalCapacities=getTerminalsCapacityForCountry(regasificationList,recordName);
+		else if(null!=displayType && displayType.equalsIgnoreCase("company"))
+			terminalCapacities=getTerminalsCapacityForCompany(regasificationList,recordName,REGASIFICATION);
+		
+		return terminalCapacities;
+	}
+	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(List<Lng> lngList,String recordName)
+	{
+		Map<String,Map<Integer,Double>> countryTerminalsCapacity=new HashMap<String, Map<Integer,Double>>();
+		Set<Integer> years=getYears(lngList);
+		Map<String,Set<String>> countryTerminals=getCountryTerminals(lngList);
+		Set<String> terminals=countryTerminals.get(recordName);
+		Map<Integer,Double> yearMap=null;
+		for(String terminal:terminals)
+		{
+				yearMap=new HashMap<Integer, Double>();
+				for(Integer year:years)
+				{
+					double soc=0.0;
+					for(Lng lng:lngList)
+					{
+						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+							soc=soc+lng.getCapacity();
+					}
+					yearMap.put(year,soc);
+				}
+				countryTerminalsCapacity.put(terminal,yearMap);
+		}				
+		return countryTerminalsCapacity;
+		
+	}
+	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(List<Lng> lngList,String recordName,String type)
+	{
+		Map<String,Map<Integer,Double>> companyTerminalsCapacity=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Set<String>> companyTerminals=null;//getCompanyTerminals(lngList);
+		if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+		{
+			List<Lng> liquefactionList=lngDao.getLiquefactionData();
+			companyTerminals=getCompanyTerminals(liquefactionList);// here we need to specific type list
+		}
+		else if(null!=type && type.equalsIgnoreCase(REGASIFICATION))
+		{
+			List<Lng> regasificationList=lngDao.getRegasificationData();
+			companyTerminals=getCompanyTerminals(regasificationList);// here we need to specific type list
+		}
+		Set<String> terminals=companyTerminals.get(recordName);
+		Set<Integer> years=getYears(lngList);
+		Map<Integer,Double> yearMap=null;
+		for(String terminal:terminals)
+		{
+			yearMap=new HashMap<Integer, Double>();
+			for(Integer year:years)
+			{
+				double soc=0.0;
+				for(Lng lng:lngList)
+				{
+					if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+						soc=soc+lng.getCapacity();
+				}
+				yearMap.put(year,soc);
+			}
+			companyTerminalsCapacity.put(terminal,yearMap);
+		}		
+		return companyTerminalsCapacity;
+	}
 	private Map<String,Map<Integer,Double>> calculateRegasificationCapacitiesByCompany(List<Lng> lngList)
 	{
 		/*
@@ -288,6 +389,23 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		
 		return companyTerminals;
 	}
+	private Map<String,Set<String>> getCountryTerminals(List<Lng> lngList)
+	{
+		Set<String> countries=getCountries(lngList);
+		Map<String,Set<String>> countryTerminals=new HashMap<String, Set<String>>();		
+		for(String country:countries)
+		{
+			Set<String> terminals=new HashSet<String>();
+			for(Lng lng:lngList)
+			{
+				if(country.equalsIgnoreCase(lng.getCountry()))
+						terminals.add(lng.getName());
+			}
+			countryTerminals.put(country, terminals);
+		}
+		
+		return countryTerminals;
+	}
 	private Set<String> getCompanies(List<Lng> lngList)
 	{
 		List<Lng> dataList=null;
@@ -309,4 +427,6 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	public void setLngDao(LngDao lngDao) {
 		this.lngDao = lngDao;
 	}
+	
+	
 }

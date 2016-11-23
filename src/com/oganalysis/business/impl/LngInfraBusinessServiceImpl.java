@@ -41,37 +41,42 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			Map<String, List> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions);
-		List<Lng> liquefactionCopyList=liquefactionList;
+		Set<String> terminals=getTerminals(liquefactionList);
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();
-		Set<String> terminalTracker=new HashSet<String>();
-		for(Lng lng:liquefactionList)
+		
+		for(String terminal:terminals)
 		{
-			String terminalName=lng.getName();
-			if(!terminalTracker.contains(lng.getName()))
+			for(Lng lng:liquefactionList)
 			{
-				for(Lng lngCopy:liquefactionCopyList)
+				if(terminal.equalsIgnoreCase(lng.getName()))
 				{
-					if(terminalName.equalsIgnoreCase(lngCopy.getName()))
-					{
-						Map<String,String> liquefactionMap=new HashMap<String, String>();
-						liquefactionMap.put("terminalName", lng.getName());
-						liquefactionMap.put("status", lng.getStatus());
-						liquefactionMap.put("startYear", lng.getExpectedStartYear().toString()); // This one need to check
-						liquefactionMap.put("location", lng.getArea());
-						liquefactionMap.put("technology",lng.getTechnologyDetails());// This one also check once;
-						liquefactionMap.put("train","");//This one also need to check;
-						liquefactionMap.put("operator",lng.getOperator());//This one also need to check;
-						liquefactionMap.put("storageCapacity","");//This one need to check;
-						liquefactionMap.put("tanks","");//This one also need to check;
-						mapList.add(liquefactionMap);
-					}
+					Map<String,String> liquefactionMap=new HashMap<String, String>();
+					liquefactionMap.put("terminalName", lng.getName());
+					liquefactionMap.put("status", lng.getStatus());
+					liquefactionMap.put("startYear", lng.getExpectedStartYear().toString()); // This one need to check
+					liquefactionMap.put("location", lng.getArea());
+					liquefactionMap.put("technology",lng.getTechnologyDetails());// This one also check once;
+					liquefactionMap.put("train","");//This one also need to check;
+					liquefactionMap.put("operator",lng.getOperator());//This one also need to check;
+					liquefactionMap.put("storageCapacity","");//This one need to check;
+					liquefactionMap.put("tanks","");//This one also need to check;
+					mapList.add(liquefactionMap);
 				}
-				
-				terminalTracker.add(terminalName);
 			}
-			
+						
 		}
+			
+		
 		return mapList;
+	}
+	private Set<String> getTerminals(List<Lng> lngList)
+	{
+		Set<String> terminals=new HashSet<String>();
+		for(Lng lng:lngList)
+		{
+			terminals.add(lng.getName());
+		}
+		return terminals;
 	}
 	public LngDao getLngDao() {
 		return lngDao;

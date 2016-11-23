@@ -444,10 +444,10 @@
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
  
- 		HttpService.getFomData($scope.url,$scope.formDataJSON).then(function(resp) {
+ 		HttpService.getHttp($scope.url,$scope.formDataJSON).then(function(resp) {
  			 if($rootScope.table.inst != ""){
- 				if(resp != ""){
- 					resp = JSON.parse(resp);
+ 				if(resp != "" && resp != undefined ){
+ 					resp = resp;
  				}else{
  					resp = [];
  				}

@@ -39,54 +39,59 @@
 		$rootScope.resetFilter();
 		HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
 			 if($rootScope.table.liquefactionInst != ""){
-				if(resp != "" && resp != undefined){
-					resp = JSON.parse(resp);
-				}else{
-					resp = [];
-				}
-				
+				 
+				if(resp != "" && resp != undefined ){
+ 					resp = resp;
+ 				}else{
+ 					resp = [];
+ 				}
+			 
 		 		$scope.columns =[];
-			 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
-					var colObj = {
-							title:key.toUpperCase(),
-							data:key
-					};
+		 		$scope.liquefactionData = [];
+		 		$scope.regasificationData =[];
+		 		
+		 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
+		  		 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+						var colObj = {
+								title:key.toUpperCase(),
+								data:key
+						};
+						
+						$scope.columns.push(colObj);
+				 	}
 					
-					$scope.columns.push(colObj);
-			 	}
-				
-				$scope.gridDataList = [];
-				for(var k=0; k < resp.length; k++){
-					if(resp[k].type =="Liquefaction"){
-				 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-				 		var tempCapacity = resp[k].totalCapacity;
-				 		tempCapacity.name = " Total";
-				 	 	$scope.liquefactionData.push(tempCapacity);
-				 	 	
-				 	 	var reverseOrder = $scope.liquefactionData.slice();
-				 	 	$scope.liquefactionData = [];
-				 	 	$scope.liquefactionData = reverseOrder.reverse();
-				 	 	
-					}else if(resp[k].type =="Regasification"){
-					 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-					 	
-					 	var tempCapacity = resp[k].totalCapacity;
-				 		tempCapacity.name = " Total";
-				 	 	$scope.regasificationData.push(tempCapacity);
-				 	 	
-				 	 	var reverseOrder = $scope.regasificationData.slice();
-				 	 	$scope.regasificationData = [];
-				 	 	$scope.regasificationData = reverseOrder.reverse();
+					$scope.gridDataList = [];
+					for(var k=0; k < resp.length; k++){
+						if(resp[k].type =="Liquefaction"){
+					 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
+					 		var tempCapacity = resp[k].totalCapacity;
+					 		tempCapacity.name = " Total";
+					 	 	$scope.liquefactionData.push(tempCapacity);
+					 	 	
+					 	 	var reverseOrder = $scope.liquefactionData.slice();
+					 	 	$scope.liquefactionData = [];
+					 	 	$scope.liquefactionData = reverseOrder.reverse();
+					 	 	
+						}else if(resp[k].type =="Regasification"){
+						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
+						 	
+						 	var tempCapacity = resp[k].totalCapacity;
+					 		tempCapacity.name = " Total";
+					 	 	$scope.regasificationData.push(tempCapacity);
+					 	 	
+					 	 	var reverseOrder = $scope.regasificationData.slice();
+					 	 	$scope.regasificationData = [];
+					 	 	$scope.regasificationData = reverseOrder.reverse();
+						}
+						
 					}
-					
-				}
-			 	
+		 		}
 			  	$rootScope.table.liquefactionInst.clear().draw();
-				$rootScope.table.liquefactionInst.rows.add(liquefactionData);
+				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
 				$rootScope.table.liquefactionInst.draw();
 				
 				$rootScope.table.regasificationInst.clear().draw();
-				$rootScope.table.regasificationInst.rows.add(regasificationData);
+				$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
 				$rootScope.table.regasificationInst.draw();
 			 }
 	 	});
@@ -133,17 +138,18 @@
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
  		
-  		for(var key in $rootScope.capacityFilterJSON){
- 			$rootScope.searchFilterObj[key] = $rootScope.capacityFilterJSON[key];
+  		for(var key in $rootScope.searchFilterObj){
+ 			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
   		}
  
- 		HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
+ 		HttpService.getHttp($scope.url,$rootScope.capacityFilterJSON).then(function(resp) {
 			 if($rootScope.table.liquefactionInst != ""){
-				if(resp != "" && resp != undefined){
-					resp = JSON.parse(resp);
-				}else{
-					resp = [];
-				}
+				 if(resp != "" && resp != undefined ){
+	 					resp = resp;
+	 				}else{
+	 					resp = [];
+	 				}
+				 
 				
 		 		$scope.columns =[];
 			 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
@@ -182,11 +188,11 @@
 				}
 			 	$rootScope.capacityFilterJSON ={};
 			  	$rootScope.table.liquefactionInst.clear().draw();
-				$rootScope.table.liquefactionInst.rows.add(liquefactionData);
+				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
 				$rootScope.table.liquefactionInst.draw();
 				
 				$rootScope.table.regasificationInst.clear().draw();
-				$rootScope.table.regasificationInst.rows.add(regasificationData);
+				$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
 				$rootScope.table.regasificationInst.draw();
 				
 				
@@ -241,6 +247,14 @@
 		if($scope.url != ''){
 			var initailReq = angular.copy($rootScope.searchFilterObj)
 	 		HttpService.getHttp($scope.url,initailReq).then(function(resp) {
+	 			
+	 			
+	 			if(resp != "" && resp != undefined ){
+ 					resp = resp;
+ 				}else{
+ 					resp = [];
+ 				}
+			 
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
 					$scope.columns =[];

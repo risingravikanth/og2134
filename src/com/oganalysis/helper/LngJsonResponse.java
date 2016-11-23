@@ -70,24 +70,18 @@ public class LngJsonResponse {
 	public String createCapacityByCompanyRes(Map<String,Map<String,Map<Integer,Double>>> capacityData,String startDate,String endDate)
 	{
 
-		
-		
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 		
+		
+		final String displayType="company";
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByCompany=new JSONArray();
 		
 //		-----------------------Start of Liquefaction-----------------------
-		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
-				 
-		JSONObject capacityLiquefactionJsonObj=new JSONObject();	
-		JSONArray allYearsLiqueCapacityByCompany=getAllYearsCapacity(liquefaction, startDateVal, endDateVal);
-		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByCompany,startDateVal,endDateVal);	
-		capacityLiquefactionJsonObj.put("company", allYearsLiqueCapacityByCompany);
-		capacityLiquefactionJsonObj.put("type", LIQUEFACTION);
-		capacityLiquefactionJsonObj.put("totalCapacity", liqueTotalCapacityOfYear);
 		
+		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
@@ -95,14 +89,8 @@ public class LngJsonResponse {
 		// -------------------Start of Regasifcation-------------------
 		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
 		
-		 
-		JSONObject capacityRegasificationJsonObj=new JSONObject();	
-		JSONArray allYearsRegasCapacityByCompany=getAllYearsCapacity(regasification, startDateVal, endDateVal);
-		JSONObject regastotalCapacityOfYear=getTotalCapacityOfYear(allYearsRegasCapacityByCompany,startDateVal,endDateVal);
-		
-		capacityRegasificationJsonObj.put("company", allYearsRegasCapacityByCompany);
-		capacityRegasificationJsonObj.put("type", REGASIFICATION);
-		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
+					
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
@@ -110,6 +98,7 @@ public class LngJsonResponse {
 		
 		capacityByCompany.add(capacityLiquefactionJsonObj);
 		capacityByCompany.add(capacityRegasificationJsonObj);
+		
 		return capacityByCompany.toJSONString();
 		
 	
@@ -122,17 +111,11 @@ public class LngJsonResponse {
 		
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByTerminal=new JSONArray();
-		
+		final String displayType="terminal";
 //		-----------------------Start of Liquefaction-----------------------
 		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
 				 
-		JSONObject capacityLiquefactionJsonObj=new JSONObject();	
-		JSONArray allYearsLiqueCapacityByTerminal=getAllYearsCapacity(liquefaction, startDateVal, endDateVal);
-		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByTerminal,startDateVal,endDateVal);	
-		capacityLiquefactionJsonObj.put("terminal", allYearsLiqueCapacityByTerminal);
-		capacityLiquefactionJsonObj.put("type", LIQUEFACTION);
-		capacityLiquefactionJsonObj.put("totalCapacity", liqueTotalCapacityOfYear);
-		
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);	
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
@@ -140,14 +123,7 @@ public class LngJsonResponse {
 		// -------------------Start of Regasifcation-------------------
 		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
 		
-		 
-		JSONObject capacityRegasificationJsonObj=new JSONObject();	
-		JSONArray allYearsRegasCapacityByTerminal=getAllYearsCapacity(regasification, startDateVal, endDateVal);
-		JSONObject regastotalCapacityOfYear=getTotalCapacityOfYear(allYearsRegasCapacityByTerminal,startDateVal,endDateVal);
-		
-		capacityRegasificationJsonObj.put("terminal", allYearsRegasCapacityByTerminal);
-		capacityRegasificationJsonObj.put("type", REGASIFICATION);
-		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
@@ -168,17 +144,11 @@ public class LngJsonResponse {
 		
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByCountry=new JSONArray();
-		
+		final String displayType="country";
 //		-----------------------Start of Liquefaction-----------------------
 		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
 				 
-		JSONObject capacityLiquefactionJsonObj=new JSONObject();	
-		JSONArray allYearsLiqueCapacityByCountry=getAllYearsCapacity(liquefaction, startDateVal, endDateVal);
-		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByCountry,startDateVal,endDateVal);	
-		capacityLiquefactionJsonObj.put("country", allYearsLiqueCapacityByCountry);
-		capacityLiquefactionJsonObj.put("type", LIQUEFACTION);
-		capacityLiquefactionJsonObj.put("totalCapacity", liqueTotalCapacityOfYear);
-		
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
@@ -186,14 +156,7 @@ public class LngJsonResponse {
 		// -------------------Start of Regasifcation-------------------
 		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
 		
-		 
-		JSONObject capacityRegasificationJsonObj=new JSONObject();	
-		JSONArray allYearsRegasCapacityByCountry=getAllYearsCapacity(regasification, startDateVal, endDateVal);
-		JSONObject regastotalCapacityOfYear=getTotalCapacityOfYear(allYearsRegasCapacityByCountry,startDateVal,endDateVal);
-		
-		capacityRegasificationJsonObj.put("country", allYearsRegasCapacityByCountry);
-		capacityRegasificationJsonObj.put("type", REGASIFICATION);
-		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
@@ -243,5 +206,29 @@ public class LngJsonResponse {
 			allYearsCapacityArray.add(jsonObj);
 		}
 		return allYearsCapacityArray;
+	}
+	public JSONObject createCapacityLiquefactionRes(Map<String,Map<Integer,Double>> liquefaction,int startDate,int endDate,String displayType)
+	{
+				
+		JSONObject capacityLiquefactionJsonObj=new JSONObject();	
+		JSONArray allYearsLiqueCapacityByCompany=getAllYearsCapacity(liquefaction, startDate, endDate);
+		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByCompany,startDate,endDate);	
+		capacityLiquefactionJsonObj.put(displayType, allYearsLiqueCapacityByCompany);
+		capacityLiquefactionJsonObj.put("type", LIQUEFACTION);
+		capacityLiquefactionJsonObj.put("totalCapacity", liqueTotalCapacityOfYear);
+		return capacityLiquefactionJsonObj;
+	}
+	public JSONObject createCapacityRegasificationRes(Map<String,Map<Integer,Double>> regasification,int startDate,int endDate,String displayType)
+	{
+			
+		JSONObject capacityRegasificationJsonObj=new JSONObject();
+		JSONArray allYearsRegasCapacityByCompany=getAllYearsCapacity(regasification, startDate, endDate);
+		JSONObject regastotalCapacityOfYear=getTotalCapacityOfYear(allYearsRegasCapacityByCompany,startDate,endDate);
+		
+		capacityRegasificationJsonObj.put(displayType, allYearsRegasCapacityByCompany);
+		capacityRegasificationJsonObj.put("type", REGASIFICATION);
+		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
+		
+		return capacityRegasificationJsonObj;
 	}
 }

@@ -121,6 +121,17 @@ $(document).ready(function(){
 	        								
 	        	});
 	         }
+	         else if(selectedTab=='modal')
+	         {
+	        	 $.ajax({url: "/oganalysis/modalcapacity", 
+	        			type:"get",  
+	        			data:formData,
+	        			contentType:"application/x-www-form-urlencoded",
+	    				processData:false,	    				
+	        			success:renderPdfReportsResult		
+	        								
+	        	});
+	         }
 	    });
 	 	
 	 $('input[type=radio][name=source]').change(function(){

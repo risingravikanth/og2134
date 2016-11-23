@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.helper.LngJsonResponse;
@@ -38,6 +40,29 @@ public class LngDataServiceImpl implements LngDataService{
 		}
 		
 		return capacityDataRes;
+	}
+	@Override
+	public String getModalCapacityData(Map<String, List> selectedOptions,
+			String startDate, String endDate, String displayType, String type,
+			String recordName) {
+		// TODO Auto-generated method stub
+		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
+		LngJsonResponse lngJsonResponse=new LngJsonResponse();
+		JSONObject modalCapacityDataRes=null;
+		int startDateVal=Integer.parseInt(startDate);
+		int endDateVal=Integer.parseInt(endDate);
+		if(null!=type && LIQUEFACTION.equalsIgnoreCase(type))
+		{
+			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
+			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, "terminal");
+		}			
+		else if(null!=type && REGASIFICATION.equalsIgnoreCase(type))
+		{
+			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
+			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, "terminal");
+		}
+							
+		return modalCapacityDataRes.toJSONString();
 	}
 	private String getCapacityByCompany(Map<String, List> selectedOptions, String startDate,String endDate)
 	{
@@ -105,6 +130,7 @@ public class LngDataServiceImpl implements LngDataService{
 			LngInfraBusinessService lngInfraBusinessServiceImpl) {
 		this.lngInfraBusinessServiceImpl = lngInfraBusinessServiceImpl;
 	}
+	
 	
 
 

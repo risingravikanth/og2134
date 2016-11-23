@@ -56,6 +56,23 @@ public class LngDataDisplayController {
 		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/modalcapacity",method={RequestMethod.GET})
+	public String getLngCapacityModalData(HttpServletRequest req)
+	{
+		
+		String response=null;
+		Enumeration<String> countryNames=req.getParameterNames();
+		Map<String,List> selectedOptions=getSelectedOptionsData(req);				
+		String startDate=req.getParameter("startDate");
+		String endDate=req.getParameter("endDate");
+		String displayType=req.getParameter("displayType");
+		String type=req.getParameter("type");
+		String recordName=req.getParameter("recordName");				
+		response=lngDataServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,type,recordName);
+		
+		return response;
+	}
 	private Map<String,List> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();
@@ -73,10 +90,7 @@ public class LngDataDisplayController {
 			{
 				selectedRegions.add(request.getParameter(option));
 			}
-			else if(option.equalsIgnoreCase("displayType"))
-			{
-				
-			}
+			
 		}
 		if(selectedCountries.size()>0 || selectedRegions.size()>0)
 		{	
