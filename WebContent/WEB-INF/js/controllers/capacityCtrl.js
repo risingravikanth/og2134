@@ -209,9 +209,9 @@
  	};
  	
  	$rootScope.inItDataTable = function(){
- 		if($rootScope.table.liquefactionInst != undefined)
+ 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" )
  			$rootScope.table.liquefactionInst.destroy();
- 		if($rootScope.table.regasificationInst != undefined)
+ 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != "")
  			$rootScope.table.regasificationInst.destroy();
  		
  	 	var liquefactionInst = $("#liquefaction").DataTable({
