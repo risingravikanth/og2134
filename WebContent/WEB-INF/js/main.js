@@ -189,19 +189,7 @@
 		}
 	});
 	 
-	$rootScope.resetFilter = function(){
- 		$rootScope.regionModel = [];
- 		$rootScope.countryModel =[];
- 	 	$rootScope.locationModel= [];
- 		$rootScope.operatorModel= [];
- 		$rootScope.ownerModel= [];
- 		$rootScope.statusModel= [];
- 		$rootScope.unitsModel= [];
- 		$rootScope.offshoreModel= [];
- 		$rootScope.typeModel= [];
- 		$rootScope.sectorModel =[];
- 		$scope.formDataJSON ={};
-   	};
+	
 	
 	/*$scope.initFilter = function(){
 		console.log("in side filter initialization")
@@ -493,6 +481,21 @@
 	$rootScope.typeChangeFn = function(){
 		 
 	};
+	
+	$rootScope.resetFilter = function(){
+		console.log("IN side common ctrl");
+ 		$rootScope.regionModel = [];
+ 		$rootScope.countryModel =[];
+ 	 	$rootScope.locationModel= [];
+ 		$rootScope.operatorModel= [];
+ 		$rootScope.ownerModel= [];
+ 		$rootScope.statusModel= [];
+ 		$rootScope.unitsModel= [];
+ 		$rootScope.offshoreModel= [];
+ 		$rootScope.typeModel= [];
+ 		$rootScope.sectorModel =[];
+ 		$scope.formDataJSON ={};
+   	};
 	
 	
 	$scope.init = function(){

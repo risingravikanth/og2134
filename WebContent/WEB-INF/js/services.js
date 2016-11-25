@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = false; //false
+		this.LIVE = true; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		

@@ -37,6 +37,7 @@
 	
 	$rootScope.typeChangeFn = function(){
 		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
+			$scope.destroyTable();
 			$rootScope.resetFilter();
 			HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
 				 if($rootScope.table.liquefactionInst != ""){
@@ -50,16 +51,32 @@
 			 		$scope.columns =[];
 			 		$scope.liquefactionData = [];
 			 		$scope.regasificationData =[];
-			 		
+			 		debugger;
 			 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
-			  		 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+			  		 	
+			 			if(resp[0] != undefined){
+							var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+							$scope.columns.push({title:columnName  ,data:"name"});
+							for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+								if(key != "name"){
+									var colObj = {
+											title:key.toUpperCase(),
+											data:key
+									};
+									
+									$scope.columns.push(colObj);
+								}
+					 	  	}
+						}
+			 		 		
+			 			/*for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
 							var colObj = {
 									title:key.toUpperCase(),
 									data:key
 							};
 							
 							$scope.columns.push(colObj);
-					 	}
+					 	}*/
 						
 						$scope.gridDataList = [];
 						for(var k=0; k < resp.length; k++){
@@ -112,7 +129,8 @@
 	}
 	
 	$rootScope.filterSubmit = function(){
-	 	console.log("In side capacity ctrl filet submit",$rootScope.unitsModel);
+		$scope.destroyTable();
+	
 		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
  		}
@@ -158,14 +176,30 @@
 				 
 				
 		 		$scope.columns =[];
-			 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+			 	/*for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
 					var colObj = {
 							title:key.toUpperCase(),
 							data:key
 					};
-					
+					console.log(key.toUpperCase())
 					$scope.columns.push(colObj);
-			 	}
+			 	}*/
+		 		
+		 		if(resp[0] != undefined){
+					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+					$scope.columns.push({title:columnName  ,data:"name"});
+					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+						if(key != "name"){
+							var colObj = {
+									title:key.toUpperCase(),
+									data:key
+							};
+							
+							$scope.columns.push(colObj);
+						}
+			 	  	}
+				}
+		 		
 				
 				$scope.gridDataList = [];
 				for(var k=0; k < resp.length; k++){
@@ -208,11 +242,21 @@
 	 	});
  	};
  	
- 	$rootScope.inItDataTable = function(){
- 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" )
+ 	$scope.destroyTable = function(){
+ 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
  			$rootScope.table.liquefactionInst.destroy();
- 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != "")
+ 			$("#liquefaction").html('');
+ 		}
+ 			
+ 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
  			$rootScope.table.regasificationInst.destroy();
+ 			$("#regasification").html('');
+ 		}
+ 			
+ 	};
+ 	
+ 	$rootScope.inItDataTable = function(){
+ 		
  		
  	 	var liquefactionInst = $("#liquefaction").DataTable({
 			"columnDefs": [
@@ -262,7 +306,26 @@
 					
 			$rootScope.table.liquefactionInst = liquefactionInst;
 			$rootScope.table.regasificationInst = regasificationInst;
+			
+			$("#liquefaction tbody tr:first").addClass('total-row');
+			$("#regasification tbody tr:first").addClass('total-row');
   	};
+  	
+  	$rootScope.resetFilter = function(){
+		console.log("In side capacity ctrl reset filter");
+ 		
+		$rootScope.regionModel = [];
+ 		$rootScope.countryModel =[];
+ 	 	$rootScope.locationModel= [];
+ 		$rootScope.operatorModel= [];
+ 		$rootScope.ownerModel= [];
+ 		$rootScope.statusModel= [];
+ 		$rootScope.unitsModel= [];
+ 		$rootScope.offshoreModel= [];
+ 		$rootScope.typeModel= [];
+ 		$rootScope.sectorModel =[];
+ 		$scope.capacityFilterJSON ={};
+   	};
 	
 	
 	
@@ -324,15 +387,18 @@
 					
 		 			//for(var i =0 ; i < $scope.gridDataList[0].country.length; i++){
 					if($scope.gridDataList[0] != undefined){
-						for(var key in $scope.gridDataList[0].country[0]){
-							var colObj = {
-									title:key.toUpperCase(),
-									data:key
-							};
-							
-							$scope.columns.unshift(colObj);
-							console.log($scope.columns)
-					 	}
+						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						$scope.columns.push({title:columnName  ,data:"name"});
+						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+							if(key != "name"){
+								var colObj = {
+										title:key.toUpperCase(),
+										data:key
+								};
+								
+								$scope.columns.push(colObj);
+							}
+				 	  	}
 					}
 					$scope.gridDataList = [];
 					for(var k=0; k < resp.length; k++){

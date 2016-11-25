@@ -22,4 +22,8 @@
  	padding-left: 25px;
     padding-right: 30px;
  }
+ .total-row{
+ 	color: red;
+    background-color: #fff !important;
+ }
  
