@@ -27,7 +27,7 @@
 			$scope.displayPeriodList.push(obj);
 		}
 		
-	}
+	};
  	
 	openModel = function(){
 		console.log("in model");
@@ -36,65 +36,71 @@
 	};
 	
 	$rootScope.typeChangeFn = function(){
-		$rootScope.resetFilter();
-		HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
-			 if($rootScope.table.liquefactionInst != ""){
+		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
+			$rootScope.resetFilter();
+			HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
+				 if($rootScope.table.liquefactionInst != ""){
+					 
+					if(resp != "" && resp != undefined ){
+	 					resp = resp;
+	 				}else{
+	 					resp = [];
+	 				}
 				 
-				if(resp != "" && resp != undefined ){
- 					resp = resp;
- 				}else{
- 					resp = [];
- 				}
-			 
-		 		$scope.columns =[];
-		 		$scope.liquefactionData = [];
-		 		$scope.regasificationData =[];
-		 		
-		 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
-		  		 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
-						var colObj = {
-								title:key.toUpperCase(),
-								data:key
-						};
+			 		$scope.columns =[];
+			 		$scope.liquefactionData = [];
+			 		$scope.regasificationData =[];
+			 		
+			 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
+			  		 	for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+							var colObj = {
+									title:key.toUpperCase(),
+									data:key
+							};
+							
+							$scope.columns.push(colObj);
+					 	}
 						
-						$scope.columns.push(colObj);
-				 	}
-					
-					$scope.gridDataList = [];
-					for(var k=0; k < resp.length; k++){
-						if(resp[k].type =="Liquefaction"){
-					 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-					 		var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.liquefactionData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.liquefactionData.slice();
-					 	 	$scope.liquefactionData = [];
-					 	 	$scope.liquefactionData = reverseOrder.reverse();
-					 	 	
-						}else if(resp[k].type =="Regasification"){
-						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-						 	
-						 	var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.regasificationData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.regasificationData.slice();
-					 	 	$scope.regasificationData = [];
-					 	 	$scope.regasificationData = reverseOrder.reverse();
+						$scope.gridDataList = [];
+						for(var k=0; k < resp.length; k++){
+							if(resp[k].type =="Liquefaction"){
+						 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
+						 		var tempCapacity = resp[k].totalCapacity;
+						 		tempCapacity.name = " Total";
+						 	 	$scope.liquefactionData.push(tempCapacity);
+						 	 	
+						 	 	var reverseOrder = $scope.liquefactionData.slice();
+						 	 	$scope.liquefactionData = [];
+						 	 	$scope.liquefactionData = reverseOrder.reverse();
+						 	 	
+							}else if(resp[k].type =="Regasification"){
+							 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
+							 	
+							 	var tempCapacity = resp[k].totalCapacity;
+						 		tempCapacity.name = " Total";
+						 	 	$scope.regasificationData.push(tempCapacity);
+						 	 	
+						 	 	var reverseOrder = $scope.regasificationData.slice();
+						 	 	$scope.regasificationData = [];
+						 	 	$scope.regasificationData = reverseOrder.reverse();
+							}
+							
 						}
-						
-					}
-		 		}
-			  	$rootScope.table.liquefactionInst.clear().draw();
-				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
-				$rootScope.table.liquefactionInst.draw();
-				
-				$rootScope.table.regasificationInst.clear().draw();
-				$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
-				$rootScope.table.regasificationInst.draw();
-			 }
-	 	});
+			 		}
+				  	/*$rootScope.table.liquefactionInst.clear().draw();
+					$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
+					$rootScope.table.liquefactionInst.draw();
+					
+					$rootScope.table.regasificationInst.clear().draw();
+					$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
+					$rootScope.table.regasificationInst.draw();*/
+			 		$rootScope.inItDataTable();
+				 }
+		 	});
+ 		}else{
+ 			alert("Display period From is always greater than Dispaly period to field.")
+ 		}
+		
 		
 	};
 	
@@ -187,19 +193,76 @@
 					
 				}
 			 	$rootScope.capacityFilterJSON ={};
-			  	$rootScope.table.liquefactionInst.clear().draw();
+			  	/*$rootScope.table.liquefactionInst.clear().draw();
 				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
 				$rootScope.table.liquefactionInst.draw();
 				
 				$rootScope.table.regasificationInst.clear().draw();
 				$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
-				$rootScope.table.regasificationInst.draw();
+				$rootScope.table.regasificationInst.draw();*/
+			 	$rootScope.inItDataTable();
 				
 				
 				
 			 }
 	 	});
  	};
+ 	
+ 	$rootScope.inItDataTable = function(){
+ 		if($rootScope.table.liquefactionInst != undefined)
+ 			$rootScope.table.liquefactionInst.destroy();
+ 		if($rootScope.table.regasificationInst != undefined)
+ 			$rootScope.table.regasificationInst.destroy();
+ 		
+ 	 	var liquefactionInst = $("#liquefaction").DataTable({
+			"columnDefs": [
+			{
+				// The `data` parameter refers to the data for the cell (defined by the
+				// `data` option, which defaults to the column being worked with, in
+				// this case `data: 0`.
+				"render": function ( data, type, row ) {
+					var commonHref = "";
+					if(data != ' Total'){
+						commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+					}else{
+						commonHref =  '<p>'+data+'</p>';
+					}
+					return commonHref;
+				},
+				"targets": 0
+						}
+						],
+						scrollX: true,
+						columns: $scope.columns,
+						data : $scope.liquefactionData
+			});
+			
+			var regasificationInst = $("#regasification").DataTable({
+			"columnDefs": [
+			{
+				// The `data` parameter refers to the data for the cell (defined by the
+			// `data` option, which defaults to the column being worked with, in
+			// this case `data: 0`.
+			"render": function ( data, type, row ) {
+				var commonHref = "";
+				if(data != ' Total'){
+					commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
+				}else{
+					commonHref =  '<p>'+data+'</p>';
+				}
+				return commonHref;
+			},
+			"targets": 0
+						}
+						],
+						scrollX: true,
+						columns: $scope.columns,
+						data : $scope.regasificationData
+			 });
+					
+			$rootScope.table.liquefactionInst = liquefactionInst;
+			$rootScope.table.regasificationInst = regasificationInst;
+  	};
 	
 	
 	
@@ -267,7 +330,8 @@
 									data:key
 							};
 							
-							$scope.columns.push(colObj);
+							$scope.columns.unshift(colObj);
+							console.log($scope.columns)
 					 	}
 					}
 					$scope.gridDataList = [];
@@ -297,52 +361,7 @@
 						
 					}
 			 		
-					var liquefactionInst = $("#liquefaction").DataTable({
-							"columnDefs": [
-								{
-									// The `data` parameter refers to the data for the cell (defined by the
-									// `data` option, which defaults to the column being worked with, in
-									// this case `data: 0`.
-									"render": function ( data, type, row ) {
-										var commonHref = "";
-										if(data != ' Total'){
-											commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-										}else{
-											commonHref =  '<p>'+data+'</p>';
-										}
-										return commonHref;
-									},
-									"targets": 0
-								}
-								],
-								columns: $scope.columns.reverse(),
-								data : $scope.liquefactionData
-					});
-					
-					var regasificationInst = $("#regasification").DataTable({
-						"columnDefs": [
-							{
-								// The `data` parameter refers to the data for the cell (defined by the
-								// `data` option, which defaults to the column being worked with, in
-								// this case `data: 0`.
-								"render": function ( data, type, row ) {
-									var commonHref = "";
-									if(data != ' Total'){
-										commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-									}else{
-										commonHref =  '<p>'+data+'</p>';
-									}
-									return commonHref;
-								},
-								"targets": 0
-							}
-							],
-							columns: $scope.columns,
-							data : $scope.regasificationData
-				 });
-			 		
-					$rootScope.table.liquefactionInst = liquefactionInst;
-					$rootScope.table.regasificationInst = regasificationInst;
+					$rootScope.inItDataTable();
 	 			}
 	 		});
 		}

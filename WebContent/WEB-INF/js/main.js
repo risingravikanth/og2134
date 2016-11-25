@@ -201,8 +201,7 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$scope.formDataJSON ={};
- 		
- 	}
+   	};
 	
 	/*$scope.initFilter = function(){
 		console.log("in side filter initialization")
@@ -492,7 +491,7 @@
   	};*/
   	
 	$rootScope.typeChangeFn = function(){
-		console.log($rootScope.searchFilterObj.displayType)
+		 
 	};
 	
 	

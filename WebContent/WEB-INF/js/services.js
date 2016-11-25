@@ -15,7 +15,7 @@ HttpService.get("/URL").then(function(resp) { /* Get Request
  
 angular.module('OGAnalysis')
 	.service("URL", function(){
-		this.LIVE = true; //false
+		this.LIVE = false; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
 		
@@ -64,7 +64,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
  		 	 var jsonMap = {
  				"/countries":"/json/countries.txt",
  				"/regions":"/json/regions.txt",
- 				"/capacity":"/json/capacityByCountry.txt",
+ 				"/capacity":"/json/capacityByCountryWithStartAndEndDate.txt",
  				"/storage":"/json/storage.txt",
  				"/refinery":"/json/refinery.txt",
  				"/naturalgas":"/json/naturalGas.txt",
