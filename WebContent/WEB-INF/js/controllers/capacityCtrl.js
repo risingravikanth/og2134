@@ -31,8 +31,71 @@
  	
 	openModel = function(){
 		console.log("in model");
-		$('#myModal').modal("show")
 		
+		
+		HttpService.get("/capacity?displayType=country&endDate=2020&startDate=2016").then(function(resp) {
+			$scope.gridDataList = angular.copy(resp);
+			
+			if(resp != "" && resp != undefined ){
+					resp = resp;
+				}else{
+					resp = [];
+				}
+		 
+	 		$scope.columns =[];
+	 		if(resp[0]['country'].length != 0){
+	  		 	
+	 			if(resp[0] != undefined){
+					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+					$scope.columns.push({title:columnName  ,data:"name"});
+					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+						if(key != "name"){
+							var colObj = {
+									title:key.toUpperCase(),
+									data:key
+							};
+							
+							$scope.columns.push(colObj);
+						}
+			 	  	}
+				}
+	 			
+	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable' ) ) {
+	 	 		    table = $('#modelDatatable').DataTable();
+	 	 		}
+	 	 		else {
+			 
+		 			var tableInst = $("#modelDatatable").DataTable({
+						"columnDefs": [
+						{
+							// The `data` parameter refers to the data for the cell (defined by the
+							// `data` option, which defaults to the column being worked with, in
+							// this case `data: 0`.
+							"render": function ( data, type, row ) {
+								var commonHref = "";
+								if($scope.url == "/capacity"){
+									if(data != 'Total'){
+										commonHref =  '<p>'+data +'</p>';
+									}else{
+										commonHref =  '<p>'+data+'</p>';
+									}
+								}else{
+									 commonHref = '<a data-toggle="modal" href="#myModal">'+data +'</a>'
+								}
+								return commonHref;
+							},
+							"targets": 0
+						}
+						],
+						columns: $scope.columns,
+						data :$scope.liquefactionData 
+					});
+	 	 		}
+	 		}
+		});
+		
+		$('#myModal').modal("show");
+		 
 	};
 	
 	$rootScope.typeChangeFn = function(){
@@ -51,7 +114,7 @@
 			 		$scope.columns =[];
 			 		$scope.liquefactionData = [];
 			 		$scope.regasificationData =[];
-			 		debugger;
+			 		 
 			 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
 			  		 	
 			 			if(resp[0] != undefined){
@@ -257,56 +320,66 @@
  	
  	$rootScope.inItDataTable = function(){
  		
- 		
- 	 	var liquefactionInst = $("#liquefaction").DataTable({
-			"columnDefs": [
-			{
-				// The `data` parameter refers to the data for the cell (defined by the
-				// `data` option, which defaults to the column being worked with, in
-				// this case `data: 0`.
-				"render": function ( data, type, row ) {
-					var commonHref = "";
-					if(data != ' Total'){
-						commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-					}else{
-						commonHref =  '<p>'+data+'</p>';
-					}
-					return commonHref;
-				},
-				"targets": 0
-						}
-						],
-						scrollX: true,
-						columns: $scope.columns,
-						data : $scope.liquefactionData
-			});
-			
-			var regasificationInst = $("#regasification").DataTable({
-			"columnDefs": [
-			{
-				// The `data` parameter refers to the data for the cell (defined by the
-			// `data` option, which defaults to the column being worked with, in
-			// this case `data: 0`.
-			"render": function ( data, type, row ) {
-				var commonHref = "";
-				if(data != ' Total'){
-					commonHref =  '<a data-toggle="modal" href="#myModal">'+data +'</a>';
-				}else{
-					commonHref =  '<p>'+data+'</p>';
-				}
-				return commonHref;
-			},
-			"targets": 0
-						}
-						],
-						scrollX: true,
-						columns: $scope.columns,
-						data : $scope.regasificationData
-			 });
-					
-			$rootScope.table.liquefactionInst = liquefactionInst;
-			$rootScope.table.regasificationInst = regasificationInst;
-			
+ 		if ( $.fn.dataTable.isDataTable( '#liquefaction' ) ) {
+ 		    table = $('#liquefaction').DataTable();
+ 		}
+ 		else {
+ 			var liquefactionInst = $("#liquefaction").DataTable({
+ 				"columnDefs": [
+ 				{
+ 					// The `data` parameter refers to the data for the cell (defined by the
+ 					// `data` option, which defaults to the column being worked with, in
+ 					// this case `data: 0`.
+ 					"render": function ( data, type, row ) {
+ 						var commonHref = "";
+ 						if(data != ' Total'){
+ 							commonHref =  '<a onClick="openModel()">'+data +'</a>';
+ 						}else{
+ 							commonHref =  '<p>'+data+'</p>';
+ 						}
+ 						return commonHref;
+ 					},
+ 					"targets": 0
+ 							}
+ 							],
+ 							scrollX: true,
+ 							columns: $scope.columns,
+ 							data : $scope.liquefactionData
+ 				});
+ 			
+ 				$rootScope.table.liquefactionInst = liquefactionInst;
+ 			}
+ 	 		
+	 		if ( $.fn.dataTable.isDataTable( '#regasification' ) ) {
+	 		    table = $('#regasification').DataTable();
+	 		}
+	 		else {
+	 			var regasificationInst = $("#regasification").DataTable({
+	 				"columnDefs": [
+	 				{
+	 					// The `data` parameter refers to the data for the cell (defined by the
+	 				// `data` option, which defaults to the column being worked with, in
+	 				// this case `data: 0`.
+	 				"render": function ( data, type, row ) {
+	 					var commonHref = "";
+	 					if(data != ' Total'){
+	 						commonHref =  '<a onClick="openModel()">'+data +'</a>';
+	 					}else{
+	 						commonHref =  '<p>'+data+'</p>';
+	 					}
+	 					return commonHref;
+	 				},
+	 				"targets": 0
+	 							}
+	 							],
+	 							scrollX: true,
+	 							columns: $scope.columns,
+	 							data : $scope.regasificationData
+	 				 });
+	 			$rootScope.table.regasificationInst = regasificationInst;
+	 		}
+		 			
+		 
 			$("#liquefaction tbody tr:first").addClass('total-row');
 			$("#regasification tbody tr:first").addClass('total-row');
   	};
@@ -325,6 +398,71 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$scope.capacityFilterJSON ={};
+ 		
+ 		if($scope.url != ''){
+			var initailReq = angular.copy($rootScope.searchFilterObj)
+	 		HttpService.getHttp($scope.url,initailReq).then(function(resp) {
+	 			
+	 			
+	 			if(resp != "" && resp != undefined ){
+ 					resp = resp;
+ 				}else{
+ 					resp = [];
+ 				}
+			 
+	 			if(resp != "" && resp != undefined){
+					$scope.gridDataList = angular.copy(resp);
+					$scope.columns =[];
+					
+		 			//for(var i =0 ; i < $scope.gridDataList[0].country.length; i++){
+					if($scope.gridDataList[0] != undefined){
+						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						$scope.columns.push({title:columnName  ,data:"name"});
+						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+							if(key != "name"){
+								var colObj = {
+										title:key.toUpperCase(),
+										data:key
+								};
+								
+								$scope.columns.push(colObj);
+							}
+				 	  	}
+					}
+					$scope.gridDataList = [];
+					for(var k=0; k < resp.length; k++){
+						if(resp[k].type =="Liquefaction"){
+					 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
+					 		
+					 		var tempCapacity = resp[k].totalCapacity;
+					 		tempCapacity.name = " Total";
+					 	 	$scope.liquefactionData.push(tempCapacity);
+					 	 	
+					 	 	var reverseOrder = $scope.liquefactionData.slice();
+					 	 	$scope.liquefactionData = [];
+					 	 	$scope.liquefactionData = reverseOrder.reverse();
+					 	 	
+						}else if(resp[k].type =="Regasification"){
+						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
+						 	
+						 	var tempCapacity = resp[k].totalCapacity;
+					 		tempCapacity.name = " Total";
+					 	 	$scope.regasificationData.push(tempCapacity);
+					 	 	
+					 	 	var reverseOrder = $scope.regasificationData.slice();
+					 	 	$scope.regasificationData = [];
+					 	 	$scope.regasificationData = reverseOrder.reverse();
+						}
+						
+					}
+			 		
+					$rootScope.inItDataTable();
+	 			}
+	 		});
+		}
+ 		
+ 		
+ 		
    	};
 	
 	
