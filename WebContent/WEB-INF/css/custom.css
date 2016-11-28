@@ -26,4 +26,6 @@
  	color: red;
     background-color: #fff !important;
  }
- 
+ .openModel{
+	    cursor: pointer;
+ }

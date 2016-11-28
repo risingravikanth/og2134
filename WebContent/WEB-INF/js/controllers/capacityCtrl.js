@@ -29,13 +29,22 @@
 		
 	};
  	
-	openModel = function(inputName){
-		console.log("in model");
+	openModel = function(inputName,type){
+		
+		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" ){
+ 			$rootScope.table.modelDatatableInst.destroy();
+ 			$("#modelDatatable").html('');
+ 		}
 		
 		var modalReq = angular.copy($rootScope.searchFilterObj);
-		//modalReq['recordName']= inputName;
+		modalReq['recordName']= inputName;
+		modalReq['type']= type;
 		
-		HttpService.get("/modalcapacity",modalReq).then(function(resp) {
+		for(var key in modalReq){
+ 			$rootScope.capacityFilterJSON[key] = modalReq[key];
+  		}
+		
+		HttpService.get("/modalcapacity",$rootScope.capacityFilterJSON).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
@@ -45,12 +54,12 @@
 				}
 		 
 	 		$scope.columns =[];
-	 		if(resp[0]['country'].length != 0){
+	 		if(resp['terminal'].length != 0){
 	  		 	
-	 			if(resp[0] != undefined){
-					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+	 			if(resp != undefined){
+					var columnName = 'Terminal'
 					$scope.columns.push({title:columnName  ,data:"name"});
-					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+					for(var key in resp['terminal'][0]){
 						if(key != "name"){
 							var colObj = {
 									title:key.toUpperCase(),
@@ -62,8 +71,34 @@
 			 	  	}
 				}
 	 			
+	 			$scope.ModelDataList = [];
+				 
+				if(resp.type =="Liquefaction"){
+			 		$scope.ModelDataList = resp['terminal'];
+			 		var tempCapacity = resp.totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.ModelDataList.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.ModelDataList.slice();
+			 	 	$scope.ModelDataList = [];
+			 	 	$scope.ModelDataList = reverseOrder.reverse();
+			 	 	
+				}else if(resp.type =="Regasification"){
+				 	$scope.ModelDataList = resp['terminal'];
+				 	
+				 	var tempCapacity = resp.totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.ModelDataList.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.ModelDataList.slice();
+			 	 	$scope.ModelDataList = [];
+			 	 	$scope.ModelDataList = reverseOrder.reverse();
+				}
+					
+				 
+	 			
 	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable' ) ) {
-	 	 		    table = $('#modelDatatable').DataTable();
+	 				tableInst = $('#modelDatatable').DataTable();
 	 	 		}
 	 	 		else {
 			 
@@ -83,8 +118,10 @@
 						}
 						],
 						columns: $scope.columns,
-						data :$scope.liquefactionData 
+						data :$scope.ModelDataList 
 					});
+		 			
+		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	 		}
 		});
@@ -152,7 +189,9 @@
 						 	 	$scope.liquefactionData = [];
 						 	 	$scope.liquefactionData = reverseOrder.reverse();
 						 	 	
-							}else if(resp[k].type =="Regasification"){
+							}
+
+							if(resp[k].type =="Regasification"){
 							 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 							 	
 							 	var tempCapacity = resp[k].totalCapacity;
@@ -275,7 +314,9 @@
 				 	 	$scope.liquefactionData = [];
 				 	 	$scope.liquefactionData = reverseOrder.reverse();
 				 	 	
-					}else if(resp[k].type =="Regasification"){
+					}
+
+					if(resp[k].type =="Regasification"){
 					 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 					 	
 					 	var tempCapacity = resp[k].totalCapacity;
@@ -333,7 +374,7 @@
  						var commonHref = "";
  						if(data != ' Total'){
  							var modalParam = "'"+data+"'";
- 							commonHref =  '<a onClick="openModel("'+data+'");">'+data +'</a>';
+ 							commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
  						}else{
  							commonHref =  '<p>'+data+'</p>';
  						}
@@ -363,7 +404,7 @@
 	 				"render": function ( data, type, row ) {
 	 					var commonHref = "";
 	 					if(data != ' Total'){
-	 						commonHref =  '<a onClick="openModel("'+data+'");">'+data +'</a>';
+	 						commonHref =  '<a recordName="'+data+'"  type="regasification"  class="openModel">'+data +'</a>';
 	 					}else{
 	 						commonHref =  '<p>'+data+'</p>';
 	 					}
@@ -382,11 +423,18 @@
 		 
 			$("#liquefaction tbody tr:first").addClass('total-row');
 			$("#regasification tbody tr:first").addClass('total-row');
+			
+			$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
+		 	});
+			
+			$(document).delegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
+		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
+			});
   	};
   	
   	$rootScope.resetFilter = function(){
 		console.log("In side capacity ctrl reset filter");
- 		
+		$scope.destroyTable();
 		$rootScope.regionModel = [];
  		$rootScope.countryModel =[];
  	 	$rootScope.locationModel= [];
@@ -442,7 +490,9 @@
 					 	 	$scope.liquefactionData = [];
 					 	 	$scope.liquefactionData = reverseOrder.reverse();
 					 	 	
-						}else if(resp[k].type =="Regasification"){
+						}
+						
+						if(resp[k].type =="Regasification"){
 						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 						 	
 						 	var tempCapacity = resp[k].totalCapacity;
@@ -479,7 +529,8 @@
 		$scope.currentYear = $scope.dateObj.getFullYear();
 		$rootScope.table = {
 				liquefactionInst : "",
-				regasificationInst:""
+				regasificationInst:"",
+				modelDatatableInst:""
 		};
 		
 		$scope.setConfigurations();
@@ -551,7 +602,9 @@
 					 	 	$scope.liquefactionData = [];
 					 	 	$scope.liquefactionData = reverseOrder.reverse();
 					 	 	
-						}else if(resp[k].type =="Regasification"){
+						}
+
+						if(resp[k].type =="Regasification"){
 						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 						 	
 						 	var tempCapacity = resp[k].totalCapacity;
