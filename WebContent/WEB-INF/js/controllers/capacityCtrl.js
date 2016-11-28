@@ -29,11 +29,13 @@
 		
 	};
  	
-	openModel = function(){
+	openModel = function(inputName){
 		console.log("in model");
 		
+		var modalReq = angular.copy($rootScope.searchFilterObj);
+		//modalReq['recordName']= inputName;
 		
-		HttpService.get("/capacity?displayType=country&endDate=2020&startDate=2016").then(function(resp) {
+		HttpService.get("/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
@@ -73,15 +75,8 @@
 							// this case `data: 0`.
 							"render": function ( data, type, row ) {
 								var commonHref = "";
-								if($scope.url == "/capacity"){
-									if(data != 'Total'){
-										commonHref =  '<p>'+data +'</p>';
-									}else{
-										commonHref =  '<p>'+data+'</p>';
-									}
-								}else{
-									 commonHref = '<a data-toggle="modal" href="#myModal">'+data +'</a>'
-								}
+						 		commonHref =  '<p>'+data +'</p>';
+								 
 								return commonHref;
 							},
 							"targets": 0
@@ -101,8 +96,12 @@
 	$rootScope.typeChangeFn = function(){
 		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
 			$scope.destroyTable();
-			$rootScope.resetFilter();
-			HttpService.getHttp($scope.url,$rootScope.searchFilterObj).then(function(resp) {
+			
+			for(var key in $rootScope.searchFilterObj){
+	 			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
+	  		}
+			 
+			HttpService.getHttp($scope.url,$rootScope.capacityFilterJSON).then(function(resp) {
 				 if($rootScope.table.liquefactionInst != ""){
 					 
 					if(resp != "" && resp != undefined ){
@@ -289,7 +288,7 @@
 					}
 					
 				}
-			 	$rootScope.capacityFilterJSON ={};
+			 	 
 			  	/*$rootScope.table.liquefactionInst.clear().draw();
 				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
 				$rootScope.table.liquefactionInst.draw();
@@ -333,7 +332,8 @@
  					"render": function ( data, type, row ) {
  						var commonHref = "";
  						if(data != ' Total'){
- 							commonHref =  '<a onClick="openModel()">'+data +'</a>';
+ 							var modalParam = "'"+data+"'";
+ 							commonHref =  '<a onClick="openModel("'+data+'");">'+data +'</a>';
  						}else{
  							commonHref =  '<p>'+data+'</p>';
  						}
@@ -363,7 +363,7 @@
 	 				"render": function ( data, type, row ) {
 	 					var commonHref = "";
 	 					if(data != ' Total'){
-	 						commonHref =  '<a onClick="openModel()">'+data +'</a>';
+	 						commonHref =  '<a onClick="openModel("'+data+'");">'+data +'</a>';
 	 					}else{
 	 						commonHref =  '<p>'+data+'</p>';
 	 					}
@@ -397,11 +397,11 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
- 		$scope.capacityFilterJSON ={};
+ 		$rootScope.capacityFilterJSON ={};
  		
  		if($scope.url != ''){
-			var initailReq = angular.copy($rootScope.searchFilterObj)
-	 		HttpService.getHttp($scope.url,initailReq).then(function(resp) {
+			var resetReq = angular.copy($rootScope.searchFilterObj);
+	 		HttpService.getHttp($scope.url,resetReq).then(function(resp) {
 	 			
 	 			
 	 			if(resp != "" && resp != undefined ){
