@@ -424,11 +424,15 @@
 			$("#liquefaction tbody tr:first").addClass('total-row');
 			$("#regasification tbody tr:first").addClass('total-row');
 			
-			$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
+			/*$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
 		 	});
 			
 			$(document).delegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
 		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
+			});*/
+			
+			$(".openModel").on('click',function(){
+				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
 			});
   	};
   	
