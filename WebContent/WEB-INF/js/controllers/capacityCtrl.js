@@ -431,8 +431,12 @@
 		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
 			});*/
 			
-			$(".openModel").on('click',function(){
+			$(".openModel").off('click',function(e){
+ 			});
+			
+			$(".openModel").on('click',function(e){
 				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
+				e.preventDefault();
 			});
   	};
   	
