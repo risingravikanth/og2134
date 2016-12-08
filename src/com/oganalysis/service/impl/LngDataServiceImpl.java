@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.business.LngInfraBusinessService;
+import com.oganalysis.business.impl.LngCapacityBusinessServiceImpl;
 import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.service.LngDataService;
 
@@ -49,17 +50,30 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		JSONObject modalCapacityDataRes=null;
+		Map<String,String> modalTerminalData=new HashMap<String,String>();
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		if(null!=type && LIQUEFACTION.equalsIgnoreCase(type))
+		
+		if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
 		{
 			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, "terminal");
 		}			
-		else if(null!=type && REGASIFICATION.equalsIgnoreCase(type))
+		else if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
 		{
 			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, "terminal");
+		}
+		// Modal is different for Terminal displayType because of which below conditions are required 
+		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
+		{
+			Map modalTerminal=lngCapacityBusinessServiceImpl.getLiqueModalTerminalData(recordName);
+			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
+		}
+		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
+		{
+			Map modalTerminal=lngCapacityBusinessServiceImpl.getRegasModalTerminalData(recordName);
+			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
 		}
 							
 		return modalCapacityDataRes.toJSONString();

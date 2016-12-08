@@ -1,5 +1,6 @@
 package com.oganalysis.helper;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,6 +188,7 @@ public class LngJsonResponse {
 	{
 		JSONArray allYearsCapacityArray=new JSONArray();
 		Set<String> nameSet=capacityData.keySet();
+//		DecimalFormat df=new DecimalFormat(".#");
 		for(Object nameObj:nameSet)
 		{
 			JSONObject jsonObj=new JSONObject();
@@ -196,6 +198,7 @@ public class LngJsonResponse {
 			{
 				if(yearMap.containsKey(yearCount))
 				{
+//					Double capacity=Double.valueOf(df.format(yearMap.get(yearCount)));
 					jsonObj.put(yearCount,yearMap.get(yearCount));
 				}
 				else
@@ -230,5 +233,110 @@ public class LngJsonResponse {
 		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
 		
 		return capacityRegasificationJsonObj;
+	}
+	public JSONObject createTerminalDataRes(Map terminalData)
+	{
+		JSONObject jsonTerminalData=new JSONObject();
+		Set<String> keys=terminalData.keySet();
+		for(String key:keys)
+		{
+			if(null!=key && key.equalsIgnoreCase("processingCapacity"))
+			{
+				
+				Map<Integer,Double> pcd=(Map<Integer,Double>)terminalData.get(key);	
+				JSONObject processingCapJson=createThroughOutPeriodData(pcd);
+				jsonTerminalData.put(key, processingCapJson);
+			}
+			else if(null!=key && key.equalsIgnoreCase("trainsOrVaporizers"))
+			{
+				Map<Integer,Double> tov=(Map<Integer,Double>)terminalData.get(key);
+				JSONObject tovJson=createThroughOutPeriodData(tov);
+				jsonTerminalData.put(key,tovJson);
+			}
+			else if(null!=key && key.equalsIgnoreCase("storageCapacity"))
+			{
+				Map<Integer,Double> sc=(Map<Integer,Double>)terminalData.get(key);
+				JSONObject scJson=createThroughOutPeriodData(sc);
+				jsonTerminalData.put(key,scJson);
+			}
+			else if(null!=key && key.equalsIgnoreCase("storageTanks"))
+			{
+				Map<Integer,Double> st=(Map<Integer,Double>)terminalData.get(key);
+				JSONObject stJson=createThroughOutPeriodData(st);
+				jsonTerminalData.put(key,stJson);
+			}
+			else if(null!=key && key.equalsIgnoreCase("ownership"))
+			{
+				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
+				jsonTerminalData.put(key, createOwnership(ownerShipList));
+			}
+			else if(null!=key && key.equalsIgnoreCase("constructionPeriod"))
+			{
+				List<Map<String,String>> constructionPeriodList=(List<Map<String,String>>)terminalData.get(key);
+				jsonTerminalData.put(key,createConstructionPeriod(constructionPeriodList));
+			}
+			else if(null!=key && key.equalsIgnoreCase("constructionDetails"))
+			{
+				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
+				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
+			}
+			else
+				jsonTerminalData.put(key,terminalData.get(key));
+		}
+		return jsonTerminalData;
+	}
+	private JSONObject createThroughOutPeriodData(Map<Integer,Double> throughtData)
+	{
+		JSONObject processingCapJson=new JSONObject();
+		Set<Integer> processingCapacityKeys=throughtData.keySet();
+		for(Integer pdcKey:processingCapacityKeys)
+			processingCapJson.put(pdcKey,throughtData.get(pdcKey));
+		
+		return processingCapJson;
+	}
+	private JSONArray createOwnership(List<Map<String,String>> ownerShipList)
+	{
+		JSONArray ownerShipArray=new JSONArray();
+		JSONObject ownerShipJsonObj=null;
+		for(Map<String,String> ownership:ownerShipList)
+		{
+			ownerShipJsonObj=new JSONObject();
+			ownerShipJsonObj.put("equityPartner",ownership.get("equityPartner"));
+			ownerShipJsonObj.put("equityStake",ownership.get("equityStake"));
+			ownerShipArray.add(ownerShipJsonObj);
+		}
+		return ownerShipArray;
+	}
+	private JSONArray createConstructionPeriod(List<Map<String,String>> constructionPeriodList)
+	{
+		JSONArray constructionPeriodArray=new JSONArray();
+		JSONObject constructionPeriodObj=null;
+		for(Map<String,String> constructionPeriod:constructionPeriodList)
+		{
+			constructionPeriodObj=new JSONObject();
+			constructionPeriodObj.put("constructionStart",constructionPeriod.get("constructionStart"));
+			constructionPeriodObj.put("constructionEnd",constructionPeriod.get("constructionEnd"));
+			constructionPeriodArray.add(constructionPeriodObj);
+		}
+		return constructionPeriodArray;
+	}
+	private JSONArray createConstructionDetails(List<Map<String,String>> constructionDetailsList)
+	{
+		JSONArray constructionDetailsArray=new JSONArray();
+		JSONObject constructionDetailsObj=null;
+		for(Map<String,String> constructionPeriod:constructionDetailsList)
+		{
+			constructionDetailsObj=new JSONObject();
+			if(null!=constructionPeriod.get("constructionCompanyName"))
+			constructionDetailsObj.put("constructionCompanyName",constructionPeriod.get("constructionCompanyName"));
+			else
+				constructionDetailsObj.put("constructionCompanyName","");
+			if(null!=constructionPeriod.get("constructionContractDetails"))
+			constructionDetailsObj.put("constructionContractDetails",constructionPeriod.get("constructionContractDetails"));
+			else
+				constructionDetailsObj.put("constructionContractDetails","");
+			constructionDetailsArray.add(constructionDetailsObj);
+		}
+		return constructionDetailsArray;
 	}
 }

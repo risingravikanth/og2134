@@ -179,20 +179,20 @@ public class LngDaoImpl implements LngDao {
 		return regasification;
 	}
 
-	@Override
-	public List<Lng> getLngData() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-		
-		List<Lng> lngData=criteria.list();
-				
-		tx.commit();
-		session.close();
-		return lngData;
-	}
+//	@Override
+//	public List<Lng> getLngData() {
+//		// TODO Auto-generated method stub
+//		Session session=sessionFactory.openSession();
+//		Transaction tx=session.beginTransaction();
+//		tx.begin();
+//		Criteria criteria=session.createCriteria(Lng.class);
+//		
+//		List<Lng> lngData=criteria.list();
+//				
+//		tx.commit();
+//		session.close();
+//		return lngData;
+//	}
 
 	@Override
 	public List<Lng> getLiquefactionData() {
@@ -220,6 +220,26 @@ public class LngDaoImpl implements LngDao {
 				
 		Criterion regasificationCriterion=Restrictions.eq("type",REGASIFICATION);
 		criteria.add(regasificationCriterion);
+		List<Lng> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<Lng> getTerminalData(String terminalName, String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+				
+		Criterion regasificationCriterion=Restrictions.eq("type",type);		
+		criteria.add(regasificationCriterion);
+		
+		Criterion terminalCriterion=Restrictions.eq("name",terminalName);
+		criteria.add(terminalCriterion);
+		
 		List<Lng> list=criteria.list();
 		tx.commit();
 		session.close();
