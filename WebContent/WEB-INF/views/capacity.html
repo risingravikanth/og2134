@@ -202,118 +202,88 @@
 		                    <div class="col-sm-5">
 		                        <dl class="dl-horizontal">
 		                            <dt>Terminal</dt>
-		                            <dd>10001</dd>
+		                            <dd>{{ gridDataList.terminalName }} </dd>
 		                            <dt>Type</dt>
-		                            <dd>ChitPro</dd>
+		                            <dd>{{ gridDataList.type }}</dd>
 		                            <dt>Status</dt>
-		                            <dd>Male</dd>
+		                            <dd>{{ gridDataList.status }}</dd>
 		                            <dt>Location</dt>
-		                            <dd>1234567890</dd>
+		                            <dd>{{ gridDataList.location }}</dd>
 		                            <dt>Country</dt>
-		                            <dd>example@gmail.com</dd>
+		                            <dd>{{ gridDataList.country }}</dd>
+		                            <dt>Technology</dt>
+		                            <dd>{{ gridDataList.technology }}</dd>
+	                                <dt>Source Fields</dt>
+		                            <dd>{{ gridDataList.sourceFields }}</dd>
 		                        </dl>
 		                    </div>
 		                    <div class="col-sm-5">
 		                        <dl class="dl-horizontal">
 		                            <dt>Onshore/offshore</dt>
-		                            <dd>#51/1, 5th Main, 8th Cross, BTM Layout - 560068</dd>
+		                            <dd>{{ gridDataList.onshoreoroffshore}}</dd>
 		                            <dt>Expected startup</dt>
-		                            <dd>Bangalore</dd>
+		                            <dd>{{ gridDataList.expectedStartUp }}</dd>
 		                            <dt>Sheduled startup</dt>
-		                            <dd>Karnataka</dd>
-		                         </dl>
-		                    </div>
-		                </div>
-		                <div class="box-header with-border">
-			              <h3 class="box-title"> </h3>
-			            </div>
-		                
-		                <div class="row">
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
-		                            <dt>Processing Capacity(mtpa)</dt>
-		                            <dd>10001</dd>
-		                            <dt>Trains/Vaporizers(#)</dt>
-		                            <dd>ChitPro</dd>
-		                         </dl>
-		                    </div>
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
-		                            <dt>Storage Capacity(m3)</dt>
-		                            <dd>Male</dd>
-		                            <dt>Storage Tanks(#)</dt>
-		                            <dd>1234567890</dd>
-		                         </dl>
-		                    </div>
-		                </div>
-		                
-		                <div class="box-header with-border">
-			              <h3 class="box-title"> </h3>
-			            </div>
-		                
-		                <div class="row">
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
+		                            <dd>{{ gridDataList.scheduledStartUp}}</dd>
 		                            <dt>Operator</dt>
-		                            <dd>10001</dd>
-		                           
-		                         </dl>
-		                    </div>
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
-		                            <dt>OwnerShip</dt>
-		                            <dd>Male</dd>
-		                          </dl>
-		                    </div>
-		                </div>
-		                
-		                <div class="box-header with-border">
-			              <h3 class="box-title"> </h3>
-			            </div>
-		                
-		                <div class="row">
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
+		                            <dd>{{ gridDataList.operator }}</dd>
 		                            <dt>Capex($ million)</dt>
-		                            <dd>10001</dd>
-		                            <dt>Technology</dt>
-		                            <dd>10001</dd>
-		                           
+		                            <dd>{{ gridDataList.capex }}</dd>
 		                         </dl>
 		                    </div>
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
-		                            <dt>Construction Period</dt>
-		                            <dd>10001</dd>
-		                            <dt>Construction Details</dt>
-		                            <dd>10001</dd>
-		                          </dl>
-		                    </div>
 		                </div>
-		                
-		                 <div class="box-header with-border">
-			              <h3 class="box-title">   </h3>
-			            </div>
-		                
+		               
 		                <div class="row">
-		                    <div class="col-sm-5">
+		                    <div class="col-sm-12">
 		                        <dl class="dl-horizontal">
-		                            <dt>Source Fields</dt>
-		                            <dd>10001</dd>
-		                            
-		                           
-		                         </dl>
-		                    </div>
-		                    <div class="col-sm-5">
-		                        <dl class="dl-horizontal">
-		                            <dt>Distribution Type</dt>
-		                            <dd>10001</dd>
-		                           
+		                             <dt>Distribution Type</dt>
+		                             <dd>{{ gridDataList.distributionType }}</dd>
 		                          </dl>
 		                    </div>
-		                </div>
-			     		
-			     	
+	                    </div>
+	                     <div class="box-header with-border">
+			              <h3 class="box-title"> Owner Ship (Partner Name :: Stack Value)</h3>
+			            </div>
+                       <div class="row">
+		                    <div class="col-sm-12" ng-repeat="owner in gridDataList.ownership">
+		                        <dl class="dl-horizontal">
+		                             <dt>{{ owner.equityPartner }}</dt>
+		                             <dd >{{ owner.equityStake }}</dd>
+		                          </dl>
+		                    </div>
+	                    </div>
+	                    
+	                     <div class="box-header with-border">
+			              <h3 class="box-title"> Construction Details(Company Name : Details )</h3>
+			            </div>
+                       <div class="row">
+		                    <div class="col-sm-5" ng-repeat="constructionDetail in gridDataList.constructionDetails">
+		                        <dl class="dl-horizontal">
+		                             <dt ng-If="constructionDetail.constructionCompanyName != ''" >{{ constructionDetail.constructionCompanyName }}</dt>
+		                             <dd ng-If="constructionDetail.constructionCompanyName != ''" >{{ constructionDetail.constructionContractDetails }}</dd>
+		                          </dl>
+		                    </div>
+	                    </div>
+	                    
+	                     <div class="box-header with-border">
+			              <h3 class="box-title"> Construction Period (From : TO )</h3>
+			            </div>
+                       <div class="row"> <!-- ng-hide="constructionPeriodVal.constructionStart == 0 && constructionPeriodVal.constructionEnd == 0"  -->
+		                    <div class="col-sm-5" ng-repeat="constructionPeriodVal in gridDataList.constructionPeriod">
+		                        <dl class="dl-horizontal">
+		                             <dt ng-If="constructionPeriodVal.constructionStart != 0">{{ constructionPeriodVal.constructionStart }}</dt>
+		                             <dd ng-If="constructionPeriodVal.constructionEnd != 0">{{ constructionPeriodVal.constructionEnd }}</dd>
+		                          </dl>
+		                    </div>
+	                    </div>
+		                
+ 	                
+		                <div class="row">
+		                    <div class="col-sm-12">
+	                        	 <table ng-show="searchFilterObj.displayType =='terminal'" id="terminalDatatable" class="table table-bordered table-striped"></table>
+			      		     </div>
+		                 </div>
+		 		     	
 			     	</div>
 			     </div>
 			   </div>

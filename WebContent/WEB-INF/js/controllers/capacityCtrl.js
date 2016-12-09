@@ -29,11 +29,16 @@
 		
 	};
  	
-	openModel = function(inputName,type){
+	openModel = function(inputName,type,event){
 		
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" ){
  			$rootScope.table.modelDatatableInst.destroy();
  			$("#modelDatatable").html('');
+ 		}
+		
+		if($rootScope.table.terminalDatatableInst != undefined && $rootScope.table.terminalDatatableInst != "" ){
+ 			$rootScope.table.terminalDatatableInst.destroy();
+ 			$("#terminalDatatable").html('');
  		}
 		
 		var modalReq = angular.copy($rootScope.searchFilterObj);
@@ -54,7 +59,8 @@
 				}
 		 
 	 		$scope.columns =[];
-	 		if(resp['terminal'].length != 0){
+	 		
+	 		if(resp['terminal'] != undefined && resp['terminal'].length != 0){
 	  		 	
 	 			if(resp != undefined){
 					var columnName = 'Terminal'
@@ -69,7 +75,7 @@
 							$scope.columns.push(colObj);
 						}
 			 	  	}
-				}
+		 		}
 	 			
 	 			$scope.ModelDataList = [];
 				 
@@ -117,18 +123,122 @@
 							"targets": 0
 						}
 						],
-						columns: $scope.columns,
+					 	columns: $scope.columns,
 						data :$scope.ModelDataList 
 					});
 		 			
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
-	 		}
+	  	 	} else{
+	  	 		$scope.terminalcolumns = [];
+	  	 		$scope.terminalcolumns.push({title:"Name" ,data:"name"});
+				for(var i =2005 ; i<= 2020; i++){
+					var terminalColObj = {
+							title:i,
+							data:i
+					};
+					 
+			 		$scope.terminalcolumns.push(terminalColObj)
+				}
+				$scope.terminalDataList =[];
+				 
+					var obj = {
+						"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+						"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+	 				};
+					
+					for(var i in $scope.gridDataList.trainsOrVaporizers){
+						obj["name"]="Trains Or Vaporizers";
+						
+						if($scope.gridDataList.trainsOrVaporizers[i] != undefined ){
+							obj[i] = $scope.gridDataList.trainsOrVaporizers[i] 
+						}else{
+							obj[i] = "-" 
+						}
+			 		}
+					
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					
+					for(var i in $scope.gridDataList.storageCapacity){
+						obj["name"]="Storage Capacity";
+						
+						if($scope.gridDataList.storageCapacity[i] != undefined ){
+							obj[i] = $scope.gridDataList.storageCapacity[i] 
+						}else{
+							obj[i] = "-" 
+						}
+			 		}
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					 
+					
+					for(var i in $scope.gridDataList.processingCapacity){
+						obj["name"]="Processing Capacity";
+						
+						if($scope.gridDataList.processingCapacity[i] != undefined ){
+							obj[i] = $scope.gridDataList.processingCapacity[i] 
+						}else{
+							obj[i] = "-" 
+						}
+		 	 		}
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					
+					for(var i in $scope.gridDataList.storageTanks){
+						obj["name"]="Storage Tanks";
+						
+						if($scope.gridDataList.storageTanks[i] != undefined ){
+							obj[i] = $scope.gridDataList.storageTanks[i] 
+						}else{
+							obj[i] = "-" 
+						}
+	  				}
+					$scope.terminalDataList.push(obj);
+		 	 	 
+		  	 		if ( $.fn.dataTable.isDataTable( '#terminalDatatable' ) ) {
+		 				tableInst = $('#terminalDatatable').DataTable();
+		 	 		}
+		 	 		else {
+				 
+		 			var terminaltableInst = $("#terminalDatatable").DataTable({
+						"columnDefs": [
+						{
+							// The `data` parameter refers to the data for the cell (defined by the
+							// `data` option, which defaults to the column being worked with, in
+							// this case `data: 0`.
+							"render": function ( data, type, row ) {
+								var commonHref = "";
+						 		commonHref =  '<p>'+data +'</p>';
+								 
+								return commonHref;
+							},
+							"targets": 0
+						}
+						],
+						scrollX: true,
+						bFilter:false,
+						columns: $scope.terminalcolumns,
+						bPaginate:false,
+						data :$scope.terminalDataList 
+					});
+		 			
+		 			$rootScope.table.terminalDatatableInst = terminaltableInst;
+	 	 		}
+ 	  	 	}
 		});
 		
 		$('#myModal').modal("show");
-		 
-	};
+ 	};
 	
 	$rootScope.typeChangeFn = function(){
 		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
@@ -432,11 +542,14 @@
 			});*/
 			
 			$(".openModel").off('click',function(e){
+				e.preventDefault();
+				e.stopPropagation(); 
  			});
 			
 			$(".openModel").on('click',function(e){
-				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
+				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'),e);
 				e.preventDefault();
+				e.stopPropagation(); 
 			});
   	};
   	
@@ -538,12 +651,25 @@
 		$rootScope.table = {
 				liquefactionInst : "",
 				regasificationInst:"",
-				modelDatatableInst:""
+				modelDatatableInst:"",
+				terminalDatatableInst:""
 		};
 		
 		$scope.setConfigurations();
 		$scope.setDisplayPeriod();
-		$rootScope.resetFilter();
+		
+		$scope.destroyTable();
+		$rootScope.regionModel = [];
+ 		$rootScope.countryModel =[];
+ 	 	$rootScope.locationModel= [];
+ 		$rootScope.operatorModel= [];
+ 		$rootScope.ownerModel= [];
+ 		$rootScope.statusModel= [];
+ 		$rootScope.unitsModel= [];
+ 		$rootScope.offshoreModel= [];
+ 		$rootScope.typeModel= [];
+ 		$rootScope.sectorModel =[];
+ 		$rootScope.capacityFilterJSON ={};
 		
 		
 		$scope.occurrenceOptions = [
