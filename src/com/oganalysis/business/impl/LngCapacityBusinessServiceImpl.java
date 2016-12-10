@@ -15,8 +15,8 @@ import com.oganalysis.entities.Lng;
 public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessService {
 
 	private LngDao lngDao;
-	public static final String REGASIFICATION="Regasification";
-	public static final String LIQUEFACTION="Liquefaction";
+	private static final String REGASIFICATION="Regasification";
+	private static final String LIQUEFACTION="Liquefaction";
 	
 	@Override
 	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List>selectedOptions,String startDate,String endDate) {
@@ -370,6 +370,42 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		terminalData.put("distributionType",getDistributionType(liquefactionTerminalList).toString());
 		return terminalData;
 	}
+	@Override
+	public Map<String, String> getRegasModalTerminalData(String recordName) {
+		// TODO Auto-generated method stub
+		
+		List<Lng> regasificationTerminalList=lngDao.getTerminalData(recordName, REGASIFICATION);
+		Map terminalData=new HashMap();
+		Lng lng=regasificationTerminalList.get(0);
+		terminalData.put("terminalName",lng.getName());
+		terminalData.put("type", lng.getType());
+		terminalData.put("status",lng.getStatus());
+		terminalData.put("location",lng.getArea());
+		terminalData.put("country",lng.getCountry());
+		terminalData.put("onshoreoroffshore",lng.getOnshoreOrOffshore());
+		terminalData.put("expectedStartUp", lng.getExpectedStartYear().toString());
+		if(null!=lng.getScheduledStartYear() && !"".equals(lng.getScheduledStartYear()))
+			terminalData.put("scheduledStartUp",lng.getScheduledStartYear().toString());
+		else
+			terminalData.put("scheduledStartUp","");
+		
+		terminalData.put("processingCapacity", getProcessingCapacity(regasificationTerminalList));
+		terminalData.put("trainsOrVaporizers",getTrainsOrVaporizers(regasificationTerminalList));
+		terminalData.put("storageCapacity",getStorageCapacity(regasificationTerminalList));
+		terminalData.put("storageTanks", getStorageTanks(regasificationTerminalList));
+		
+		terminalData.put("operator",getOperator(regasificationTerminalList).toString());
+		terminalData.put("ownership",getOwnership(regasificationTerminalList));
+
+		terminalData.put("capex", String.valueOf(getCapexDetails(regasificationTerminalList)));
+		terminalData.put("technology",getTechnologyDetails(regasificationTerminalList).toString());
+		terminalData.put("constructionPeriod",getConstructionPeriod(regasificationTerminalList));
+		terminalData.put("constructionDetails",getConstructionDetails(regasificationTerminalList));
+		
+		terminalData.put("sourceFields",getSourceFields(regasificationTerminalList).toString());
+		terminalData.put("distributionType",getDistributionType(regasificationTerminalList).toString());
+		return terminalData;
+	}
 	private List<Map<String,String>> getOwnership(List<Lng> dataList)
 	{
 		List<Map<String,String>> ownershipList=new ArrayList<Map<String,String>>();
@@ -539,12 +575,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			totalCapex=totalCapex+lng.getCapex();
 		return totalCapex;
 	}
-	@Override
-	public Map<String, String> getRegasModalTerminalData(String recordName) {
-		// TODO Auto-generated method stub
-		
-		return null;
-	}
+	
 	private Set<String> getTerminals(List<Lng> lngList)
 	{
 		Set<String> terminals=new HashSet<String>();

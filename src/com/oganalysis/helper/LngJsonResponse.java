@@ -22,10 +22,11 @@ public class LngJsonResponse {
 		infraLiquefactionJsonObj.put("type", LIQUEFACTION);
 		
 		JSONArray infraLiquefactionArray=new JSONArray();
-		JSONObject infraLiquefactionDataObj=new JSONObject();
+		JSONObject infraLiquefactionDataObj=null;
 		for(Map<String,String> map:liquefactionList)
 		{
-			infraLiquefactionDataObj.put("terminalName",map.get("terminal"));
+			infraLiquefactionDataObj=new JSONObject();
+			infraLiquefactionDataObj.put("terminalName",map.get("terminalName"));
 			infraLiquefactionDataObj.put("status",map.get("status"));
 			infraLiquefactionDataObj.put("startYear",map.get("startYear"));
 			infraLiquefactionDataObj.put("location",map.get("location"));
@@ -46,10 +47,11 @@ public class LngJsonResponse {
 				infraRegasificationJsonObj.put("type", REGASIFICATION);
 				
 				JSONArray infraRegasificationArray=new JSONArray();
-				JSONObject infraRegasificationDataObj=new JSONObject();
+				JSONObject infraRegasificationDataObj=null;
 				for(Map<String,String> map:regasificationList)
 				{
-					infraRegasificationDataObj.put("terminalName",map.get("terminal"));
+					infraRegasificationDataObj=new JSONObject();
+					infraRegasificationDataObj.put("terminalName",map.get("terminalName"));
 					infraRegasificationDataObj.put("status",map.get("status"));
 					infraRegasificationDataObj.put("startYear",map.get("startYear"));
 					infraRegasificationDataObj.put("location",map.get("location"));
