@@ -134,13 +134,14 @@
 	  	 		$scope.terminalcolumns.push({title:"Name" ,data:"name"});
 				for(var i =2005 ; i<= 2020; i++){
 					var terminalColObj = {
-							title:i,
+							title:i.toString().toUpperCase(),
 							data:i
 					};
 					 
 			 		$scope.terminalcolumns.push(terminalColObj)
 				}
-				$scope.terminalDataList =[];
+				
+					$scope.terminalDataList =[];
 				 
 					var obj = {
 						"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
@@ -151,7 +152,7 @@
 						obj["name"]="Trains Or Vaporizers";
 						
 						if($scope.gridDataList.trainsOrVaporizers[i] != undefined ){
-							obj[i] = $scope.gridDataList.trainsOrVaporizers[i] 
+							obj[i] = $scope.gridDataList.trainsOrVaporizers[i]; 
 						}else{
 							obj[i] = "-" 
 						}
@@ -211,21 +212,7 @@
 		 	 		else {
 				 
 		 			var terminaltableInst = $("#terminalDatatable").DataTable({
-						"columnDefs": [
-						{
-							// The `data` parameter refers to the data for the cell (defined by the
-							// `data` option, which defaults to the column being worked with, in
-							// this case `data: 0`.
-							"render": function ( data, type, row ) {
-								var commonHref = "";
-						 		commonHref =  '<p>'+data +'</p>';
-								 
-								return commonHref;
-							},
-							"targets": 0
-						}
-						],
-						scrollX: true,
+				 		scrollX: true,
 						bFilter:false,
 						columns: $scope.terminalcolumns,
 						bPaginate:false,

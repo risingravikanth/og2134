@@ -19,6 +19,7 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  
 	  .state('lng', {
         url:'/lng',
         templateUrl: 'views/commonpage.html',
@@ -58,6 +59,11 @@
         url:'/capacity',
         templateUrl: 'views/capacity.html',
 		controller:"CapacityCtrl"
+	  })
+	   .state('infrastructure', {
+        url:'/infrastructure',
+        templateUrl: 'views/infrastructure.html',
+		controller:"InfrastructureCtrl"
 	  })
 	  .state('reports', {
         url:'/reports',
