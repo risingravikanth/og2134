@@ -168,6 +168,8 @@
 				 
  			
 				$scope.gridDataList = [];
+				$scope.liquefactionData =[];
+				$scope.regasificationData =[];
 				for(var k=0; k < resp.length; k++){
 					if(resp[k].type == URL.liquefactionType){
 				 		$scope.liquefactionData = resp[k]['data'];
@@ -176,8 +178,8 @@
 					if(resp[k].type == URL.regasificationType){
 					 	$scope.regasificationData = resp[k]['data'];
 		 			}
-			 	$rootScope.inItDataTable();
- 	 		 }
+				}
+				$rootScope.inItDataTable();
 	 	});
  	};
   	
