@@ -169,11 +169,11 @@
  			
 				$scope.gridDataList = [];
 				for(var k=0; k < resp.length; k++){
-					if(resp[k].type =="Liquefaction"){
+					if(resp[k].type == URL.liquefactionType){
 				 		$scope.liquefactionData = resp[k]['data'];
  					}
 
-					if(resp[k].type =="Regasification"){
+					if(resp[k].type == URL.regasificationType){
 					 	$scope.regasificationData = resp[k]['data'];
 		 			}
 			 	$rootScope.inItDataTable();
@@ -212,13 +212,13 @@
 		 			
 		 	 	 	$scope.gridDataList = [];
 					for(var k=0; k < resp.length; k++){
-						if(resp[k].type =="Liquefaction"){
+						if(resp[k].type == URL.liquefactionType){
 					 		$scope.liquefactionData = resp[k]['data'];
-			 			}
-						
-						if(resp[k].type =="Regasification"){
+	 					}
+
+						if(resp[k].type == URL.regasificationType){
 						 	$scope.regasificationData = resp[k]['data'];
-		 				}
+			 			}
 						
 					}
 			 		
@@ -275,13 +275,13 @@
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
 			 		for(var k=0; k < resp.length; k++){
-						if(resp[k].type =="Liquefaction"){
+			 			if(resp[k].type == URL.liquefactionType){
 					 		$scope.liquefactionData = resp[k]['data'];
-			 			}
+	 					}
 
-						if(resp[k].type =="Regasification"){
+						if(resp[k].type == URL.regasificationType){
 						 	$scope.regasificationData = resp[k]['data'];
-		 				}
+			 			}
 			 		}
 			 		
 					$rootScope.inItDataTable();

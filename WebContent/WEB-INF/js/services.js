@@ -18,7 +18,10 @@ angular.module('OGAnalysis')
 		this.LIVE = true; //false
 	   	this.contextPath = "http://localhost:8080";
 		this.apiversion = "/oganalysis";
-		
+		this.displayFrom = 2000;
+		this.displayTo = 2020;
+		this.liquefactionType = "Liquefaction";
+		this.regasificationType = "Regasification";
 		this.successObj = { 
 				type: 'success',
 				className:'alert alert-success',

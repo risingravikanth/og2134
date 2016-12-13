@@ -19,7 +19,7 @@
  	};
 	
 	$scope.setDisplayPeriod = function(){
-		for(var i =2000;i <= 2020 ;i++){
+		for(var i = URL.displayFrom;i <= URL.displayTo ;i++){
 			var obj = {
 				id : i,
 				name : i
