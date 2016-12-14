@@ -123,7 +123,8 @@
   	
   	$rootScope.filterSubmit = function(){
 		$scope.destroyTable();
-	
+		$rootScope.capacityFilterJSON ={};
+		
 		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
  		}
