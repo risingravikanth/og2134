@@ -79,24 +79,44 @@ public class LngDataDisplayController {
 		Map<String,List> optionsMap=new HashMap<String,List>();
 		List<String> selectedCountries=new ArrayList<String>();
 		List<String> selectedRegions=new ArrayList<String>();
+		List<String> selectedLocations=new ArrayList<String>();
+		List<String> selectedOperators=new ArrayList<String>();
+		List<String> selectedOwners=new ArrayList<String>();
+		List<String> selectedStatuses=new ArrayList<String>();
+		List<String> selectedOffOnshores=new ArrayList<String>();
+		List<String> selectedTypes=new ArrayList<String>();
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
-			if(option.contains("country"))
-			{
-				selectedCountries.add(request.getParameter(option));
-			}
-			else if(option.contains("region"))
-			{
-				selectedRegions.add(request.getParameter(option));
-			}
+			if(option.contains("country"))			
+				selectedCountries.add(request.getParameter(option));			
+			else if(option.contains("region"))			
+				selectedRegions.add(request.getParameter(option));			
+			else if(option.contains("location"))
+				selectedLocations.add(request.getParameter(option));
+			else if(option.contains("operator"))
+				selectedOperators.add(request.getParameter(option));
+			else if(option.contains("owner"))
+				selectedOwners.add(request.getParameter(option));
+			else if(option.contains("status"))
+				selectedStatuses.add(request.getParameter(option));
+			else if(option.contains("offonshore"))
+				selectedOffOnshores.add(request.getParameter(option));
+			else if(option.contains("type"))
+				selectedTypes.add(request.getParameter(option));
 			
 		}
-		if(selectedCountries.size()>0 || selectedRegions.size()>0)
-		{	
+		
 			optionsMap.put("countries", selectedCountries);
 			optionsMap.put("regions",selectedRegions);
-		}	
+			optionsMap.put("locations",selectedLocations);
+			optionsMap.put("operators",selectedOperators);
+			optionsMap.put("owners",selectedOwners);
+			optionsMap.put("statuses",selectedStatuses);
+			optionsMap.put("offonshores",selectedOffOnshores);
+			optionsMap.put("types",selectedTypes);
+			
+		
 		
 		
 		return optionsMap;

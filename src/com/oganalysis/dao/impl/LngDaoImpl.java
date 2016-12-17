@@ -36,21 +36,7 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(Lng.class);
-		
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
-		
-		if(countries!=null && countries.size()>0)
-		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
-			criteria.add(counrtryCriterion);
-		}
-			
-		if(regions!=null && regions.size()>0)
-		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
-			criteria.add(regionCriterion);
-		}
+		createFiltersCriteria(selectedOptions, criteria);
 		
 		if(startDate!=0 && endDate!=0)
 		{
@@ -73,22 +59,8 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(Lng.class);
-		
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
-		
-		if(countries!=null && countries.size()>0)
-		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
-			criteria.add(counrtryCriterion);
-		}
+		createFiltersCriteria(selectedOptions, criteria);
 			
-		if(regions!=null && regions.size()>0)
-		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
-			criteria.add(regionCriterion);
-		}
-		
 		if(startDate!=0 && endDate!=0)
 		{
 						
@@ -245,5 +217,57 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return list;
 	}
-	
+	private void createFiltersCriteria(Map<String,List> selectedOptions,Criteria criteria)
+	{
+		List<String> countries=selectedOptions.get("countries");
+		List<String> regions=selectedOptions.get("regions");
+		List<String> locations=selectedOptions.get("locations");
+		List<String> operators=selectedOptions.get("operators");
+		List<String> owners=selectedOptions.get("owners");
+		List<String> statuses=selectedOptions.get("statuses");
+		List<String> offonShores=selectedOptions.get("offonshores");
+		List<String> types=selectedOptions.get("types");	
+		
+		if(countries!=null && countries.size()>0)
+		{
+			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
+			criteria.add(counrtryCriterion);
+		}
+			
+		if(regions!=null && regions.size()>0)
+		{
+			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
+			criteria.add(regionCriterion);
+		}
+		if(locations!=null && locations.size()>0)
+		{
+			Criterion locationCriterion=Restrictions.in("area",selectedOptions.get("locations"));
+			criteria.add(locationCriterion);
+		}
+		if(operators!=null && operators.size()>0)
+		{
+			Criterion operatorsCriterion=Restrictions.in("operator",selectedOptions.get("operators"));
+			criteria.add(operatorsCriterion);
+		}
+		if(owners!=null && owners.size()>0)
+		{
+			Criterion ownersCriterion=Restrictions.in("equityPartners",selectedOptions.get("owners"));
+			criteria.add(ownersCriterion);
+		}
+		if(statuses!=null && statuses.size()>0)
+		{
+			Criterion statusesCriterion=Restrictions.in("status",selectedOptions.get("statuses"));
+			criteria.add(statusesCriterion);
+		}
+		if(offonShores!=null && offonShores.size()>0)
+		{
+			Criterion offonShoresCriterion=Restrictions.in("OnshoreOrOffshore",selectedOptions.get("offonshores"));
+			criteria.add(offonShoresCriterion);
+		}
+		if(types!=null && types.size()>0)
+		{
+			Criterion typeCriterion=Restrictions.in("type",selectedOptions.get("types"));
+			criteria.add(typeCriterion);
+		}
+	}
 }

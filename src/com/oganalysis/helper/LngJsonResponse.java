@@ -190,7 +190,7 @@ public class LngJsonResponse {
 	{
 		JSONArray allYearsCapacityArray=new JSONArray();
 		Set<String> nameSet=capacityData.keySet();
-//		DecimalFormat df=new DecimalFormat(".#");
+		
 		for(Object nameObj:nameSet)
 		{
 			JSONObject jsonObj=new JSONObject();
@@ -199,8 +199,7 @@ public class LngJsonResponse {
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
 				if(yearMap.containsKey(yearCount))
-				{
-//					Double capacity=Double.valueOf(df.format(yearMap.get(yearCount)));
+				{					
 					jsonObj.put(yearCount,yearMap.get(yearCount));
 				}
 				else

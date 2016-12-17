@@ -17,6 +17,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private LngDao lngDao;
 	private static final String REGASIFICATION="Regasification";
 	private static final String LIQUEFACTION="Liquefaction";
+	private final DecimalFormat formatCapacity=new DecimalFormat(".#");
 	
 	@Override
 	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List>selectedOptions,String startDate,String endDate) {
@@ -152,7 +153,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 							if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 								soc=soc+lng.getCapacity();
 						}
-						yearMap.put(year,soc);
+						yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 					}
 					countryTerminalsCapacity.put(terminal,yearMap);
 			}			
@@ -191,7 +192,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 							soc=soc+lng.getCapacity();
 					}
-					yearMap.put(year,soc);
+					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 				}
 				companyTerminalsCapacity.put(terminal,yearMap);
 			}		
@@ -215,7 +216,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		Set<Integer> years=getYears(lngList);
 		
 		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
-		DecimalFormat df=new DecimalFormat(".#");
+		
 		for(String company:companies)
 		{
 			Set<String> terminals=companyTerminals.get(company);
@@ -235,7 +236,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 							soc=soc+(lng.getCapacity()*(stake/100));
 					}					
 				}
-				yearMap.put(year,Double.valueOf(df.format(soc)));
+				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 			}
 			companyMap.put(company, yearMap);
 		}
@@ -257,7 +258,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		Set<Integer> years=getYears(lngList);
 		
 		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
-//		DecimalFormat df=new DecimalFormat(".#");
+		
 		for(String company:companies)
 		{
 			Set<String> terminals=companyTerminals.get(company);
@@ -277,7 +278,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 							soc=soc+(lng.getCapacity()*(stake/100));
 					}					
 				}
-				yearMap.put(year,soc);
+				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 			}
 			companyMap.put(company, yearMap);
 		}
@@ -303,7 +304,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 						soc=soc+lng.getCapacity();
 				}
-				yearMap.put(year,soc);
+				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 			}
 			terminalMap.put(terminal,yearMap);
 		}
@@ -328,7 +329,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					if(country.equalsIgnoreCase(lng.getCountry()) && year==lng.getCapacityYear())
 						soc=soc+lng.getCapacity();
 				}
-				yearMap.put(year,soc);
+				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 			}
 			countryMap.put(country,yearMap);
 		}
