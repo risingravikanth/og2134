@@ -29,3 +29,6 @@
  .openModel{
 	    cursor: pointer;
  }
+ #modelDatatable .table, .custom-table{
+ 	width:100% !important;
+ }

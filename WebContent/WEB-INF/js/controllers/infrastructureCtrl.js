@@ -147,7 +147,7 @@
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
- 			$scope.generateFormData($rootScope.offshoreModel,'offshore');
+ 			$scope.generateFormData($rootScope.offshoreModel,'offonshore');
  		} 
  		if($rootScope.filterObj.typeField == true){
  			$scope.generateFormData($rootScope.typeModel,'type');

@@ -192,7 +192,10 @@
 	      	 <div class="box box-danger">
 		        
 		        <div class="box-body">
-			        <table ng-show="searchFilterObj.displayType =='country' || searchFilterObj.displayType == 'company'" id="modelDatatable" class="table table-bordered table-striped"></table>
+		        	<div ng-show="searchFilterObj.displayType =='country' || searchFilterObj.displayType == 'company'">
+		        		<table  id="modelDatatable" class="table table-bordered table-striped custom-table"></table>
+		        	</div>
+			        
 			     
 			     	<div ng-show="searchFilterObj.displayType =='terminal' ">
 			     		 <div class="box-header with-border">
@@ -280,7 +283,7 @@
  	                
 		                <div class="row">
 		                    <div class="col-sm-12">
-	                        	 <table ng-show="searchFilterObj.displayType =='terminal'" id="terminalDatatable" class="table table-bordered table-striped"></table>
+	                        	 <table id="terminalDatatable" class="table table-bordered table-striped"></table>
 			      		     </div>
 		                 </div>
 		 		     	

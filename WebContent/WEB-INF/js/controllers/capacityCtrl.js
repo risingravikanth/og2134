@@ -31,25 +31,25 @@
  	
 	openModel = function(inputName,type,event){
 		
-		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" ){
+		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
  			$rootScope.table.modelDatatableInst.destroy();
- 			$("#modelDatatable").html('');
+ 			$("#modelDatatable").empty();
  		}
 		
-		if($rootScope.table.terminalDatatableInst != undefined && $rootScope.table.terminalDatatableInst != "" ){
+		if($rootScope.table.terminalDatatableInst != undefined && $rootScope.table.terminalDatatableInst != "" && $rootScope.searchFilterObj.displayType == "terminal" ){
  			$rootScope.table.terminalDatatableInst.destroy();
- 			$("#terminalDatatable").html('');
+ 			$("#terminalDatatable").empty();
  		}
 		
 		var modalReq = angular.copy($rootScope.searchFilterObj);
 		modalReq['recordName']= inputName;
 		modalReq['type']= type;
 		
-		for(var key in modalReq){
- 			$rootScope.capacityFilterJSON[key] = modalReq[key];
+		for(var key in $rootScope.capacityFilterJSON){
+			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
 		
-		HttpService.get("/modalcapacity",$rootScope.capacityFilterJSON).then(function(resp) {
+		HttpService.get("/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
@@ -58,13 +58,13 @@
 					resp = [];
 				}
 		 
-	 		$scope.columns =[];
+	 		$scope.modelcolumns =[];
 	 		
 	 		if(resp['terminal'] != undefined && resp['terminal'].length != 0){
 	  		 	
 	 			if(resp != undefined){
 					var columnName = 'Terminal'
-					$scope.columns.push({title:columnName  ,data:"name"});
+					$scope.modelcolumns.push({title:columnName  ,data:"name"});
 					for(var key in resp['terminal'][0]){
 						if(key != "name"){
 							var colObj = {
@@ -72,7 +72,7 @@
 									data:key
 							};
 							
-							$scope.columns.push(colObj);
+							$scope.modelcolumns.push(colObj);
 						}
 			 	  	}
 		 		}
@@ -103,30 +103,17 @@
 					
 				 
 	 			
-	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable' ) ) {
+	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable') ) {
 	 				tableInst = $('#modelDatatable').DataTable();
 	 	 		}
 	 	 		else {
 			 
 		 			var tableInst = $("#modelDatatable").DataTable({
-						"columnDefs": [
-						{
-							// The `data` parameter refers to the data for the cell (defined by the
-							// `data` option, which defaults to the column being worked with, in
-							// this case `data: 0`.
-							"render": function ( data, type, row ) {
-								var commonHref = "";
-						 		commonHref =  '<p>'+data +'</p>';
-								 
-								return commonHref;
-							},
-							"targets": 0
-						}
-						],
-					 	columns: $scope.columns,
+					 	scrollX: true,
+					 	columns: $scope.modelcolumns,
 						data :$scope.ModelDataList 
 					});
-		 			
+		 			tableInst.columns.adjust().draw();
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{
@@ -351,7 +338,7 @@
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
- 			$scope.generateFormData($rootScope.offshoreModel,'offshore');
+ 			$scope.generateFormData($rootScope.offshoreModel,'offonshore');
  		} 
  		if($rootScope.filterObj.typeField == true){
  			$scope.generateFormData($rootScope.typeModel,'type');
@@ -445,12 +432,12 @@
  	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
  			$rootScope.table.liquefactionInst.destroy();
- 			$("#liquefaction").html('');
+ 			$("#liquefaction").empty();
  		}
  			
  		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
  			$rootScope.table.regasificationInst.destroy();
- 			$("#regasification").html('');
+ 			$("#regasification").empty();
  		}
  			
  	};

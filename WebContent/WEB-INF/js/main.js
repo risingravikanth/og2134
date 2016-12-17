@@ -405,7 +405,7 @@
 	}
 	
 	$rootScope.filterSubmit = function(){
-	 		
+ 		
 		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
  		}
@@ -428,7 +428,7 @@
 		
  		}
  		if($rootScope.filterObj.offshoreField == true){
-		
+ 			//offonshore
  		} 
  		if($rootScope.filterObj.typeField == true){
 		
@@ -582,6 +582,7 @@
 						"targets": 0
 					}
 					],
+					scrollX: true,
 					columns: $scope.columns,
 					data : $scope.gridDataList
 				});
