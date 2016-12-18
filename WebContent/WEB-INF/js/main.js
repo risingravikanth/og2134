@@ -139,7 +139,7 @@
 	 	
 	/*type filter*/
 	$rootScope.typeModel = [];
-	$scope.typeData = [{id: 'Liquefaction', label: "Liquefaction"}, {id: 'Regasification', label: "Regasification"}];
+	$scope.typeData = [];
 	 	
 	/*sector filter*/
 	$rootScope.sectorModel = [];
@@ -185,6 +185,36 @@
 		}
 	});
 	
+	HttpService.get('/locations').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].location ,
+					label : resp[i].location
+			}
+			$scope.locationData.push(obj);
+		}
+	});
+	
+	HttpService.get('/operators').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].operator ,
+					label : resp[i].operator
+			}
+			$scope.operatorData.push(obj);
+		}
+	});
+	
+	HttpService.get('/owners').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].owner ,
+					label : resp[i].owner
+			}
+			$scope.ownerData.push(obj);
+		}
+	});
+ 	
 	HttpService.get('/status').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
 			var obj = {
@@ -195,6 +225,17 @@
 		}
 	});
 	 
+	HttpService.get('/type').then(function(resp) {
+ 		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].type ,
+					label : resp[i].type
+			}
+			$scope.typeData.push(obj);
+		}
+	});
+	 
+	
 	
 	
 	/*$scope.initFilter = function(){
