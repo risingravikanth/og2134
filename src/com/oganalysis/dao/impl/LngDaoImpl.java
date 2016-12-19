@@ -134,6 +134,20 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return operators;
 	}
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("equityPartners")));
+		
+		List<String> owners=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return owners;
+	}
 
 	@Override
 	public List<Lng> getLiquefactionCriteriaData(
@@ -222,8 +236,7 @@ public class LngDaoImpl implements LngDao {
 		List<String> countries=selectedOptions.get("countries");
 		List<String> regions=selectedOptions.get("regions");
 		List<String> locations=selectedOptions.get("locations");
-		List<String> operators=selectedOptions.get("operators");
-		List<String> owners=selectedOptions.get("owners");
+		List<String> terminals=selectedOptions.get("terminals");		
 		List<String> statuses=selectedOptions.get("statuses");
 		List<String> offonShores=selectedOptions.get("offonshores");
 		List<String> types=selectedOptions.get("types");	
@@ -244,16 +257,21 @@ public class LngDaoImpl implements LngDao {
 			Criterion locationCriterion=Restrictions.in("area",selectedOptions.get("locations"));
 			criteria.add(locationCriterion);
 		}
-		if(operators!=null && operators.size()>0)
+		if(terminals!=null && terminals.size()>0)
 		{
-			Criterion operatorsCriterion=Restrictions.in("operator",selectedOptions.get("operators"));
-			criteria.add(operatorsCriterion);
+			Criterion terminalNameCriterion=Restrictions.in("name",selectedOptions.get("terminals"));
+			criteria.add(terminalNameCriterion);
 		}
-		if(owners!=null && owners.size()>0)
-		{
-			Criterion ownersCriterion=Restrictions.in("equityPartners",selectedOptions.get("owners"));
-			criteria.add(ownersCriterion);
-		}
+//		if(operators!=null && operators.size()>0)
+//		{
+//			Criterion operatorsCriterion=Restrictions.in("operator",selectedOptions.get("operators"));
+//			criteria.add(operatorsCriterion);
+//		}
+//		if(owners!=null && owners.size()>0)
+//		{
+//			Criterion ownersCriterion=Restrictions.in("equityPartners",selectedOptions.get("owners"));
+//			criteria.add(ownersCriterion);
+//		}
 		if(statuses!=null && statuses.size()>0)
 		{
 			Criterion statusesCriterion=Restrictions.in("status",selectedOptions.get("statuses"));

@@ -478,4 +478,30 @@ public class JsonResponse {
 			response="";
 		return response;
 	}
+	public String createOwnersResponse(List<String> ownersList)
+	{
+		String response=null;
+		if(ownersList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String owner:ownersList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(owner!=null && !owner.equalsIgnoreCase(""))
+				 { 
+					 jsonObj.put("owner",owner);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
 }

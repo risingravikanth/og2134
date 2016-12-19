@@ -7,4 +7,5 @@ public interface FilterDataService {
 	public String getType();
 	public String getLocations();
 	public String getOperator();
+	public String getOwners();
 }

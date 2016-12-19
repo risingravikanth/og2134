@@ -68,6 +68,15 @@ public class FilterDataServiceImpl implements FilterDataService {
 		jsonRes=res.createOperatorResponse(operatorList);
 		return jsonRes;
 	}
+	@Override
+	public String getOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=lngDao.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
+	}
 	public FilterDataDao getFilterDataDao() {
 		return filterDataDao;
 	}

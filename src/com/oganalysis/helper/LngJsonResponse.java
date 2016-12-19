@@ -176,13 +176,17 @@ public class LngJsonResponse {
 		for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 		{
 			double totalCapacity=0;
+			double capacityVal=0;
 			for(int i=0;i<allYearsCapacity.size();i++)
 			{
 				JSONObject yearJsonObj=(JSONObject)allYearsCapacity.get(i);
-				double capacityVal=(Double)yearJsonObj.get(yearCount);
+				if(null!=yearJsonObj.get(yearCount) && !yearJsonObj.get(yearCount).equals(""))
+					capacityVal=(Double)yearJsonObj.get(yearCount);
+				else
+					capacityVal=0.0;
 				totalCapacity=totalCapacity+capacityVal;
 			}
-			totalCapcityJsonObj.put(yearCount, totalCapacity);
+			totalCapcityJsonObj.put(yearCount, String.valueOf(totalCapacity));
 		}
 		return totalCapcityJsonObj;
 	}
@@ -198,12 +202,10 @@ public class LngJsonResponse {
 			jsonObj.put("name",(String)nameObj);
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
-				if(yearMap.containsKey(yearCount))
-				{					
-					jsonObj.put(yearCount,yearMap.get(yearCount));
-				}
+				if(yearMap.containsKey(yearCount) &&(null!=yearMap.get(yearCount) && (Double)yearMap.get(yearCount)!=0))										
+					jsonObj.put(yearCount,yearMap.get(yearCount));				
 				else
-					jsonObj.put(yearCount,0.0);			
+					jsonObj.put(yearCount,"");			
 					
 			}
 			

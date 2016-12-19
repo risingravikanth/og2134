@@ -2,8 +2,10 @@ package com.oganalysis.business.impl;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +26,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);		
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
 				
 		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByCountry(regasificationList);					
 		
@@ -35,8 +38,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-			
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);	
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByCountry(liquefactionList);
 		
 		return liquefaction;
@@ -47,7 +50,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);		
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
 				
 		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByTerminal(regasificationList);						
 		
@@ -59,8 +63,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-			
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByTerminal(liquefactionList);
 	
 		return liquefaction;
@@ -71,8 +75,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);		
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
 		
 		Map<String,Map<Integer,Double>> regasification=calculateRegasificationCapacitiesByCompany(regasificationList);						
 		
@@ -84,8 +88,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-			
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
+		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);	
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateLiquefactionCapacitiesByCompany(liquefactionList);
 		
 		return liquefaction;
@@ -678,6 +682,71 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		}
 		
 		return companiesList;
+	}
+	private Map<String,List> getSelectedOptions(Map<String,List> selectedOptions,String type)
+	{
+		List<Lng> lngData=null;
+		Map<String,List> selectedOptionsList=new HashMap<String, List>();
+		
+		List<Lng> liqueLngData=lngDao.getLiquefactionData();
+		
+		List<Lng> regasLngData=lngDao.getRegasificationData();
+		
+		Set<String> liqueTerminals=getTerminals(liqueLngData);
+		Set<String> regasTerminals=getTerminals(regasLngData);
+		Map<String,Set<String>> companyLiqueTerminals=getCompanyTerminals(liqueLngData, liqueTerminals);
+		Map<String,Set<String>> companyRegasTerminals=getCompanyTerminals(regasLngData, regasTerminals);
+		
+		selectedOptionsList.put("countries",selectedOptions.get("countries"));
+		selectedOptionsList.put("regions",selectedOptions.get("regions"));
+		selectedOptionsList.put("locations",selectedOptions.get("locations"));
+		selectedOptionsList.put("statuses",selectedOptions.get("statuses"));
+		selectedOptionsList.put("offonshores",selectedOptions.get("offonshores"));
+		selectedOptionsList.put("types",selectedOptions.get("types"));
+		
+		Set<String> terminalsSet=new HashSet<String>();
+		
+		List<String> operatorsList=selectedOptions.get("operators");
+		List<String> ownersList=selectedOptions.get("owners");
+		
+	
+		
+		for(String operator:operatorsList)
+		{
+			Set<String> liqueTerminalsSet=companyLiqueTerminals.get(operator);
+			if(null!=liqueTerminalsSet)
+			for(String terminal:liqueTerminalsSet)
+				terminalsSet.add(terminal);
+			
+			Set<String> regasTerminalsSet=companyRegasTerminals.get(operator);
+			if(null!=regasTerminalsSet)
+			for(String terminal:regasTerminalsSet)
+				terminalsSet.add(terminal);
+			
+		}
+		
+		for(String owner:ownersList)
+		{
+			Set<String> liqueTerminalsSet=companyLiqueTerminals.get(owner);
+			if(null!=liqueTerminalsSet)
+			for(String terminal:liqueTerminalsSet)
+				terminalsSet.add(terminal);
+			
+			Set<String> regasTerminalsSet=companyRegasTerminals.get(owner);
+			if(null!=regasTerminalsSet)
+			for(String terminal:regasTerminalsSet)
+				terminalsSet.add(terminal);
+		}
+		List<String> terminalsList=new ArrayList<String>();
+		Iterator itr=terminalsSet.iterator();
+		while(itr.hasNext())
+		{
+			String terminalName=(String)itr.next();
+			terminalsList.add(terminalName);
+		}
+		selectedOptionsList.put("terminals", terminalsList);
+		return selectedOptionsList;
+				
 	}
 	public LngDao getLngDao() {
 		return lngDao;

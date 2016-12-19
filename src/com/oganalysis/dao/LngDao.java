@@ -15,6 +15,7 @@ public interface LngDao {
 	
 	List<String> getLocations();
 	List<String> getOperator();
+	List<String> getOwners();
 //	List<Lng> getLngData();
 	
 	List<Lng> getLiquefactionData();

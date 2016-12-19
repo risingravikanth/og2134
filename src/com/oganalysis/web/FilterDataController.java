@@ -65,6 +65,14 @@ public class FilterDataController {
 		String response=filterDataServiceImpl.getOperator();		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/owners",method={RequestMethod.GET})
+	public String getOwners()
+	{			
+		
+		String response=filterDataServiceImpl.getOwners();		
+		return response;
+	}
 	public FilterDataService getFilterDataServiceImpl() {
 		return filterDataServiceImpl;
 	}
