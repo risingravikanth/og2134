@@ -235,7 +235,7 @@
 			 		$scope.liquefactionData = [];
 			 		$scope.regasificationData =[];
 			 		 
-			 		if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
+			 		//if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
 			  		 	
 			 			if(resp[0] != undefined){
 							var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
@@ -288,7 +288,7 @@
 							}
 							
 						}
-			 		}
+			 		//}
 				  	/*$rootScope.table.liquefactionInst.clear().draw();
 					$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
 					$rootScope.table.liquefactionInst.draw();
