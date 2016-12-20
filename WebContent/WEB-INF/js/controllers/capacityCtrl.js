@@ -240,7 +240,7 @@
 			 			if(resp[0] != undefined){
 							var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
 							$scope.columns.push({title:columnName  ,data:"name"});
-							for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+							for(var key in resp[0]['totalCapacity']){
 								if(key != "name"){
 									var colObj = {
 											title:key.toUpperCase(),
@@ -373,7 +373,7 @@
 		 		if(resp[0] != undefined){
 					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
 					$scope.columns.push({title:columnName  ,data:"name"});
-					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+					for(var key in resp[0]['totalCapacity']){
 						if(key != "name"){
 							var colObj = {
 									title:key.toUpperCase(),
@@ -561,7 +561,7 @@
 					if($scope.gridDataList[0] != undefined){
 						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
 						$scope.columns.push({title:columnName  ,data:"name"});
-						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+						for(var key in $scope.gridDataList[0]['totalCapacity']){
 							if(key != "name"){
 								var colObj = {
 										title:key.toUpperCase(),
