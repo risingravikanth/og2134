@@ -3,6 +3,7 @@ package com.oganalysis.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
@@ -130,6 +131,18 @@ public class LngDataServiceImpl implements LngDataService{
 		infrastructureDataRes=lngJsonResponse.createInfrastructureRes(infrastructureMap);
 		return infrastructureDataRes;
 	}
+	@Override
+	public Map<String, Set<String>> getCompanyTerminals() {
+		// TODO Auto-generated method stub
+		Map<String,Set<String>> companyTerminals=lngCapacityBusinessServiceImpl.getCompanyTerminals();
+		return companyTerminals;
+	}
+	@Override
+	public Map<String, Set<String>> getOperatorTerminals() {
+		// TODO Auto-generated method stub
+		Map<String,Set<String>> companyTerminals=lngCapacityBusinessServiceImpl.getOperatorTerminals();
+		return companyTerminals;
+	}
 	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
 		return lngCapacityBusinessServiceImpl;
 	}
@@ -144,6 +157,7 @@ public class LngDataServiceImpl implements LngDataService{
 			LngInfraBusinessService lngInfraBusinessServiceImpl) {
 		this.lngInfraBusinessServiceImpl = lngInfraBusinessServiceImpl;
 	}
+	
 	
 	
 

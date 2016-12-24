@@ -16,11 +16,16 @@ public interface LngDao {
 	List<String> getLocations();
 	List<String> getOperator();
 	List<String> getOwners();
-//	List<Lng> getLngData();
 	
-	List<Lng> getLiquefactionData();
-	List<Lng> getRegasificationData();
 	
 	List<Lng> getTerminalData(String terminalName,String type);
+	
+	
+	List<Lng> getLiqueTerminalCompany();
+	List<Lng> getRegasTerminalCompany();
+	
+	
+	List<Lng> getTerminalCompany();
+	List<Lng> getTerminalOperator();
 	
 }

@@ -21,4 +21,7 @@ public interface LngCapacityBusinessService {
 	
 	public Map<String,String> getLiqueModalTerminalData(String recordName);
 	public Map<String,String> getRegasModalTerminalData(String recordName);
+	
+	public Map<String,Set<String>> getCompanyTerminals();
+	public Map<String,Set<String>> getOperatorTerminals();
 }

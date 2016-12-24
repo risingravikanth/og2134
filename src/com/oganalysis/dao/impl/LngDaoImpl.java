@@ -74,36 +74,7 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return list;
 	}
-//	@Override
-//	public List<Object> getOGAnalysisData() {
-//		
-////		List<Object> list=hibernateTemplate.find("from Exploration");
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=session.createCriteria(Lng.class);
-//		
-////		Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
-////		Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
-////		
-//////		Criterion criterion1=Restrictions.eq("country", c1);
-//////		Criterion criterion2=Restrictions.eq("country", c2);
-//////		
-//////		Criterion criterion3=Restrictions.eq("region", r1);
-//////		Criterion criterion4=Restrictions.eq("region", r2);
-//////		
-//////		Criterion countries=Restrictions.or(criterion1, criterion2);
-//////		Criterion region=Restrictions.or(criterion3, criterion4);
-////		
-////		criteria.add(counrtryCriterion);
-////		criteria.add(regionCriterion);
-////		
-//		
-//		List<Object> list=criteria.list();
-//		tx.commit();
-//		session.close();
-//		return list;
-//	}
+	
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
 	public List<String> getLocations() {
@@ -141,7 +112,8 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("equityPartners")));
-		
+//		criteria.add(Restrictions.ne("equityPartners",""));
+//		criteria.add(Restrictions.ne("equityPartners",null));
 		List<String> owners=criteria.list();
 				
 		tx.commit();
@@ -163,53 +135,6 @@ public class LngDaoImpl implements LngDao {
 		// TODO Auto-generated method stub
 		List<Lng> regasification=getRegasificationCriteriaData(selectedOptions, 0,0);
 		return regasification;
-	}
-
-//	@Override
-//	public List<Lng> getLngData() {
-//		// TODO Auto-generated method stub
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=session.createCriteria(Lng.class);
-//		
-//		List<Lng> lngData=criteria.list();
-//				
-//		tx.commit();
-//		session.close();
-//		return lngData;
-//	}
-
-	@Override
-	public List<Lng> getLiquefactionData() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-		
-		Criterion regasificationCriterion=Restrictions.eq("type",LIQUEFACTION);
-		criteria.add(regasificationCriterion);
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-
-	@Override
-	public List<Lng> getRegasificationData() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-				
-		Criterion regasificationCriterion=Restrictions.eq("type",REGASIFICATION);
-		criteria.add(regasificationCriterion);
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
 	}
 
 	@Override
@@ -262,16 +187,6 @@ public class LngDaoImpl implements LngDao {
 			Criterion terminalNameCriterion=Restrictions.in("name",selectedOptions.get("terminals"));
 			criteria.add(terminalNameCriterion);
 		}
-//		if(operators!=null && operators.size()>0)
-//		{
-//			Criterion operatorsCriterion=Restrictions.in("operator",selectedOptions.get("operators"));
-//			criteria.add(operatorsCriterion);
-//		}
-//		if(owners!=null && owners.size()>0)
-//		{
-//			Criterion ownersCriterion=Restrictions.in("equityPartners",selectedOptions.get("owners"));
-//			criteria.add(ownersCriterion);
-//		}
 		if(statuses!=null && statuses.size()>0)
 		{
 			Criterion statusesCriterion=Restrictions.in("status",selectedOptions.get("statuses"));
@@ -287,5 +202,70 @@ public class LngDaoImpl implements LngDao {
 			Criterion typeCriterion=Restrictions.in("type",selectedOptions.get("types"));
 			criteria.add(typeCriterion);
 		}
+	}
+
+	@Override
+	public List<Lng> getLiqueTerminalCompany() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+		criteria.add(Restrictions.eq("type",LIQUEFACTION));
+		criteria.add(Restrictions.ne("equityPartners"," "));
+//		criteria.add(Restrictions.ne("equityPartners",null));
+		List<Lng> terminalsCompanies=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return terminalsCompanies;
+		
+	}
+
+	@Override
+	public List<Lng> getRegasTerminalCompany() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);
+		criteria.add(Restrictions.eq("type",REGASIFICATION));
+		criteria.add(Restrictions.ne("equityPartners"," "));		
+		List<Lng> terminalsCompanies=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return terminalsCompanies;
+		
+	}
+	@Override
+	public List<Lng> getTerminalCompany() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);		
+		criteria.add(Restrictions.ne("equityPartners"," "));		
+		List<Lng> terminalsCompanies=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return terminalsCompanies;
+		
+	}
+	@Override
+	public List<Lng> getTerminalOperator() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(Lng.class);		
+		criteria.add(Restrictions.ne("operator"," "));		
+		List<Lng> terminalsOperators=criteria.list();
+				
+		tx.commit();
+		session.close();
+		return terminalsOperators;
+		
 	}
 }

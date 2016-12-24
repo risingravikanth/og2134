@@ -26,9 +26,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
 				
+		
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);						
 		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByCountry(regasificationList);					
 		
 		return regasification;
@@ -38,8 +38,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);	
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
+		
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByCountry(liquefactionList);
 		
 		return liquefaction;
@@ -50,9 +50,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
-				
+		
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);						
 		Map<String,Map<Integer,Double>> regasification=calculateCapacitiesByTerminal(regasificationList);						
 		
 		return regasification;
@@ -63,10 +62,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
-		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByTerminal(liquefactionList);
-	
+		
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
+		Map<String,Map<Integer,Double>> liquefaction=calculateCapacitiesByTerminal(liquefactionList);	
 		return liquefaction;
 	}
 	@Override
@@ -75,12 +73,31 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, REGASIFICATION);
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptionsMap,startDateVal,endDateVal);		
 		
-		Map<String,Map<Integer,Double>> regasification=calculateRegasificationCapacitiesByCompany(regasificationList);						
+		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions,startDateVal,endDateVal);		
 		
-		return regasification;
+		Map<String,Map<Integer,Double>> regasification=calculateRegasificationCapacitiesByCompany(regasificationList);	
+		
+		Map<String,Map<Integer,Double>> selectedCompaniesRegas=new HashMap<String, Map<Integer,Double>>();
+		List<String> owners=selectedOptions.get("owners");
+		List<String> operators=selectedOptions.get("operators");
+		if(owners.size()>0 || operators.size()>0)
+		{	
+			for(String owner:owners)	
+			{	
+				if(null!=regasification.get(owner))
+				selectedCompaniesRegas.put(owner, regasification.get(owner));
+			}
+		
+			for(String operator:operators)
+			{
+				if(null!=regasification.get(operator))
+					selectedCompaniesRegas.put(operator, regasification.get(operator));
+			}
+			return selectedCompaniesRegas;
+		}
+		else
+			return regasification;
 	}
 	@Override
 	public Map<String, Map<Integer, Double>> getLiquefactionCapacityByCompany(
@@ -88,11 +105,32 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
-		Map<String,List> selectedOptionsMap=getSelectedOptions(selectedOptions, LIQUEFACTION);	
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptionsMap, startDateVal, endDateVal);			
+		
+		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions, startDateVal, endDateVal);			
 		Map<String,Map<Integer,Double>> liquefaction=calculateLiquefactionCapacitiesByCompany(liquefactionList);
 		
-		return liquefaction;
+		Map<String,Map<Integer,Double>> selectedCompaniesLique=new HashMap<String, Map<Integer,Double>>();
+		List<String> owners=selectedOptions.get("owners");
+		List<String> operators=selectedOptions.get("operators");
+		if(owners.size()>0 || operators.size()>0)
+		{
+			for(String owner:owners)
+			{
+				if(null!=liquefaction.get(owner))
+				selectedCompaniesLique.put(owner, liquefaction.get(owner));
+			}	
+			
+			for(String operator:operators)
+			{	
+				if(null!=liquefaction.get(operator))
+				selectedCompaniesLique.put(operator, liquefaction.get(operator));
+			}	
+			return selectedCompaniesLique;
+		}
+		else
+			return liquefaction;
+		
+		
 	}
 	/*
 	 * (non-Javadoc)
@@ -168,129 +206,191 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(List<Lng> lngList,String recordName,String type)
 	{
 		Map<String,Map<Integer,Double>> companyTerminalsCapacity=new HashMap<String, Map<Integer,Double>>();
-		Map<String,Set<String>> companyTerminals=null;//getCompanyTerminals(lngList);
-		Set<String> terminalsSet=getTerminals(lngList);
-		if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
-		{
-			List<Lng> liquefactionList=lngDao.getLiquefactionData();
-			companyTerminals=getCompanyTerminals(liquefactionList,terminalsSet);// here we need to specific type list
-		}
-		else if(null!=type && type.equalsIgnoreCase(REGASIFICATION))
-		{
-			List<Lng> regasificationList=lngDao.getRegasificationData();
-			companyTerminals=getCompanyTerminals(regasificationList,terminalsSet);// here we need to specific type list
-		}
+		Map<String,Set<String>> companyTerminals=getCompanyTerminals(type);
 		Set<String> terminals=companyTerminals.get(recordName);
-		Set<Integer> years=getYears(lngList);
-		Map<Integer,Double> yearMap=null;
-		if(null!=terminals)
+		Map<String,Map<Integer,Double>> terminalsCapacity=calculateCapacitiesByTerminal(lngList);
+		for(String terminal:terminals)
 		{
-			for(String terminal:terminals)
-			{
-				yearMap=new HashMap<Integer, Double>();
-				for(Integer year:years)
-				{
-					double soc=0.0;
-					for(Lng lng:lngList)
-					{
-						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
-							soc=soc+lng.getCapacity();
-					}
-					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
-				}
-				companyTerminalsCapacity.put(terminal,yearMap);
-			}		
+			if(null!=terminalsCapacity.get(terminal))
+				companyTerminalsCapacity.put(terminal, terminalsCapacity.get(terminal));
 		}
 		
 		return companyTerminalsCapacity;
 	}
 	private Map<String,Map<Integer,Double>> calculateRegasificationCapacitiesByCompany(List<Lng> lngList)
 	{
-		/*
-		 * Each record doesn't have company details. So we calculated capacities for Regasification separately
-		 */
-		List<Lng> regasificationList=lngDao.getRegasificationData();
-		Set<String> terminalsSet=getTerminals(lngList);
-		Set<String> companies=getCompanies(regasificationList,terminalsSet);
-		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(regasificationList);
-		
-		Map<String,Set<String>> companyTerminals=getCompanyTerminals(regasificationList,terminalsSet);
-		Map<Integer,Double> yearMap=null;
-		
-		Set<Integer> years=getYears(lngList);
-		
 		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
 		
+		Map<String,Set<String>> companyTerminals=getCompanyTerminals(REGASIFICATION);
+		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(REGASIFICATION);
+		Set<Integer> years=getYears(lngList);
+		Map<Integer,Double> yearMap=null;
+		Set<String> companies=getCompaniesForFilteredList(lngList, REGASIFICATION); // Get the companies based on the filters selected by user
 		for(String company:companies)
 		{
-			Set<String> terminals=companyTerminals.get(company);
-			yearMap=new HashMap<Integer, Double>();
-			for(Integer year:years)
-			{				
-				double soc=0.0;
-				for(String terminal:terminals)
-				{			
-					String key=company+"_"+terminal;
-					double stake=companyStakeForTerminal.get(key);			
-										
-					for(Lng lng:lngList)
-					{
-//						System.out.println(lng.getName()+" :"+lng.getCapacityYear());
-						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
-							soc=soc+(lng.getCapacity()*(stake/100));
-					}					
+				Set<String> terminals=companyTerminals.get(company);
+				yearMap=new HashMap<Integer, Double>();
+				for(Integer year:years)
+				{				
+					double soc=0.0;
+					for(String terminal:terminals)
+					{			
+						String key=company+"_"+terminal;
+						double stake=companyStakeForTerminal.get(key);			
+											
+						for(Lng lng:lngList)
+						{
+//							System.out.println(lng.getName()+" :"+lng.getCapacityYear());
+							if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+								soc=soc+(lng.getCapacity()*(stake/100));
+						}					
+					}
+					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 				}
-				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
-			}
-			companyMap.put(company, yearMap);
+				
+				companyMap.put(company, yearMap);
 		}
-		return companyMap;
+			return companyMap;			
 	}
 	private Map<String,Map<Integer,Double>> calculateLiquefactionCapacitiesByCompany(List<Lng> lngList)
 	{
-		/*
-		 * Each record doesn't have company details. So we calculated capacities for Liquefaction separately
-		 */
-		List<Lng> liquefactionList=lngDao.getLiquefactionData();
-		Set<String> terminalsSet=getTerminals(lngList);
-		Set<String> companies=getCompanies(liquefactionList,terminalsSet);
-		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(liquefactionList);
-		
-		Map<String,Set<String>> companyTerminals=getCompanyTerminals(liquefactionList,terminalsSet);
-		Map<Integer,Double> yearMap=null;
-		
-		Set<Integer> years=getYears(lngList);
-		
-		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
-		
+		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();		
+		Map<String,Set<String>> companyTerminals=getCompanyTerminals(LIQUEFACTION);
+		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(LIQUEFACTION);
+		Set<Integer> years=getYears(lngList);						
+					
+		Set<String> companies=getCompaniesForFilteredList(lngList, LIQUEFACTION);
+
+		Map<Integer,Double> yearMap;
 		for(String company:companies)
 		{
-			Set<String> terminals=companyTerminals.get(company);
-			yearMap=new HashMap<Integer, Double>();
-			for(Integer year:years)
-			{				
-				double soc=0.0;
-				for(String terminal:terminals)
-				{			
-					String key=company+"_"+terminal;
-					double stake=companyStakeForTerminal.get(key);			
-										
-					for(Lng lng:lngList)
-					{
-//						System.out.println(lng.getName()+" :"+lng.getCapacityYear());
-						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
-							soc=soc+(lng.getCapacity()*(stake/100));
-					}					
+				Set<String> terminals=companyTerminals.get(company);
+				
+				yearMap=new HashMap<Integer, Double>();
+				for(Integer year:years)
+				{				
+					double soc=0.0;
+					for(String terminal:terminals)
+					{			
+						String key=company+"_"+terminal;
+						double stake=companyStakeForTerminal.get(key);			
+											
+						for(Lng lng:lngList)
+						{
+//							System.out.println(lng.getName()+" :"+lng.getCapacityYear());
+							if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+								soc=soc+(lng.getCapacity()*(stake/100));
+						}					
+					}
+					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 				}
-				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
-			}
-			companyMap.put(company, yearMap);
+				
+				companyMap.put(company, yearMap);
 		}
-		return companyMap;
-		
+			return companyMap;
 	}
+	
+	private Set<String> getCompaniesForFilteredList(List<Lng> lngList,String type)
+	{
+		Set<String> terminals=getTerminals(lngList);		
+		Map<String,Set<String>> terminalCompanies=getTerminalCompanies(type);
+		Set<String> companiesSet=new HashSet<String>();
+		for(String terminal:terminals)
+		{
+			Set<String> companies=terminalCompanies.get(terminal);
+			for(String company:companies)
+				companiesSet.add(company);
+		}
+		return companiesSet;
+	}
+	
+//	private Map<String,Map<Integer,Double>> calculateRegasificationCapacitiesByCompany(List<Lng> lngList)
+//	{
+//		/*
+//		 * Each record doesn't have company details. So we calculated capacities for Regasification separately
+//		 */
+//		List<Lng> regasificationList=lngDao.getRegasificationData();
+//		Set<String> terminalsSet=getTerminals(lngList);
+//		Set<String> companies=getCompanies(regasificationList,terminalsSet);
+//		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(regasificationList);
+//		
+//		Map<String,Set<String>> companyTerminals=getCompanyTerminals(regasificationList,terminalsSet);
+//		Map<Integer,Double> yearMap=null;
+//		
+//		Set<Integer> years=getYears(lngList);
+//		
+//		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
+//		
+//		for(String company:companies)
+//		{
+//			Set<String> terminals=companyTerminals.get(company);
+//			yearMap=new HashMap<Integer, Double>();
+//			for(Integer year:years)
+//			{				
+//				double soc=0.0;
+//				for(String terminal:terminals)
+//				{			
+//					String key=company+"_"+terminal;
+//					double stake=companyStakeForTerminal.get(key);			
+//										
+//					for(Lng lng:lngList)
+//					{
+////						System.out.println(lng.getName()+" :"+lng.getCapacityYear());
+//						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+//							soc=soc+(lng.getCapacity()*(stake/100));
+//					}					
+//				}
+//				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
+//			}
+//			companyMap.put(company, yearMap);
+//		}
+//		return companyMap;
+//	}
+//	private Map<String,Map<Integer,Double>> calculateLiquefactionCapacitiesByCompany(List<Lng> lngList)
+//	{
+//		/*
+//		 * Each record doesn't have company details. So we calculated capacities for Liquefaction separately
+//		 */
+//		List<Lng> liquefactionList=lngDao.getLiquefactionData();
+//		Set<String> terminalsSet=getTerminals(lngList);
+//		Set<String> companies=getCompanies(liquefactionList,terminalsSet);
+//		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(liquefactionList);
+//		
+//		Map<String,Set<String>> companyTerminals=getCompanyTerminals(liquefactionList,terminalsSet);
+//		Map<Integer,Double> yearMap=null;
+//		
+//		Set<Integer> years=getYears(lngList);
+//		
+//		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
+//		
+//		for(String company:companies)
+//		{
+//			Set<String> terminals=companyTerminals.get(company);
+//			yearMap=new HashMap<Integer, Double>();
+//			for(Integer year:years)
+//			{				
+//				double soc=0.0;
+//				for(String terminal:terminals)
+//				{			
+//					String key=company+"_"+terminal;
+//					double stake=companyStakeForTerminal.get(key);			
+//										
+//					for(Lng lng:lngList)
+//					{
+////						System.out.println(lng.getName()+" :"+lng.getCapacityYear());
+//						if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
+//							soc=soc+(lng.getCapacity()*(stake/100));
+//					}					
+//				}
+//				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
+//			}
+//			companyMap.put(company, yearMap);
+//		}
+//		return companyMap;
+//		
+//	}
 
-	//This is to calculate capacities by Terminal i.e with name field . Below method can also be used to display the Modal data for a country
+	//This is to calculate capacities by Terminal i.e with name field . 
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<Lng> lngList)
 	{
 		Set<String> terminals=getTerminals(lngList);
@@ -339,6 +439,165 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		}
 		return countryMap;
 	}
+	
+	private Set<String> getTerminals(List<Lng> lngList)
+	{
+		Set<String> terminals=new HashSet<String>();
+		for(Lng lng:lngList)
+		{
+			terminals.add(lng.getName());
+		}
+		return terminals;
+	}
+	private Set<String> getCountries(List<Lng> lngList)
+	{
+		Set<String> countries=new HashSet<String>();
+		for(Lng lng:lngList)
+		{			
+			countries.add(lng.getCountry());
+		}
+		return countries;
+	}
+	private Set<Integer> getYears(List<Lng> lngList)
+	{
+		Set<Integer> years=new HashSet<Integer>();
+		for(Lng lng:lngList)
+		{
+			years.add(lng.getCapacityYear());			
+		}
+		return years;
+	}
+	
+	private Map<String,Double> getCompanyStakeForTerminal(String type)
+	{
+		List<Lng> lngList=null;
+		Map<String,Double> companyStakeForTerminal=new HashMap<String, Double>();
+		if(type.equalsIgnoreCase(REGASIFICATION))
+			lngList=lngDao.getRegasTerminalCompany();
+		else
+			lngList=lngDao.getLiqueTerminalCompany();		
+	
+		for(Lng lng:lngList)
+		{
+			if(null!=lng.getEquityPartners() && !("").equalsIgnoreCase(lng.getEquityPartners()))
+			{
+				String companyName=lng.getEquityPartners();
+				String terminalName=lng.getName();
+				String key=companyName+"_"+terminalName;
+				companyStakeForTerminal.put(key,lng.getEquityStakes());
+			}
+		}
+		return companyStakeForTerminal;
+	}
+
+	private Map<String,Set<String>> getCountryTerminals(List<Lng> lngList)
+	{
+		Set<String> countries=getCountries(lngList);
+		Map<String,Set<String>> countryTerminals=new HashMap<String, Set<String>>();		
+		for(String country:countries)
+		{
+			Set<String> terminals=new HashSet<String>();
+			for(Lng lng:lngList)
+			{
+				if(country.equalsIgnoreCase(lng.getCountry()))
+						terminals.add(lng.getName());
+			}
+			countryTerminals.put(country, terminals);
+		}
+		
+		return countryTerminals;
+	}
+	 
+	private Map<String,Set<String>> getTerminalCompanies(String type)
+	{
+		List<Lng> lngList=null;
+		Map<String,Set<String>> terminalCompanies=new HashMap<String, Set<String>>();
+		if(null!=type && type.equalsIgnoreCase(REGASIFICATION))
+			lngList=lngDao.getRegasTerminalCompany();
+		else
+			lngList=lngDao.getLiqueTerminalCompany();
+		
+		Set<String> terminals=getTerminals(lngList);
+		for(String terminal:terminals)
+		{
+			Set<String> companies=new HashSet<String>();
+			for(Lng lng:lngList)
+			{	
+				if(lng.getName().equalsIgnoreCase(terminal))
+					companies.add(lng.getEquityPartners());
+			}	
+			terminalCompanies.put(terminal, companies);
+		}		
+		
+		return terminalCompanies;
+	}
+	public Map<String,Set<String>> getCompanyTerminals(String type)
+	{
+		List<Lng> lngList=null;
+		Map<String,Set<String>> companyTerminals=new HashMap<String, Set<String>>();
+		if(null!=type && type.equalsIgnoreCase(REGASIFICATION))
+			lngList=lngDao.getRegasTerminalCompany();
+		else
+			lngList=lngDao.getLiqueTerminalCompany();
+		
+		Set<String> companies=getCompanies(lngList);
+		for(String company:companies)
+		{
+			Set<String> terminals=new HashSet<String>();
+			for(Lng lng:lngList)
+			{	
+				if(lng.getEquityPartners().equalsIgnoreCase(company))
+					terminals.add(lng.getName());
+			}
+			companyTerminals.put(company, terminals);
+		}
+		return companyTerminals;
+	}
+	@Override
+	public Map<String, Set<String>> getCompanyTerminals() {
+		// TODO Auto-generated method stub
+		List<Lng> lngList=lngDao.getTerminalCompany();
+		Map<String,Set<String>> companyTerminals=new HashMap<String, Set<String>>();
+		List<String> companies=lngDao.getOwners();//getCompanies(lngList);
+		for(String company:companies)
+		{
+			Set<String> terminals=new HashSet<String>();
+			for(Lng lng:lngList)
+			{	
+				if(lng.getEquityPartners().equalsIgnoreCase(company))
+					terminals.add(lng.getName());
+			}
+			companyTerminals.put(company, terminals);
+		}
+		return companyTerminals;
+	}
+	@Override
+	public Map<String, Set<String>> getOperatorTerminals() {
+		// TODO Auto-generated method stub
+		List<Lng> lngList=lngDao.getTerminalCompany();
+		Map<String,Set<String>> operatorTerminals=new HashMap<String, Set<String>>();
+		List<String> operators=lngDao.getOperator();
+		for(String operator:operators)
+		{
+			Set<String> terminals=new HashSet<String>();
+			for(Lng lng:lngList)
+			{	
+				if(lng.getOperator().equalsIgnoreCase(operator))
+					terminals.add(lng.getName());
+			}
+			operatorTerminals.put(operator, terminals);
+		}
+		return operatorTerminals;
+	}
+	
+	private Set<String> getCompanies(List<Lng> lngList)
+	{
+		Set<String> companies=new HashSet<String>();
+		for(Lng lng:lngList)
+			companies.add(lng.getEquityPartners());
+		return companies;
+	}		
+ 	
 	@Override
 	public Map getLiqueModalTerminalData(String recordName) {
 		// TODO Auto-generated method stub
@@ -364,7 +623,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		terminalData.put("storageTanks", getStorageTanks(liquefactionTerminalList));
 		
 		terminalData.put("operator",getOperator(liquefactionTerminalList).toString());
-		terminalData.put("ownership",getOwnership(liquefactionTerminalList));
+		terminalData.put("ownership",getOwnership(liquefactionTerminalList,LIQUEFACTION));
 
 		terminalData.put("capex", String.valueOf(getCapexDetails(liquefactionTerminalList)));
 		terminalData.put("technology",getTechnologyDetails(liquefactionTerminalList).toString());
@@ -400,7 +659,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		terminalData.put("storageTanks", getStorageTanks(regasificationTerminalList));
 		
 		terminalData.put("operator",getOperator(regasificationTerminalList).toString());
-		terminalData.put("ownership",getOwnership(regasificationTerminalList));
+		terminalData.put("ownership",getOwnership(regasificationTerminalList,REGASIFICATION));
 
 		terminalData.put("capex", String.valueOf(getCapexDetails(regasificationTerminalList)));
 		terminalData.put("technology",getTechnologyDetails(regasificationTerminalList).toString());
@@ -411,15 +670,17 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		terminalData.put("distributionType",getDistributionType(regasificationTerminalList).toString());
 		return terminalData;
 	}
-	private List<Map<String,String>> getOwnership(List<Lng> dataList)
+	private List<Map<String,String>> getOwnership(List<Lng> dataList,String type)
 	{
+			
 		List<Map<String,String>> ownershipList=new ArrayList<Map<String,String>>();
 		Map<String,String> ownershipMap=null;
 		Set<String> terminals=getTerminals(dataList);
-		Set<String> companies=getCompanies(dataList, terminals);
-		Map<String,Double> companyStakes=getCompanyStakeForTerminal(dataList);
+		Map<String,Set<String>> terminalCompanies=getTerminalCompanies(type);
+		Map<String,Double> companyStakes=getCompanyStakeForTerminal(type);
 		for(String terminal:terminals)
 		{
+			Set<String> companies=terminalCompanies.get(terminal);
 			for(String company:companies)
 			{
 				String key=company+"_"+terminal;
@@ -580,180 +841,13 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			totalCapex=totalCapex+lng.getCapex();
 		return totalCapex;
 	}
-	
-	private Set<String> getTerminals(List<Lng> lngList)
-	{
-		Set<String> terminals=new HashSet<String>();
-		for(Lng lng:lngList)
-		{
-			terminals.add(lng.getName());
-		}
-		return terminals;
-	}
-	private Set<String> getCountries(List<Lng> lngList)
-	{
-		Set<String> countries=new HashSet<String>();
-		for(Lng lng:lngList)
-		{			
-			countries.add(lng.getCountry());
-		}
-		return countries;
-	}
-	private Set<Integer> getYears(List<Lng> lngList)
-	{
-		Set<Integer> years=new HashSet<Integer>();
-		for(Lng lng:lngList)
-		{
-			years.add(lng.getCapacityYear());			
-		}
-		return years;
-	}
-	
-	private Map<String,Double> getCompanyStakeForTerminal(List<Lng> lngList)
-	{
-		Map<String,Double> companyStakeForTerminal=new HashMap<String, Double>();
-//		List<Lng> dataList=null;
-//		if(lngList==null)
-//			dataList=lngDao.getLngData();
-//		else
-//			dataList=lngList;
-		
-		for(Lng lng:lngList)
-		{
-			if(null!=lng.getEquityPartners() && !("").equalsIgnoreCase(lng.getEquityPartners()))
-			{
-				String company=lng.getEquityPartners();
-				String terminalName=lng.getName();
-				String key=company+"_"+terminalName;
-				companyStakeForTerminal.put(key,lng.getEquityStakes());
-			}
-		}
-		return companyStakeForTerminal;
-	}
-	private Map<String,Set<String>> getCompanyTerminals(List<Lng> lngList,Set<String> terminalsSet)
-	{
-		Set<String> companies=getCompanies(lngList,terminalsSet);
-		Map<String,Set<String>> companyTerminals=new HashMap<String, Set<String>>();		
-		for(String company:companies)
-		{
-			Set<String> terminals=new HashSet<String>();
-			for(Lng lng:lngList)
-			{
-				if(company.equalsIgnoreCase(lng.getEquityPartners()))
-						terminals.add(lng.getName());
-			}
-			companyTerminals.put(company, terminals);
-		}
-		
-		return companyTerminals;
-	}
-	private Map<String,Set<String>> getCountryTerminals(List<Lng> lngList)
-	{
-		Set<String> countries=getCountries(lngList);
-		Map<String,Set<String>> countryTerminals=new HashMap<String, Set<String>>();		
-		for(String country:countries)
-		{
-			Set<String> terminals=new HashSet<String>();
-			for(Lng lng:lngList)
-			{
-				if(country.equalsIgnoreCase(lng.getCountry()))
-						terminals.add(lng.getName());
-			}
-			countryTerminals.put(country, terminals);
-		}
-		
-		return countryTerminals;
-	}
-	private Set<String> getCompanies(List<Lng> lngList,Set<String> terminals)
-	{
-//		List<Lng> dataList=null;
-//		if(lngList==null)
-//			dataList=lngDao.getLngData();
-//		else
-//			dataList=lngList;
-		Set<String> companiesList=new HashSet<String>();
-		for(String terminal:terminals)
-		{
-			for(Lng lng:lngList)
-			{
-				if(terminal.equalsIgnoreCase(lng.getName()) && null!=lng.getEquityPartners() && !("").equalsIgnoreCase(lng.getEquityPartners()))
-					companiesList.add(lng.getEquityPartners());
-			}
-		}
-		
-		return companiesList;
-	}
-	private Map<String,List> getSelectedOptions(Map<String,List> selectedOptions,String type)
-	{
-		List<Lng> lngData=null;
-		Map<String,List> selectedOptionsList=new HashMap<String, List>();
-		
-		List<Lng> liqueLngData=lngDao.getLiquefactionData();
-		
-		List<Lng> regasLngData=lngDao.getRegasificationData();
-		
-		Set<String> liqueTerminals=getTerminals(liqueLngData);
-		Set<String> regasTerminals=getTerminals(regasLngData);
-		Map<String,Set<String>> companyLiqueTerminals=getCompanyTerminals(liqueLngData, liqueTerminals);
-		Map<String,Set<String>> companyRegasTerminals=getCompanyTerminals(regasLngData, regasTerminals);
-		
-		selectedOptionsList.put("countries",selectedOptions.get("countries"));
-		selectedOptionsList.put("regions",selectedOptions.get("regions"));
-		selectedOptionsList.put("locations",selectedOptions.get("locations"));
-		selectedOptionsList.put("statuses",selectedOptions.get("statuses"));
-		selectedOptionsList.put("offonshores",selectedOptions.get("offonshores"));
-		selectedOptionsList.put("types",selectedOptions.get("types"));
-		
-		Set<String> terminalsSet=new HashSet<String>();
-		
-		List<String> operatorsList=selectedOptions.get("operators");
-		List<String> ownersList=selectedOptions.get("owners");
-		
-	
-		
-		for(String operator:operatorsList)
-		{
-			Set<String> liqueTerminalsSet=companyLiqueTerminals.get(operator);
-			if(null!=liqueTerminalsSet)
-			for(String terminal:liqueTerminalsSet)
-				terminalsSet.add(terminal);
-			
-			Set<String> regasTerminalsSet=companyRegasTerminals.get(operator);
-			if(null!=regasTerminalsSet)
-			for(String terminal:regasTerminalsSet)
-				terminalsSet.add(terminal);
-			
-		}
-		
-		for(String owner:ownersList)
-		{
-			Set<String> liqueTerminalsSet=companyLiqueTerminals.get(owner);
-			if(null!=liqueTerminalsSet)
-			for(String terminal:liqueTerminalsSet)
-				terminalsSet.add(terminal);
-			
-			Set<String> regasTerminalsSet=companyRegasTerminals.get(owner);
-			if(null!=regasTerminalsSet)
-			for(String terminal:regasTerminalsSet)
-				terminalsSet.add(terminal);
-		}
-		List<String> terminalsList=new ArrayList<String>();
-		Iterator itr=terminalsSet.iterator();
-		while(itr.hasNext())
-		{
-			String terminalName=(String)itr.next();
-			terminalsList.add(terminalName);
-		}
-		selectedOptionsList.put("terminals", terminalsList);
-		return selectedOptionsList;
-				
-	}
 	public LngDao getLngDao() {
 		return lngDao;
 	}
 	public void setLngDao(LngDao lngDao) {
 		this.lngDao = lngDao;
 	}
+	
 
 	
 	
