@@ -51,29 +51,28 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		JSONObject modalCapacityDataRes=null;
-		Map<String,String> modalTerminalData=new HashMap<String,String>();
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 		
 		if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
 		{
-			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
+			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, "terminal");
 		}			
 		else if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
 		{
-			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(selectedOptions, startDate, endDate, displayType, recordName);
+			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, "terminal");
 		}
 		// Modal is different for Terminal displayType because of which below conditions are required 
 		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
 		{
-			Map modalTerminal=lngCapacityBusinessServiceImpl.getLiqueModalTerminalData(recordName);
+			Map modalTerminal=lngCapacityBusinessServiceImpl.getTerminalData(recordName,type);
 			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
 		}
 		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
 		{
-			Map modalTerminal=lngCapacityBusinessServiceImpl.getRegasModalTerminalData(recordName);
+			Map modalTerminal=lngCapacityBusinessServiceImpl.getTerminalData(recordName,type);
 			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
 		}
 							
@@ -131,18 +130,7 @@ public class LngDataServiceImpl implements LngDataService{
 		infrastructureDataRes=lngJsonResponse.createInfrastructureRes(infrastructureMap);
 		return infrastructureDataRes;
 	}
-	@Override
-	public Map<String, Set<String>> getCompanyTerminals() {
-		// TODO Auto-generated method stub
-		Map<String,Set<String>> companyTerminals=lngCapacityBusinessServiceImpl.getCompanyTerminals();
-		return companyTerminals;
-	}
-	@Override
-	public Map<String, Set<String>> getOperatorTerminals() {
-		// TODO Auto-generated method stub
-		Map<String,Set<String>> companyTerminals=lngCapacityBusinessServiceImpl.getOperatorTerminals();
-		return companyTerminals;
-	}
+
 	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
 		return lngCapacityBusinessServiceImpl;
 	}

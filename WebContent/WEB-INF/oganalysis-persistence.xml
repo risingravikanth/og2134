@@ -23,6 +23,9 @@
 				<value>com/oganalysis/entities/CrudeOil.hbm.xml</value>
 				<value>com/oganalysis/entities/Exploration.hbm.xml</value>
 				<value>com/oganalysis/entities/Lng.hbm.xml</value>
+				<value>com/oganalysis/entities/LngLiquefaction.hbm.xml</value>
+				<value>com/oganalysis/entities/LngRegasification.hbm.xml</value>
+				<value>com/oganalysis/entities/LngFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/NaturalGas.hbm.xml</value>
 				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>

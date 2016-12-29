@@ -91,8 +91,7 @@ public class LngDataDisplayController {
 		List<String> selectedStatuses=new ArrayList<String>();
 		List<String> selectedOffOnshores=new ArrayList<String>();
 		List<String> selectedTypes=new ArrayList<String>();
-		List<String> selectedTerminals=new ArrayList<String>();
-		
+				
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
@@ -114,26 +113,7 @@ public class LngDataDisplayController {
 				selectedTypes.add(request.getParameter(option));
 			
 		}
-		Map<String,Set<String>> companyTerminals=lngDataServiceImpl.getCompanyTerminals();
-		Map<String,Set<String>> operatorTerminals=lngDataServiceImpl.getOperatorTerminals();
-		for(String owners:selectedOwners)
-		{
-			Set<String> terminals=companyTerminals.get(owners);
-			for(String terminal:terminals)
-			{	
-				if(!selectedTerminals.contains(terminal))
-				selectedTerminals.add(terminal);
-			}	
-		}
-		for(String operator:selectedOperators)
-		{
-			Set<String> terminals=operatorTerminals.get(operator);
-			for(String terminal:terminals)
-			{
-				if(!selectedTerminals.contains(terminal))
-					selectedTerminals.add(terminal);
-			}
-		}
+		
 			optionsMap.put("countries", selectedCountries);
 			optionsMap.put("regions",selectedRegions);
 			optionsMap.put("locations",selectedLocations);
@@ -142,7 +122,7 @@ public class LngDataDisplayController {
 			optionsMap.put("statuses",selectedStatuses);
 			optionsMap.put("offonshores",selectedOffOnshores);
 			optionsMap.put("types",selectedTypes);
-			optionsMap.put("terminals",selectedTerminals);
+			
 									
 		return optionsMap;
 	}
