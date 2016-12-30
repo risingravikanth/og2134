@@ -13,8 +13,8 @@ public interface LngCapacityBusinessService {
 	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCompany(Map<String,List> selectedOptions,String startDate,String endDate);
 	public Map<String,Map<Integer,Double>> getLiquefactionCapacityByCompany(Map<String,List> selectedOptions,String startDate,String endDate);
 	
-	public Map<String,Map<Integer,Double>> getLiqueModalCapacityForRecord(String startDate, String endDate, String displayType,String recordName);
-	public Map<String,Map<Integer,Double>> getRegasModalCapacityForRecord(String startDate, String endDate, String displayType,String recordName);
+	public Map<String,Map<Integer,Double>> getLiqueModalCapacityForRecord(Map<String,List> selectedOptions,String startDate, String endDate, String displayType,String recordName);
+	public Map<String,Map<Integer,Double>> getRegasModalCapacityForRecord(Map<String,List> selectedOptions,String startDate, String endDate, String displayType,String recordName);
 	
 	public Map<String,String> getTerminalData(String recordName,String type);
 	

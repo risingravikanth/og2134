@@ -27,6 +27,7 @@ public class LngDataServiceImpl implements LngDataService{
 			Map<String, List> selectedOptions, String startDate,
 			String endDate, String displayType) {
 		// TODO Auto-generated method stub
+		
 		String capacityDataRes=null;
 		if(null!=displayType && displayType.equalsIgnoreCase("country"))
 		{
@@ -56,12 +57,12 @@ public class LngDataServiceImpl implements LngDataService{
 		
 		if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
 		{
-			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(startDate, endDate, displayType, recordName);
+			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(selectedOptions,startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, "terminal");
 		}			
 		else if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
 		{
-			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(startDate, endDate, displayType, recordName);
+			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(selectedOptions,startDate, endDate, displayType, recordName);
 			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, "terminal");
 		}
 		// Modal is different for Terminal displayType because of which below conditions are required 

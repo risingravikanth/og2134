@@ -40,7 +40,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 				regasificationMap.put("location", lng.getArea());
 				regasificationMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
 				regasificationMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-				regasificationMap.put("operator",getOperator(lng.getName()).toString());//This one also need to check;
+				regasificationMap.put("operator",getOperator(lng.getName(),REGASIFICATION).toString());//This one also need to check;
 				regasificationMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
 				regasificationMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
 				mapList.add(regasificationMap);
@@ -70,7 +70,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 				liquefactionMap.put("location", lng.getArea());
 				liquefactionMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
 				liquefactionMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-				liquefactionMap.put("operator",getOperator(lng.getName()).toString());//This one also need to check;
+				liquefactionMap.put("operator",getOperator(lng.getName(),LIQUEFACTION).toString());//This one also need to check;
 				liquefactionMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
 				liquefactionMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
 				mapList.add(liquefactionMap);
@@ -80,10 +80,10 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 				
 		return mapList;
 	}
-	private StringBuffer getOperator(String terminalName)
+	private StringBuffer getOperator(String terminalName,String type)
 	{
 		StringBuffer operators=new StringBuffer();
-		List<LngFilter> lngFilterList=lngDao.getTerminalCompanies(terminalName);
+		List<LngFilter> lngFilterList=lngDao.getTerminalCompanies(terminalName,type);
 		for(LngFilter lngFilter:lngFilterList)
 		{
 			if(null!=lngFilter.getOperator() && !("").equalsIgnoreCase(lngFilter.getOperator()))
