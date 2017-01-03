@@ -34,12 +34,20 @@
 		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>		
 	</bean>
 	
+	<bean id="supplyDemandServiceImpl" class="com.oganalysis.service.impl.SupplyDemandServiceImpl">
+		<property name="supplyDemandBusinessServiceImpl" ref="supplyDemandBusinessServiceImpl"/>			
+	</bean>
+	
 	<bean id="lngCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.LngCapacityBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
 	</bean>
 	
 	<bean id="lngInfraBusinessServiceImpl" class="com.oganalysis.business.impl.LngInfraBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
+	</bean>
+	
+	<bean id="supplyDemandBusinessServiceImpl" class="com.oganalysis.business.impl.SupplyDemandBusinessServiceImpl">
+		<property name="supplyDemandDao" ref="supplyDemandDao"/>		
 	</bean>
 	
 	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">

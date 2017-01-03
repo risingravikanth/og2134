@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="SupplyDemandImport" table="supplydemand_import">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+			<property name="tradeType" type="string"/>
+			<property name="region" type="string"/>
+			<property name="country" type="string"/>
+			<property name="year2000" type="float"/>
+			<property name="year2001" type="float"/>
+			<property name="year2002" type="float"/>
+			<property name="year2003" type="float" />
+			<property name="year2004" type="float"/>
+			<property name="year2005" type="float"/>
+			<property name="year2006" type="float"/>
+			<property name="year2007" type="float"/>
+			<property name="year2008" type="float"/> 
+			<property name="year2009" type="float"/> 
+			<property name="year2010" type="float"/> 
+			<property name="year2011" type="float"/> 
+			<property name="year2012" type="float"/> 
+			<property name="year2013" type="float"/> 
+			<property name="year2014" type="float"/>
+			<property name="year2015" type="float"/>
+			<property name="year2016" type="float"/>
+			<property name="year2017" type="float"/>
+			<property name="year2018" type="float"/>
+			<property name="year2019" type="float"/>
+			<property name="year2020" type="float"/>
+			<property name="year2021" type="float"/>
+			<property name="year2022" type="float"/>  					
+	</class>	
+</hibernate-mapping>	

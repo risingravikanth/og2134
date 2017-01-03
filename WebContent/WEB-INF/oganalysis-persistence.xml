@@ -57,6 +57,8 @@
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
+				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
+				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -68,7 +70,7 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
-				
+				<prop key="hibernate.generate_statistics">true</prop>
 				
 			</props>
 		</property>
@@ -108,6 +110,10 @@
 	</bean>
 	
 	<bean id="pdfReportsDao" class="com.oganalysis.dao.impl.PdfReportsDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="supplyDemandDao" class="com.oganalysis.dao.impl.SupplyDemandDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		
