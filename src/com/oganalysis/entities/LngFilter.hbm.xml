@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="LngFilter" table="lng_filter_data">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+		<property name="name" type="string"/>
+		<property name="region" type="string"/>
+		<property name="country" type="string"/>
+		<property name="area" type="string"/>
+		<property name="operator" type="string"/>
+		<property name="equityPartners" type="string"/>
+		<property name="status" type="string"/>
+		<property name="units" type="string"/>
+		<property name="OnshoreOrOffshore" type="string"/>
+		<property name="type" type="string"/>
+		<property name="equityStakes" type="double"/>				
+	</class>
+	
+</hibernate-mapping>	

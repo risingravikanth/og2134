@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,11 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oganalysis.service.LngDataService;
+import com.oganalysis.service.impl.LngDataServiceImpl;
 
 @Controller
 public class LngDataDisplayController {
 	
+	@Autowired
 	private LngDataService lngDataServiceImpl;
+	
+	@Autowired
+	private LngDataServiceImpl lngDataServiceImpl1;
 	
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
@@ -38,7 +44,7 @@ public class LngDataDisplayController {
 		
 		String displayType=req.getParameter("displayType");
 		String response=null;
-				
+		System.out.println(lngDataServiceImpl1);
 		response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
 		
 		return response;
@@ -85,6 +91,7 @@ public class LngDataDisplayController {
 		List<String> selectedStatuses=new ArrayList<String>();
 		List<String> selectedOffOnshores=new ArrayList<String>();
 		List<String> selectedTypes=new ArrayList<String>();
+				
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
@@ -97,7 +104,7 @@ public class LngDataDisplayController {
 			else if(option.contains("operator"))
 				selectedOperators.add(request.getParameter(option));
 			else if(option.contains("owner"))
-				selectedOwners.add(request.getParameter(option));
+				selectedOwners.add(request.getParameter(option));			
 			else if(option.contains("status"))
 				selectedStatuses.add(request.getParameter(option));
 			else if(option.contains("offonshore"))
@@ -116,9 +123,7 @@ public class LngDataDisplayController {
 			optionsMap.put("offonshores",selectedOffOnshores);
 			optionsMap.put("types",selectedTypes);
 			
-		
-		
-		
+									
 		return optionsMap;
 	}
 	private boolean validateUser(HttpServletRequest req)
@@ -131,12 +136,12 @@ public class LngDataDisplayController {
 			return false;
 	}
 	
-	public LngDataService getLngDataServiceImpl() {
-		return lngDataServiceImpl;
-	}
-	@Autowired
-	public void setLngDataServiceImpl(LngDataService lngDataServiceImpl) {
-		this.lngDataServiceImpl = lngDataServiceImpl;
-	}
+//	public LngDataService getLngDataServiceImpl() {
+//		return lngDataServiceImpl;
+//	}
+//	
+//	public void setLngDataServiceImpl(LngDataService lngDataServiceImpl) {
+//		this.lngDataServiceImpl = lngDataServiceImpl;
+//	}
 	
 }

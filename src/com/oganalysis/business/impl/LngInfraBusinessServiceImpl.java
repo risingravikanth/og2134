@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
+import com.oganalysis.entities.LngFilter;
 
 public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	private LngDao lngDao;
@@ -23,25 +24,28 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	public List<Map<String,String>> getRegasificationInfrastructure(
 			Map<String, List> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(selectedOptions);
-		Set<String> terminals=getTerminals(regasificationList);
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,REGASIFICATION);
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();
 		for(String terminalName:terminals)
 		{
 			Map<String,String> regasificationMap=new HashMap<String, String>();
 			List<Lng> terminalData=lngDao.getTerminalData(terminalName,REGASIFICATION);
-			Lng lng=terminalData.get(0);
-						
-			regasificationMap.put("terminalName", lng.getName());
-			regasificationMap.put("status", lng.getStatus());
-			regasificationMap.put("startYear", lng.getExpectedStartYear().toString()); // This one need to check
-			regasificationMap.put("location", lng.getArea());
-			regasificationMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
-			regasificationMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-			regasificationMap.put("operator",getOperator(terminalData).toString());//This one also need to check;
-			regasificationMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
-			regasificationMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
-			mapList.add(regasificationMap);
+			if(terminalData.size()>0)
+			{
+				Lng lng=terminalData.get(0);
+				
+				regasificationMap.put("terminalName", lng.getName());
+				regasificationMap.put("status", lng.getStatus());
+				regasificationMap.put("startYear", lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():""); // This one need to check
+				regasificationMap.put("location", lng.getArea());
+				regasificationMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
+				regasificationMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
+				regasificationMap.put("operator",getOperator(lng.getName(),REGASIFICATION).toString());//This one also need to check;
+				regasificationMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
+				regasificationMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
+				mapList.add(regasificationMap);
+			}
+			
 		}
 		return mapList;
 	}
@@ -49,36 +53,42 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	public List<Map<String,String>> getLiquefactionInfrastructure(
 			Map<String, List> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(selectedOptions);
-		Set<String> terminals=getTerminals(liquefactionList);		
+		
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,LIQUEFACTION);		
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();	
 		for(String terminalName:terminals)
 		{
 			Map<String,String> liquefactionMap=new HashMap<String, String>();
 			List<Lng> terminalData=lngDao.getTerminalData(terminalName,LIQUEFACTION);
-			Lng lng=terminalData.get(0);
+			if(terminalData.size()>0)
+			{
+				Lng lng=terminalData.get(0);
+				
+				liquefactionMap.put("terminalName", lng.getName());
+				liquefactionMap.put("status", lng.getStatus());
+				liquefactionMap.put("startYear", lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():""); // This one need to check
+				liquefactionMap.put("location", lng.getArea());
+				liquefactionMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
+				liquefactionMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
+				liquefactionMap.put("operator",getOperator(lng.getName(),LIQUEFACTION).toString());//This one also need to check;
+				liquefactionMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
+				liquefactionMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
+				mapList.add(liquefactionMap);
+			}
 			
-			liquefactionMap.put("terminalName", lng.getName());
-			liquefactionMap.put("status", lng.getStatus());
-			liquefactionMap.put("startYear", lng.getExpectedStartYear().toString()); // This one need to check
-			liquefactionMap.put("location", lng.getArea());
-			liquefactionMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
-			liquefactionMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-			liquefactionMap.put("operator",getOperator(terminalData).toString());//This one also need to check;
-			liquefactionMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
-			liquefactionMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
-			mapList.add(liquefactionMap);
 		}		
 				
 		return mapList;
 	}
-	private StringBuffer getOperator(List<Lng> dataList)
+	private StringBuffer getOperator(String terminalName,String type)
 	{
 		StringBuffer operators=new StringBuffer();
-		for(Lng lng:dataList)
+		List<LngFilter> lngFilterList=lngDao.getTerminalCompanies(terminalName,type);
+		for(LngFilter lngFilter:lngFilterList)
 		{
-			if(null!=lng.getOperator() && !"".equalsIgnoreCase(lng.getOperator()))
-				operators.append(lng.getOperator()).append(",");
+			if(null!=lngFilter.getOperator() && !("").equalsIgnoreCase(lngFilter.getOperator()))
+				operators.append(lngFilter.getOperator()).append(",");
+			
 		}
 		return operators;
 	}

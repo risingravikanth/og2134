@@ -9,11 +9,37 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	
-	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> com.mchange.v2.c3p0.ComboPooledDataSource 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/lnganalysis"/>
 		<property name="username" value="root"/>
 		<property name="password" value="mysqlroot123"/>
+		
+		<property name="hibernate.c3p0.min_size" value="5"></property>
+  		<property name="hibernate.c3p0.max_size" value="20"></property>
+  		<property name="hibernate.c3p0.timeout" value="300"></property>
+  		<property name="hibernate.c3p0.max_statements" value="50"></property>
+  		<property name="hibernate.c3p0.idle_test_period" value="3000"></property>
+  		
+  		<property name="maxPoolSize" value="50" />
+        <property name="minPoolSize" value="10" />
+        <property name="maxStatements" value="100" />
+        <property name="testConnectionOnCheckout" value="true" />
+  		
+	</bean> -->
+	
+	 <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">  
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/>
+		<property name="user" value="root"/>
+		<property name="password" value="mysqlroot123"/>
+		
+		 		
+  		<property name="maxPoolSize" value="50" />
+        <property name="minPoolSize" value="10" />
+        <property name="maxStatements" value="100" />
+        <property name="testConnectionOnCheckout" value="true" />
+  		
 	</bean>
 	
 	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -23,11 +49,16 @@
 				<value>com/oganalysis/entities/CrudeOil.hbm.xml</value>
 				<value>com/oganalysis/entities/Exploration.hbm.xml</value>
 				<value>com/oganalysis/entities/Lng.hbm.xml</value>
+				<value>com/oganalysis/entities/LngLiquefaction.hbm.xml</value>
+				<value>com/oganalysis/entities/LngRegasification.hbm.xml</value>
+				<value>com/oganalysis/entities/LngFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/NaturalGas.hbm.xml</value>
 				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
+				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
+				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -39,8 +70,12 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
+				<prop key="hibernate.generate_statistics">true</prop>
+				
 			</props>
 		</property>
+		
+		
 	</bean>
 
 	<bean id="crudeOilDao" class="com.oganalysis.dao.impl.CrudeOilDaoImpl">
@@ -75,6 +110,10 @@
 	</bean>
 	
 	<bean id="pdfReportsDao" class="com.oganalysis.dao.impl.PdfReportsDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="supplyDemandDao" class="com.oganalysis.dao.impl.SupplyDemandDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		

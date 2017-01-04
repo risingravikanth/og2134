@@ -1,5 +1,6 @@
 package com.oganalysis.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,15 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.mapping.Array;
+import org.hibernate.transaction.ResinTransactionManagerLookup;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
+import com.oganalysis.entities.LngFilter;
+import com.oganalysis.entities.LngLiquefaction;
+import com.oganalysis.entities.LngRegasification;
 
 public class LngDaoImpl implements LngDao {
 	
@@ -29,14 +35,13 @@ public class LngDaoImpl implements LngDao {
 	}
 	
 	@Override
-	public List<Lng> getRegasificationCriteriaData(
-			Map<String, List> selectedOptions,int startDate,int endDate) {
+	public List<Lng> getRegasificationCriteriaData(int startDate,int endDate) {
 //		List<Object> list=hibernateTemplate.find("from Exploration");
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-		createFiltersCriteria(selectedOptions, criteria);
+		Criteria criteria=session.createCriteria(LngRegasification.class);
+//		createFiltersCriteria(selectedOptions, criteria);// Nedd to change the method definition
 		
 		if(startDate!=0 && endDate!=0)
 		{
@@ -44,22 +49,20 @@ public class LngDaoImpl implements LngDao {
 			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
-		Criterion regasificationCriterion=Restrictions.eq("type",REGASIFICATION);
-		criteria.add(regasificationCriterion);
+		
 		List<Lng> list=criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
 	@Override
-	public List<Lng> getLiquefactionCriteriaData(
-			Map<String, List> selectedOptions,int startDate,int endDate) {
+	public List<Lng> getLiquefactionCriteriaData(int startDate,int endDate) {
 //		List<Object> list=hibernateTemplate.find("from Exploration");
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-		createFiltersCriteria(selectedOptions, criteria);
+		Criteria criteria=session.createCriteria(LngLiquefaction.class);
+//		createFiltersCriteria(selectedOptions, criteria); //need to change method definition
 			
 		if(startDate!=0 && endDate!=0)
 		{
@@ -67,43 +70,41 @@ public class LngDaoImpl implements LngDao {
 			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
-		Criterion regasificationCriterion=Restrictions.eq("type",LIQUEFACTION);
-		criteria.add(regasificationCriterion);
+
 		List<Lng> list=criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
-//	@Override
-//	public List<Object> getOGAnalysisData() {
-//		
-////		List<Object> list=hibernateTemplate.find("from Exploration");
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=session.createCriteria(Lng.class);
-//		
-////		Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
-////		Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
-////		
-//////		Criterion criterion1=Restrictions.eq("country", c1);
-//////		Criterion criterion2=Restrictions.eq("country", c2);
-//////		
-//////		Criterion criterion3=Restrictions.eq("region", r1);
-//////		Criterion criterion4=Restrictions.eq("region", r2);
-//////		
-//////		Criterion countries=Restrictions.or(criterion1, criterion2);
-//////		Criterion region=Restrictions.or(criterion3, criterion4);
-////		
-////		criteria.add(counrtryCriterion);
-////		criteria.add(regionCriterion);
-////		
-//		
-//		List<Object> list=criteria.list();
-//		tx.commit();
-//		session.close();
-//		return list;
-//	}
+	
+	@Override
+	public List<Lng> getRegasificationCriteriaData(List<String> terminals) {
+//		List<Object> list=hibernateTemplate.find("from Exploration");
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngRegasification.class);
+		criteria.add(Restrictions.in("name",terminals));				
+		
+		List<Lng> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<Lng> getLiquefactionCriteriaData(List<String> terminals) {
+//		List<Object> list=hibernateTemplate.find("from Exploration");
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngLiquefaction.class);
+		criteria.add(Restrictions.in("name",terminals));
+		List<Lng> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
 	public List<String> getLocations() {
@@ -149,68 +150,39 @@ public class LngDaoImpl implements LngDao {
 		return owners;
 	}
 
-	@Override
-	public List<Lng> getLiquefactionCriteriaData(
-			Map<String, List> selectedOptions) {
-		// TODO Auto-generated method stub
-		List<Lng> liquefaction=getLiquefactionCriteriaData(selectedOptions, 0,0);
-		return liquefaction;
-	}
-
-	@Override
-	public List<Lng> getRegasificationCriteriaData(
-			Map<String, List> selectedOptions) {
-		// TODO Auto-generated method stub
-		List<Lng> regasification=getRegasificationCriteriaData(selectedOptions, 0,0);
-		return regasification;
-	}
-
 //	@Override
-//	public List<Lng> getLngData() {
+//	public List<Lng> getLiquefactionCriteriaData(
+//			Map<String, List> selectedOptions) {
 //		// TODO Auto-generated method stub
 //		Session session=sessionFactory.openSession();
 //		Transaction tx=session.beginTransaction();
 //		tx.begin();
-//		Criteria criteria=session.createCriteria(Lng.class);
-//		
-//		List<Lng> lngData=criteria.list();
-//				
+//		Criteria criteria=null;		
+//		criteria=session.createCriteria(LngLiquefaction.class);								
+//		List<String> terminals=getSelectedTerminals(selectedOptions);
+//		criteria.add(Restrictions.in("name",terminals));
+//		List<Lng> liquefaction=criteria.list();
 //		tx.commit();
-//		session.close();
-//		return lngData;
+//		session.close();		
+//		return liquefaction;
 //	}
-
-	@Override
-	public List<Lng> getLiquefactionData() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-		
-		Criterion regasificationCriterion=Restrictions.eq("type",LIQUEFACTION);
-		criteria.add(regasificationCriterion);
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-
-	@Override
-	public List<Lng> getRegasificationData() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-				
-		Criterion regasificationCriterion=Restrictions.eq("type",REGASIFICATION);
-		criteria.add(regasificationCriterion);
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+//
+//	@Override
+//	public List<Lng> getRegasificationCriteriaData(
+//			Map<String, List> selectedOptions) {
+//		// TODO Auto-generated method stub
+//		Session session=sessionFactory.openSession();
+//		Transaction tx=session.beginTransaction();
+//		tx.begin();
+//		Criteria criteria=null;		
+//		criteria=session.createCriteria(LngRegasification.class);								
+//		List<String> terminals=getSelectedTerminals(selectedOptions);
+//		criteria.add(Restrictions.in("name",terminals));
+//		List<Lng> liquefaction=criteria.list();
+//		tx.commit();
+//		session.close();		
+//		return liquefaction;
+//	}
 
 	@Override
 	public List<Lng> getTerminalData(String terminalName, String type) {
@@ -218,11 +190,12 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class);
-				
-		Criterion regasificationCriterion=Restrictions.eq("type",type);		
-		criteria.add(regasificationCriterion);
-		
+		 Criteria criteria=null;
+		if(type.equalsIgnoreCase(REGASIFICATION))
+		 criteria=session.createCriteria(LngRegasification.class);
+		else
+			criteria=session.createCriteria(LngLiquefaction.class);	
+			
 		Criterion terminalCriterion=Restrictions.eq("name",terminalName);
 		criteria.add(terminalCriterion);
 		
@@ -236,56 +209,305 @@ public class LngDaoImpl implements LngDao {
 		List<String> countries=selectedOptions.get("countries");
 		List<String> regions=selectedOptions.get("regions");
 		List<String> locations=selectedOptions.get("locations");
-		List<String> terminals=selectedOptions.get("terminals");		
+//		List<String> terminals=selectedOptions.get("terminals");
+		List<String> owners=selectedOptions.get("owners");
+		List<String> operators=selectedOptions.get("operators");
 		List<String> statuses=selectedOptions.get("statuses");
 		List<String> offonShores=selectedOptions.get("offonshores");
 		List<String> types=selectedOptions.get("types");	
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
+			Criterion counrtryCriterion=Restrictions.in("country", countries);
 			criteria.add(counrtryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)
 		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
+			Criterion regionCriterion=Restrictions.in("region", regions);
 			criteria.add(regionCriterion);
 		}
 		if(locations!=null && locations.size()>0)
 		{
-			Criterion locationCriterion=Restrictions.in("area",selectedOptions.get("locations"));
+			Criterion locationCriterion=Restrictions.in("area",locations);
 			criteria.add(locationCriterion);
 		}
-		if(terminals!=null && terminals.size()>0)
+		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
 		{
-			Criterion terminalNameCriterion=Restrictions.in("name",selectedOptions.get("terminals"));
-			criteria.add(terminalNameCriterion);
+			Criterion ownersCriterion=Restrictions.in("equityPartners",owners);				
+			Criterion operatorCriterion=Restrictions.in("operator",operators);			
+			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
+			
 		}
-//		if(operators!=null && operators.size()>0)
-//		{
-//			Criterion operatorsCriterion=Restrictions.in("operator",selectedOptions.get("operators"));
-//			criteria.add(operatorsCriterion);
-//		}
-//		if(owners!=null && owners.size()>0)
-//		{
-//			Criterion ownersCriterion=Restrictions.in("equityPartners",selectedOptions.get("owners"));
-//			criteria.add(ownersCriterion);
-//		}
+		else if(owners!=null && owners.size()>0)
+		{
+			Criterion ownersCriterion=Restrictions.in("equityPartners",owners);
+			criteria.add(ownersCriterion);
+		}
+		else if(operators!=null && operators.size()>0)
+		{
+			Criterion operatorCriterion=Restrictions.in("operator",operators);
+			criteria.add(operatorCriterion);
+		}
 		if(statuses!=null && statuses.size()>0)
 		{
-			Criterion statusesCriterion=Restrictions.in("status",selectedOptions.get("statuses"));
+			Criterion statusesCriterion=Restrictions.in("status",statuses);
 			criteria.add(statusesCriterion);
 		}
 		if(offonShores!=null && offonShores.size()>0)
 		{
-			Criterion offonShoresCriterion=Restrictions.in("OnshoreOrOffshore",selectedOptions.get("offonshores"));
+			Criterion offonShoresCriterion=Restrictions.in("OnshoreOrOffshore",offonShores);
 			criteria.add(offonShoresCriterion);
 		}
 		if(types!=null && types.size()>0)
 		{
-			Criterion typeCriterion=Restrictions.in("type",selectedOptions.get("types"));
+			Criterion typeCriterion=Restrictions.in("type",types);
 			criteria.add(typeCriterion);
 		}
 	}
+
+	@Override
+	public List<String> getLiqueTerminals(int startDate, int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngLiquefaction.class);				
+		if(startDate!=0 && endDate!=0)
+		{
+						
+			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			criteria.add(capacityYearCriterion);
+		}					
+		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getRegasTerminals(int startDate, int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngRegasification.class);				
+		if(startDate!=0 && endDate!=0)
+		{
+						
+			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			criteria.add(capacityYearCriterion);
+		}					
+		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	
+	@Override
+	public List<String> getCompanyTerminals(String company,List<String> terminals,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		criteria.add(Restrictions.in("name",terminals));					
+		criteria.add(Restrictions.eq("equityPartners", company));
+//		if(terminals.size()>0)
+//			criteria.add(Restrictions.in("name",terminals));
+//		else
+//		{
+//			List<String> terminalsList=new ArrayList<String>();
+//			terminalsList.add(" ");
+//			criteria.add(Restrictions.in("name",terminalsList));
+//		}
+		criteria.add(Restrictions.eq("type",type));
+		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+//	@Override
+//	public List<String> getCompanyTerminals(String company,Map<String,List> selectedOptions,String type) {
+//		// TODO Auto-generated method stub
+//		List<String> companyTerminals=getCompanyTerminals(company,selectedOptions,0,0, type);
+//		return companyTerminals;
+//	}
+
+	@Override
+	public List<String> getCountryTerminals(String country,List<String> terminals,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		criteria.add(Restrictions.in("name",terminals));
+//		if(terminals.size()>0)
+//				criteria.add(Restrictions.in("name",terminals));
+//		else
+//		{
+//				List<String> terminalsList=new ArrayList<String>();
+//				terminalsList.add(" ");
+//				criteria.add(Restrictions.in("name",terminals));
+//		}			
+		criteria.add(Restrictions.eq("country", country));
+		criteria.add(Restrictions.eq("type",type));
+		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<LngFilter> getLngFilter(String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		criteria.add(Restrictions.eq("type",type));		
+		List<LngFilter> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getSelectedCompanies(Map<String, List> selectedOptions,int startDate,int endDate,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;		
+		if(startDate!=0 && endDate!=0)
+		{
+			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+				terminals=getLiqueTerminals(startDate, endDate);
+			else
+				terminals=getRegasTerminals(startDate, endDate);
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in("name",terminals));
+			else
+			{
+				terminals.add(" ");
+				criteria.add(Restrictions.in("name",terminals));
+			}	
+		}
+		criteria.add(Restrictions.eq("type",type));		
+		criteria.setProjection(Projections.distinct(Projections.property("equityPartners")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getSelectedCountries(Map<String, List> selectedOptions,int startDate,int endDate,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;
+		if(startDate!=0 && endDate!=0)
+		{
+			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+				terminals=getLiqueTerminals(startDate, endDate);
+			else
+				terminals=getRegasTerminals(startDate, endDate);
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in("name",terminals));
+			else
+			{
+				terminals.add(" ");
+				criteria.add(Restrictions.in("name",terminals));
+			}	
+		}
+		criteria.add(Restrictions.eq("type",type));	
+		criteria.setProjection(Projections.distinct(Projections.property("country")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<String> getSelectedTerminals(Map<String, List> selectedOptions,int startDate,int endDate,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;
+		if(startDate!=0 && endDate!=0)
+		{
+			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+				terminals=getLiqueTerminals(startDate, endDate);
+			else
+				terminals=getRegasTerminals(startDate, endDate);
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in("name",terminals));
+			else
+			{
+				terminals.add(" ");
+				criteria.add(Restrictions.in("name",terminals));
+			}	
+		}
+		criteria.add(Restrictions.eq("type",type));	
+		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<LngFilter> getTerminalCompanies(String terminal,String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(LngFilter.class);
+		criteria.add(Restrictions.eq("name",terminal));		
+		criteria.add(Restrictions.eq("type",type));
+		List<LngFilter> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<String> getSelectedTerminals(Map<String, List> selectedOptions,String type) {
+		// TODO Auto-generated method stub
+		List<String> terminals=getSelectedTerminals(selectedOptions, 0,0, type);
+		return terminals;
+	}
+
+	@Override
+	public List<Integer> getSelectedYears(int startDate, int endDate,String type) {
+		// TODO Auto-generated method stub
+		
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=null;
+		if(type.equalsIgnoreCase(LIQUEFACTION))
+			criteria=session.createCriteria(LngLiquefaction.class);
+		else
+			criteria=session.createCriteria(LngRegasification.class);
+		
+		criteria.add(Restrictions.between("capacityYear",startDate,endDate));
+		criteria.setProjection(Projections.distinct(Projections.property("capacityYear")));			
+		List<Integer> listYears=criteria.list();
+		tx.commit();
+		session.close();
+		return listYears;
+	}
+			
+	
 }
