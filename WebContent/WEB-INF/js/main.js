@@ -60,6 +60,11 @@
         templateUrl: 'views/capacity.html',
 		controller:"CapacityCtrl"
 	  })
+	  .state('supplydemand', {
+        url:'/supplydemand',
+        templateUrl: 'views/supplydemand.html',
+		controller:"SupplyDemandCtrl"
+	  })
 	   .state('infrastructure', {
         url:'/infrastructure',
         templateUrl: 'views/infrastructure.html',
