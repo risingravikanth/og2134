@@ -13,6 +13,7 @@
 		<property name="dataServiceImpl" ref="dataServiceImpl"/>
 	</bean>-->
 	
+	<!--  ServiceImpl -->
 	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
 		<property name="crudeOilDao" ref="crudeOilDao"/>
 		<property name="explorationDao" ref="explorationDao"/>
@@ -22,22 +23,30 @@
 		<property name="refineryDao" ref="refineryDao"/>
 		<property name="storageDao" ref="storageDao"/>
 	</bean>
-	
+			
 	
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
 		<property name="filterDataDao" ref="filterDataDao"/>
 		<property name="lngDao" ref="lngDao"/>		
 	</bean>
-	
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
 		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>		
+	</bean>
+	
+	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
+		<property name="pdfReportsDao" ref="pdfReportsDao"/>		
 	</bean>
 	
 	<bean id="supplyDemandServiceImpl" class="com.oganalysis.service.impl.SupplyDemandServiceImpl">
 		<property name="supplyDemandBusinessServiceImpl" ref="supplyDemandBusinessServiceImpl"/>			
 	</bean>
 	
+	<bean id="contractsServiceImpl" class="com.oganalysis.service.impl.ContractsServiceImpl">
+		<property name="contractsBusinessServiceImpl" ref="contractsBusinessServiceImpl"/>			
+	</bean>
+	
+	<!-- BusinessServiceImpl -->
 	<bean id="lngCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.LngCapacityBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
 	</bean>
@@ -50,7 +59,8 @@
 		<property name="supplyDemandDao" ref="supplyDemandDao"/>		
 	</bean>
 	
-	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
-		<property name="pdfReportsDao" ref="pdfReportsDao"/>		
+	<bean id="contractsBusinessServiceImpl" class="com.oganalysis.business.impl.ContractsBusinessServiceImpl">
+		<property name="contractsDao" ref="contractsDao"/>		
 	</bean>
+	
 </beans>

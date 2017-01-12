@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="Contracts">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+			<property name="contractIndicator" type="string"/>
+			<property name="year" type="int"/>
+			<property name="exportTerminal" type="string"/>
+			<property name="exportCountry" type="string"/>
+			<property name="exportCompany" type="string"/>
+			<property name="importTerminal" type="string"/>
+			<property name="importCountry" type="string"/>
+			<property name="importCompany" type="string"/>
+			<property name="contractedQuantity" type="float"/>
+			<property name="contractAgreementDate" type="string"/>							
+			<property name="contractStartFrom" type="int"/>
+			<property name="contractEndsIn" type="int"/>
+			<property name="typeOfTransportation" type="string"/>
+			<property name="contractAgreementStatus" type="string"/>
+			<property name="contractAdditionalDetails" type="string">
+				<column name="contractAdditionalDetails" sql-type="longtext"/>
+			</property>
+			<property name="sources" type="string">
+				<column name="sources" sql-type="longtext"/>
+			</property>			
+	 </class>	
+</hibernate-mapping>	

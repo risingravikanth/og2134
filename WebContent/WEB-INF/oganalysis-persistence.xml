@@ -59,6 +59,8 @@
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
+				<value>com/oganalysis/entities/Contracts.hbm.xml</value>
+				<value>com/oganalysis/entities/ContractsFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -114,6 +116,10 @@
 	</bean>
 	
 	<bean id="supplyDemandDao" class="com.oganalysis.dao.impl.SupplyDemandDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="contractsDao" class="com.oganalysis.dao.impl.ContractsDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		
