@@ -9,8 +9,9 @@ import com.oganalysis.entities.LngFilter;
 public interface LngDao {
 	
 	
-	List<Lng> getRegasificationCriteriaData(int startDate,int endDate);
-	List<Lng> getLiquefactionCriteriaData(int startDate,int endDate);
+	List<Lng> getRegasificationCriteriaData(Map<String,List<String>> selectedOptions,List<String> terminals,int startDate,int endDate);
+	
+	List<Lng> getLiquefactionCriteriaData(Map<String,List<String>> selectedOptions,List<String> terminals,int startDate,int endDate);
 			
 	List<Lng> getRegasificationCriteriaData(List<String> terminals);
 	List<Lng> getLiquefactionCriteriaData(List<String> terminals);
@@ -28,11 +29,11 @@ public interface LngDao {
 	List<Lng> getTerminalData(String terminalName,String type);
 			
 	
-	List<String> getSelectedCompanies(Map<String,List> selectedOptions,int startDate,int endDate,String type);
-	List<String> getSelectedCountries(Map<String,List> selectedOptions,int startDate,int endDate,String type);
-	List<String> getSelectedTerminals(Map<String,List> selectedOptions,int startDate,int endDate,String type);
+	List<String> getSelectedCompanies(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);
+	List<String> getSelectedCountries(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);
+	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);
 	
-	List<String> getSelectedTerminals(Map<String,List> selectedOptions,String type);
+	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions,String type);
 	
 	
 //	List<String> getCompanyTerminals(String company,Map<String,List> selectedOptions,int startDate,int endDate,String type);

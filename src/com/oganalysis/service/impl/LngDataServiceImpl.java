@@ -3,13 +3,11 @@ package com.oganalysis.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.simple.JSONObject;
 
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.business.LngInfraBusinessService;
-import com.oganalysis.business.impl.LngCapacityBusinessServiceImpl;
 import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.service.LngDataService;
 
@@ -24,7 +22,7 @@ public class LngDataServiceImpl implements LngDataService{
 	
 	@Override
 	public String getCapacityData(
-			Map<String, List> selectedOptions, String startDate,
+			Map<String, List<String>> selectedOptions, String startDate,
 			String endDate, String displayType) {
 		// TODO Auto-generated method stub
 		
@@ -45,7 +43,7 @@ public class LngDataServiceImpl implements LngDataService{
 		return capacityDataRes;
 	}
 	@Override
-	public String getModalCapacityData(Map<String, List> selectedOptions,
+	public String getModalCapacityData(Map<String, List<String>> selectedOptions,
 			String startDate, String endDate, String displayType, String type,
 			String recordName) {
 		// TODO Auto-generated method stub
@@ -79,7 +77,7 @@ public class LngDataServiceImpl implements LngDataService{
 							
 		return modalCapacityDataRes.toJSONString();
 	}
-	private String getCapacityByCompany(Map<String, List> selectedOptions, String startDate,String endDate)
+	private String getCapacityByCompany(Map<String, List<String>> selectedOptions, String startDate,String endDate)
 	{
 		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByCompany(selectedOptions, startDate, endDate);
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCompany(selectedOptions, startDate, endDate);
@@ -92,7 +90,7 @@ public class LngDataServiceImpl implements LngDataService{
 		String capacityByCompanyRes=lngJsonResponse.createCapacityByCompanyRes(capacityDataByCompany, startDate, endDate);
 		return capacityByCompanyRes;
 	}
-	private String getCapacityByTerminal(Map<String, List> selectedOptions, String startDate,String endDate)
+	private String getCapacityByTerminal(Map<String, List<String>> selectedOptions, String startDate,String endDate)
 	{
 		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByTerminal(selectedOptions, startDate, endDate);
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByTerminal(selectedOptions, startDate, endDate);
@@ -105,7 +103,7 @@ public class LngDataServiceImpl implements LngDataService{
 		String capacityByTerminalRes=lngJsonResponse.createCapacityByTerminalRes(capacityDataByTerminal, startDate, endDate);
 		return capacityByTerminalRes;
 	}
-	private String getCapacityByCountry(Map<String, List> selectedOptions, String startDate,String endDate)
+	private String getCapacityByCountry(Map<String, List<String>> selectedOptions, String startDate,String endDate)
 	{
 		Map<String,Map<Integer,Double>> liquefaction=lngCapacityBusinessServiceImpl.getLiquefactionCapacityByCountry(selectedOptions,startDate,endDate);
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCountry(selectedOptions, startDate, endDate);
@@ -119,7 +117,7 @@ public class LngDataServiceImpl implements LngDataService{
 		return capacityDataByCountryRes;
 	}
 	@Override
-	public String getInfrastructureData(Map<String,List> selectedOptions) {
+	public String getInfrastructureData(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String infrastructureDataRes=null;;
 		List<Map<String,String>> liquefaction=lngInfraBusinessServiceImpl.getLiquefactionInfrastructure(selectedOptions);

@@ -3,13 +3,11 @@ package com.oganalysis.business.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.dao.LngDao;
@@ -22,7 +20,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	private static final String LIQUEFACTION="Liquefaction";
 	@Override
 	public List<Map<String,String>> getRegasificationInfrastructure(
-			Map<String, List> selectedOptions) {
+			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,REGASIFICATION);
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();
@@ -51,7 +49,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	}
 	@Override
 	public List<Map<String,String>> getLiquefactionInfrastructure(
-			Map<String, List> selectedOptions) {
+			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		
 		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,LIQUEFACTION);		
@@ -172,16 +170,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			}
 		}				
 		return startYearVal;
-	}
-	private Set<String> getTerminals(List<Lng> lngList)
-	{
-		Set<String> terminals=new HashSet<String>();
-		for(Lng lng:lngList)
-		{
-			terminals.add(lng.getName());
-		}
-		return terminals;
-	}
+	}	
 	private Set<Integer> getYears(List<Lng> lngList)
 	{
 		Set<Integer> years=new HashSet<Integer>();

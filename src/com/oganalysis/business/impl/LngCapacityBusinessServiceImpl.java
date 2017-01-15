@@ -3,7 +3,6 @@ package com.oganalysis.business.impl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,108 +18,88 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	public static final String REGASIFICATION="Regasification";
 	public static final String LIQUEFACTION="Liquefaction";
 	private final DecimalFormat formatCapacity=new DecimalFormat(".#");
+	private static final int STARTYEAR=2005;
+	private static final int ENDYEAR=2020;
+	private static final float BCF_UNIT=48.7f;
 	
 	@Override
-	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List>selectedOptions,String startDate,String endDate) {
+	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List<String>>selectedOptions,String startDate,String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 				
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
 		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions, startDateVal,endDateVal, REGASIFICATION);
-		List<Integer> years=lngDao.getSelectedYears(startDateVal,endDateVal,REGASIFICATION);
-		if(countries.size()>0 && terminals.size()>0)
-		{	
-//			List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(startDateVal,endDateVal);						
-			regasification=calculateCapacitiesByCountry(countries,terminals,years,REGASIFICATION);
-		}	
+		if(countries.size()>0)								
+			regasification=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		
 		
 		return regasification;
 	}
 	@Override
-	public Map<String,Map<Integer,Double>> getLiquefactionCapacityByCountry(Map<String,List>selectedOptions,String startDate,String endDate) {
+	public Map<String,Map<Integer,Double>> getLiquefactionCapacityByCountry(Map<String,List<String>>selectedOptions,String startDate,String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();		
 		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions, startDateVal,endDateVal, LIQUEFACTION);
-		List<Integer> years=lngDao.getSelectedYears(startDateVal,endDateVal,LIQUEFACTION);
-		if(countries.size()>0 && terminals.size()>0)
-		{
-//			List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(startDateVal, endDateVal);			
-			liquefaction=calculateCapacitiesByCountry(countries,terminals,years,LIQUEFACTION);
-		}			
+		if(countries.size()>0)						
+			liquefaction=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);		
 		return liquefaction;
 	}
 	@Override
 	public Map<String, Map<Integer, Double>> getRegasificationCapacityByTerminal(
-			Map<String, List> selectedOptions, String startDate, String endDate) {
+			Map<String, List<String>> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
 		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
-		if(terminals.size()>0)
-		{
-			List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(startDateVal,endDateVal);						
-			regasification=calculateCapacitiesByTerminal(regasificationList,terminals);
-		}									
+		if(terminals.size()>0)							
+			regasification=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,REGASIFICATION);								
 		return regasification;
 	}
 	@Override
 	public Map<String, Map<Integer, Double>> getLiquefactionCapacityByTerminal(
-			Map<String, List> selectedOptions, String startDate, String endDate) {
+			Map<String, List<String>> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();
 		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
-		if(terminals.size()>0)
-		{
-			List<Lng> liquefactionList=lngDao.getLiquefactionCriteriaData(startDateVal, endDateVal);			
-			liquefaction=calculateCapacitiesByTerminal(liquefactionList,terminals);
-		}				
+		if(terminals.size()>0)					
+			liquefaction=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);				
 		return liquefaction;
 	}
 	@Override
 	public Map<String, Map<Integer, Double>> getRegasificationCapacityByCompany(
-			Map<String, List> selectedOptions, String startDate, String endDate) {
+			Map<String, List<String>> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
-		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions, startDateVal,endDateVal,REGASIFICATION);
-		List<Integer> years=lngDao.getSelectedYears(startDateVal,endDateVal,REGASIFICATION);
-		if(companies.size()>0 && terminals.size()>0)
-		{
-//			List<Lng> regasificationList=lngDao.getRegasificationCriteriaData(terminals);		
-			regasification=calculateCapacitiesByCompany(companies,terminals,years,REGASIFICATION);
-		}			
+		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,REGASIFICATION);			
+		if(companies.size()>0)				
+			regasification=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		
 				
 		return regasification;
 	}
 	@Override
 	public Map<String, Map<Integer, Double>> getLiquefactionCapacityByCompany(
-			Map<String, List> selectedOptions, String startDate, String endDate) {
+			Map<String, List<String>> selectedOptions, String startDate, String endDate) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();
 		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions, startDateVal, endDateVal, LIQUEFACTION);
-		List<Integer> years=lngDao.getSelectedYears(startDateVal,endDateVal,LIQUEFACTION);
-		if(companies.size()>0 && terminals.size()>0)
-		{					
-			liquefaction=calculateCapacitiesByCompany(companies,terminals,years,LIQUEFACTION);
-		}				
+		if(companies.size()>0)
+				liquefaction=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);		
 		return liquefaction;		
 		
 	}
@@ -130,18 +109,17 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	 * Modal data for a record of type Liquefaction
 	 */
 	@Override
-	public Map<String, Map<Integer, Double>> getLiqueModalCapacityForRecord(Map<String,List> selectedOptions,
+	public Map<String, Map<Integer, Double>> getLiqueModalCapacityForRecord(Map<String,List<String>> selectedOptions,
 			String startDate,
 			String endDate, String displayType, String recordName) {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 			Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions, startDateVal,endDateVal,LIQUEFACTION);
 		if(null!=displayType && displayType.equalsIgnoreCase("country"))
-			terminalCapacities=getTerminalsCapacityForCountry(recordName,terminals,LIQUEFACTION);
+			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
 		else if(null!=displayType && displayType.equalsIgnoreCase("company"))					
-			terminalCapacities=getTerminalsCapacityForCompany(recordName,terminals,LIQUEFACTION);
+			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
 						
 		return terminalCapacities;
 	}
@@ -151,7 +129,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	 * Modal data for a record of type Regasifiation
 	 */
 	@Override
-	public Map<String, Map<Integer, Double>> getRegasModalCapacityForRecord(Map<String,List> selectedOptions,
+	public Map<String, Map<Integer, Double>> getRegasModalCapacityForRecord(Map<String,List<String>> selectedOptions,
 			String startDate,
 			String endDate, String displayType, String recordName) {
 		// TODO Auto-generated method stub
@@ -159,68 +137,50 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		
 		if(null!=displayType && displayType.equalsIgnoreCase("country"))
-			terminalCapacities=getTerminalsCapacityForCountry(recordName,terminals,REGASIFICATION);
+			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
 		else if(null!=displayType && displayType.equalsIgnoreCase("company"))
-			terminalCapacities=getTerminalsCapacityForCompany(recordName,terminals,REGASIFICATION);
+			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
 		
 		return terminalCapacities;
 	}
-	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String recordName,List<String> terminals,String type)
+	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
-		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(terminals);
-		else
-			lngList=lngDao.getRegasificationCriteriaData(terminals);
-		
-		Map<String,Map<Integer,Double>> countryTerminalsCapacity=new HashMap<String, Map<Integer,Double>>();
-		List<String> countryTerminals=lngDao.getCountryTerminals(recordName,terminals,type);
-		Map<String,Map<Integer,Double>> terminalsCapacity=calculateCapacitiesByTerminal(lngList, countryTerminals);
-		for(String terminal:terminals)
-		{
-			if(null!=terminalsCapacity.get(terminal))
-				countryTerminalsCapacity.put(terminal, terminalsCapacity.get(terminal));
-		}
-		return countryTerminalsCapacity;
+		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
+		List<String> companyTerminals=lngDao.getCountryTerminals(countryName,selectedTerminals,type);		
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate,type);	
+					
+		return companyterminalsCapacity;
 		
 	}
-	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String recordName,List<String> terminals,String type)
+	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String companyName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
-		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(terminals);
-		else
-			lngList=lngDao.getRegasificationCriteriaData(terminals);
-		
-		Map<String,Map<Integer,Double>> companyTerminalsCapacity=new HashMap<String, Map<Integer,Double>>();
-		List<String> companyTerminals=lngDao.getCompanyTerminals(recordName,terminals,type);
-		Map<String,Map<Integer,Double>> terminalsCapacity=calculateCapacitiesByTerminal(lngList,companyTerminals);	
-		
-		for(String terminal:terminals)
-		{
-			if(null!=terminalsCapacity.get(terminal))
-				companyTerminalsCapacity.put(terminal, terminalsCapacity.get(terminal));
-		}
-		
-		return companyTerminalsCapacity;
+		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
+		List<String> companyTerminals=lngDao.getCompanyTerminals(companyName,selectedTerminals,type);		
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate,type);	
+					
+		return companyterminalsCapacity;
 	}
 	
-	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> companies,List<String> terminals,List<Integer> years,String type)
+	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
-		List<Lng> lngList=new ArrayList<Lng>();
+		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
+		Map<String,List<String>> selectedOptionWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
+		List<Lng> lngList=null;
 		if(type.equalsIgnoreCase(LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(terminals);
+			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
 		else
-			lngList=lngDao.getRegasificationCriteriaData(terminals);
+			lngList=lngDao.getRegasificationCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
 		
-		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();		
+		String unit=getSelectedUnit(selectedOptions);
+		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
+		List<Integer> years=getSelectedYears(startDate,endDate);
 		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(type);								
-		Map<Integer,Double> yearMap;
+		Map<Integer,Double> yearMap=null;
 		for(String company:companies)
 		{
-				List<String> companyTerminals=lngDao.getCompanyTerminals(company,terminals,type);
+				List<String> companyTerminals=lngDao.getCompanyTerminals(company,selectedTerminals,type);
 				if(companyTerminals.size()>0)
 				{
 					yearMap=new HashMap<Integer, Double>();
@@ -239,6 +199,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 									soc=soc+(lng.getCapacity()*(stake/100));
 							}					
 						}
+						if(null!=unit && unit.equalsIgnoreCase("BCF"))
+							soc=soc*BCF_UNIT;
 						yearMap.put(year,soc);//Double.valueOf(formatCapacity.format(soc))
 					}
 					
@@ -250,10 +212,16 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	}
 		
 	//This is to calculate capacities by Terminal i.e with name field . 
-	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<Lng> lngList,List<String> terminals)
-	{
-//		Set<String> terminals=getTerminals(lngList);
-		Set<Integer> years=getYears(lngList);
+	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
+	{		
+		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
+		List<Lng> lngList=null;
+		if(type.equalsIgnoreCase(LIQUEFACTION))
+			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
+		else
+			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
+		String unit=getSelectedUnit(selectedOptions);
+		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
 		Map<String,Map<Integer,Double>> terminalMap=new HashMap<String, Map<Integer,Double>>();
 		for(String terminal:terminals)
@@ -267,6 +235,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 						soc=soc+lng.getCapacity();
 				}
+				if(null!=unit && unit.equalsIgnoreCase("BCF"))
+					soc=soc*BCF_UNIT;
 				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 			}
 			terminalMap.put(terminal,yearMap);
@@ -275,19 +245,22 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	
 	}
 	// This is to calculate capacities by Country i.e with country field .
-	private Map<String,Map<Integer,Double>> calculateCapacitiesByCountry(List<String> countries,List<String> terminals,List<Integer> years,String type)
+	private Map<String,Map<Integer,Double>> calculateCapacitiesByCountry(List<String> countries,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
+		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
+		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
 		List<Lng> lngList=null;
 		if(type.equalsIgnoreCase(LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(terminals);
+			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
 		else
-			lngList=lngDao.getRegasificationCriteriaData(terminals);
-				
+			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
+		String unit=getSelectedUnit(selectedOptions);
+		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
-		Map<String,Map<Integer,Double>> countryMap=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Map<Integer,Double>> countryMap=new HashMap<String, Map<Integer,Double>>();		
 		for(String country:countries)
 		{
-			List<String> countryTerminals=lngDao.getCountryTerminals(country, terminals, type);
+			List<String> countryTerminals=lngDao.getCountryTerminals(country, selectedTerminals, type);
 			if(countryTerminals.size()>0)
 			{
 				yearMap=new HashMap<Integer, Double>();
@@ -301,7 +274,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 							if(terminal.equalsIgnoreCase(lng.getName()) && country.equalsIgnoreCase(lng.getCountry()) && year==lng.getCapacityYear())
 								soc=soc+lng.getCapacity();
 						}
-					}				
+					}
+					if(null!=unit && unit.equalsIgnoreCase("BCF"))
+						soc=soc*BCF_UNIT;
 					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
 				}
 				countryMap.put(country,yearMap);
@@ -310,16 +285,25 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		}
 		return countryMap;
 	}
-	private Set<Integer> getYears(List<Lng> lngList)
+	private String getSelectedUnit(Map<String,List<String>> selectedOptions)
 	{
-		Set<Integer> years=new HashSet<Integer>();
-		for(Lng lng:lngList)
-		{
-			if(lng.getCapacityYear()!=0)
-			years.add(lng.getCapacityYear());			
-		}
-		return years;
-	}	
+		List<String> units=selectedOptions.get("units");
+		String unit=null;
+		if(null!=units && units.size()>0)
+			unit=units.get(0);
+		return unit;
+		
+	}
+//	private Set<Integer> getYears(List<Lng> lngList)
+//	{
+//		Set<Integer> years=new HashSet<Integer>();
+//		for(Lng lng:lngList)
+//		{
+//			if(lng.getCapacityYear()!=0)
+//			years.add(lng.getCapacityYear());			
+//		}
+//		return years;
+//	}	
 	private Map<String,Double> getCompanyStakeForTerminal(String type)
 	{
 		List<LngFilter> lngFilterList=lngDao.getLngFilter(type);
@@ -333,7 +317,25 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		}
 		return companyStakeForTerminal;
 	}
-
+	private List<Integer> getSelectedYears(int startDate,int endDate)
+	{
+		List<Integer> years=new ArrayList<Integer>();
+		for(int i=startDate;i<=endDate;i++)
+			years.add(i);
+		return years;
+	}
+	private Map<String,List<String>> getSelectedOptionsWithoutOwners(Map<String,List<String>> selectedOptions)
+	{
+		Map<String,List<String>> selectedOptionsWithoutOwners=new HashMap<String, List<String>>();
+		Set<String> keys=selectedOptions.keySet();
+		for(String key:keys)
+		{
+			if(null!=key && !"owners".equals(key))
+				selectedOptionsWithoutOwners.put(key,selectedOptions.get(key));
+		}
+		
+		return selectedOptionsWithoutOwners;
+	}
 	@Override
 	public Map<String, String> getTerminalData(String recordName,String type) {
 		// TODO Auto-generated method stub
@@ -421,7 +423,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<Integer,Double> getProcessingCapacity(List<Lng> dataList)
 	{
 		Map<Integer,Double> processingCapacity=new HashMap<Integer,Double>();
-		Set<Integer> years=getYears(dataList);
+		List<Integer> years=getSelectedYears(STARTYEAR,ENDYEAR);
 		for(Integer i:years)
 		{
 			for(Lng lng:dataList)
@@ -438,7 +440,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<Integer,Double> getTrainsOrVaporizers(List<Lng> dataList)
 	{
 		Map<Integer,Double> trainsOrVaporizers=new HashMap<Integer,Double>();
-		Set<Integer> years=getYears(dataList);
+		List<Integer> years=getSelectedYears(STARTYEAR,ENDYEAR);
 		for(Integer i:years)
 		{
 			for(Lng lng:dataList)
@@ -455,7 +457,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<Integer,Double> getStorageCapacity(List<Lng> dataList)
 	{
 		Map<Integer,Double> storageCapacity=new HashMap<Integer,Double>();
-		Set<Integer> years=getYears(dataList);
+		List<Integer> years=getSelectedYears(STARTYEAR,ENDYEAR);
 		for(Integer i:years)
 		{
 			for(Lng lng:dataList)
@@ -472,7 +474,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<Integer,Double> getStorageTanks(List<Lng> dataList)
 	{
 		Map<Integer,Double> storageTanks=new HashMap<Integer,Double>();
-		Set<Integer> years=getYears(dataList);
+		List<Integer> years=getSelectedYears(STARTYEAR,ENDYEAR);
 		for(Integer i:years)
 		{
 			for(Lng lng:dataList)
