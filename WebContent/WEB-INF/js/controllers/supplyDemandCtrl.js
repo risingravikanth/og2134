@@ -232,8 +232,8 @@
 	 		}
 		 			
 		 
-			$("#liquefaction tbody tr:first").addClass('total-row');
-			$("#regasification tbody tr:first").addClass('total-row');
+			//$("#liquefaction tbody tr:first").addClass('total-row');
+			//$("#regasification tbody tr:first").addClass('total-row');
 			
 			/*$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
 		 	});
