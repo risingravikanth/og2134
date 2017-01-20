@@ -27,5 +27,6 @@
 			<property name="sources" type="string">
 				<column name="sources" sql-type="longtext"/>
 			</property>			
+			<!-- To the the pull added the comment -->
 	 </class>	
 </hibernate-mapping>	
