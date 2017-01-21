@@ -14,7 +14,8 @@
 				statusField : false,
 				unitsField : false,
 				offshoreField : false,
-				typeField :false
+				typeField :false,
+				importCountry: true
 			};
  	};
 	
@@ -444,6 +445,8 @@
  			
  	};
  	
+	
+ 	
  	$rootScope.inItDataTable = function(){
  		
  		if ( $.fn.dataTable.isDataTable( '#liquefaction' ) ) {
@@ -458,13 +461,8 @@
  					// this case `data: 0`.
  					"render": function ( data, type, row ) {
  						var commonHref = "";
- 						if(data != ' Total'){
- 							var modalParam = "'"+data+"'";
- 							commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
- 						}else{
- 							commonHref =  '<p>'+data+'</p>';
- 						}
- 						return commonHref;
+	 				 	commonHref =  '<p>'+data+'</p>';
+	 					return commonHref;
  					},
  					"targets": 0
  							}
@@ -489,11 +487,7 @@
 	 				// this case `data: 0`.
 	 				"render": function ( data, type, row ) {
 	 					var commonHref = "";
-	 					if(data != ' Total'){
-	 						commonHref =  '<a recordName="'+data+'"  type="regasification"  class="openModel">'+data +'</a>';
-	 					}else{
-	 						commonHref =  '<p>'+data+'</p>';
-	 					}
+	 				 	commonHref =  '<p>'+data+'</p>';
 	 					return commonHref;
 	 				},
 	 				"targets": 0

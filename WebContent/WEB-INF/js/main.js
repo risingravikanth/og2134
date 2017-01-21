@@ -118,9 +118,20 @@
 	$scope.countryData = [];
 	$rootScope.countryModel = [];
 	$scope.countrySettings = {enableSearch: true};
-	$scope.contryEvents = {
+	$scope.countryEvents = {
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
 		};
+	
+	/* importedCompanies filter */
+	$scope.importedCompaniesData = [];
+	$rootScope.importedCompaniesModel = [];
+	$scope.importedCompaniesSettings = {enableSearch: true};
+	$scope.importedCompaniesEvents = {
+			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'importedCompanies') }
+		};
+	
+	
+	
 	/*location */
 		$scope.locationData = [];
 		$rootScope.locationModel = [];
@@ -244,7 +255,27 @@
 			$scope.typeData.push(obj);
 		}
 	});
+	
+	$scope.generateFormData = function(ary,key){
+		for(var i=0;i< ary.length; i++){
+			var fromkey = key+i
+	 		$rootScope.capacityFilterJSON[fromkey] = ary[i].id;
+ 		}
+	}
 	 
+	$rootScope.onFilterSelect = function(item,filterType){
+ 		console.log("In filter CTRL",$rootScope.countryModel);
+ 		$scope.generateFormData($rootScope.countryModel,'exportcountry');
+ 		HttpService.get("/contracts/importcompanies",$rootScope.capacityFilterJSON).then(function(resp) {
+ 			for(var i=0;i< resp.length;i++){
+ 				var obj = {
+ 						id : resp[i].company ,
+ 						label : resp[i].company
+ 				}
+ 				$scope.importedCompaniesData.push(obj);
+ 			}
+  		});
+   	};
 	
 	
 	
@@ -503,6 +534,10 @@
  	 	});
  	};
  	
+ 	$rootScope.onFilterSelect = function(item,filterType){
+ 		console.log($scope.countryModel);
+ 		
+  	};
   	
 	/*$rootScope.onFilterSelect = function(item,filterType){
  		if( filterType == 'region'){

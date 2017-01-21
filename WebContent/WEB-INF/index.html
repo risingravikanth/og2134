@@ -473,7 +473,14 @@
 				<label class="control-sidebar-subheading">
 						Country
 				</label>
-				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings" ></div>
+				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings"  events="countryEvents" ></div>
+			</div>
+			
+			<div class="form-group" ng-show="filterObj.importCountry">
+				<label class="control-sidebar-subheading">
+						Imported Companies
+				</label>
+				<div ng-dropdown-multiselect="" options="importedCompaniesData" class="form-control filter-control col-md-12" selected-model="importedCompaniesModel" extra-settings="importedCompaniesSettings" ></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.locationField">
