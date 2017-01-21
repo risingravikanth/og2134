@@ -324,6 +324,9 @@
 		if($rootScope.filterObj.countryField == true){
  			$scope.generateFormData($rootScope.countryModel,'exportcountry');
  		}
+		if($rootScope.filterObj.importCountry == true){
+ 			$scope.generateFormData($rootScope.importedCompaniesModel,'exportcompany');
+ 		}
 		if($rootScope.filterObj.locationField == true){
 			$scope.generateFormData($rootScope.locationModel,'location');
  		}
