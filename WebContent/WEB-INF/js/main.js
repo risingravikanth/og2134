@@ -250,7 +250,7 @@
 			$scope.exportedCountriesData.push(obj);
 		}
 	});
-	
+ 	
  	
 	
 	HttpService.get('/locations').then(function(resp) {
@@ -283,6 +283,16 @@
 			$scope.exportedCompaniesData.push(obj);
 		}
 	});
+	
+	HttpService.get('/contracts/exportcompanies').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].company ,
+					label : resp[i].company
+			}
+ 			$scope.exportedCompaniesData.push(obj);
+		}
+	});
  	
 	HttpService.get('/status').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
@@ -313,6 +323,9 @@
 	 
 	$rootScope.loadImports = function(item,filterType){
  		console.log("In filter CTRL",$rootScope.countryModel);
+ 		$scope.importedCountriesData = [];
+ 		$scope.importedCompaniesData =[];
+ 		
  		if($rootScope.exportedCountriesModel.length >0){
  			$scope.generateFormData($rootScope.exportedCountriesModel,'exportcountry');
  	 		HttpService.get("/contracts/importcountries",$rootScope.capacityFilterJSON).then(function(resp) {
