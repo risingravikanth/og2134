@@ -476,12 +476,48 @@
 				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings"  events="countryEvents" ></div>
 			</div>
 			
-			<div class="form-group" ng-show="filterObj.importCountry">
+			<div class="form-group" ng-show="filterObj.exports">
 				<label class="control-sidebar-subheading">
-						Imported Companies
+						Export Countries
+				</label>
+				<div ng-dropdown-multiselect="" options="exportedCountriesData" class="form-control filter-control col-md-12" selected-model="exportedCountriesModel" extra-settings="exportedCountriesSettings" ></div>
+			</div>
+			
+	 		<div class="form-group" ng-show="filterObj.exports">
+				<label class="control-sidebar-subheading">
+						Export Companies
+				</label>
+				<div ng-dropdown-multiselect="" options="exportedCompaniesData" class="form-control filter-control col-md-12" selected-model="exportedCompaniesModel" extra-settings="exportedCompaniesSettings" ></div>
+			</div>	
+			
+			<div class="form-group"  ng-show="filterObj.exports">
+				<label class="control-sidebar-subheading">
+						&nbsp;
+				</label>
+	 		</div>
+			
+			<div class="form-group" style="margin-top: 15px;" ng-show="filterObj.exports">
+				<button type="button" class="btn btn-block btn-warning " ng-click="loadImports()">Load Imports</button>
+			</div> 
+			
+			
+			<div class="form-group" ng-show="filterObj.imports">
+				<label class="control-sidebar-subheading">
+						Import Countries
+				</label>
+				<div ng-dropdown-multiselect="" options="importedCountriesData" class="form-control filter-control col-md-12" selected-model="importedCountriesModel" extra-settings="importedCountriesSettings" ></div>
+			</div>
+			
+	 		<div class="form-group" ng-show="filterObj.imports">
+				<label class="control-sidebar-subheading">
+						Import Companies
 				</label>
 				<div ng-dropdown-multiselect="" options="importedCompaniesData" class="form-control filter-control col-md-12" selected-model="importedCompaniesModel" extra-settings="importedCompaniesSettings" ></div>
 			</div>	
+			
+			
+			
+			
 			
 			<div class="form-group" ng-show="filterObj.locationField">
 				<label class="control-sidebar-subheading">

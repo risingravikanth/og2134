@@ -122,14 +122,56 @@
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
 		};
 	
+	/* exportedCountries filter */
+	$scope.exportedCountriesData = [];
+	$rootScope.exportedCountriesModel = [];
+	$scope.exportedCountriesSettings = {enableSearch: true};
+	$scope.exportedCountriesEvents = {
+			onItemSelect: function(item) { 
+					$rootScope.onFilterSelect(item,'importedCompanies') 
+			}
+			/*,
+			onItemDeselect : function(item) {
+				console.log("dasf") 
+				$rootScope.onFilterDeSelect(item,'importedCompanies') 
+			}*/
+		};
+	
+	/* importedCountries filter */
+	$scope.importedCountriesData = [];
+	$rootScope.importedCountriesModel = [];
+	$scope.importedCountriesSettings = {enableSearch: true};
+	$scope.importedCountriesEvents = {
+			onItemSelect: function(item) { 
+					$rootScope.onFilterSelect(item,'importedCompanies') 
+			}
+		};
+	
+	/* exportedCompanies filter */
+	$scope.exportedCompaniesData = [];
+	$rootScope.exportedCompaniesModel = [];
+	$scope.exportedCompaniesSettings = {enableSearch: true};
+	$scope.exportedCompaniesEvents = {
+			onItemSelect: function(item) { 
+					$rootScope.onFilterSelect(item,'importedCompanies') 
+			}
+			/*,
+			onItemDeselect : function(item) {
+				console.log("dasf") 
+				$rootScope.onFilterDeSelect(item,'importedCompanies') 
+			}*/
+		};
+	
 	/* importedCompanies filter */
 	$scope.importedCompaniesData = [];
 	$rootScope.importedCompaniesModel = [];
 	$scope.importedCompaniesSettings = {enableSearch: true};
 	$scope.importedCompaniesEvents = {
-			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'importedCompanies') }
+			onItemSelect: function(item) { 
+					$rootScope.onFilterSelect(item,'importedCompanies') 
+			}
+		 
 		};
-	
 	
 	
 	/*location */
@@ -182,7 +224,9 @@
 		unitsField : true,
 		offshoreField : true,
 		typeField :true,
-		sectorField :true
+		sectorField :true,
+		imports: false,
+		exports: false
 	};
  
 	 	
@@ -203,8 +247,11 @@
 					label : resp[i].country
 			}
 			$scope.countryData.push(obj);
+			$scope.exportedCountriesData.push(obj);
 		}
 	});
+	
+ 	
 	
 	HttpService.get('/locations').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
@@ -233,6 +280,7 @@
 					label : resp[i].owner
 			}
 			$scope.ownerData.push(obj);
+			$scope.exportedCompaniesData.push(obj);
 		}
 	});
  	
@@ -263,9 +311,41 @@
  		}
 	}
 	 
-	$rootScope.onFilterSelect = function(item,filterType){
+	$rootScope.loadImports = function(item,filterType){
  		console.log("In filter CTRL",$rootScope.countryModel);
- 		$scope.generateFormData($rootScope.countryModel,'exportcountry');
+ 		if($rootScope.exportedCountriesModel.length >0){
+ 			$scope.generateFormData($rootScope.exportedCountriesModel,'exportcountry');
+ 	 		HttpService.get("/contracts/importcountries",$rootScope.capacityFilterJSON).then(function(resp) {
+ 	 			for(var i=0;i< resp.length;i++){
+ 	 				var obj = {
+ 	 						id : resp[i].country ,
+ 	 						label : resp[i].country
+ 	 				}
+ 	 				$scope.importedCountriesData.push(obj);
+ 	 			}
+ 	 			$rootScope.capacityFilterJSON ={};
+ 	  		});
+ 		}
+ 		
+ 		if($rootScope.exportedCompaniesModel.length >0){
+ 			$scope.generateFormData($rootScope.exportedCompaniesModel,'exportcompany');
+ 	 		HttpService.get("/contracts/importcompanies",$rootScope.capacityFilterJSON).then(function(resp) {
+ 	 			for(var i=0;i< resp.length;i++){
+ 	 				var obj = {
+ 	 						id : resp[i].company ,
+ 	 						label : resp[i].company
+ 	 				}
+ 	 				$scope.importedCompaniesData.push(obj);
+ 	 			}
+ 	 			$rootScope.capacityFilterJSON ={};
+ 	  		});
+ 		}
+ 		$rootScope.filterObj.imports = true;
+   	};
+   	
+   	$rootScope.onFilterDeSelect = function(item,filterType){
+ 		console.log("In filter CTRL",$rootScope.countryModel);
+ 		$scope.generateFormData($rootScope.countryModel,'exportcompany');
  		HttpService.get("/contracts/importcompanies",$rootScope.capacityFilterJSON).then(function(resp) {
  			for(var i=0;i< resp.length;i++){
  				var obj = {

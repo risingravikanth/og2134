@@ -7,7 +7,7 @@
 	 		$scope.url = "/contracts/quantity";
 			$rootScope.filterObj = {
 				regionField :false,
-				countryField :true,
+				countryField :false,
 				locationField : false,
 				operatorField : false,
 				ownerField : false,
@@ -15,7 +15,8 @@
 				unitsField : false,
 				offshoreField : false,
 				typeField :false,
-				importCountry: true
+				imports: false,
+				exports: true,
 			};
  	};
 	
@@ -318,39 +319,20 @@
 	$rootScope.filterSubmit = function(){
 		$scope.destroyTable();
 		$rootScope.capacityFilterJSON = {};
-		if($rootScope.filterObj.regionField == true){
-			$scope.generateFormData($rootScope.regionModel,'region');
+		 
+		
+		
+		if($rootScope.filterObj.exports == true){
+ 			$scope.generateFormData($rootScope.exportedCountriesModel,'exportcountry');
+ 			$scope.generateFormData($rootScope.exportedCompaniesModel,'exportcompany');
  		}
-		if($rootScope.filterObj.countryField == true){
- 			$scope.generateFormData($rootScope.countryModel,'exportcountry');
+		
+		if($rootScope.filterObj.imports == true){
+ 			$scope.generateFormData($rootScope.importedCountriesModel,'importcountry');
+ 			$scope.generateFormData($rootScope.importedCompaniesModel,'importcompany');
  		}
-		if($rootScope.filterObj.importCountry == true){
- 			$scope.generateFormData($rootScope.importedCompaniesModel,'exportcompany');
- 		}
-		if($rootScope.filterObj.locationField == true){
-			$scope.generateFormData($rootScope.locationModel,'location');
- 		}
-		if($rootScope.filterObj.operatorField == true){
-			$scope.generateFormData($rootScope.operatorModel,'operator');
- 		}
- 		if($rootScope.filterObj.ownerField == true){
- 			$scope.generateFormData($rootScope.ownerModel,'owner');
- 		}
- 		if($rootScope.filterObj.statusField == true){
- 			$scope.generateFormData($rootScope.statusModel,'status');
- 		}
- 		if($rootScope.filterObj.unitsField == true){
- 			$scope.generateFormData($rootScope.unitsModel,'units');
- 		}
- 		if($rootScope.filterObj.offshoreField == true){
- 			$scope.generateFormData($rootScope.offshoreModel,'offonshore');
- 		} 
- 		if($rootScope.filterObj.typeField == true){
- 			$scope.generateFormData($rootScope.typeModel,'type');
- 		}
- 		if($rootScope.filterObj.sectorField == true){
- 			$scope.generateFormData($rootScope.sectorModel,'sector');
- 		}
+		
+		 
  		
   		for(var key in $rootScope.searchFilterObj){
  			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
@@ -539,6 +521,14 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		
+ 		$rootScope.exportedCountriesModel =[];
+ 		$rootScope.importedCountriesModel =[];
+ 		$rootScope.exportedCompaniesModel =[];
+ 		$rootScope.importedCompaniesModel =[];
+ 		
+ 		$rootScope.filterObj.imports = false;
+ 		
  		$rootScope.capacityFilterJSON ={};
  		
  		if($scope.url != ''){
