@@ -85,6 +85,14 @@ public class ContractsServiceImpl implements ContractsService {
 		String importCompaniesRes=contractsJsonResponse.createImportCompanies(importCompanies);
 		return importCompaniesRes;
 	}
+	@Override
+	public String getExportCompanies() {
+		// TODO Auto-generated method stub
+		List<String> exportCompanies=contractsBusinessServiceImpl.getExportCompanies();
+		ContractsJsonResponse contractsJsonResponse=new ContractsJsonResponse();
+		String importCompaniesRes=contractsJsonResponse.createExportCompanies(exportCompanies);
+		return importCompaniesRes;
+	}
 	public ContractsBusinessService getContractsBusinessServiceImpl() {
 		return contractsBusinessServiceImpl;
 	}
@@ -92,6 +100,8 @@ public class ContractsServiceImpl implements ContractsService {
 			ContractsBusinessService contractsBusinessServiceImpl) {
 		this.contractsBusinessServiceImpl = contractsBusinessServiceImpl;
 	}
+
+	
 
 	
 

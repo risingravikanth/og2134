@@ -17,4 +17,6 @@ public interface ContractsService {
 	public String getImportCountries(List<String> exportCountries);
 	
 	public String getImportCompanies(List<String> exportCompanies);
+	
+	public String getExportCompanies();
 }

@@ -21,6 +21,8 @@ public interface ContractsDao {
 	List<String> getImportCountries(List<String> exportCountry);
 	List<String> getImportCompanies(List<String> exportCompany);
 	
+	List<String> getExportCompanies();
+	
 	List<Contracts> getContractsCriteriaData(Map<String,List<String>> selectedOptions,List<String> exportTerminals,int startDate,int endDate);
 	
 //	List<String> getExportCompanyTerminals(String company,Map<String,List<String>> selectedOptions,int startDate,int endDate);

@@ -72,6 +72,15 @@ public class ContractsController {
 		response=contractsServiceImpl.getImportCompanies(exportCompanies);		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/exportcompanies",method={RequestMethod.GET})
+	public String getExportCompanies(HttpServletRequest req)
+	{
+		
+		String response=null;					
+		response=contractsServiceImpl.getExportCompanies();		
+		return response;
+	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

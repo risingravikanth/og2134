@@ -176,6 +176,10 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 		// TODO Auto-generated method stub
 		return contractsDao.getImportCompanies(exportCompanies);
 	}
+	public List<String> getExportCompanies()
+	{
+		return contractsDao.getExportCompanies();
+	}
 	private List<Integer> getSelectedYears(int startDate,int endDate)
 	{
 		List<Integer> years=new ArrayList<Integer>();

@@ -156,4 +156,29 @@ public class ContractsJsonResponse {
 			response="";
 		return response;
 	}
+	public String createExportCompanies(List<String> exportCompanies)
+	{
+		String response=null;
+		if(exportCompanies.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String company:exportCompanies)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  				  			 
+				  jsonObj.put("company",company);
+				  						      			      
+			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response="";
+		return response;
+	}
 }

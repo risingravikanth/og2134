@@ -217,6 +217,18 @@ public class ContractsDaoImpl implements ContractsDao {
 		tx.commit();
 		return importCountries;
 	}
+	@Override
+	public List<String> getExportCompanies() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct exportCompany from ContractsFilter");
+		
+		List<String> exportCompanies=query.list();
+		tx.commit();
+		return exportCompanies;
+	}
 	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
 	{
 		List<String> importCountries=selectedOptions.get("importCountries");
@@ -255,6 +267,7 @@ public class ContractsDaoImpl implements ContractsDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 	
 	
