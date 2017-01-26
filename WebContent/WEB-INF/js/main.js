@@ -280,7 +280,7 @@
 					label : resp[i].owner
 			}
 			$scope.ownerData.push(obj);
-			$scope.exportedCompaniesData.push(obj);
+			 
 		}
 	});
 	
