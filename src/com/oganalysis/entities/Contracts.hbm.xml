@@ -15,7 +15,7 @@
 			<property name="importTerminal" type="string"/>
 			<property name="importCountry" type="string"/>
 			<property name="importCompany" type="string"/>
-			<property name="contractedQuantity" type="float"/>
+			<property name="contractedQuantity" type="double"/>
 			<property name="contractAgreementDate" type="string"/>							
 			<property name="contractStartFrom" type="int"/>
 			<property name="contractEndsIn" type="int"/>

@@ -30,21 +30,21 @@ public class ContractsServiceImpl implements ContractsService {
 	
 	private String getQuantityByCompany(Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> companyQuantities=contractsBusinessServiceImpl.getQuantityByCompany(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> companyQuantities=contractsBusinessServiceImpl.getQuantityByCompany(selectedOptions, startDate, endDate);
 		ContractsJsonResponse jsonRes=new ContractsJsonResponse();
 		String quantityByCompanies=jsonRes.createQuantityByCompanyRes(companyQuantities, startDate, endDate);
 		return quantityByCompanies;
 	}
 	private String getQuantityByCountry(Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> countryQuantities=contractsBusinessServiceImpl.getQuantityByCountry(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> countryQuantities=contractsBusinessServiceImpl.getQuantityByCountry(selectedOptions, startDate, endDate);
 		ContractsJsonResponse jsonRes=new ContractsJsonResponse();
 		String quantityByCountries=jsonRes.createQuantityByCountryRes(countryQuantities, startDate, endDate);
 		return quantityByCountries;
 	}
 	private String getQuantityByTerminal(Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> terminalQuantities=contractsBusinessServiceImpl.getQuantityByTerminal(selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> terminalQuantities=contractsBusinessServiceImpl.getQuantityByTerminal(selectedOptions, startDate, endDate);
 		ContractsJsonResponse jsonRes=new ContractsJsonResponse();
 		String quantityByCountries=jsonRes.createQuantityByTerminalRes(terminalQuantities, startDate, endDate);
 		return quantityByCountries;
@@ -54,7 +54,7 @@ public class ContractsServiceImpl implements ContractsService {
 			Map<String, List<String>> selectedOptions, String startDate,
 			String endDate, String displayType, String recordName) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Float>> modalQuantityData=new HashMap<String, Map<Integer,Float>>();		
+		Map<String,Map<Integer,Double>> modalQuantityData=new HashMap<String, Map<Integer,Double>>();		
 		ContractsJsonResponse contractsJsonResponse=new ContractsJsonResponse();
 		String modalQuantityDataRes=null;
 		int startDateVal=Integer.parseInt(startDate);

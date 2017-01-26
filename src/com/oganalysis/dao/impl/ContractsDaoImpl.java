@@ -21,7 +21,7 @@ public class ContractsDaoImpl implements ContractsDao {
 
 	private SessionFactory sessionFactory;
 //	@Override
-	public List<Contracts> getContractsCriteriaData(Map<String,List<String>> selectedOptions,List<String> exportTerminals,int startDate, int endDate) {
+	public List<Contracts> getContractsCriteriaData(Map<String,List<String>> selectedOptions,List<String> contractIndiactors,int startDate, int endDate) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
@@ -34,13 +34,13 @@ public class ContractsDaoImpl implements ContractsDao {
 			Criterion yearCriterion=Restrictions.between("year", startDate, endDate);
 			criteria.add(yearCriterion);
 		}					
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal",exportTerminals));
+		if(contractIndiactors.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndiactors));
 		else
 		{
-			List<String> terminals=new ArrayList<String>();
-			terminals.add("");
-			criteria.add(Restrictions.in("exportTerminal",terminals));
+			List<String> contractIndics=new ArrayList<String>();
+			contractIndics.add("");
+			criteria.add(Restrictions.in("contractIndicator",contractIndics));
 		}
 		List<Contracts> list=criteria.list();
 		tx.commit();
@@ -57,14 +57,14 @@ public class ContractsDaoImpl implements ContractsDao {
 		tx.begin();
 		Criteria criteria=session.createCriteria(ContractsFilter.class);		
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+		List<String> contractIndicators=getContractIndicators(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator", contractIndicators));
 		else
 		{
-			exportTerminals=new ArrayList<String>();
-			exportTerminals.add("");
-			criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+			List<String> contractIndic=new ArrayList<String>();
+			contractIndic.add("");
+			criteria.add(Restrictions.in("contractIndicator", contractIndic));
 		}
 		criteria.setProjection(Projections.distinct(Projections.property("exportCompany")));
 		List<String> list=criteria.list();
@@ -82,14 +82,14 @@ public class ContractsDaoImpl implements ContractsDao {
 		tx.begin();
 		Criteria criteria=session.createCriteria(ContractsFilter.class);		
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+		List<String> contractIndicators=getContractIndicators(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator", contractIndicators));
 		else
 		{
-			exportTerminals=new ArrayList<String>();
-			exportTerminals.add("");
-			criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+			List<String> contractIndic=new ArrayList<String>();
+			contractIndic.add("");
+			criteria.add(Restrictions.in("contractIndicator", contractIndic));
 		}
 		criteria.setProjection(Projections.distinct(Projections.property("exportCountry")));
 		List<String> list=criteria.list();
@@ -107,14 +107,14 @@ public class ContractsDaoImpl implements ContractsDao {
 		tx.begin();
 		Criteria criteria=session.createCriteria(ContractsFilter.class);
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal",exportTerminals));
+		List<String> contractIndicators=getContractIndicators(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndicators));
 		else
 		{
-			exportTerminals=new ArrayList<String>();
-			exportTerminals.add("");
-			criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+			contractIndicators=new ArrayList<String>();
+			contractIndicators.add("");
+			criteria.add(Restrictions.in("contractIndicator", contractIndicators));
 		}
 		criteria.setProjection((Projections.distinct(Projections.property("exportTerminal"))));
 		List<String> list=criteria.list();
@@ -123,32 +123,32 @@ public class ContractsDaoImpl implements ContractsDao {
 		return list;
 	}
 	@Override
-	public List<String> getExportCompanyTerminals(String company,List<String> exportTerminals){
-//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
+	public List<String> getSelectedContractIndicators(
+			Map<String, List<String>> selectedOptions, int startDate,
+			int endDate) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(ContractsFilter.class);
-//		createFiltersCriteria(selectedOptions, criteria);
-//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal",exportTerminals));
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> contractIndicators=getContractIndicators(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndicators));
 		else
 		{
-				exportTerminals=new ArrayList<String>();
-				exportTerminals.add("");
-				criteria.add(Restrictions.in("exportTerminal", exportTerminals));
-		}	
-		criteria.add(Restrictions.eq("exportCompany", company));
-		criteria.setProjection((Projections.distinct(Projections.property("exportTerminal"))));
+			contractIndicators=new ArrayList<String>();
+			contractIndicators.add("");
+			criteria.add(Restrictions.in("contractIndicator", contractIndicators));
+		}
+		criteria.setProjection((Projections.distinct(Projections.property("contractIndicator"))));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
 	@Override
-	public List<String> getExportCountryTerminals(String country,List<String> exportTerminals){
+	public List<String> getExportCompanyContractIndicators(String company,List<String> contractIndicators){
 //			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
@@ -157,16 +157,66 @@ public class ContractsDaoImpl implements ContractsDao {
 		Criteria criteria=session.createCriteria(ContractsFilter.class);
 //		createFiltersCriteria(selectedOptions, criteria);
 //		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(exportTerminals.size()>0)
-			criteria.add(Restrictions.in("exportTerminal",exportTerminals));
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndicators));
 		else
 		{
-				exportTerminals=new ArrayList<String>();
-				exportTerminals.add("");
-				criteria.add(Restrictions.in("exportTerminal", exportTerminals));
+				List<String> contractIndics=new ArrayList<String>();
+				contractIndics.add("");
+				criteria.add(Restrictions.in("contractIndicator", contractIndics));
+		}	
+		criteria.add(Restrictions.eq("exportCompany", company));
+		criteria.setProjection((Projections.distinct(Projections.property("contractIndicator"))));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getExportCountryContractIndicators(String country,List<String> contractIndicators){
+//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(ContractsFilter.class);
+//		createFiltersCriteria(selectedOptions, criteria);
+//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndicators));
+		else
+		{
+				List<String> contractIndic=new ArrayList<String>();
+				contractIndic.add("");
+				criteria.add(Restrictions.in("contractIndicator", contractIndic));
 		}	
 		criteria.add(Restrictions.eq("exportCountry", country));
-		criteria.setProjection((Projections.distinct(Projections.property("exportTerminal"))));
+		criteria.setProjection((Projections.distinct(Projections.property("contractIndicator"))));
+		List<String> list=criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getExportTerminalContractIndicators(String terminal,List<String> contractIndicators){
+//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(ContractsFilter.class);
+//		createFiltersCriteria(selectedOptions, criteria);
+//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
+		if(contractIndicators.size()>0)
+			criteria.add(Restrictions.in("contractIndicator",contractIndicators));
+		else
+		{
+				List<String> contractIndic=new ArrayList<String>();
+				contractIndic.add("");
+				criteria.add(Restrictions.in("contractIndicator", contractIndic));
+		}	
+		criteria.add(Restrictions.eq("exportTerminal", terminal));
+		criteria.setProjection((Projections.distinct(Projections.property("contractIndicator"))));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -174,7 +224,7 @@ public class ContractsDaoImpl implements ContractsDao {
 	}
 	
 	@Override
-	public List<String> getExportTerminals(int startDate,int endDate) {
+	public List<String> getContractIndicators(int startDate,int endDate) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
@@ -186,7 +236,7 @@ public class ContractsDaoImpl implements ContractsDao {
 			Criterion yearCriterion=Restrictions.between("year", startDate, endDate);
 			criteria.add(yearCriterion);
 		}					
-		criteria.setProjection((Projections.distinct(Projections.property("exportTerminal"))));
+		criteria.setProjection((Projections.distinct(Projections.property("contractIndicator"))));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();

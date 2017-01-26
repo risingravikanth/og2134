@@ -1,5 +1,6 @@
 package com.oganalysis.business.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,40 +15,42 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 
 	private ContractsDao contractsDao;
 	@Override
-	public Map<String, Map<Integer, Float>> getQuantityByCompany(
+	public Map<String, Map<Integer, Double>> getQuantityByCompany(
 			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
 		// TODO Auto-generated method stub		
-		Map<String,Map<Integer,Float>> companiesQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> companiesQuantity=new HashMap<String, Map<Integer,Double>>();
 		List<String> selectedExportCompanies=contractsDao.getSelectedExportCompanies(selectedOptions,startDate,endDate);
 		if(selectedExportCompanies.size()>0)
 			companiesQuantity=calculateCompaniesQuantity(selectedExportCompanies,selectedOptions,startDate,endDate);
 		return companiesQuantity;
 	}
-	private Map<String,Map<Integer,Float>> calculateCompaniesQuantity(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate)
+	private Map<String,Map<Integer,Double>> calculateCompaniesQuantity(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> companiesQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> companiesQuantity=new HashMap<String, Map<Integer,Double>>();
 		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
-		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedExportTerminals,startDate, endDate);
+		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
+		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
 		List<Integer> years=getSelectedYears(startDate, endDate);
+		
 		for(String company:companies)
 		{
-			List<String> exportTerminals=contractsDao.getExportCompanyTerminals(company,selectedExportTerminals);//selectedOptions,startDate,endDate);
-			Map<Integer,Float> yearMap=null;
-			if(exportTerminals.size()>0)
+			List<String> companyContractIndicators=contractsDao.getExportCompanyContractIndicators(company,selectedContractIndicators);//selectedOptions,startDate,endDate);
+			Map<Integer,Double> yearMap=null;
+			if(companyContractIndicators.size()>0)
 			{
-				yearMap=new HashMap<Integer, Float>();
+				yearMap=new HashMap<Integer, Double>();
 				for(Integer year:years)
 				{
-					float soq=0;
-					for(String terminal:exportTerminals)
+					double soq=0;
+					for(String contractIndicators:companyContractIndicators)
 					{
 						for(Contracts contracts:contractsList)
 						{
-							if(terminal.equals(contracts.getExportTerminal()) && year==contracts.getYear())
+							if(contractIndicators.equals(contracts.getContractIndicator()) && year==contracts.getYear())
 								soq=soq+contracts.getContractedQuantity();
 						}
 					}
+					soq=round(soq,2);
 					yearMap.put(year, soq);
 				}
 				companiesQuantity.put(company, yearMap);
@@ -57,41 +60,42 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 		return companiesQuantity;
 	}
 	@Override
-	public Map<String, Map<Integer, Float>> getQuantityByCountry(
+	public Map<String, Map<Integer, Double>> getQuantityByCountry(
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Float>> countriesQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> countriesQuantity=new HashMap<String, Map<Integer,Double>>();
 		List<String> exportCountries=contractsDao.getSelectedExportCountries(selectedOptions, startDate, endDate);
 		if(exportCountries.size()>0)
 			countriesQuantity=calculateCountriesQuantity(exportCountries,selectedOptions,startDate,endDate);
 		return countriesQuantity;
 	}
-	private Map<String,Map<Integer,Float>> calculateCountriesQuantity(List<String> countries,Map<String,List<String>> selectedOptions,int startDate,int endDate)
+	private Map<String,Map<Integer,Double>> calculateCountriesQuantity(List<String> countries,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> countriesQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> countriesQuantity=new HashMap<String, Map<Integer,Double>>();
 		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
-		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedExportTerminals,startDate, endDate);
+		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
+		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		for(String country:countries)
 		{
-			List<String> exportTerminals=contractsDao.getExportCountryTerminals(country,selectedExportTerminals);//selectedOptions,startDate,endDate);
-			Map<Integer,Float> yearMap=null;
-			if(exportTerminals.size()>0)
+			List<String> countryContractIndicators=contractsDao.getExportCountryContractIndicators(country,selectedContractIndicators);//selectedOptions,startDate,endDate);
+			Map<Integer,Double> yearMap=null;
+			if(countryContractIndicators.size()>0)
 			{
-				yearMap=new HashMap<Integer, Float>();
+				yearMap=new HashMap<Integer, Double>();
 				for(Integer year:years)
 				{
-					float soq=0;
-					for(String terminal:exportTerminals)
+					double soq=0;
+					for(String contractIndicator:countryContractIndicators)
 					{
 						for(Contracts contracts:contractsList)
 						{
-							if(terminal.equals(contracts.getExportTerminal()) && year==contracts.getYear() && country.equalsIgnoreCase(contracts.getExportCountry()))
+							if(contractIndicator.equals(contracts.getContractIndicator()) && year==contracts.getYear() && country.equalsIgnoreCase(contracts.getExportCountry()))
 								soq=soq+contracts.getContractedQuantity();
 						}
 					}
+					soq=round(soq,2);
 					yearMap.put(year, soq);
 				}
 				countriesQuantity.put(country, yearMap);
@@ -101,68 +105,78 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 		return countriesQuantity;
 	}
 	@Override
-	public Map<String, Map<Integer, Float>> getQuantityByTerminal(
+	public Map<String, Map<Integer, Double>> getQuantityByTerminal(
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Float>> terminalsQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> terminalsQuantity=new HashMap<String, Map<Integer,Double>>();
 		List<String> selectedTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
 		if(selectedTerminals.size()>0)
 			terminalsQuantity=calculateTerminalsQuantity(selectedTerminals,selectedOptions,startDate,endDate);
 		return terminalsQuantity;
 	}
-	private Map<String,Map<Integer,Float>> calculateTerminalsQuantity(List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate)
+	private Map<String,Map<Integer,Double>> calculateTerminalsQuantity(List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> terminalsQuantity=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> terminalsQuantity=new HashMap<String, Map<Integer,Double>>();
 		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,terminals,startDate, endDate);
+		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
+		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
 		List<Integer> years=getSelectedYears(startDate, endDate);
-		Map<Integer,Float> yearMap=null;
+		Map<Integer,Double> yearMap=null;
 		for(String terminal:terminals)
 		{
-			yearMap=new HashMap<Integer, Float>();
-			for(Integer year:years)
+			List<String> terminalContractIndicators=contractsDao.getExportTerminalContractIndicators(terminal,selectedContractIndicators);
+			if(terminalContractIndicators.size()>0)
 			{
-				float soq=0;
-				for(Contracts contracts:contractsList)
+				yearMap=new HashMap<Integer, Double>();
+				for(Integer year:years)
 				{
-					if(terminal.equals(contracts.getExportTerminal()) && year==contracts.getYear())
-						soq=soq+contracts.getContractedQuantity();
+					double soq=0;
+					for(String contractIndicator:terminalContractIndicators)
+					{
+						for(Contracts contracts:contractsList)
+						{
+							if(contractIndicator.equalsIgnoreCase(contracts.getContractIndicator()) && terminal.equals(contracts.getExportTerminal()) && year==contracts.getYear())
+								soq=soq+contracts.getContractedQuantity();
+						}
+					}
+					soq=round(soq,2);
+					yearMap.put(year, soq);
 				}
-				yearMap.put(year, soq);
+				terminalsQuantity.put(terminal,yearMap);
 			}
-			terminalsQuantity.put(terminal,yearMap);
+			
 		}
 		return terminalsQuantity;
 	}
 	@Override
-	public Map<String, Map<Integer, Float>> getQuantitiesForRecord(
+	public Map<String, Map<Integer, Double>> getQuantitiesForRecord(
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate, String displayType, String recordName) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Float>> quantitiesForRecord=new HashMap<String, Map<Integer,Float>>();
+		Map<String,Map<Integer,Double>> quantitiesForRecord=new HashMap<String, Map<Integer,Double>>();
 		if(null!=displayType && "company".equalsIgnoreCase(displayType))
 			quantitiesForRecord=getTerminalQuantitiesForCompany(recordName,selectedOptions,startDate,endDate);
 		else if(null!=displayType && "country".equalsIgnoreCase(displayType))
 			quantitiesForRecord=getTerminalQuantitiesForCountry(recordName,selectedOptions,startDate,endDate);
 		return quantitiesForRecord;
 	}
-	private Map<String,Map<Integer,Float>> getTerminalQuantitiesForCompany(String recordName,Map<String,List<String>>selectedOptions,int startDate,int endDate)
+	private Map<String,Map<Integer,Double>> getTerminalQuantitiesForCompany(String recordName,Map<String,List<String>>selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> exportTerminalsQuanitity=new HashMap<String, Map<Integer,Float>>();
-		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
-		List<String> companyExportTerminals=contractsDao.getExportCompanyTerminals(recordName,selectedExportTerminals);
-		if(companyExportTerminals.size()>0)
-		exportTerminalsQuanitity=calculateTerminalsQuantity(companyExportTerminals, selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> exportTerminalsQuanitity=new HashMap<String, Map<Integer,Double>>();
+//		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
+//		List<String> companyExportTerminals=contractsDao.getExportCompanyTerminals(recordName,selectedExportTerminals);
+//		if(companyExportTerminals.size()>0)
+//		exportTerminalsQuanitity=calculateTerminalsQuantity(companyExportTerminals, selectedOptions, startDate, endDate);
 		return exportTerminalsQuanitity;
 	}
-	private Map<String,Map<Integer,Float>> getTerminalQuantitiesForCountry(String recordName,Map<String,List<String>>selectedOptions,int startDate,int endDate)
+	private Map<String,Map<Integer,Double>> getTerminalQuantitiesForCountry(String recordName,Map<String,List<String>>selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Float>> exportTerminalsQuanitity=new HashMap<String, Map<Integer,Float>>();
-		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
-		List<String> countryExportTerminals=contractsDao.getExportCountryTerminals(recordName,selectedExportTerminals);// selectedOptions, startDate, endDate);
-		if(countryExportTerminals.size()>0)
-		exportTerminalsQuanitity=calculateTerminalsQuantity(countryExportTerminals, selectedOptions, startDate, endDate);
+		Map<String,Map<Integer,Double>> exportTerminalsQuanitity=new HashMap<String, Map<Integer,Double>>();
+//		List<String> selectedExportTerminals=contractsDao.getSelectedExportTerminals(selectedOptions, startDate, endDate);
+//		List<String> countryExportTerminals=contractsDao.getExportCountryTerminals(recordName,selectedExportTerminals);// selectedOptions, startDate, endDate);
+//		if(countryExportTerminals.size()>0)
+//		exportTerminalsQuanitity=calculateTerminalsQuantity(countryExportTerminals, selectedOptions, startDate, endDate);
 		return exportTerminalsQuanitity;
 	}
 	@Override
@@ -187,6 +201,13 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 				years.add(i);
 			
 		return years;
+	}
+	private double round(double value, int places) {	    
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 	private Map<String,List<String>> getSelectedOptionsWithoutCompanies(Map<String,List<String>> selectedOptions)
 	{

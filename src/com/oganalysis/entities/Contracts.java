@@ -10,7 +10,7 @@ public class Contracts {
 	private String importTerminal;
 	private String importCountry;
 	private String importCompany;
-	private float contractedQuantity;
+	private double contractedQuantity;
 	private String contractAgreementDate;
 	private int contractStartFrom;
 	private int contractEndsIn;
@@ -72,13 +72,13 @@ public class Contracts {
 	}
 	public void setImportCompany(String importCompany) {
 		this.importCompany = importCompany;
-	}
-	public float getContractedQuantity() {
+	}	
+	public double getContractedQuantity() {
 		return contractedQuantity;
 	}
-	public void setContractedQuantity(float contractedQuantity) {
+	public void setContractedQuantity(double contractedQuantity) {
 		this.contractedQuantity = contractedQuantity;
-	}	
+	}
 	public String getContractAgreementDate() {
 		return contractAgreementDate;
 	}
