@@ -32,8 +32,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
 		if(countries.size()>0)								
 			regasification=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
-		
-		
+				
 		return regasification;
 	}
 	@Override
@@ -148,10 +147,10 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
-		List<String> companyTerminals=lngDao.getCountryTerminals(countryName,selectedTerminals,type);		
-		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate,type);	
+		List<String> countryTerminals=lngDao.getCountryTerminals(countryName,selectedTerminals,type);		
+		Map<String,Map<Integer,Double>> countryterminalsCapacity=calculateCapacitiesByTerminal(countryTerminals,selectedOptions,startDate,endDate,type);	
 					
-		return companyterminalsCapacity;
+		return countryterminalsCapacity;
 		
 	}
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String companyName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
@@ -201,6 +200,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						}
 						if(null!=unit && unit.equalsIgnoreCase("BCF"))
 							soc=soc*BCF_UNIT;
+						soc=round(soc,2);
 						yearMap.put(year,soc);//Double.valueOf(formatCapacity.format(soc))
 					}
 					
@@ -237,7 +237,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 				}
 				if(null!=unit && unit.equalsIgnoreCase("BCF"))
 					soc=soc*BCF_UNIT;
-				yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
+				soc=round(soc,2);
+				yearMap.put(year,soc);
 			}
 			terminalMap.put(terminal,yearMap);
 		}
@@ -277,7 +278,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					}
 					if(null!=unit && unit.equalsIgnoreCase("BCF"))
 						soc=soc*BCF_UNIT;
-					yearMap.put(year,Double.valueOf(formatCapacity.format(soc)));
+					soc=round(soc,2);
+					yearMap.put(year,soc);
 				}
 				countryMap.put(country,yearMap);
 			}
@@ -538,6 +540,13 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(Lng lng:dataList)
 			totalCapex=totalCapex+lng.getCapex();
 		return totalCapex;
+	}
+	private double round(double value, int places) {	    
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 	public LngDao getLngDao() {
 		return lngDao;
