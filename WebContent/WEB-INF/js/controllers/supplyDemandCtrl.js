@@ -185,14 +185,7 @@
  					// `data` option, which defaults to the column being worked with, in
  					// this case `data: 0`.
  					"render": function ( data, type, row ) {
- 						var commonHref = "";
- 						if(data != ' Total'){
- 							var modalParam = "'"+data+"'";
- 							commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
- 						}else{
- 							commonHref =  '<p>'+data+'</p>';
- 						}
- 						return commonHref;
+ 						return '<p>'+data+'</p>';
  					},
  					"targets": 0
  							}

@@ -193,7 +193,7 @@
  	
 	/*units filter*/
 	$rootScope.unitsModel = [];
-	$scope.unitsData = [{id: 'BCF', label: "BCF"}, {id: 'MTPA', label: "MTPA"}];
+	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
 	$scope.unitSettings = {selectionLimit: 1};
 	
  	/*offshore filter*/
@@ -554,14 +554,13 @@
 	};
 	
 	$scope.setDisplayPeriod = function(){
-		for(var i =2000;i <= 2020 ;i++){
+		for(var i = URL.displayFrom;i <= URL.displayTo ;i++){
 			var obj = {
 				id : i,
 				name : i
 			}
 			$scope.displayPeriodList.push(obj);
 		}
-		
 	}
 	
 	
