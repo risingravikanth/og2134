@@ -143,6 +143,9 @@
  			$scope.generateFormData($rootScope.statusModel,'status');
  		}
  		if($rootScope.filterObj.unitsField == true){
+ 			if($rootScope.unitsModel.id != undefined){
+ 				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
+ 			} 
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){

@@ -194,7 +194,7 @@
 	/*units filter*/
 	$rootScope.unitsModel = [];
 	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
-	$scope.unitSettings = {selectionLimit: 1};
+	$scope.unitsSettings = {selectionLimit: 1};
 	
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];
@@ -599,13 +599,16 @@
 		
  		}
  		if($rootScope.filterObj.unitsField == true){
-		
+ 			if($rootScope.unitsModel.id != undefined){
+ 				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
+ 			} 
+ 			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
- 			//offonshore
+ 			$scope.generateFormData($rootScope.offshoreModel,'offonshore');
  		} 
  		if($rootScope.filterObj.typeField == true){
-		
+ 			$scope.generateFormData($rootScope.typeModel,'type');
  		}
  		if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');

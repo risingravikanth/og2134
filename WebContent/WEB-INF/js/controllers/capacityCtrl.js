@@ -316,6 +316,7 @@
 	$rootScope.filterSubmit = function(){
 		$scope.destroyTable();
 		$rootScope.capacityFilterJSON = {};
+		debugger;
  		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
  		}
@@ -335,6 +336,9 @@
  			$scope.generateFormData($rootScope.statusModel,'status');
  		}
  		if($rootScope.filterObj.unitsField == true){
+ 			if($rootScope.unitsModel.id != undefined){
+ 				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
+ 			} 
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
@@ -663,7 +667,7 @@
 		
 		$rootScope.searchFilterObj = {
 				startDate: $scope.dateObj.getFullYear(),
-				endDate:"2020",
+				endDate:"2022",
 				displayType:"country"
  		};
   

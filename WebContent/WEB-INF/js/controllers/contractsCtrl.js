@@ -652,7 +652,7 @@
 		
 		$rootScope.searchFilterObj = {
 				startDate: $scope.dateObj.getFullYear(),
-				endDate:"2020",
+				endDate:"2022",
 				displayType:"country"
  		};
   
