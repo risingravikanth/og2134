@@ -32,10 +32,13 @@
  #modelDatatable .table, .custom-table{
  	width:100% !important;
  }
-    
+  /*  
  .dropdown-menu {
     box-shadow: none;
     height: 400px !important;
     border-color: #eee;
     width: 150px;
+}*/
+.dropdown-menu{
+	 width: 100%;
 }

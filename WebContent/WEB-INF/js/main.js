@@ -117,7 +117,7 @@
 	/* country filter */
 	$scope.countryData = [];
 	$rootScope.countryModel = [];
-	$scope.countrySettings = {enableSearch: true};
+	$scope.countrySettings = {enableSearch: true,scrollable:true};
 	$scope.countryEvents = {
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
 		};
@@ -125,7 +125,7 @@
 	/* exportedCountries filter */
 	$scope.exportedCountriesData = [];
 	$rootScope.exportedCountriesModel = [];
-	$scope.exportedCountriesSettings = {enableSearch: true};
+	$scope.exportedCountriesSettings = {enableSearch: true,scrollable:true};
 	$scope.exportedCountriesEvents = {
 			onItemSelect: function(item) { 
 					$rootScope.onFilterSelect(item,'importedCompanies') 
@@ -140,7 +140,7 @@
 	/* importedCountries filter */
 	$scope.importedCountriesData = [];
 	$rootScope.importedCountriesModel = [];
-	$scope.importedCountriesSettings = {enableSearch: true};
+	$scope.importedCountriesSettings = {enableSearch: true,scrollable:true};
 	$scope.importedCountriesEvents = {
 			onItemSelect: function(item) { 
 					$rootScope.onFilterSelect(item,'importedCompanies') 
@@ -150,7 +150,7 @@
 	/* exportedCompanies filter */
 	$scope.exportedCompaniesData = [];
 	$rootScope.exportedCompaniesModel = [];
-	$scope.exportedCompaniesSettings = {enableSearch: true};
+	$scope.exportedCompaniesSettings = {enableSearch: true,scrollable:true};
 	$scope.exportedCompaniesEvents = {
 			onItemSelect: function(item) { 
 					$rootScope.onFilterSelect(item,'importedCompanies') 
@@ -165,7 +165,7 @@
 	/* importedCompanies filter */
 	$scope.importedCompaniesData = [];
 	$rootScope.importedCompaniesModel = [];
-	$scope.importedCompaniesSettings = {enableSearch: true};
+	$scope.importedCompaniesSettings = {enableSearch: true,scrollable:true};
 	$scope.importedCompaniesEvents = {
 			onItemSelect: function(item) { 
 					$rootScope.onFilterSelect(item,'importedCompanies') 
@@ -177,7 +177,7 @@
 	/*location */
 		$scope.locationData = [];
 		$rootScope.locationModel = [];
-		$scope.locationSettings = {enableSearch: true};
+		$scope.locationSettings = {enableSearch: true,scrollable:true};
 	/*operator*/	
 		$scope.operatorData = [];
 		$rootScope.operatorModel = [];
@@ -185,6 +185,7 @@
 	/* owner*/
 		$scope.ownerData = [];
 		$rootScope.ownerModel = [];
+		$scope.ownerSettings = {scrollable:true};
   
 	/* Status filter */
 	$scope.statusData = [];
@@ -601,7 +602,9 @@
  		if($rootScope.filterObj.unitsField == true){
  			if($rootScope.unitsModel.id != undefined){
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} 
+ 			} else{
+ 				$rootScope.unitsModel.length =0;
+ 			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){

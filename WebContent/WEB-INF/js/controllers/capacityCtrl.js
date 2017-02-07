@@ -316,7 +316,7 @@
 	$rootScope.filterSubmit = function(){
 		$scope.destroyTable();
 		$rootScope.capacityFilterJSON = {};
-		debugger;
+ 
  		if($rootScope.filterObj.regionField == true){
 			$scope.generateFormData($rootScope.regionModel,'region');
  		}
@@ -338,7 +338,9 @@
  		if($rootScope.filterObj.unitsField == true){
  			if($rootScope.unitsModel.id != undefined){
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} 
+ 			}else{
+ 				$rootScope.unitsModel.length =0;
+ 			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
@@ -519,12 +521,14 @@
 		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
 			});*/
 			
-			$(".openModel").off('click',function(e){
+	 	 	
+			$("#liquefaction").on("click", ".openModel",function(e){
+				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'),e);
 				e.preventDefault();
 				e.stopPropagation(); 
- 			});
+			});
 			
-			$(".openModel").on('click',function(e){
+			$("#regasification").on("click", ".openModel",function(e){
 				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'),e);
 				e.preventDefault();
 				e.stopPropagation(); 

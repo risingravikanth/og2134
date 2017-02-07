@@ -145,7 +145,9 @@
  		if($rootScope.filterObj.unitsField == true){
  			if($rootScope.unitsModel.id != undefined){
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} 
+ 			} else{
+ 				$rootScope.unitsModel.length =0;
+ 			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
  		}
  		if($rootScope.filterObj.offshoreField == true){
