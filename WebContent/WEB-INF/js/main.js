@@ -195,7 +195,7 @@
 	/*units filter*/
 	$rootScope.unitsModel = [];
 	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
-	$scope.unitsSettings = {selectionLimit: 1};
+	$scope.unitsSettings = {};
 	
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];

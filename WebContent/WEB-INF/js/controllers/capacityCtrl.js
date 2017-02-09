@@ -521,18 +521,37 @@
 		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
 			});*/
 			
+		 
+			
+			$("#liquefaction").unbind( "click" );
 	 	 	
-			$("#liquefaction").on("click", ".openModel",function(e){
-				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'),e);
+			$("#liquefaction").on("click", "td .openModel",function(e){
+			  	openModel(e.currentTarget.getAttribute('recordName'),e.currentTarget.getAttribute('type'),e);
 				e.preventDefault();
 				e.stopPropagation(); 
 			});
 			
-			$("#regasification").on("click", ".openModel",function(e){
-				openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'),e);
+			$("#regasification").unbind( "click" );
+			
+			$("#regasification").on("click", "td .openModel",function(e){
+				openModel(e.currentTarget.getAttribute('recordName'),e.currentTarget.getAttribute('type'),e);
 				e.preventDefault();
 				e.stopPropagation(); 
 			});
+			
+			 
+		/*$(".openModel").off("click",function(e){
+		   	e.preventDefault();
+		    e.stopPropagation();
+		  });
+		  
+		  $(".openModel").on("click",function(e){
+			  openModel(e.currentTarget.getAttribute('recordName'),e.currentTarget.getAttribute('type'),e);
+			  e.preventDefault();
+			  e.stopPropagation();
+		  });*/
+			   
+			 
   	};
   	
   	$rootScope.resetFilter = function(){
@@ -718,6 +737,28 @@
 					 	 	$scope.liquefactionData = [];
 					 	 	$scope.liquefactionData = reverseOrder.reverse();
 					 	 	
+					 	 	/*$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "fffff"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "fff"});
+					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
+							*/
 						}
 
 						if(resp[k].type =="Regasification"){
@@ -733,6 +774,7 @@
 						}
 						
 					}
+					 
 			 		
 					$rootScope.inItDataTable();
 	 			}
