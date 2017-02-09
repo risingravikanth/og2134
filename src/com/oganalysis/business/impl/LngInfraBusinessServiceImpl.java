@@ -88,6 +88,8 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 				operators.append(lngFilter.getOperator()).append(",");
 			
 		}
+		if(operators.length()>0)
+		removeCommaAtEnd(operators);
 		return operators;
 	}
 	private StringBuffer getTechnologyDetails(List<Lng> dataList)
@@ -98,6 +100,8 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			if(null!=lng.getTechnologyDetails() && !"".equalsIgnoreCase(lng.getTechnologyDetails()))
 			technology.append(lng.getTechnologyDetails()).append(",");
 		}	
+		if(technology.length()>0)
+		removeCommaAtEnd(technology);
 		return technology;
 	}
 	private double getNumberOfTrainsOrVaporizers(List<Lng> lngList)
@@ -180,6 +184,10 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			years.add(lng.getCapacityYear());			
 		}
 		return years;
+	}
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{
+		inputString.deleteCharAt(inputString.length()-1);
 	}
 	public LngDao getLngDao() {
 		return lngDao;

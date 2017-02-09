@@ -400,26 +400,39 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			if(null!=lng.getDisttributionOrOutputName() && !"".equalsIgnoreCase(lng.getDisttributionOrOutputName()))
 				distributionType.append(lng.getDisttributionOrOutputName()).append(",");
 		}
+		if(distributionType.length()>0)
+		removeCommaAtEnd(distributionType);
 		return distributionType;
 	}
 	private StringBuffer getSourceFields(List<Lng> dataList)
 	{
 		StringBuffer sourceFields=new StringBuffer();
-		for(Lng lng:dataList)
+		for(int i=0;i<dataList.size();i++)
 		{
-			if(null!=lng.getFeedOrInputName() && !"".equalsIgnoreCase(lng.getFeedOrInputName()))
-				sourceFields.append(lng.getFeedOrInputName()).append(",");
+			Lng lng=dataList.get(i);
+			if(null!=lng.getFeedOrInputName() && !"".equalsIgnoreCase(lng.getFeedOrInputName()))			
+				sourceFields.append(lng.getFeedOrInputName()).append(",");				
+							
 		}
+		if(sourceFields.length()>0)
+		removeCommaAtEnd(sourceFields);
 		return sourceFields;
+	}
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{
+		inputString.deleteCharAt(inputString.length()-1);
 	}
 	private StringBuffer getOperator(List<Lng> dataList)
 	{
 		StringBuffer operators=new StringBuffer();
-		for(Lng lng:dataList)
+		for(int i=0;i<dataList.size();i++)
 		{
-			if(null!=lng.getOperator() && !"".equalsIgnoreCase(lng.getOperator()))
-				operators.append(lng.getOperator()).append(",");
+			Lng lng=dataList.get(i);
+			if(null!=lng.getOperator() && !"".equalsIgnoreCase(lng.getOperator()))				
+				operators.append(lng.getOperator()).append(",");											
 		}
+		if(operators.length()>0)
+		removeCommaAtEnd(operators);
 		return operators;
 	}
 	private Map<Integer,Double> getProcessingCapacity(List<Lng> dataList)
@@ -532,6 +545,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			if(null!=lng.getTechnologyDetails() && !"".equalsIgnoreCase(lng.getTechnologyDetails()))
 			technology.append(lng.getTechnologyDetails()).append(",");
 		}	
+		if(technology.length()>0)
+		removeCommaAtEnd(technology);
 		return technology;
 	}
 	private double getCapexDetails(List<Lng> dataList)
