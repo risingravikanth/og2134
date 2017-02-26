@@ -1,5 +1,11 @@
 package com.oganalysis.service.impl;
 
+import static com.oganalysis.constants.ApplicationConstants.COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
+import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
+import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +23,6 @@ public class LngDataServiceImpl implements LngDataService{
 	private LngCapacityBusinessService lngCapacityBusinessServiceImpl;
 	private LngInfraBusinessService lngInfraBusinessServiceImpl;
 	
-	public static final String REGASIFICATION="Regasification";
-	public static final String LIQUEFACTION="Liquefaction";
 	
 	@Override
 	public String getCapacityData(
@@ -27,15 +31,15 @@ public class LngDataServiceImpl implements LngDataService{
 		// TODO Auto-generated method stub
 		
 		String capacityDataRes=null;
-		if(null!=displayType && displayType.equalsIgnoreCase("country"))
+		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))
 		{
 			capacityDataRes=getCapacityByCountry(selectedOptions,startDate,endDate);
 		}
-		else if(null!=displayType && displayType.equalsIgnoreCase("terminal"))
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
 		{
 			capacityDataRes=getCapacityByTerminal(selectedOptions,startDate,endDate);
 		}
-		else if(null!=displayType && displayType.equalsIgnoreCase("company"))
+		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))
 		{
 			capacityDataRes=getCapacityByCompany(selectedOptions,startDate,endDate);
 		}
@@ -53,23 +57,23 @@ public class LngDataServiceImpl implements LngDataService{
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
 		
-		if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
+		if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL) && null!=type && LNG_LIQUEFACTION.equalsIgnoreCase(type))
 		{
 			modalCapacityData=lngCapacityBusinessServiceImpl.getLiqueModalCapacityForRecord(selectedOptions,startDate, endDate, displayType, recordName);
-			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, "terminal");
+			modalCapacityDataRes=lngJsonResponse.createCapacityLiquefactionRes(modalCapacityData, startDateVal, endDateVal, TERMINAL);
 		}			
-		else if(null!=displayType && !displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
+		else if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL) && null!=type && LNG_REGASIFICATION.equalsIgnoreCase(type))
 		{
 			modalCapacityData=lngCapacityBusinessServiceImpl.getRegasModalCapacityForRecord(selectedOptions,startDate, endDate, displayType, recordName);
-			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, "terminal");
+			modalCapacityDataRes=lngJsonResponse.createCapacityRegasificationRes(modalCapacityData, startDateVal, endDateVal, TERMINAL);
 		}
 		// Modal is different for Terminal displayType because of which below conditions are required 
-		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && LIQUEFACTION.equalsIgnoreCase(type))
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL) && null!=type && LNG_LIQUEFACTION.equalsIgnoreCase(type))
 		{
 			Map modalTerminal=lngCapacityBusinessServiceImpl.getTerminalData(recordName,type);
 			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
 		}
-		else if(null!=displayType && displayType.equalsIgnoreCase("terminal") && null!=type && REGASIFICATION.equalsIgnoreCase(type))
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL) && null!=type && LNG_REGASIFICATION.equalsIgnoreCase(type))
 		{
 			Map modalTerminal=lngCapacityBusinessServiceImpl.getTerminalData(recordName,type);
 			modalCapacityDataRes=lngJsonResponse.createTerminalDataRes(modalTerminal);
@@ -83,8 +87,8 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCompany(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByCompany=new HashMap<String, Map<String,Map<Integer,Double>>>(); 
-		capacityDataByCompany.put(LIQUEFACTION, liquefaction);
-		capacityDataByCompany.put(REGASIFICATION, regasification);
+		capacityDataByCompany.put(LNG_LIQUEFACTION, liquefaction);
+		capacityDataByCompany.put(LNG_REGASIFICATION, regasification);
 		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		String capacityByCompanyRes=lngJsonResponse.createCapacityByCompanyRes(capacityDataByCompany, startDate, endDate);
@@ -96,8 +100,8 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByTerminal(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByTerminal=new HashMap<String, Map<String,Map<Integer,Double>>>(); 
-		capacityDataByTerminal.put(LIQUEFACTION, liquefaction);
-		capacityDataByTerminal.put(REGASIFICATION, regasification);
+		capacityDataByTerminal.put(LNG_LIQUEFACTION, liquefaction);
+		capacityDataByTerminal.put(LNG_REGASIFICATION, regasification);
 		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		String capacityByTerminalRes=lngJsonResponse.createCapacityByTerminalRes(capacityDataByTerminal, startDate, endDate);
@@ -109,8 +113,8 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> regasification=lngCapacityBusinessServiceImpl.getRegasificationCapacityByCountry(selectedOptions, startDate, endDate);
 		
 		Map<String,Map<String,Map<Integer,Double>>> capacityDataByCountry=new HashMap<String, Map<String,Map<Integer,Double>>>();
-		capacityDataByCountry.put(LIQUEFACTION, liquefaction);
-		capacityDataByCountry.put(REGASIFICATION, regasification);
+		capacityDataByCountry.put(LNG_LIQUEFACTION, liquefaction);
+		capacityDataByCountry.put(LNG_REGASIFICATION, regasification);
 		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		String capacityDataByCountryRes=lngJsonResponse.createCapacityByCountryRes(capacityDataByCountry,startDate,endDate);
@@ -123,8 +127,8 @@ public class LngDataServiceImpl implements LngDataService{
 		List<Map<String,String>> liquefaction=lngInfraBusinessServiceImpl.getLiquefactionInfrastructure(selectedOptions);
 		List<Map<String,String>> regasification=lngInfraBusinessServiceImpl.getRegasificationInfrastructure(selectedOptions);
 		Map<String,List<Map<String,String>>> infrastructureMap=new HashMap<String, List<Map<String,String>>>();
-		infrastructureMap.put(LIQUEFACTION, liquefaction);
-		infrastructureMap.put(REGASIFICATION, regasification);
+		infrastructureMap.put(LNG_LIQUEFACTION, liquefaction);
+		infrastructureMap.put(LNG_REGASIFICATION, regasification);
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		infrastructureDataRes=lngJsonResponse.createInfrastructureRes(infrastructureMap);
 		return infrastructureDataRes;

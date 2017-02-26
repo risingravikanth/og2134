@@ -1,5 +1,7 @@
 package com.oganalysis.dao.impl;
 
+import static com.oganalysis.constants.ApplicationConstants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.mapping.Array;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.oganalysis.dao.LngDao;
@@ -24,9 +25,6 @@ public class LngDaoImpl implements LngDao {
 	
 	private HibernateTemplate hibernateTemplate;
 	private SessionFactory sessionFactory;
-	
-	public static final String REGASIFICATION="Regasification";
-	public static final String LIQUEFACTION="Liquefaction";
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
@@ -45,16 +43,14 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 						
-			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
 		if(terminals.size()>0)
-			criteria.add(Restrictions.in("name",terminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 		else
 		{
-			List<String> emptyTerminals=new ArrayList<String>();
-			emptyTerminals.add("");
-			criteria.add(Restrictions.in("name",emptyTerminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		}
 		List<Lng> list=criteria.list();
 		tx.commit();
@@ -72,16 +68,14 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 						
-			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
 		if(terminals.size()>0)
-			criteria.add(Restrictions.in("name",terminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 		else
 		{
-			List<String> emptyTerminals=new ArrayList<String>();
-			emptyTerminals.add("");
-			criteria.add(Restrictions.in("name",emptyTerminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		}
 		List<Lng> list=criteria.list();
 		tx.commit();
@@ -89,33 +83,33 @@ public class LngDaoImpl implements LngDao {
 		return list;
 	}
 	
-	@Override
-	public List<Lng> getRegasificationCriteriaData(List<String> terminals) {
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngRegasification.class);
-		criteria.add(Restrictions.in("name",terminals));				
-		
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	@Override
-	public List<Lng> getLiquefactionCriteriaData(List<String> terminals) {
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngLiquefaction.class);
-		criteria.add(Restrictions.in("name",terminals));
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+//	@Override
+//	public List<Lng> getRegasificationCriteriaData(List<String> terminals) {
+////		List<Object> list=hibernateTemplate.find("from Exploration");
+//		Session session=sessionFactory.openSession();
+//		Transaction tx=session.beginTransaction();
+//		tx.begin();
+//		Criteria criteria=session.createCriteria(LngRegasification.class);
+//		criteria.add(Restrictions.in("name",terminals));				
+//		
+//		List<Lng> list=criteria.list();
+//		tx.commit();
+//		session.close();
+//		return list;
+//	}
+//	@Override
+//	public List<Lng> getLiquefactionCriteriaData(List<String> terminals) {
+////		List<Object> list=hibernateTemplate.find("from Exploration");
+//		Session session=sessionFactory.openSession();
+//		Transaction tx=session.beginTransaction();
+//		tx.begin();
+//		Criteria criteria=session.createCriteria(LngLiquefaction.class);
+//		criteria.add(Restrictions.in("name",terminals));
+//		List<Lng> list=criteria.list();
+//		tx.commit();
+//		session.close();
+//		return list;
+//	}
 	
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
@@ -124,7 +118,7 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("area")));
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_AREA)));
 		
 		List<String> locations=criteria.list();
 				
@@ -139,7 +133,7 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("operator")));
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_OPERATOR)));
 		
 		List<String> operators=criteria.list();
 				
@@ -153,7 +147,7 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property("equityPartners")));
+		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_EQUITYPARTNER)));
 		
 		List<String> owners=criteria.list();
 				
@@ -171,12 +165,12 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		 Criteria criteria=null;
-		if(type.equalsIgnoreCase(REGASIFICATION))
-		 criteria=session.createCriteria(LngRegasification.class);
+		if(type.equalsIgnoreCase(LNG_REGASIFICATION))
+			criteria=session.createCriteria(LngRegasification.class);
 		else
 			criteria=session.createCriteria(LngLiquefaction.class);	
 			
-		Criterion terminalCriterion=Restrictions.eq("name",terminalName);
+		Criterion terminalCriterion=Restrictions.eq(RESTRICTION_PROPERTY_NAME,terminalName);
 		criteria.add(terminalCriterion);
 		
 		List<Lng> list=criteria.list();
@@ -186,61 +180,63 @@ public class LngDaoImpl implements LngDao {
 	}
 	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
 	{
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
-		List<String> locations=selectedOptions.get("locations");		
-		List<String> owners=selectedOptions.get("owners");
-		List<String> operators=selectedOptions.get("operators");
-		List<String> statuses=selectedOptions.get("statuses");
-		List<String> offonShores=selectedOptions.get("offonshores");
-		List<String> types=selectedOptions.get("types");	
+		List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
+		List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
+		List<String> locations=selectedOptions.get(OPTION_SELECTED_LOCATIONS);		
+		List<String> owners=selectedOptions.get(OPTION_SELECTED_OWNERS);
+		List<String> operators=selectedOptions.get(OPTION_SELECTED_OPERATORS);
+		List<String> statuses=selectedOptions.get(OPTION_SELECTED_STATUSES);
+		List<String> offonShores=selectedOptions.get(OPTION_SELECTED_OFFONSHORES);
+		List<String> types=selectedOptions.get(OPTION_SELECTED_TYPES);	
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in("country", countries);
+			Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
 			criteria.add(counrtryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)
 		{
-			Criterion regionCriterion=Restrictions.in("region", regions);
+			Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION, regions);
 			criteria.add(regionCriterion);
 		}
 		if(locations!=null && locations.size()>0)
 		{
-			Criterion locationCriterion=Restrictions.in("area",locations);
+			Criterion locationCriterion=Restrictions.in(RESTRICTION_PROPERTY_AREA,locations);
 			criteria.add(locationCriterion);
 		}
+		
 		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
 		{
-			Criterion ownersCriterion=Restrictions.in("equityPartners",owners);				
-			Criterion operatorCriterion=Restrictions.in("operator",operators);			
+			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);				
+			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);			
 			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
 			
 		}
 		else if(owners!=null && owners.size()>0)
 		{
-			Criterion ownersCriterion=Restrictions.in("equityPartners",owners);
+			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);
 			criteria.add(ownersCriterion);
 		}
 		else if(operators!=null && operators.size()>0)
 		{
-			Criterion operatorCriterion=Restrictions.in("operator",operators);
+			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);
 			criteria.add(operatorCriterion);
 		}
+		
 		if(statuses!=null && statuses.size()>0)
 		{
-			Criterion statusesCriterion=Restrictions.in("status",statuses);
+			Criterion statusesCriterion=Restrictions.in(RESTRICTION_PROPERTY_STATUS,statuses);
 			criteria.add(statusesCriterion);
 		}
 		if(offonShores!=null && offonShores.size()>0)
 		{
-			Criterion offonShoresCriterion=Restrictions.in("OnshoreOrOffshore",offonShores);
+			Criterion offonShoresCriterion=Restrictions.in(RESTRICTION_PROPERTY_ONSHOREOROFFSHORE,offonShores);
 			criteria.add(offonShoresCriterion);
 		}
 		if(types!=null && types.size()>0)
 		{
-			Criterion typeCriterion=Restrictions.in("type",types);
+			Criterion typeCriterion=Restrictions.in(RESTRICTION_PROPERTY_TYPE,types);
 			criteria.add(typeCriterion);
 		}
 	}
@@ -255,10 +251,10 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 						
-			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
-		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -274,10 +270,10 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 						
-			Criterion capacityYearCriterion=Restrictions.between("capacityYear", startDate, endDate);
+			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
 			criteria.add(capacityYearCriterion);
 		}					
-		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -291,17 +287,15 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(LngFilter.class);							
-		criteria.add(Restrictions.eq("equityPartners", company));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_EQUITYPARTNER, company));
 		if(terminals.size()>0)
-			criteria.add(Restrictions.in("name",terminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 		else
 		{
-			List<String> emptyTerminals=new ArrayList<String>();
-			emptyTerminals.add("");
-			criteria.add(Restrictions.in("name",emptyTerminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		}
-		criteria.add(Restrictions.eq("type",type));
-		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -322,16 +316,12 @@ public class LngDaoImpl implements LngDao {
 		tx.begin();
 		Criteria criteria=session.createCriteria(LngFilter.class);
 		if(terminals.size()>0)
-				criteria.add(Restrictions.in("name",terminals));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 		else
-		{
-				List<String> emptyTerminals=new ArrayList<String>();
-				emptyTerminals.add("");
-				criteria.add(Restrictions.in("name",terminals));
-		}			
-		criteria.add(Restrictions.eq("country", country));
-		criteria.add(Restrictions.eq("type",type));
-		criteria.setProjection(Projections.distinct(Projections.property("name")));
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));			
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_COUNTRY, country));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -345,7 +335,7 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(LngFilter.class);
-		criteria.add(Restrictions.eq("type",type));		
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));		
 		List<LngFilter> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -363,22 +353,20 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 			List<String> terminals=null;
-			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+			if(null!=type && type.equalsIgnoreCase(LNG_LIQUEFACTION))
 				terminals=getLiqueTerminals(startDate, endDate);
 			else
 				terminals=getRegasTerminals(startDate, endDate);
 			
 			if(terminals.size()>0)
-				criteria.add(Restrictions.in("name",terminals));
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 			else
 			{
-				List<String> emptyTerminals=new ArrayList<String>();
-				emptyTerminals.add("");
-				criteria.add(Restrictions.in("name",emptyTerminals));
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 			}	
 		}				
-		criteria.add(Restrictions.eq("type",type));		
-		criteria.setProjection(Projections.distinct(Projections.property("equityPartners")));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));		
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_EQUITYPARTNER)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -396,20 +384,19 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 			List<String> terminals=null;
-			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+			if(null!=type && type.equalsIgnoreCase(LNG_LIQUEFACTION))
 				terminals=getLiqueTerminals(startDate, endDate);
 			else
 				terminals=getRegasTerminals(startDate, endDate);
 			if(terminals.size()>0)
-				criteria.add(Restrictions.in("name",terminals));
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 			else
-			{
-				terminals.add("");
-				criteria.add(Restrictions.in("name",terminals));
+			{				
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 			}	
 		}
-		criteria.add(Restrictions.eq("type",type));	
-		criteria.setProjection(Projections.distinct(Projections.property("country")));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));	
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -427,20 +414,19 @@ public class LngDaoImpl implements LngDao {
 		if(startDate!=0 && endDate!=0)
 		{
 			List<String> terminals=null;
-			if(null!=type && type.equalsIgnoreCase(LIQUEFACTION))
+			if(null!=type && type.equalsIgnoreCase(LNG_LIQUEFACTION))
 				terminals=getLiqueTerminals(startDate, endDate);
 			else
 				terminals=getRegasTerminals(startDate, endDate);
 			if(terminals.size()>0)
-				criteria.add(Restrictions.in("name",terminals));
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 			else
 			{
-				terminals.add("");
-				criteria.add(Restrictions.in("name",terminals));
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 			}	
 		}
-		criteria.add(Restrictions.eq("type",type));	
-		criteria.setProjection(Projections.distinct(Projections.property("name")));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));	
+		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
 		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -454,8 +440,8 @@ public class LngDaoImpl implements LngDao {
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		Criteria criteria=session.createCriteria(LngFilter.class);
-		criteria.add(Restrictions.eq("name",terminal));		
-		criteria.add(Restrictions.eq("type",type));
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_NAME,terminal));		
+		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
 		List<LngFilter> list=criteria.list();
 		tx.commit();
 		session.close();
@@ -469,26 +455,31 @@ public class LngDaoImpl implements LngDao {
 		return terminals;
 	}
 
-	@Override
-	public List<Integer> getSelectedYears(int startDate, int endDate,String type) {
-		// TODO Auto-generated method stub
-		
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
-			criteria=session.createCriteria(LngLiquefaction.class);
-		else
-			criteria=session.createCriteria(LngRegasification.class);
-		
-		criteria.add(Restrictions.between("capacityYear",startDate,endDate));
-		criteria.setProjection(Projections.distinct(Projections.property("capacityYear")));			
-		List<Integer> listYears=criteria.list();
-		tx.commit();
-		session.close();
-		return listYears;
+//	@Override
+//	public List<Integer> getSelectedYears(int startDate, int endDate,String type) {
+//		// TODO Auto-generated method stub
+//		
+//		Session session=sessionFactory.openSession();
+//		Transaction tx=session.beginTransaction();
+//		tx.begin();
+//		Criteria criteria=null;
+//		if(type.equalsIgnoreCase(LIQUEFACTION))
+//			criteria=session.createCriteria(LngLiquefaction.class);
+//		else
+//			criteria=session.createCriteria(LngRegasification.class);
+//		
+//		criteria.add(Restrictions.between("capacityYear",startDate,endDate));
+//		criteria.setProjection(Projections.distinct(Projections.property("capacityYear")));			
+//		List<Integer> listYears=criteria.list();
+//		tx.commit();
+//		session.close();
+//		return listYears;
+//	}
+	private List<String> getEmptyList()
+	{
+		List<String> emptyList=new ArrayList<String>();
+		emptyList.add(BLANK);
+		return emptyList;
 	}
-			
 	
 }

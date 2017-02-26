@@ -1,11 +1,34 @@
 package com.oganalysis.web;
 
+import static com.oganalysis.constants.ApplicationConstants.DISPLAYTYPE;
+import static com.oganalysis.constants.ApplicationConstants.ENDDATE;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_LOCATION;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_OFFONSHORE;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_OPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_OWNER;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_REGION;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OFFONSHORES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OPERATORS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OWNERS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TYPES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_UNITS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_STATUS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_TYPE;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_UNIT;
+import static com.oganalysis.constants.ApplicationConstants.RECORDNAME;
+import static com.oganalysis.constants.ApplicationConstants.STARTDATE;
+import static com.oganalysis.constants.ApplicationConstants.TYPE;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +41,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oganalysis.service.LngDataService;
 import com.oganalysis.service.impl.LngDataServiceImpl;
-
 @Controller
 public class LngDataDisplayController {
 	
@@ -31,19 +53,13 @@ public class LngDataDisplayController {
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
 	public String getLngCapacityData(HttpServletRequest req)
-	{
-		String name=req.getParameter("userName");
-		
-		System.out.println("lng"+name);
-				
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-		
-		String startDate=req.getParameter("startDate");
-		String endDate=req.getParameter("endDate");
-		
-		String displayType=req.getParameter("displayType");
+	{		
 		String response=null;
-		System.out.println(lngDataServiceImpl1);
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		String startDate=req.getParameter(STARTDATE);
+		String endDate=req.getParameter(ENDDATE);		
+		String displayType=req.getParameter(DISPLAYTYPE);		
+		
 		response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
 		
 		return response;
@@ -54,9 +70,7 @@ public class LngDataDisplayController {
 	{
 		
 		String response=null;
-		Enumeration<String> countryNames=req.getParameterNames();
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);								
 		response=lngDataServiceImpl.getInfrastructureData(selectedOptions);
 		
 		return response;
@@ -67,13 +81,13 @@ public class LngDataDisplayController {
 	{
 		
 		String response=null;
-		Enumeration<String> countryNames=req.getParameterNames();
+		
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		String startDate=req.getParameter("startDate");
-		String endDate=req.getParameter("endDate");
-		String displayType=req.getParameter("displayType");
-		String type=req.getParameter("type");
-		String recordName=req.getParameter("recordName");				
+		String startDate=req.getParameter(STARTDATE);
+		String endDate=req.getParameter(ENDDATE);
+		String displayType=req.getParameter(DISPLAYTYPE);
+		String type=req.getParameter(TYPE);
+		String recordName=req.getParameter(RECORDNAME);				
 		response=lngDataServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,type,recordName);
 		
 		return response;
@@ -96,37 +110,37 @@ public class LngDataDisplayController {
 		{
 			String option=selectedOptions.nextElement();
 						
-			if(option.contains("region"))			
+			if(option.contains(OPTION_REGION))			
 				selectedRegions.add(request.getParameter(option));	
-			else if(option.contains("country"))			
+			else if(option.contains(OPTION_COUNTRY))			
 				selectedCountries.add(request.getParameter(option));
-			else if(option.contains("location"))
+			else if(option.contains(OPTION_LOCATION))
 				selectedLocations.add(request.getParameter(option));
-			else if(option.contains("operator"))
+			else if(option.contains(OPTION_OPERATOR))
 				selectedOperators.add(request.getParameter(option));
-			else if(option.contains("owner"))
+			else if(option.contains(OPTION_OWNER))
 				selectedOwners.add(request.getParameter(option));			
-			else if(option.contains("status"))
+			else if(option.contains(OPTION_STATUS))
 				selectedStatuses.add(request.getParameter(option));
-			else if(option.contains("unit"))
+			else if(option.contains(OPTION_UNIT))
 				selectedUnits.add(request.getParameter(option));
-			else if(option.contains("offonshore"))
+			else if(option.contains(OPTION_OFFONSHORE))
 				selectedOffOnshores.add(request.getParameter(option));
-			else if(option.contains("type"))
+			else if(option.contains(OPTION_TYPE))
 				selectedTypes.add(request.getParameter(option));
 			
 		}
 		
 //			selectedUnits.add("BCF");
-			optionsMap.put("regions",selectedRegions);
-			optionsMap.put("countries", selectedCountries);			
-			optionsMap.put("locations",selectedLocations);
-			optionsMap.put("operators",selectedOperators);
-			optionsMap.put("owners",selectedOwners);
-			optionsMap.put("statuses",selectedStatuses);
-			optionsMap.put("units",selectedUnits);
-			optionsMap.put("offonshores",selectedOffOnshores);
-			optionsMap.put("types",selectedTypes);
+			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
+			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);			
+			optionsMap.put(OPTION_SELECTED_LOCATIONS,selectedLocations);
+			optionsMap.put(OPTION_SELECTED_OPERATORS,selectedOperators);
+			optionsMap.put(OPTION_SELECTED_OWNERS,selectedOwners);
+			optionsMap.put(OPTION_SELECTED_STATUSES,selectedStatuses);
+			optionsMap.put(OPTION_SELECTED_UNITS,selectedUnits);
+			optionsMap.put(OPTION_SELECTED_OFFONSHORES,selectedOffOnshores);
+			optionsMap.put(OPTION_SELECTED_TYPES,selectedTypes);
 			
 									
 		return optionsMap;

@@ -1,6 +1,7 @@
 package com.oganalysis.business.impl;
 
-import java.text.DecimalFormat;
+import static com.oganalysis.constants.ApplicationConstants.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +16,11 @@ import com.oganalysis.entities.LngFilter;
 public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessService {
 
 	private LngDao lngDao;
-	public static final String REGASIFICATION="Regasification";
-	public static final String LIQUEFACTION="Liquefaction";
-	private final DecimalFormat formatCapacity=new DecimalFormat(".#");
 	private static final int STARTYEAR=2005;
 	private static final int ENDYEAR=2020;
-	private static final float BCF_UNIT=48.7f;
+	private static final double BCF_UNIT=48.7;
+	private static final String BCF="bcf";
+	private static final String UNDERSCORE="_";
 	
 	@Override
 	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List<String>>selectedOptions,String startDate,String endDate) {
@@ -29,9 +29,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 				
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
-		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
 		if(countries.size()>0)								
-			regasification=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+			regasification=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
 				
 		return regasification;
 	}
@@ -42,9 +42,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();		
-		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
+		List<String> countries=lngDao.getSelectedCountries(selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);
 		if(countries.size()>0)						
-			liquefaction=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);		
+			liquefaction=calculateCapacitiesByCountry(countries,selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);		
 		return liquefaction;
 	}
 	@Override
@@ -55,9 +55,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
 		if(terminals.size()>0)							
-			regasification=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,REGASIFICATION);								
+			regasification=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);								
 		return regasification;
 	}
 	@Override
@@ -68,9 +68,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);
 		if(terminals.size()>0)					
-			liquefaction=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);				
+			liquefaction=calculateCapacitiesByTerminal(terminals,selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);				
 		return liquefaction;
 	}
 	@Override
@@ -81,9 +81,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> regasification=new HashMap<String, Map<Integer,Double>>();
-		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,REGASIFICATION);			
+		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);			
 		if(companies.size()>0)				
-			regasification=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+			regasification=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
 		
 				
 		return regasification;
@@ -96,9 +96,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int endDateVal=Integer.parseInt(endDate);
 		
 		Map<String,Map<Integer,Double>> liquefaction=new HashMap<String, Map<Integer,Double>>();
-		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
+		List<String> companies=lngDao.getSelectedCompanies(selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);
 		if(companies.size()>0)
-				liquefaction=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);		
+				liquefaction=calculateCapacitiesByCompany(companies,selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);		
 		return liquefaction;		
 		
 	}
@@ -115,10 +115,10 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		int startDateVal=Integer.parseInt(startDate); 
 		int endDateVal=Integer.parseInt(endDate);
 			Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
-		if(null!=displayType && displayType.equalsIgnoreCase("country"))
-			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
-		else if(null!=displayType && displayType.equalsIgnoreCase("company"))					
-			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,LIQUEFACTION);
+		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))
+			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);
+		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))					
+			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,LNG_LIQUEFACTION);
 						
 		return terminalCapacities;
 	}
@@ -137,10 +137,10 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		
 		Map<String,Map<Integer,Double>> terminalCapacities=new HashMap<String, Map<Integer,Double>>();
 		
-		if(null!=displayType && displayType.equalsIgnoreCase("country"))
-			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
-		else if(null!=displayType && displayType.equalsIgnoreCase("company"))
-			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,REGASIFICATION);
+		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))
+			terminalCapacities=getTerminalsCapacityForCountry(recordName,selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
+		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))
+			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startDateVal,endDateVal,LNG_REGASIFICATION);
 		
 		return terminalCapacities;
 	}
@@ -167,7 +167,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
 		Map<String,List<String>> selectedOptionWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
 		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
 			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
 		else
 			lngList=lngDao.getRegasificationCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
@@ -188,17 +188,16 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						double soc=0.0;
 						for(String terminal:companyTerminals)
 						{			
-							String key=company+"_"+terminal;
+							String key=company+UNDERSCORE+terminal;
 							double stake=companyStakeForTerminal.get(key);			
 												
 							for(Lng lng:lngList)
-							{
-//								System.out.println(lng.getName()+" :"+lng.getCapacityYear());
+							{								
 								if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 									soc=soc+(lng.getCapacity()*(stake/100));
 							}					
 						}
-						if(null!=unit && unit.equalsIgnoreCase("BCF"))
+						if(null!=unit && unit.equalsIgnoreCase(BCF))
 							soc=soc*BCF_UNIT;
 						soc=round(soc,2);
 						yearMap.put(year,soc);//Double.valueOf(formatCapacity.format(soc))
@@ -216,7 +215,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	{		
 		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
 		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
 			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
 		else
 			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
@@ -235,7 +234,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
 						soc=soc+lng.getCapacity();
 				}
-				if(null!=unit && unit.equalsIgnoreCase("BCF"))
+				if(null!=unit && unit.equalsIgnoreCase(BCF))
 					soc=soc*BCF_UNIT;
 				soc=round(soc,2);
 				yearMap.put(year,soc);
@@ -251,10 +250,11 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
 		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
 		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LIQUEFACTION))
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
 			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
 		else
 			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
+		
 		String unit=getSelectedUnit(selectedOptions);
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
@@ -276,7 +276,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 								soc=soc+lng.getCapacity();
 						}
 					}
-					if(null!=unit && unit.equalsIgnoreCase("BCF"))
+					if(null!=unit && unit.equalsIgnoreCase(BCF))
 						soc=soc*BCF_UNIT;
 					soc=round(soc,2);
 					yearMap.put(year,soc);
@@ -289,7 +289,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	}
 	private String getSelectedUnit(Map<String,List<String>> selectedOptions)
 	{
-		List<String> units=selectedOptions.get("units");
+		List<String> units=selectedOptions.get(OPTION_SELECTED_UNITS);
 		String unit=null;
 		if(null!=units && units.size()>0)
 			unit=units.get(0);
@@ -314,7 +314,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		{
 			String companyName=lngFilter.getEquityPartners();
 			String terminalName=lngFilter.getName();
-			String key=companyName+"_"+terminalName;
+			String key=companyName+UNDERSCORE+terminalName;
 			companyStakeForTerminal.put(key, lngFilter.getEquityStakes());
 		}
 		return companyStakeForTerminal;
@@ -332,7 +332,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		Set<String> keys=selectedOptions.keySet();
 		for(String key:keys)
 		{
-			if(null!=key && !"owners".equals(key))
+			if(null!=key && !OPTION_SELECTED_OWNERS.equals(key))
 				selectedOptionsWithoutOwners.put(key,selectedOptions.get(key));
 		}
 		
@@ -345,33 +345,33 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		List<Lng> regasificationTerminalList=lngDao.getTerminalData(recordName, type);
 		Map terminalData=new HashMap();
 		Lng lng=regasificationTerminalList.get(0);
-		terminalData.put("terminalName",lng.getName());
-		terminalData.put("type", lng.getType());
-		terminalData.put("status",lng.getStatus());
-		terminalData.put("location",lng.getArea());
-		terminalData.put("country",lng.getCountry());
-		terminalData.put("onshoreoroffshore",lng.getOnshoreOrOffshore());
-		terminalData.put("expectedStartUp", lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():"");
-		if(null!=lng.getScheduledStartYear() && !"".equals(lng.getScheduledStartYear()))
-			terminalData.put("scheduledStartUp",lng.getScheduledStartYear().toString());
+		terminalData.put(TERMINALNAME,lng.getName());
+		terminalData.put(TYPE, lng.getType());
+		terminalData.put(STATUS,lng.getStatus());
+		terminalData.put(LOCATION,lng.getArea());
+		terminalData.put(COUNTRY,lng.getCountry());
+		terminalData.put(ONSHORE_OR_OFFSHORE,lng.getOnshoreOrOffshore());
+		terminalData.put(EXPECTEDSTARTUP, lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK);
+		if(null!=lng.getScheduledStartYear() && !BLANK.equals(lng.getScheduledStartYear()))
+			terminalData.put(SCHEDULEDSTARTUP,lng.getScheduledStartYear().toString());
 		else
-			terminalData.put("scheduledStartUp","");
+			terminalData.put(SCHEDULEDSTARTUP,BLANK);
 		
-		terminalData.put("processingCapacity", getProcessingCapacity(regasificationTerminalList));
-		terminalData.put("trainsOrVaporizers",getTrainsOrVaporizers(regasificationTerminalList));
-		terminalData.put("storageCapacity",getStorageCapacity(regasificationTerminalList));
-		terminalData.put("storageTanks", getStorageTanks(regasificationTerminalList));
+		terminalData.put(PROCESSINGCAPACITY, getProcessingCapacity(regasificationTerminalList));
+		terminalData.put(TRAINSORVAPORIZERS,getTrainsOrVaporizers(regasificationTerminalList));
+		terminalData.put(STORAGECAPACITY,getStorageCapacity(regasificationTerminalList));
+		terminalData.put(STORAGETANKS, getStorageTanks(regasificationTerminalList));
 		
-		terminalData.put("operator",getOperator(regasificationTerminalList).toString());
-		terminalData.put("ownership",getOwnership(recordName,type));
+		terminalData.put(OPERATOR,getOperator(regasificationTerminalList).toString());
+		terminalData.put(OWNERSHIP,getOwnership(recordName,type));
 
-		terminalData.put("capex", String.valueOf(getCapexDetails(regasificationTerminalList)));
-		terminalData.put("technology",getTechnologyDetails(regasificationTerminalList).toString());
-		terminalData.put("constructionPeriod",getConstructionPeriod(regasificationTerminalList));
-		terminalData.put("constructionDetails",getConstructionDetails(regasificationTerminalList));
+		terminalData.put(CAPEX, String.valueOf(getCapexDetails(regasificationTerminalList)));
+		terminalData.put(TECHNOLOGY,getTechnologyDetails(regasificationTerminalList).toString());
+		terminalData.put(CONSTRUCTIONPERIOD,getConstructionPeriod(regasificationTerminalList));
+		terminalData.put(CONSTRUCTIONDETAILS,getConstructionDetails(regasificationTerminalList));
 		
-		terminalData.put("sourceFields",getSourceFields(regasificationTerminalList).toString());
-		terminalData.put("distributionType",getDistributionType(regasificationTerminalList).toString());
+		terminalData.put(SOURCEFIELDS,getSourceFields(regasificationTerminalList).toString());
+		terminalData.put(DISTRIBUTIONTYPE,getDistributionType(regasificationTerminalList).toString());
 		return terminalData;
 	}
 	private List<Map<String,String>> getOwnership(String recordName,String type)
@@ -384,9 +384,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(LngFilter lngFilter:lngFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-				String key=lngFilter.getEquityPartners()+"_"+lngFilter.getName();			
-				ownershipMap.put("equityPartner",lngFilter.getEquityPartners());
-				ownershipMap.put("equityStake",String.valueOf(companyStakes.get(key)));
+				String key=lngFilter.getEquityPartners()+UNDERSCORE+lngFilter.getName();			
+				ownershipMap.put(EQUITYPARTNER,lngFilter.getEquityPartners());
+				ownershipMap.put(EQUITYSTAKE,String.valueOf(companyStakes.get(key)));
 				ownershipList.add(ownershipMap);
 		}
 		
@@ -397,8 +397,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		StringBuffer distributionType=new StringBuffer();
 		for(Lng lng:dataList)
 		{
-			if(null!=lng.getDisttributionOrOutputName() && !"".equalsIgnoreCase(lng.getDisttributionOrOutputName()))
-				distributionType.append(lng.getDisttributionOrOutputName()).append(",");
+			if(null!=lng.getDisttributionOrOutputName() && !BLANK.equalsIgnoreCase(lng.getDisttributionOrOutputName()))
+				distributionType.append(lng.getDisttributionOrOutputName()).append(COMMA);
 		}
 		if(distributionType.length()>0)
 		removeCommaAtEnd(distributionType);
@@ -410,8 +410,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(int i=0;i<dataList.size();i++)
 		{
 			Lng lng=dataList.get(i);
-			if(null!=lng.getFeedOrInputName() && !"".equalsIgnoreCase(lng.getFeedOrInputName()))			
-				sourceFields.append(lng.getFeedOrInputName()).append(",");				
+			if(null!=lng.getFeedOrInputName() && !BLANK.equalsIgnoreCase(lng.getFeedOrInputName()))			
+				sourceFields.append(lng.getFeedOrInputName()).append(COMMA);				
 							
 		}
 		if(sourceFields.length()>0)
@@ -428,8 +428,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(int i=0;i<dataList.size();i++)
 		{
 			Lng lng=dataList.get(i);
-			if(null!=lng.getOperator() && !"".equalsIgnoreCase(lng.getOperator()))				
-				operators.append(lng.getOperator()).append(",");											
+			if(null!=lng.getOperator() && !BLANK.equalsIgnoreCase(lng.getOperator()))				
+				operators.append(lng.getOperator()).append(COMMA);											
 		}
 		if(operators.length()>0)
 		removeCommaAtEnd(operators);
@@ -510,8 +510,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(Lng lng:dataList)
 		{
 			constructionPeriodMap=new HashMap<String, Integer>();
-			constructionPeriodMap.put("constructionStart",lng.getConstructionStart());
-			constructionPeriodMap.put("constructionEnd",lng.getConstructionEnd());
+			constructionPeriodMap.put(CONSTRUCTIONSTART,lng.getConstructionStart());
+			constructionPeriodMap.put(CONSTRUCTIONEND,lng.getConstructionEnd());
 			constructionPeriod.add(constructionPeriodMap);
 		}
 		return constructionPeriod;
@@ -523,15 +523,15 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(Lng lng:dataList)
 		{
 			constructionDetailsMap=new HashMap<String, String>();
-			if(null!=lng.getConstructionCompanyName() && !"".equalsIgnoreCase(lng.getConstructionCompanyName()))			
-				constructionDetailsMap.put("constructionCompanyName",lng.getConstructionCompanyName());			
+			if(null!=lng.getConstructionCompanyName() && !BLANK.equalsIgnoreCase(lng.getConstructionCompanyName()))			
+				constructionDetailsMap.put(CONSTRUCTIONCOMPANYNAME,lng.getConstructionCompanyName());			
 			else
-				constructionDetailsMap.put("constructionCompanyName", "");
+				constructionDetailsMap.put(CONSTRUCTIONCOMPANYNAME, BLANK);
 			
-			if(null!=lng.getConstructionContractDetails() && !"".equalsIgnoreCase(lng.getConstructionContractDetails()))			
-				constructionDetailsMap.put("constructionContractDetails",lng.getConstructionContractDetails());			
+			if(null!=lng.getConstructionContractDetails() && !BLANK.equalsIgnoreCase(lng.getConstructionContractDetails()))			
+				constructionDetailsMap.put(CONSTRUCTIONCONTRACTDETAILS,lng.getConstructionContractDetails());			
 			else
-				constructionDetailsMap.put("constructionContractDetails", "");
+				constructionDetailsMap.put(CONSTRUCTIONCONTRACTDETAILS, BLANK);
 			constructionDetails.add(constructionDetailsMap);
 		}
 		return constructionDetails;
@@ -542,8 +542,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		StringBuffer technology=new StringBuffer();
 		for(Lng lng:dataList)
 		{	
-			if(null!=lng.getTechnologyDetails() && !"".equalsIgnoreCase(lng.getTechnologyDetails()))
-			technology.append(lng.getTechnologyDetails()).append(",");
+			if(null!=lng.getTechnologyDetails() && !BLANK.equalsIgnoreCase(lng.getTechnologyDetails()))
+			technology.append(lng.getTechnologyDetails()).append(COMMA);
 		}	
 		if(technology.length()>0)
 		removeCommaAtEnd(technology);

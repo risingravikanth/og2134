@@ -15,7 +15,7 @@
 		<property name="equityPartners" type="string"/>
 		<property name="status" type="string"/>
 		<property name="units" type="string"/>
-		<property name="OnshoreOrOffshore" type="string"/>
+		<property name="onshoreOrOffshore" type="string"/>
 		<property name="type" type="string"/>
 		<property name="equityStakes" type="double"/>				
 	</class>

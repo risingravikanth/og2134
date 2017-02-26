@@ -2,7 +2,6 @@ package com.oganalysis.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface LngDataService {
 	   public String getCapacityData(Map<String,List<String>> selectedOptions,String startDate,String endDate,String displayType);

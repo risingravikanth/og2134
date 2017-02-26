@@ -12,7 +12,7 @@ public class LngFilter {
 	private String equityPartners;
 	private String status;
 	private String units; 
-	private String OnshoreOrOffshore;
+	private String onshoreOrOffshore;
 	private String type;	
 	private double equityStakes;
 	public int getId() {
@@ -68,12 +68,12 @@ public class LngFilter {
 	}
 	public void setUnits(String units) {
 		this.units = units;
-	}
+	}	
 	public String getOnshoreOrOffshore() {
-		return OnshoreOrOffshore;
+		return onshoreOrOffshore;
 	}
 	public void setOnshoreOrOffshore(String onshoreOrOffshore) {
-		OnshoreOrOffshore = onshoreOrOffshore;
+		this.onshoreOrOffshore = onshoreOrOffshore;
 	}
 	public String getType() {
 		return type;

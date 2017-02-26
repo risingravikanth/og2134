@@ -13,8 +13,8 @@ public interface LngDao {
 	
 	List<Lng> getLiquefactionCriteriaData(Map<String,List<String>> selectedOptions,List<String> terminals,int startDate,int endDate);
 			
-	List<Lng> getRegasificationCriteriaData(List<String> terminals);
-	List<Lng> getLiquefactionCriteriaData(List<String> terminals);
+//	List<Lng> getRegasificationCriteriaData(List<String> terminals);
+//	List<Lng> getLiquefactionCriteriaData(List<String> terminals);
 	
 	List<String> getLiqueTerminals(int startDate,int endDate);
 	List<String> getRegasTerminals(int startDate,int endDate);
@@ -24,7 +24,7 @@ public interface LngDao {
 	List<String> getOwners();
 	
 	
-	List<Integer> getSelectedYears(int startDate,int endDate,String type);
+//	List<Integer> getSelectedYears(int startDate,int endDate,String type);
 	
 	List<Lng> getTerminalData(String terminalName,String type);
 			
