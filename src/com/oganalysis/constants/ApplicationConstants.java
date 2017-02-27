@@ -79,7 +79,7 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_STATUS=STATUS;
 	public static final String RESTRICTION_PROPERTY_ONSHOREOROFFSHORE="onshoreOrOffshore";
 	
-	//LNG ,Supply Demand filter options
+	//LNG ,Supply Demand , Reports filter options
 	public static final String OPTION_REGION=RESTRICTION_PROPERTY_REGION;
 	public static final String OPTION_COUNTRY=COUNTRY;
 	public static final String OPTION_LOCATION=LOCATION;
@@ -89,6 +89,7 @@ public interface ApplicationConstants {
 	public static final String OPTION_UNIT="unit";
 	public static final String OPTION_OFFONSHORE="offonshore";
 	public static final String OPTION_TYPE=TYPE;
+	public static final String OPTION_SECTOR="sector";
 	
 	
 	// Contract Options
@@ -121,6 +122,12 @@ public interface ApplicationConstants {
 	
 	//Supply Demand
 	public static final String EXPORT="Export";
+	
+	//Reports
+	public static final String OPTION_SELECTED_SECTORS="sectors";
+	public static final String RESTRICTION_PROPERTY_SECTOR="sector";
+	//Reports Json
+	public static final String REPORTNAME="reportName";
 	
 	
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import com.oganalysis.dao.PdfReportsDao;
 import com.oganalysis.entities.Report;
 import com.oganalysis.helper.JsonResponse;
+import com.oganalysis.helper.ReportsJsonResponse;
 import com.oganalysis.service.PdfReportsService;
 
 public class PdfReportsServiceImpl implements PdfReportsService {
@@ -20,7 +21,7 @@ public class PdfReportsServiceImpl implements PdfReportsService {
 		// TODO Auto-generated method stub
 		String response=null;
 		List<Report> reportsList=pdfReportsDao.getPdfReports(selectedOptions);
-		JsonResponse jsonRes=new JsonResponse();
+		ReportsJsonResponse jsonRes=new ReportsJsonResponse();
 		response=jsonRes.createPdfReportsResponse(reportsList);
 		return response;
 		
