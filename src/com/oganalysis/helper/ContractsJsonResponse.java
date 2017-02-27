@@ -6,13 +6,14 @@ import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class ContractsJsonResponse {
 	
 	public String createQuantityByCompanyRes(Map<String,Map<Integer,Double>> quantityData,int startDate,int endDate)
 	{
 		
-		final String displayType="company";
+		final String displayType=COMPANY;
 		
 		JSONArray quantityByCompany=new JSONArray();
 				
@@ -20,7 +21,7 @@ public class ContractsJsonResponse {
 		JSONArray allYearsQuantityByCompany=getAllYearsQuantity(quantityData, startDate, endDate);
 		JSONObject totalQuantityOfYear=getTotalQuantityOfYear(allYearsQuantityByCompany,startDate,endDate);	
 		quantityJsonObj.put(displayType, allYearsQuantityByCompany);
-		quantityJsonObj.put("totalCapacity", totalQuantityOfYear);								
+		quantityJsonObj.put(JSON_TOTALCAPACITY, totalQuantityOfYear);								
 		quantityByCompany.add(quantityJsonObj);
 				
 		return quantityByCompany.toJSONString();
@@ -30,7 +31,7 @@ public class ContractsJsonResponse {
 	public String createQuantityByCountryRes(Map<String,Map<Integer,Double>> quantityData,int startDate,int endDate)
 	{
 		
-		final String displayType="country";
+		final String displayType=COUNTRY;
 		
 		JSONArray quantityByCountry=new JSONArray();
 				
@@ -38,7 +39,7 @@ public class ContractsJsonResponse {
 		JSONArray allYearsQuantityByCountry=getAllYearsQuantity(quantityData, startDate, endDate);
 		JSONObject totalQuantityOfYear=getTotalQuantityOfYear(allYearsQuantityByCountry,startDate,endDate);	
 		quantityJsonObj.put(displayType, allYearsQuantityByCountry);
-		quantityJsonObj.put("totalCapacity", totalQuantityOfYear);								
+		quantityJsonObj.put(JSON_TOTALCAPACITY, totalQuantityOfYear);								
 		quantityByCountry.add(quantityJsonObj);
 				
 		return quantityByCountry.toJSONString();		
@@ -47,7 +48,7 @@ public class ContractsJsonResponse {
 	public String createQuantityByTerminalRes(Map<String,Map<Integer,Double>> quantityData,int startDate,int endDate)
 	{
 		
-		final String displayType="terminal";
+		final String displayType=TERMINAL;
 		
 		JSONArray quantityByCountry=new JSONArray();
 				
@@ -55,7 +56,7 @@ public class ContractsJsonResponse {
 		JSONArray allYearsQuantityByCountry=getAllYearsQuantity(quantityData, startDate, endDate);
 		JSONObject totalQuantityOfYear=getTotalQuantityOfYear(allYearsQuantityByCountry,startDate,endDate);	
 		quantityJsonObj.put(displayType, allYearsQuantityByCountry);
-		quantityJsonObj.put("totalCapacity", totalQuantityOfYear);								
+		quantityJsonObj.put(JSON_TOTALCAPACITY, totalQuantityOfYear);								
 		quantityByCountry.add(quantityJsonObj);
 				
 		return quantityByCountry.toJSONString();		
@@ -72,13 +73,13 @@ public class ContractsJsonResponse {
 		{
 			JSONObject jsonObj=new JSONObject();
 			Map<Integer,Double> yearMap=quantityData.get(nameObj);
-			jsonObj.put("name",(String)nameObj);
+			jsonObj.put(JSON_NAME,(String)nameObj);
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
 				if(yearMap.containsKey(yearCount) &&(null!=yearMap.get(yearCount) && (Double)yearMap.get(yearCount)!=0))										
 					jsonObj.put(yearCount,yearMap.get(yearCount));				
 				else
-					jsonObj.put(yearCount,"");			
+					jsonObj.put(yearCount,BLANK);			
 					
 			}
 			
@@ -96,7 +97,7 @@ public class ContractsJsonResponse {
 			for(int i=0;i<allYearsQuantity.size();i++)
 			{
 				JSONObject yearJsonObj=(JSONObject)allYearsQuantity.get(i);
-				if(null!=yearJsonObj.get(yearCount) && !yearJsonObj.get(yearCount).equals(""))
+				if(null!=yearJsonObj.get(yearCount) && !yearJsonObj.get(yearCount).equals(BLANK))
 					capacityVal=(Double)yearJsonObj.get(yearCount);
 				else
 					capacityVal=0;
@@ -120,7 +121,7 @@ public class ContractsJsonResponse {
 				 JSONObject jsonObj=new JSONObject();
 				 							
 				  				  			 
-				  jsonObj.put("company",company);
+				  jsonObj.put(COMPANY,company);
 				  						      			      
 			      array.add(jsonObj);
 			      
@@ -129,7 +130,7 @@ public class ContractsJsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createImportCountries(List<String> importCountries)
@@ -145,7 +146,7 @@ public class ContractsJsonResponse {
 				 JSONObject jsonObj=new JSONObject();
 				 							
 				  				  			 
-				  jsonObj.put("country",country);
+				  jsonObj.put(COUNTRY,country);
 				  						      			      
 			      array.add(jsonObj);
 			      
@@ -154,7 +155,7 @@ public class ContractsJsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createExportCompanies(List<String> exportCompanies)
@@ -170,7 +171,7 @@ public class ContractsJsonResponse {
 				 JSONObject jsonObj=new JSONObject();
 				 							
 				  				  			 
-				  jsonObj.put("company",company);
+				  jsonObj.put(COMPANY,company);
 				  						      			      
 			      array.add(jsonObj);
 			      
@@ -179,7 +180,7 @@ public class ContractsJsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	private double round(double value, int places) {	    

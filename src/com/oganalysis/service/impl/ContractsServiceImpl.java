@@ -7,6 +7,7 @@ import java.util.Map;
 import com.oganalysis.business.ContractsBusinessService;
 import com.oganalysis.helper.ContractsJsonResponse;
 import com.oganalysis.service.ContractsService;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class ContractsServiceImpl implements ContractsService {
 
@@ -19,11 +20,11 @@ public class ContractsServiceImpl implements ContractsService {
 		int startDateVal=Integer.valueOf(startDate);
 		int endDateVal=Integer.valueOf(endDate);
 		String contractsDataRes=null;
-		if(null!=displayType && "company".equalsIgnoreCase(displayType))
+		if(null!=displayType && COMPANY.equalsIgnoreCase(displayType))
 			contractsDataRes=getQuantityByCompany(selectedOptions, startDateVal, endDateVal); 
-		else if(null!=displayType && "country".equalsIgnoreCase(displayType))
+		else if(null!=displayType && COUNTRY.equalsIgnoreCase(displayType))
 			contractsDataRes=getQuantityByCountry(selectedOptions, startDateVal, endDateVal);
-		else if(null!=displayType && "terminal".equalsIgnoreCase(displayType))
+		else if(null!=displayType && TERMINAL.equalsIgnoreCase(displayType))
 			contractsDataRes=getQuantityByTerminal(selectedOptions, startDateVal, endDateVal);
 		return contractsDataRes;
 	}
@@ -49,25 +50,25 @@ public class ContractsServiceImpl implements ContractsService {
 		String quantityByCountries=jsonRes.createQuantityByTerminalRes(terminalQuantities, startDate, endDate);
 		return quantityByCountries;
 	}
-	@Override
-	public String getModalQuantityData(
-			Map<String, List<String>> selectedOptions, String startDate,
-			String endDate, String displayType, String recordName) {
-		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Double>> modalQuantityData=new HashMap<String, Map<Integer,Double>>();		
-		ContractsJsonResponse contractsJsonResponse=new ContractsJsonResponse();
-		String modalQuantityDataRes=null;
-		int startDateVal=Integer.parseInt(startDate);
-		int endDateVal=Integer.parseInt(endDate);
-		
-		if(null!=displayType && !displayType.equalsIgnoreCase("terminal"))
-		{
-			modalQuantityData=contractsBusinessServiceImpl.getQuantitiesForRecord(selectedOptions,startDateVal, endDateVal, displayType, recordName);
-			modalQuantityDataRes=contractsJsonResponse.createQuantityByTerminalRes(modalQuantityData, startDateVal, endDateVal);
-		}							 	
-							
-		return modalQuantityDataRes;
-	}
+//	@Override
+//	public String getModalQuantityData(
+//			Map<String, List<String>> selectedOptions, String startDate,
+//			String endDate, String displayType, String recordName) {
+//		// TODO Auto-generated method stub
+//		Map<String,Map<Integer,Double>> modalQuantityData=new HashMap<String, Map<Integer,Double>>();		
+//		ContractsJsonResponse contractsJsonResponse=new ContractsJsonResponse();
+//		String modalQuantityDataRes=null;
+//		int startDateVal=Integer.parseInt(startDate);
+//		int endDateVal=Integer.parseInt(endDate);
+//		
+//		if(null!=displayType && !displayType.equalsIgnoreCase("terminal"))
+//		{
+//			modalQuantityData=contractsBusinessServiceImpl.getQuantitiesForRecord(selectedOptions,startDateVal, endDateVal, displayType, recordName);
+//			modalQuantityDataRes=contractsJsonResponse.createQuantityByTerminalRes(modalQuantityData, startDateVal, endDateVal);
+//		}							 	
+//							
+//		return modalQuantityDataRes;
+//	}
 	@Override
 	public String getImportCountries(List<String> exportCountries) {
 		// TODO Auto-generated method stub

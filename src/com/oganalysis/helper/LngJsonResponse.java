@@ -9,10 +9,7 @@ import org.json.simple.JSONObject;
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class LngJsonResponse {
-//	private static final String TYPE="type";
-	private static final String TOTALCAPACITY="totalCapacity";
-	private static final String DATA_KEY="data";
-	
+		
 	
 	public String createInfrastructureRes(Map<String,List<Map<String,String>>> infrastructureMap)
 	{
@@ -202,7 +199,7 @@ public class LngJsonResponse {
 		{
 			JSONObject jsonObj=new JSONObject();
 			Map<Integer,Double> yearMap=capacityData.get(nameObj);
-			jsonObj.put("name",(String)nameObj);
+			jsonObj.put(JSON_NAME,(String)nameObj);
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
 				if(yearMap.containsKey(yearCount) &&(null!=yearMap.get(yearCount) && (Double)yearMap.get(yearCount)!=0))										
@@ -224,7 +221,7 @@ public class LngJsonResponse {
 		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByCompany,startDate,endDate);	
 		capacityLiquefactionJsonObj.put(displayType, allYearsLiqueCapacityByCompany);
 		capacityLiquefactionJsonObj.put(TYPE, LNG_LIQUEFACTION);
-		capacityLiquefactionJsonObj.put(TOTALCAPACITY, liqueTotalCapacityOfYear);
+		capacityLiquefactionJsonObj.put(JSON_TOTALCAPACITY, liqueTotalCapacityOfYear);
 		return capacityLiquefactionJsonObj;
 	}
 	public JSONObject createCapacityRegasificationRes(Map<String,Map<Integer,Double>> regasification,int startDate,int endDate,String displayType)
@@ -236,7 +233,7 @@ public class LngJsonResponse {
 		
 		capacityRegasificationJsonObj.put(displayType, allYearsRegasCapacityByCompany);
 		capacityRegasificationJsonObj.put(TYPE, LNG_REGASIFICATION);
-		capacityRegasificationJsonObj.put(TOTALCAPACITY, regastotalCapacityOfYear);
+		capacityRegasificationJsonObj.put(JSON_TOTALCAPACITY, regastotalCapacityOfYear);
 		
 		return capacityRegasificationJsonObj;
 	}

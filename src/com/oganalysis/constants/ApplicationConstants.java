@@ -12,6 +12,7 @@ public interface ApplicationConstants {
 	public static final String DISPLAYTYPE="displayType";
 	public static final String RECORDNAME="recordName";
 	
+	
 	//LNG Constants
 	public static final String LNG_REGASIFICATION="Regasification";
 	public static final String LNG_LIQUEFACTION="Liquefaction";
@@ -36,6 +37,7 @@ public interface ApplicationConstants {
 	public static final String CONSTRUCTIONEND="constructionEnd";
 	public static final String CONSTRUCTIONCOMPANYNAME="constructionCompanyName";
 	public static final String CONSTRUCTIONCONTRACTDETAILS="constructionContractDetails";
+	
 	//LNG Infra and Some values are also for LNG Capacity
 	public static final String TERMINALNAME="terminalName";
 	public static final String STATUS="status";
@@ -89,7 +91,31 @@ public interface ApplicationConstants {
 	public static final String OPTION_TYPE=TYPE;
 	
 	
+	// Contract Options
+	public static final String IMPORT_COUNTRY="importcountry";
+	public static final String EXPORT_COUNTRY="exportcountry";
+	public static final String IMPORT_COMPANY="importcompany";
+	public static final String EXPORT_COMPANY="exportcompany";
 	
+	// Contract Selected Options
+	public static final String OPTION_SELECTED_IMPORT_COUNTRIES="importCountries";
+	public static final String OPTION_SELECTED_EXPORT_COUNTRIES="exportCountries";
+	public static final String OPTION_SELECTED_IMPORT_COMPANIES="importCompanies";
+	public static final String OPTION_SELECTED_EXPORT_COMPANIES="exportCompanies";
 	
-		
+	//Contract Restrictions in ContractDaoImpl
+	public static final String RESTRICTION_PROPERTY_YEAR="year";
+	public static final String RESTRICTION_PROPERTY_CONTRACTINDICATOR="contractIndicator";
+	public static final String RESTRICTION_PROPERTY_EXPORTCOMPANY="exportCompany";
+	public static final String RESTRICTION_PROPERTY_EXPORTCOUNTRY="exportCountry";
+	public static final String RESTRICTION_PROPERTY_EXPORTTERMINAL="exportTerminal";
+	public static final String RESTRICTION_PROPERTY_EXPORTCOUNTRIES=OPTION_SELECTED_EXPORT_COUNTRIES;
+	public static final String RESTRICTION_PROPERTY_EXPORTCOMPANIES=OPTION_SELECTED_EXPORT_COMPANIES;
+	public static final String RESTRICTION_PROPERTY_IMPORTCOUNTRY="importCountry";	
+	public static final String RESTRICTION_PROPERTY_IMPORTCOMPANY="importCompany";
+	
+	// Json Response Contracts and LNG
+	public static final String JSON_TOTALCAPACITY="totalCapacity";
+	public static final String JSON_NAME="name";
+	public static final String DATA_KEY="data";
 }

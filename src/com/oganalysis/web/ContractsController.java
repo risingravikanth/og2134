@@ -1,5 +1,17 @@
 package com.oganalysis.web;
 
+import static com.oganalysis.constants.ApplicationConstants.DISPLAYTYPE;
+import static com.oganalysis.constants.ApplicationConstants.ENDDATE;
+import static com.oganalysis.constants.ApplicationConstants.EXPORT_COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.EXPORT_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.IMPORT_COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.IMPORT_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_EXPORT_COMPANIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_EXPORT_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_IMPORT_COMPANIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_IMPORT_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.STARTDATE;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,28 +39,28 @@ public class ContractsController {
 	@RequestMapping(value="/quantity",method={RequestMethod.GET})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
-		String startDate=req.getParameter("startDate");
-		String endDate=req.getParameter("endDate");
-		String displayType=req.getParameter("displayType");
+		String startDate=req.getParameter(STARTDATE);
+		String endDate=req.getParameter(ENDDATE);
+		String displayType=req.getParameter(DISPLAYTYPE);
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
 		String response=contractsServiceImpl.getContractsData(selectedOptions, startDate, endDate, displayType);
 		return response;
 	}
-	@ResponseBody
-	@RequestMapping(value="/modalquantity",method={RequestMethod.GET})
-	public String getQuantityModalData(HttpServletRequest req)
-	{
-		
-		String response=null;
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		String startDate=req.getParameter("startDate");
-		String endDate=req.getParameter("endDate");
-		String displayType=req.getParameter("displayType");
-		String recordName=req.getParameter("recordName");				
-		response=contractsServiceImpl.getModalQuantityData(selectedOptions,startDate,endDate,displayType,recordName);
-		
-		return response;
-	}
+//	@ResponseBody
+//	@RequestMapping(value="/modalquantity",method={RequestMethod.GET})
+//	public String getQuantityModalData(HttpServletRequest req)
+//	{
+//		
+//		String response=null;
+//		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
+//		String startDate=req.getParameter("startDate");
+//		String endDate=req.getParameter("endDate");
+//		String displayType=req.getParameter("displayType");
+//		String recordName=req.getParameter("recordName");				
+//		response=contractsServiceImpl.getModalQuantityData(selectedOptions,startDate,endDate,displayType,recordName);
+//		
+//		return response;
+//	}
 	@ResponseBody
 	@RequestMapping(value="/importcountries",method={RequestMethod.GET})
 	public String getImportCountries(HttpServletRequest req)
@@ -56,7 +68,7 @@ public class ContractsController {
 		
 		String response=null;
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		List<String> exportCountries=selectedOptions.get("exportCountries");			
+		List<String> exportCountries=selectedOptions.get(OPTION_SELECTED_EXPORT_COUNTRIES);			
 		response=contractsServiceImpl.getImportCountries(exportCountries);
 		
 		return response;
@@ -68,7 +80,7 @@ public class ContractsController {
 		
 		String response=null;
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		List<String> exportCompanies=selectedOptions.get("exportCompanies");			
+		List<String> exportCompanies=selectedOptions.get(OPTION_SELECTED_EXPORT_COMPANIES);			
 		response=contractsServiceImpl.getImportCompanies(exportCompanies);		
 		return response;
 	}
@@ -93,31 +105,22 @@ public class ContractsController {
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
-			if(option.contains("importcountry"))			
+			if(option.contains(IMPORT_COUNTRY))			
 				selectedImportCountries.add(request.getParameter(option));			
-			else if(option.contains("exportcountry"))			
+			else if(option.contains(EXPORT_COUNTRY))			
 				selectedExportCountries.add(request.getParameter(option));	
-			else if(option.contains("importcompany"))
+			else if(option.contains(IMPORT_COMPANY))
 				selectedImportCompanies.add(request.getParameter(option));
-			else if(option.contains("exportcompany"))
+			else if(option.contains(EXPORT_COMPANY))
 				selectedExportCompanies.add(request.getParameter(option));
 					
 		}
-//			selectedExportCompanies.add("BG Group Plc");
-//			
-//			selectedImportCountries.add("Japan");
-//			selectedImportCountries.add("China");
-//			selectedImportCountries.add("india");
-//			
-//			selectedExportCompanies.add("Sonatrach");
-//			selectedImportCountries.add("italy");
-//			selectedImportCountries.add("france");
+		
+			optionsMap.put(OPTION_SELECTED_IMPORT_COUNTRIES, selectedImportCountries);
+			optionsMap.put(OPTION_SELECTED_EXPORT_COUNTRIES,selectedExportCountries);
 			
-			optionsMap.put("importCountries", selectedImportCountries);
-			optionsMap.put("exportCountries",selectedExportCountries);
-			
-			optionsMap.put("importCompanies",selectedImportCompanies);
-			optionsMap.put("exportCompanies",selectedExportCompanies);
+			optionsMap.put(OPTION_SELECTED_IMPORT_COMPANIES,selectedImportCompanies);
+			optionsMap.put(OPTION_SELECTED_EXPORT_COMPANIES,selectedExportCompanies);
 						
 									
 		return optionsMap;
