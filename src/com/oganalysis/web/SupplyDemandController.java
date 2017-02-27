@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import com.oganalysis.service.SupplyDemandService;
 
@@ -26,9 +27,9 @@ public class SupplyDemandController {
 	@RequestMapping(value="/supplyDemand",method={RequestMethod.GET})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
-		String startDate=req.getParameter("startDate");//"2014";
-		String endDate=req.getParameter("endDate");//"2020";
-		String displayType=req.getParameter("displayType");//export";
+		String startDate=req.getParameter(STARTDATE);//"2014";
+		String endDate=req.getParameter(ENDDATE);//"2020";
+		String displayType=req.getParameter(DISPLAYTYPE);//export";
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
 		String response=supplyDemandServiceImpl.getSupplyDemandData(selectedOptions, startDate, endDate, displayType);
 		return response;
@@ -43,15 +44,15 @@ public class SupplyDemandController {
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
-			if(option.contains("country"))			
+			if(option.contains(OPTION_COUNTRY))			
 				selectedCountries.add(request.getParameter(option));			
-			else if(option.contains("region"))			
+			else if(option.contains(OPTION_REGION))			
 				selectedRegions.add(request.getParameter(option));			
 					
 		}
 		
-			optionsMap.put("countries", selectedCountries);
-			optionsMap.put("regions",selectedRegions);
+			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);
+			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
 						
 									
 		return optionsMap;

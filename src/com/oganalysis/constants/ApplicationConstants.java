@@ -55,7 +55,7 @@ public interface ApplicationConstants {
 	public static final String PROPOSED="Proposed";
 	public static final String SHUTDOWN="Shutdown";
 	
-	//LNG selected options keys
+	//LNG ,Supply Demand selected options keys
 	
 	public static final String OPTION_SELECTED_COUNTRIES="countries";
 	public static final String OPTION_SELECTED_REGIONS="regions";
@@ -79,7 +79,7 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_STATUS=STATUS;
 	public static final String RESTRICTION_PROPERTY_ONSHOREOROFFSHORE="onshoreOrOffshore";
 	
-	//LNG filter options
+	//LNG ,Supply Demand filter options
 	public static final String OPTION_REGION=RESTRICTION_PROPERTY_REGION;
 	public static final String OPTION_COUNTRY=COUNTRY;
 	public static final String OPTION_LOCATION=LOCATION;
@@ -114,8 +114,13 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_IMPORTCOUNTRY="importCountry";	
 	public static final String RESTRICTION_PROPERTY_IMPORTCOMPANY="importCompany";
 	
-	// Json Response Contracts and LNG
+	// Json Response Contracts , LNG ,Supply Demand
 	public static final String JSON_TOTALCAPACITY="totalCapacity";
 	public static final String JSON_NAME="name";
 	public static final String DATA_KEY="data";
+	
+	//Supply Demand
+	public static final String EXPORT="Export";
+	
+	
 }
