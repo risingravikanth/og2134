@@ -13,34 +13,34 @@ import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.LngFilter;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	private LngDao lngDao;
-	private static final String REGASIFICATION="Regasification";
-	private static final String LIQUEFACTION="Liquefaction";
+	
 	@Override
 	public List<Map<String,String>> getRegasificationInfrastructure(
 			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,REGASIFICATION);
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,LNG_REGASIFICATION);
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();
 		for(String terminalName:terminals)
 		{
 			Map<String,String> regasificationMap=new HashMap<String, String>();
-			List<Lng> terminalData=lngDao.getTerminalData(terminalName,REGASIFICATION);
+			List<Lng> terminalData=lngDao.getTerminalData(terminalName,LNG_REGASIFICATION);
 			if(terminalData.size()>0)
 			{
 				Lng lng=terminalData.get(0);
 				
-				regasificationMap.put("terminalName", lng.getName());
-				regasificationMap.put("status", lng.getStatus());
-				regasificationMap.put("startYear", lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():""); // This one need to check
-				regasificationMap.put("location", lng.getArea());
-				regasificationMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
-				regasificationMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-				regasificationMap.put("operator",getOperator(lng.getName(),REGASIFICATION).toString());//This one also need to check;
-				regasificationMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
-				regasificationMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
+				regasificationMap.put(TERMINALNAME, lng.getName());
+				regasificationMap.put(STATUS, lng.getStatus());
+				regasificationMap.put(STARTYEAR, lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK); // This one need to check
+				regasificationMap.put(LOCATION, lng.getArea());
+				regasificationMap.put(TECHNOLOGY,getTechnologyDetails(terminalData).toString());// This one also check once;
+				regasificationMap.put(TRAIN,String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
+				regasificationMap.put(OPERATOR,getOperator(lng.getName(),LNG_REGASIFICATION).toString());//This one also need to check;
+				regasificationMap.put(STORAGECAPACITY,String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
+				regasificationMap.put(TANKS,String.valueOf(getTanks(terminalData)));//This one also need to check;
 				mapList.add(regasificationMap);
 			}
 			
@@ -52,25 +52,25 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		
-		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,LIQUEFACTION);		
+		List<String> terminals=lngDao.getSelectedTerminals(selectedOptions,LNG_LIQUEFACTION);		
 		List<Map<String,String>> mapList=new ArrayList<Map<String,String>>();	
 		for(String terminalName:terminals)
 		{
 			Map<String,String> liquefactionMap=new HashMap<String, String>();
-			List<Lng> terminalData=lngDao.getTerminalData(terminalName,LIQUEFACTION);
+			List<Lng> terminalData=lngDao.getTerminalData(terminalName,LNG_LIQUEFACTION);
 			if(terminalData.size()>0)
 			{
 				Lng lng=terminalData.get(0);
 				
-				liquefactionMap.put("terminalName", lng.getName());
-				liquefactionMap.put("status", lng.getStatus());
-				liquefactionMap.put("startYear", lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():""); // This one need to check
-				liquefactionMap.put("location", lng.getArea());
-				liquefactionMap.put("technology",getTechnologyDetails(terminalData).toString());// This one also check once;
-				liquefactionMap.put("train",String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
-				liquefactionMap.put("operator",getOperator(lng.getName(),LIQUEFACTION).toString());//This one also need to check;
-				liquefactionMap.put("storageCapacity",String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
-				liquefactionMap.put("tanks",String.valueOf(getTanks(terminalData)));//This one also need to check;
+				liquefactionMap.put(TERMINALNAME, lng.getName());
+				liquefactionMap.put(STATUS, lng.getStatus());
+				liquefactionMap.put(STARTYEAR, lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK); // This one need to check
+				liquefactionMap.put(LOCATION, lng.getArea());
+				liquefactionMap.put(TECHNOLOGY,getTechnologyDetails(terminalData).toString());// This one also check once;
+				liquefactionMap.put(TRAIN,String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
+				liquefactionMap.put(OPERATOR,getOperator(lng.getName(),LNG_LIQUEFACTION).toString());//This one also need to check;
+				liquefactionMap.put(STORAGECAPACITY,String.valueOf(getStorageCapacity(terminalData)));//This one need to check;
+				liquefactionMap.put(TANKS,String.valueOf(getTanks(terminalData)));//This one also need to check;
 				mapList.add(liquefactionMap);
 			}
 			
@@ -84,10 +84,12 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 		List<LngFilter> lngFilterList=lngDao.getTerminalCompanies(terminalName,type);
 		for(LngFilter lngFilter:lngFilterList)
 		{
-			if(null!=lngFilter.getOperator() && !("").equalsIgnoreCase(lngFilter.getOperator()))
-				operators.append(lngFilter.getOperator()).append(",");
+			if(null!=lngFilter.getOperator() && !(BLANK).equalsIgnoreCase(lngFilter.getOperator()))
+				operators.append(lngFilter.getOperator()).append(COMMA);
 			
 		}
+		if(operators.length()>0)
+		removeCommaAtEnd(operators);
 		return operators;
 	}
 	private StringBuffer getTechnologyDetails(List<Lng> dataList)
@@ -95,39 +97,41 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 		StringBuffer technology=new StringBuffer();
 		for(Lng lng:dataList)
 		{	
-			if(null!=lng.getTechnologyDetails() && !"".equalsIgnoreCase(lng.getTechnologyDetails()))
-			technology.append(lng.getTechnologyDetails()).append(",");
+			if(null!=lng.getTechnologyDetails() && !BLANK.equalsIgnoreCase(lng.getTechnologyDetails()))
+			technology.append(lng.getTechnologyDetails()).append(COMMA);
 		}	
+		if(technology.length()>0)
+		removeCommaAtEnd(technology);
 		return technology;
 	}
 	private double getNumberOfTrainsOrVaporizers(List<Lng> lngList)
 	{
 		Lng lng=lngList.get(0);
 		double trains=0.0;
-		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase("Operational"))
-			trains=getPreviousYear(lngList,"trains");
-		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase("Under Construction") || lng.getStatus().equalsIgnoreCase("Planned")|| lng.getStatus().equalsIgnoreCase("Proposed") || lng.getStatus().equalsIgnoreCase("Shutdown")))
-			trains=getStartYear(lngList,"trains");
+		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase(OPERATIONAL))
+			trains=getPreviousYear(lngList,TRAINS);
+		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase(UNDERCONSTRUCTION) || lng.getStatus().equalsIgnoreCase(PLANNED)|| lng.getStatus().equalsIgnoreCase(PROPOSED) || lng.getStatus().equalsIgnoreCase(SHUTDOWN)))
+			trains=getStartYear(lngList,TRAINS);
 		return trains;
 	}
 	private double getStorageCapacity(List<Lng> lngList)
 	{
 		Lng lng=lngList.get(0);
 		double storageCapacity=0.0;
-		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase("Operational"))
-			storageCapacity=getPreviousYear(lngList,"storageCapacity");
-		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase("Under Construction") || lng.getStatus().equalsIgnoreCase("Planned")|| lng.getStatus().equalsIgnoreCase("Proposed") || lng.getStatus().equalsIgnoreCase("Shutdown")))
-			storageCapacity=getStartYear(lngList,"storageCapacity");
+		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase(OPERATIONAL))
+			storageCapacity=getPreviousYear(lngList,STORAGECAPACITY);
+		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase(UNDERCONSTRUCTION) || lng.getStatus().equalsIgnoreCase(PLANNED)|| lng.getStatus().equalsIgnoreCase(PROPOSED) || lng.getStatus().equalsIgnoreCase(SHUTDOWN)))
+			storageCapacity=getStartYear(lngList,STORAGECAPACITY);
 		return storageCapacity;
 	}
 	private double getTanks(List<Lng> lngList)
 	{
 		Lng lng=lngList.get(0);
 		double tanks=0.0;
-		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase("Operational"))
-			tanks=getPreviousYear(lngList,"tanks");
-		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase("UnderConstruction") || lng.getStatus().equalsIgnoreCase("Planned")|| lng.getStatus().equalsIgnoreCase("Proposed") || lng.getStatus().equalsIgnoreCase("Shutdown")))
-			tanks=getStartYear(lngList,"tanks");
+		if(null!=lng.getStatus() && lng.getStatus().equalsIgnoreCase(OPERATIONAL))
+			tanks=getPreviousYear(lngList,TANKS);
+		else if(null!=lng.getStatus() &&(lng.getStatus().equalsIgnoreCase(UNDERCONSTRUCTION) || lng.getStatus().equalsIgnoreCase(PLANNED)|| lng.getStatus().equalsIgnoreCase(PROPOSED) || lng.getStatus().equalsIgnoreCase(SHUTDOWN)))
+			tanks=getStartYear(lngList,TANKS);
 		return tanks;
 	}
 	private double getPreviousYear(List<Lng> lngList,String dataColumn)
@@ -138,11 +142,11 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 		{
 			if(currentYear-1==lng.getCapacityYear())
 			{	
-				if(dataColumn.equalsIgnoreCase("trains"))
+				if(dataColumn.equalsIgnoreCase(TRAINS))
 					previousYearVal=lng.getNumberOfTrainsOrNumberOfVaporizers();
-				else if(dataColumn.equalsIgnoreCase("storageCapacity"))
+				else if(dataColumn.equalsIgnoreCase(STORAGECAPACITY))
 					previousYearVal=lng.getTotalLngStorageCapacity();
-				else if(dataColumn.equalsIgnoreCase("tanks"))
+				else if(dataColumn.equalsIgnoreCase(TANKS))
 					previousYearVal=lng.getNumberOfStorageTanks();
 				break;
 			}	
@@ -160,11 +164,11 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 		{
 			if(yearsList.get(0)==lng.getCapacityYear())
 			{
-				if(dataColumn.equalsIgnoreCase("trains"))
+				if(dataColumn.equalsIgnoreCase(TRAINS))
 					startYearVal=lng.getNumberOfTrainsOrNumberOfVaporizers();
-				else if(dataColumn.equalsIgnoreCase("storageCapacity"))
+				else if(dataColumn.equalsIgnoreCase(STORAGECAPACITY))
 					startYearVal=lng.getTotalLngStorageCapacity();
-				else if(dataColumn.equalsIgnoreCase("tanks"))
+				else if(dataColumn.equalsIgnoreCase(TANKS))
 					startYearVal=lng.getNumberOfStorageTanks();
 				break;
 			}
@@ -180,6 +184,10 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			years.add(lng.getCapacityYear());			
 		}
 		return years;
+	}
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{
+		inputString.deleteCharAt(inputString.length()-1);
 	}
 	public LngDao getLngDao() {
 		return lngDao;

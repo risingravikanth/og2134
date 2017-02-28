@@ -399,31 +399,7 @@ public class JsonResponse {
 			response="";
 		return response;
 	}
-	public String createPdfReportsResponse(List<Report> dataList)
-	{
-		String response=null;
-		if(dataList.size()>0)
-		{
-			
-			JSONArray array=new JSONArray();
-			for(Report report:dataList)
-			{
-				 
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  			  			 
-				  jsonObj.put("reportName",report.getReportTitle());
-				  						      			      
-			      array.add(jsonObj);
-			      
-			}
-			
-			response=array.toJSONString();      
-		}
-		else
-			response="";
-		return response;
-	}
+	
 	public String createLocationsResponse(List<String> locationsList)
 	{
 		String response=null;

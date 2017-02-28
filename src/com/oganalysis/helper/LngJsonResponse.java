@@ -1,69 +1,68 @@
 package com.oganalysis.helper;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class LngJsonResponse {
-	public static final String REGASIFICATION="Regasification";
-	public static final String LIQUEFACTION="Liquefaction";
+		
 	
 	public String createInfrastructureRes(Map<String,List<Map<String,String>>> infrastructureMap)
 	{
 		
 		JSONArray infrastructureArray=new JSONArray();
 		//--- Liquefaction -----------
-		List<Map<String,String>> liquefactionList=infrastructureMap.get(LIQUEFACTION);
+		List<Map<String,String>> liquefactionList=infrastructureMap.get(LNG_LIQUEFACTION);
 		JSONObject infraLiquefactionJsonObj=new JSONObject();
-		infraLiquefactionJsonObj.put("type", LIQUEFACTION);
+		infraLiquefactionJsonObj.put(TYPE, LNG_LIQUEFACTION);
 		
 		JSONArray infraLiquefactionArray=new JSONArray();
 		JSONObject infraLiquefactionDataObj=null;
 		for(Map<String,String> map:liquefactionList)
 		{
 			infraLiquefactionDataObj=new JSONObject();
-			infraLiquefactionDataObj.put("terminalName",map.get("terminalName"));
-			infraLiquefactionDataObj.put("status",map.get("status"));
-			infraLiquefactionDataObj.put("startYear",map.get("startYear"));
-			infraLiquefactionDataObj.put("location",map.get("location"));
-			infraLiquefactionDataObj.put("technology",map.get("technology"));
-			infraLiquefactionDataObj.put("train",map.get("train"));
-			infraLiquefactionDataObj.put("operator",map.get("operator"));
-			infraLiquefactionDataObj.put("storageCapacity",map.get("storageCapacity"));
-			infraLiquefactionDataObj.put("tanks",map.get("tanks"));
+			infraLiquefactionDataObj.put(TERMINALNAME,map.get(TERMINALNAME));
+			infraLiquefactionDataObj.put(STATUS,map.get(STATUS));
+			infraLiquefactionDataObj.put(STARTYEAR,map.get(STARTYEAR));
+			infraLiquefactionDataObj.put(LOCATION,map.get(LOCATION));
+			infraLiquefactionDataObj.put(TECHNOLOGY,map.get(TECHNOLOGY));
+			infraLiquefactionDataObj.put(TRAIN,map.get(TRAIN));
+			infraLiquefactionDataObj.put(OPERATOR,map.get(OPERATOR));
+			infraLiquefactionDataObj.put(STORAGECAPACITY,map.get(STORAGECAPACITY));
+			infraLiquefactionDataObj.put(TANKS,map.get(TANKS));
 			
 			infraLiquefactionArray.add(infraLiquefactionDataObj);
 		}
-		infraLiquefactionJsonObj.put("data", infraLiquefactionArray);
+		infraLiquefactionJsonObj.put(DATA_KEY, infraLiquefactionArray);
 		//------ End Liquefacion --------------------
 		
 		//--- Regasification -----------
-				List<Map<String,String>> regasificationList=infrastructureMap.get(REGASIFICATION);
-				JSONObject infraRegasificationJsonObj=new JSONObject();
-				infraRegasificationJsonObj.put("type", REGASIFICATION);
+		List<Map<String,String>> regasificationList=infrastructureMap.get(LNG_REGASIFICATION);
+		JSONObject infraRegasificationJsonObj=new JSONObject();
+		infraRegasificationJsonObj.put(TYPE, LNG_REGASIFICATION);
 				
-				JSONArray infraRegasificationArray=new JSONArray();
-				JSONObject infraRegasificationDataObj=null;
-				for(Map<String,String> map:regasificationList)
-				{
-					infraRegasificationDataObj=new JSONObject();
-					infraRegasificationDataObj.put("terminalName",map.get("terminalName"));
-					infraRegasificationDataObj.put("status",map.get("status"));
-					infraRegasificationDataObj.put("startYear",map.get("startYear"));
-					infraRegasificationDataObj.put("location",map.get("location"));
-					infraRegasificationDataObj.put("technology",map.get("technology"));
-					infraRegasificationDataObj.put("train",map.get("train"));
-					infraRegasificationDataObj.put("operator",map.get("operator"));
-					infraRegasificationDataObj.put("storageCapacity",map.get("storageCapacity"));
-					infraRegasificationDataObj.put("tanks",map.get("tanks"));
+		JSONArray infraRegasificationArray=new JSONArray();
+		JSONObject infraRegasificationDataObj=null;
+		for(Map<String,String> map:regasificationList)
+		{
+			infraRegasificationDataObj=new JSONObject();
+			infraRegasificationDataObj.put(TERMINALNAME,map.get(TERMINALNAME));
+			infraRegasificationDataObj.put(STATUS,map.get(STATUS));
+			infraRegasificationDataObj.put(STARTYEAR,map.get(STARTYEAR));
+			infraRegasificationDataObj.put(LOCATION,map.get(LOCATION));
+			infraRegasificationDataObj.put(TECHNOLOGY,map.get(TECHNOLOGY));
+			infraRegasificationDataObj.put(TRAIN,map.get(TRAIN));
+			infraRegasificationDataObj.put(OPERATOR,map.get(OPERATOR));
+			infraRegasificationDataObj.put(STORAGECAPACITY,map.get(STORAGECAPACITY));
+			infraRegasificationDataObj.put(TANKS,map.get(TANKS));
 					
-					infraRegasificationArray.add(infraRegasificationDataObj);
-				}
-				infraRegasificationJsonObj.put("data", infraRegasificationArray);
+			infraRegasificationArray.add(infraRegasificationDataObj);
+		}
+		infraRegasificationJsonObj.put(DATA_KEY, infraRegasificationArray);
 			//------- End Regasification --------------
 			infrastructureArray.add(infraLiquefactionJsonObj);
 			infrastructureArray.add(infraRegasificationJsonObj);
@@ -77,22 +76,22 @@ public class LngJsonResponse {
 		int endDateVal=Integer.parseInt(endDate);
 		
 		
-		final String displayType="company";
+		
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByCompany=new JSONArray();
 		
 //		-----------------------Start of Liquefaction-----------------------
 		
-		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
-		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);
+		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, COMPANY);
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
 		// -------------------Start of Regasifcation-------------------
-		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
+		Map<String,Map<Integer,Double>> regasification=capacityData.get(LNG_REGASIFICATION);
 		
-		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, COMPANY);
 					
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
@@ -114,19 +113,19 @@ public class LngJsonResponse {
 		
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByTerminal=new JSONArray();
-		final String displayType="terminal";
+		
 //		-----------------------Start of Liquefaction-----------------------
-		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
+		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
 				 
-		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);	
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, TERMINAL);	
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
 		// -------------------Start of Regasifcation-------------------
-		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
+		Map<String,Map<Integer,Double>> regasification=capacityData.get(LNG_REGASIFICATION);
 		
-		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, TERMINAL);
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
@@ -147,19 +146,19 @@ public class LngJsonResponse {
 		
 //		This is the  array return value of capacityByCountry
 		JSONArray capacityByCountry=new JSONArray();
-		final String displayType="country";
+		
 //		-----------------------Start of Liquefaction-----------------------
-		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LIQUEFACTION);
+		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
 				 
-		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, displayType);
+		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, COUNTRY);
 		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
 		// -------------------Start of Regasifcation-------------------
-		Map<String,Map<Integer,Double>> regasification=capacityData.get(REGASIFICATION);
+		Map<String,Map<Integer,Double>> regasification=capacityData.get(LNG_REGASIFICATION);
 		
-		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, displayType);
+		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, COUNTRY);
 		
 		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
@@ -180,7 +179,7 @@ public class LngJsonResponse {
 			for(int i=0;i<allYearsCapacity.size();i++)
 			{
 				JSONObject yearJsonObj=(JSONObject)allYearsCapacity.get(i);
-				if(null!=yearJsonObj.get(yearCount) && !yearJsonObj.get(yearCount).equals(""))
+				if(null!=yearJsonObj.get(yearCount) && !yearJsonObj.get(yearCount).equals(BLANK))
 					capacityVal=(Double)yearJsonObj.get(yearCount);
 				else
 					capacityVal=0.0;
@@ -200,13 +199,13 @@ public class LngJsonResponse {
 		{
 			JSONObject jsonObj=new JSONObject();
 			Map<Integer,Double> yearMap=capacityData.get(nameObj);
-			jsonObj.put("name",(String)nameObj);
+			jsonObj.put(JSON_NAME,(String)nameObj);
 			for(int yearCount=startDate;yearCount<=endDate;yearCount++)
 			{
 				if(yearMap.containsKey(yearCount) &&(null!=yearMap.get(yearCount) && (Double)yearMap.get(yearCount)!=0))										
 					jsonObj.put(yearCount,yearMap.get(yearCount));				
 				else
-					jsonObj.put(yearCount,"");			
+					jsonObj.put(yearCount,BLANK);			
 					
 			}
 			
@@ -221,8 +220,8 @@ public class LngJsonResponse {
 		JSONArray allYearsLiqueCapacityByCompany=getAllYearsCapacity(liquefaction, startDate, endDate);
 		JSONObject liqueTotalCapacityOfYear=getTotalCapacityOfYear(allYearsLiqueCapacityByCompany,startDate,endDate);	
 		capacityLiquefactionJsonObj.put(displayType, allYearsLiqueCapacityByCompany);
-		capacityLiquefactionJsonObj.put("type", LIQUEFACTION);
-		capacityLiquefactionJsonObj.put("totalCapacity", liqueTotalCapacityOfYear);
+		capacityLiquefactionJsonObj.put(TYPE, LNG_LIQUEFACTION);
+		capacityLiquefactionJsonObj.put(JSON_TOTALCAPACITY, liqueTotalCapacityOfYear);
 		return capacityLiquefactionJsonObj;
 	}
 	public JSONObject createCapacityRegasificationRes(Map<String,Map<Integer,Double>> regasification,int startDate,int endDate,String displayType)
@@ -233,8 +232,8 @@ public class LngJsonResponse {
 		JSONObject regastotalCapacityOfYear=getTotalCapacityOfYear(allYearsRegasCapacityByCompany,startDate,endDate);
 		
 		capacityRegasificationJsonObj.put(displayType, allYearsRegasCapacityByCompany);
-		capacityRegasificationJsonObj.put("type", REGASIFICATION);
-		capacityRegasificationJsonObj.put("totalCapacity", regastotalCapacityOfYear);
+		capacityRegasificationJsonObj.put(TYPE, LNG_REGASIFICATION);
+		capacityRegasificationJsonObj.put(JSON_TOTALCAPACITY, regastotalCapacityOfYear);
 		
 		return capacityRegasificationJsonObj;
 	}
@@ -244,42 +243,42 @@ public class LngJsonResponse {
 		Set<String> keys=terminalData.keySet();
 		for(String key:keys)
 		{
-			if(null!=key && key.equalsIgnoreCase("processingCapacity"))
+			if(null!=key && key.equalsIgnoreCase(PROCESSINGCAPACITY))
 			{
 				
 				Map<Integer,Double> pcd=(Map<Integer,Double>)terminalData.get(key);	
 				JSONObject processingCapJson=createThroughOutPeriodData(pcd);
 				jsonTerminalData.put(key, processingCapJson);
 			}
-			else if(null!=key && key.equalsIgnoreCase("trainsOrVaporizers"))
+			else if(null!=key && key.equalsIgnoreCase(TRAINSORVAPORIZERS))
 			{
 				Map<Integer,Double> tov=(Map<Integer,Double>)terminalData.get(key);
 				JSONObject tovJson=createThroughOutPeriodData(tov);
 				jsonTerminalData.put(key,tovJson);
 			}
-			else if(null!=key && key.equalsIgnoreCase("storageCapacity"))
+			else if(null!=key && key.equalsIgnoreCase(STORAGECAPACITY))
 			{
 				Map<Integer,Double> sc=(Map<Integer,Double>)terminalData.get(key);
 				JSONObject scJson=createThroughOutPeriodData(sc);
 				jsonTerminalData.put(key,scJson);
 			}
-			else if(null!=key && key.equalsIgnoreCase("storageTanks"))
+			else if(null!=key && key.equalsIgnoreCase(STORAGETANKS))
 			{
 				Map<Integer,Double> st=(Map<Integer,Double>)terminalData.get(key);
 				JSONObject stJson=createThroughOutPeriodData(st);
 				jsonTerminalData.put(key,stJson);
 			}
-			else if(null!=key && key.equalsIgnoreCase("ownership"))
+			else if(null!=key && key.equalsIgnoreCase(OWNERSHIP))
 			{
 				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
 				jsonTerminalData.put(key, createOwnership(ownerShipList));
 			}
-			else if(null!=key && key.equalsIgnoreCase("constructionPeriod"))
+			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONPERIOD))
 			{
 				List<Map<String,String>> constructionPeriodList=(List<Map<String,String>>)terminalData.get(key);
 				jsonTerminalData.put(key,createConstructionPeriod(constructionPeriodList));
 			}
-			else if(null!=key && key.equalsIgnoreCase("constructionDetails"))
+			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
 			{
 				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
 				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
@@ -305,8 +304,8 @@ public class LngJsonResponse {
 		for(Map<String,String> ownership:ownerShipList)
 		{
 			ownerShipJsonObj=new JSONObject();
-			ownerShipJsonObj.put("equityPartner",ownership.get("equityPartner"));
-			ownerShipJsonObj.put("equityStake",ownership.get("equityStake"));
+			ownerShipJsonObj.put(EQUITYPARTNER,ownership.get(EQUITYPARTNER));
+			ownerShipJsonObj.put(EQUITYSTAKE,ownership.get(EQUITYSTAKE));
 			ownerShipArray.add(ownerShipJsonObj);
 		}
 		return ownerShipArray;
@@ -318,8 +317,8 @@ public class LngJsonResponse {
 		for(Map<String,String> constructionPeriod:constructionPeriodList)
 		{
 			constructionPeriodObj=new JSONObject();
-			constructionPeriodObj.put("constructionStart",constructionPeriod.get("constructionStart"));
-			constructionPeriodObj.put("constructionEnd",constructionPeriod.get("constructionEnd"));
+			constructionPeriodObj.put(CONSTRUCTIONSTART,constructionPeriod.get(CONSTRUCTIONSTART));
+			constructionPeriodObj.put(CONSTRUCTIONEND,constructionPeriod.get(CONSTRUCTIONEND));
 			constructionPeriodArray.add(constructionPeriodObj);
 		}
 		return constructionPeriodArray;
@@ -331,14 +330,14 @@ public class LngJsonResponse {
 		for(Map<String,String> constructionPeriod:constructionDetailsList)
 		{
 			constructionDetailsObj=new JSONObject();
-			if(null!=constructionPeriod.get("constructionCompanyName"))
-			constructionDetailsObj.put("constructionCompanyName",constructionPeriod.get("constructionCompanyName"));
+			if(null!=constructionPeriod.get(CONSTRUCTIONCOMPANYNAME))
+			constructionDetailsObj.put(CONSTRUCTIONCOMPANYNAME,constructionPeriod.get(CONSTRUCTIONCOMPANYNAME));
 			else
-				constructionDetailsObj.put("constructionCompanyName","");
-			if(null!=constructionPeriod.get("constructionContractDetails"))
-			constructionDetailsObj.put("constructionContractDetails",constructionPeriod.get("constructionContractDetails"));
+				constructionDetailsObj.put(CONSTRUCTIONCOMPANYNAME,BLANK);
+			if(null!=constructionPeriod.get(CONSTRUCTIONCONTRACTDETAILS))
+			constructionDetailsObj.put(CONSTRUCTIONCONTRACTDETAILS,constructionPeriod.get(CONSTRUCTIONCONTRACTDETAILS));
 			else
-				constructionDetailsObj.put("constructionContractDetails","");
+				constructionDetailsObj.put(CONSTRUCTIONCONTRACTDETAILS,BLANK);
 			constructionDetailsArray.add(constructionDetailsObj);
 		}
 		return constructionDetailsArray;

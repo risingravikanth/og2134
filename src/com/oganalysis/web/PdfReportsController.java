@@ -2,10 +2,7 @@ package com.oganalysis.web;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import com.oganalysis.service.PdfReportsService;
 
@@ -77,28 +75,26 @@ public class PdfReportsController {
 		while(selectedOptions.hasMoreElements())
 		{
 			String option=selectedOptions.nextElement();
-			if(option.contains("country"))
-			{
-				
+			if(option.contains(OPTION_COUNTRY))
+			{				
 				selectedCountries.add(request.getParameter(option));
 			}
-			else if(option.contains("region"))
+			else if(option.contains(OPTION_REGION))
 			{
 				selectedRegions.add(request.getParameter(option));
 			}
-			else if(option.contains("sector"))
+			else if(option.contains(OPTION_SECTOR))
 			{
 				selectedSectors.add(request.getParameter(option));
 			}
 		}
 		if(selectedCountries.size()>0 || selectedRegions.size()>0 || selectedSectors.size()>0)
 		{	
-			optionsMap.put("countries", selectedCountries);
-			optionsMap.put("regions",selectedRegions);
-			optionsMap.put("sectors", selectedSectors);
+			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);
+			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
+			optionsMap.put(OPTION_SELECTED_SECTORS, selectedSectors);
 		}	
-		
-		
+				
 		return optionsMap;
 	}
 	

@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.oganalysis.dao.PdfReportsDao;
 import com.oganalysis.entities.Report;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class PdfReportsDaoImpl implements PdfReportsDao {
 	private HibernateTemplate hibernateTemplate;
@@ -32,40 +33,27 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 		tx.begin();
 		Criteria criteria=session.createCriteria(Report.class);
 		
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
-		List<String> sectors=selectedOptions.get("sectors");
+		List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
+		List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
+		List<String> sectors=selectedOptions.get(OPTION_SELECTED_SECTORS);
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
+			Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY,countries);
 			criteria.add(counrtryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)
 		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
+			Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION,regions);
 			criteria.add(regionCriterion);
 		}
 		
 		if(sectors!=null && sectors.size()>0)
 		{
-			Criterion sectorCriterion=Restrictions.in("sector", selectedOptions.get("sectors"));
+			Criterion sectorCriterion=Restrictions.in(RESTRICTION_PROPERTY_SECTOR,sectors);
 			criteria.add(sectorCriterion);
 		}
-		
-//		Criterion criterion1=Restrictions.eq("country", c1);
-//		Criterion criterion2=Restrictions.eq("country", c2);
-//		
-//		Criterion criterion3=Restrictions.eq("region", r1);
-//		Criterion criterion4=Restrictions.eq("region", r2);
-//		
-//		Criterion countries=Restrictions.or(criterion1, criterion2);
-//		Criterion region=Restrictions.or(criterion3, criterion4);
-		
-		
-		
-		
 		
 		List<Report> list=criteria.list();
 		tx.commit();

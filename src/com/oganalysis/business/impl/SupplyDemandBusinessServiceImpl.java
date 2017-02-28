@@ -8,6 +8,7 @@ import java.util.Map;
 import com.oganalysis.business.SupplyDemandBusinessService;
 import com.oganalysis.dao.SupplyDemandDao;
 import com.oganalysis.entities.SupplyDemand;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class SupplyDemandBusinessServiceImpl implements
 		SupplyDemandBusinessService {
@@ -18,7 +19,7 @@ public class SupplyDemandBusinessServiceImpl implements
 			Map<String, List<String>> selectedOptions, String displayType) {
 		// TODO Auto-generated method stub
 		List<SupplyDemand> supplyDemandData=null;
-		if(null!=displayType && displayType.equalsIgnoreCase("Export"))
+		if(null!=displayType && displayType.equalsIgnoreCase(EXPORT))
 			supplyDemandData=supplyDemandDao.getSupplyDemandExport(selectedOptions);
 		else
 			supplyDemandData=supplyDemandDao.getSupplyDemandImport(selectedOptions);
@@ -32,7 +33,7 @@ public class SupplyDemandBusinessServiceImpl implements
 		for(SupplyDemand supplyDemand:supplyDemandList)
 		{
 			sdMap=new HashMap<String, String>();
-			sdMap.put("country",supplyDemand.getCountry());
+			sdMap.put(COUNTRY,supplyDemand.getCountry());
 			sdMap.put("2000",String.valueOf(supplyDemand.getYear2000()));
 			sdMap.put("2001",String.valueOf(supplyDemand.getYear2001()));
 			sdMap.put("2002",String.valueOf(supplyDemand.getYear2002()));
