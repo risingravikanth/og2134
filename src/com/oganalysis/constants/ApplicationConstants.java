@@ -11,6 +11,7 @@ public interface ApplicationConstants {
 	public static final String ENDDATE="endDate";
 	public static final String DISPLAYTYPE="displayType";
 	public static final String RECORDNAME="recordName";
+	public static final String UNDERSCORE="_";
 	
 	
 	//LNG Constants
@@ -128,6 +129,11 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_SECTOR="sector";
 	//Reports Json
 	public static final String REPORTNAME="reportName";
+	
+	//Refineries Restrictions in RefineriesDaoImpl
+	public static final String RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS="currentEquityPartners";
+	public static final String RESTRICTION_PROPERTY_CURRENTOPERATOR="currentOperator";
+	public static final String RESTRICTION_PROPERTY_LOCATION=LOCATION;
 	
 	
 }

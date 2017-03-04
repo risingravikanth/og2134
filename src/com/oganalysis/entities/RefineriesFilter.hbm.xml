@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="RefineriesFilter" table="refineries_filter_data">
+			<id name="id">
+				<generator class="increment"/>
+			</id>
+			<property name="name" type="string"/>
+			<property name="location" type="string"/>
+			<property name="country" type="string"/>
+			<property name="region" type="string"/>
+			<property name="status" type="string"/>						
+			<property name="currentOperator" type="string"/>
+			<property name="currentEquityPartners" type="string"/>
+			<property name="currentEquityStakes" type="double"/>			
+			<property name="refiningCapacity" type="double"/>			
+	</class>
+</hibernate-mapping>	

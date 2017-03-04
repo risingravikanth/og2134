@@ -1,0 +1,85 @@
+package com.oganalysis.service.impl;
+
+import static com.oganalysis.constants.ApplicationConstants.COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
+import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
+import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+
+import com.oganalysis.business.RefineriesCapacityBusinessService;
+import com.oganalysis.helper.LngJsonResponse;
+import com.oganalysis.helper.RefineriesJsonResponse;
+import com.oganalysis.service.RefineriesService;
+
+public class RefineriesServiceImpl implements RefineriesService {
+	
+	private RefineriesCapacityBusinessService refineriesCapacityBusinessServiceImpl;
+	@Override
+	public String getRefineriesData(Map<String, List<String>> selectedOptions,
+			String startDate, String endDate, String displayType) {
+		// TODO Auto-generated method stub
+		int startDateVal=Integer.parseInt(startDate);
+		int endDateVal=Integer.parseInt(endDate);
+		if(null!=displayType && COMPANY.equalsIgnoreCase(displayType))
+		{
+			Map<String,Map<Integer,Double>> companiesCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByCompany(selectedOptions, startDateVal, endDateVal);
+			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
+			return jsonRes.createCapacityByCompany(companiesCapacity, startDateVal, endDateVal);			
+		}	
+		else if(null!=displayType && COUNTRY.equalsIgnoreCase(displayType))
+		{	
+			Map<String,Map<Integer,Double>> countriesCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByCountry(selectedOptions, startDateVal, endDateVal);
+			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
+			return jsonRes.createCapacityByCountry(countriesCapacity, startDateVal, endDateVal);
+		}
+		else if(null!=displayType && TERMINAL.equalsIgnoreCase(displayType))
+		{	
+			Map<String,Map<Integer,Double>> terminalsCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByTerminal(selectedOptions, startDateVal, endDateVal);
+			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
+			return jsonRes.createCapacityByTerminal(terminalsCapacity, startDateVal, endDateVal);
+		}
+		return null;
+		
+	}
+	@Override
+	public String getModalCapacityData(
+			Map<String, List<String>> selectedOptions, String startDate,
+			String endDate, String displayType, String recordName) {
+		// TODO Auto-generated method stub
+		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
+		RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
+		String modalCapacityDataRes=null;
+		int startDateVal=Integer.parseInt(startDate);
+		int endDateVal=Integer.parseInt(endDate);
+		
+		if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL))
+		{
+			modalCapacityData=refineriesCapacityBusinessServiceImpl.getModalCapacityForRecord(selectedOptions,startDateVal, endDateVal,displayType,recordName);
+			modalCapacityDataRes=jsonRes.createCapacityByTerminal(modalCapacityData, startDateVal, endDateVal);
+		}			
+		// Modal is different for Terminal displayType because of which below conditions are required 
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
+		{
+			Map modalTerminal=refineriesCapacityBusinessServiceImpl.getTerminalData(recordName);
+//			modalCapacityDataRes=jsonRes.createTerminalDataRes(modalTerminal);
+		}
+								
+		return modalCapacityDataRes;
+	}
+	public RefineriesCapacityBusinessService getRefineriesCapacityBusinessServiceImpl() {
+		return refineriesCapacityBusinessServiceImpl;
+	}
+	public void setRefineriesCapacityBusinessServiceImpl(
+			RefineriesCapacityBusinessService refineriesCapacityBusinessServiceImpl) {
+		this.refineriesCapacityBusinessServiceImpl = refineriesCapacityBusinessServiceImpl;
+	}
+	
+	
+	
+}
