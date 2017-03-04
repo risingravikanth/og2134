@@ -15,7 +15,7 @@
 				statusField : true,
 				unitsField : false,
 				offshoreField : false,
-				typeField :true
+				typeField :false
 			};
  	};
 	
