@@ -30,7 +30,7 @@
 	
 	 <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">  
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdev -->
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdevdb -->
 		<property name="user" value="root"/>
 		<property name="password" value="root"/>
 		
@@ -55,6 +55,7 @@
 				<value>com/oganalysis/entities/NaturalGas.hbm.xml</value>
 				<value>com/oganalysis/entities/PipeLine.hbm.xml</value>
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
+				<value>com/oganalysis/entities/RefineriesFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
@@ -70,10 +71,11 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop>-->
 				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
-				<prop key="hibernate.generate_statistics">true</prop>
-				
+				<!-- <prop key="hibernate.generate_statistics">true</prop>-->				
+				 <prop key="hibernate.cache.use_second_level_cache">true</prop>
+				 <prop key="hibernate.cache.use_query_cache">true</prop>				
 			</props>
 		</property>
 		
@@ -120,6 +122,10 @@
 	</bean>
 	
 	<bean id="contractsDao" class="com.oganalysis.dao.impl.ContractsDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="refineriesDao" class="com.oganalysis.dao.impl.RefineriesDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		

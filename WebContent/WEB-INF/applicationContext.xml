@@ -24,7 +24,7 @@
 		<property name="storageDao" ref="storageDao"/>
 	</bean>
 			
-	
+	<!-- Service Layer -->
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
 		<property name="filterDataDao" ref="filterDataDao"/>
 		<property name="lngDao" ref="lngDao"/>		
@@ -46,6 +46,10 @@
 		<property name="contractsBusinessServiceImpl" ref="contractsBusinessServiceImpl"/>			
 	</bean>
 	
+	<bean id="refineriesServiceImpl" class="com.oganalysis.service.impl.RefineriesServiceImpl">
+		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>			
+	</bean>
+	
 	<!-- BusinessServiceImpl -->
 	<bean id="lngCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.LngCapacityBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>		
@@ -61,6 +65,10 @@
 	
 	<bean id="contractsBusinessServiceImpl" class="com.oganalysis.business.impl.ContractsBusinessServiceImpl">
 		<property name="contractsDao" ref="contractsDao"/>		
+	</bean>
+	
+	<bean id="refineriesCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.RefineriesCapacityBusinessServiceImpl">
+		<property name="refineriesDao" ref="refineriesDao"/>	
 	</bean>
 	
 </beans>

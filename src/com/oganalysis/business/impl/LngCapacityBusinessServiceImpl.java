@@ -188,7 +188,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						double soc=0.0;
 						for(String terminal:companyTerminals)
 						{			
-							String key=company+UNDERSCORE+terminal;
+							String key=company.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
 							double stake=companyStakeForTerminal.get(key);			
 												
 							for(Lng lng:lngList)
@@ -314,7 +314,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		{
 			String companyName=lngFilter.getEquityPartners();
 			String terminalName=lngFilter.getName();
-			String key=companyName+UNDERSCORE+terminalName;
+			String key=companyName.toLowerCase()+UNDERSCORE+terminalName.toLowerCase();
 			companyStakeForTerminal.put(key, lngFilter.getEquityStakes());
 		}
 		return companyStakeForTerminal;
