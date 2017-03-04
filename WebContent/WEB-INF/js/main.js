@@ -37,8 +37,8 @@
 	  })
 	  .state('refineries', {
         url:'/refineries',
-        templateUrl: 'views/commonpage.html',
-		controller:"CommonCtrl"
+        templateUrl: 'views/refineries.html',
+		controller:"RefineriesCtrl"
 	  })
 	   .state('storage', {
         url:'/storage',
