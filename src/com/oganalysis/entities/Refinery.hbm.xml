@@ -91,5 +91,8 @@
 		    <property name="kerojet" type="double"/>
 		    <property name="benzeneSaturationUnit" type="string"/>
 		    <property name="productsSources" type="string"/>
+		    <property name="maintananceStartDate" type="int"/>
+		    <property name="maintananceEndDate" type="int"/>
+		    <property name="maintananceNote" type="string"/>
 	</class>
 </hibernate-mapping>	

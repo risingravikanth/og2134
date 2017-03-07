@@ -2,18 +2,13 @@ package com.oganalysis.service.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
-import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
 import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
-
 import com.oganalysis.business.RefineriesCapacityBusinessService;
-import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.helper.RefineriesJsonResponse;
 import com.oganalysis.service.RefineriesService;
 
@@ -63,11 +58,11 @@ public class RefineriesServiceImpl implements RefineriesService {
 			modalCapacityData=refineriesCapacityBusinessServiceImpl.getModalCapacityForRecord(selectedOptions,startDateVal, endDateVal,displayType,recordName);
 			modalCapacityDataRes=jsonRes.createCapacityByTerminal(modalCapacityData, startDateVal, endDateVal);
 		}			
-		// Modal is different for Terminal displayType because of which below conditions are required 
+		// Modal is different for Terminal displayType because of which below condition is required 
 		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
 		{
 			Map modalTerminal=refineriesCapacityBusinessServiceImpl.getTerminalData(recordName);
-//			modalCapacityDataRes=jsonRes.createTerminalDataRes(modalTerminal);
+			modalCapacityDataRes=jsonRes.createTerminalData(modalTerminal);
 		}
 								
 		return modalCapacityDataRes;

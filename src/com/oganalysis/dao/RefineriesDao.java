@@ -18,4 +18,7 @@ public interface RefineriesDao {
 	public List<String> getCompanyTerminals(String company,List<String> selectedTerminals);
 	public List<String> getCountryTerminals(String country,List<String> selectedTerminals);
 	public List<RefineriesFilter> getRefineriesFilter();
+	public List<Refinery> getTerminalData(String terminalName);
+	public List<RefineriesFilter> getTerminalCompanies(String terminalName);
+	public List<RefineriesFilter> getTerminalHistoricCompanies(String terminalName);
 }

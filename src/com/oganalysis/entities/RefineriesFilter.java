@@ -13,6 +13,8 @@ public class RefineriesFilter {
 	private String currentEquityPartners;
 	private double currentEquityStakes;
 	private double refiningCapacity;
+	private String historicEquityPartners;
+	private double historicEquityStakes;
 	public int getId() {
 		return id;
 	}
@@ -72,6 +74,18 @@ public class RefineriesFilter {
 	}
 	public void setRefiningCapacity(double refiningCapacity) {
 		this.refiningCapacity = refiningCapacity;
+	}
+	public String getHistoricEquityPartners() {
+		return historicEquityPartners;
+	}
+	public void setHistoricEquityPartners(String historicEquityPartners) {
+		this.historicEquityPartners = historicEquityPartners;
+	}
+	public double getHistoricEquityStakes() {
+		return historicEquityStakes;
+	}
+	public void setHistoricEquityStakes(double historicEquityStakes) {
+		this.historicEquityStakes = historicEquityStakes;
 	}
 	
 }

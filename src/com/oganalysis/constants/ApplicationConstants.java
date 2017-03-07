@@ -135,5 +135,50 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_CURRENTOPERATOR="currentOperator";
 	public static final String RESTRICTION_PROPERTY_LOCATION=LOCATION;
 	
+	//Refineries Capactiy Modal Terminal Data display
+	public static final String HISTORICOPERATOR="historicOperator";
+	public static final String CURRENTEQUITYPARTNER="currentEquityPartners";
+	public static final String CURRENTEQUITYSTAKE="currentEquityStake";
+	public static final String COMMENCEMENT="commencement";	
+	public static final String DECOMISSIONEDYEAR="decomissionedYear";
+	public static final String HISTORICEQUITYPARTNER="historicEquityPartner";
+	public static final String HISTORICEQUITYSTAKE="historicEquityStake";
+	public static final String HISTORICOWNERSHIP="historicOwnership";
+	public static final String CDUCAPACITY="cduCapacity";
+	public static final String VDUCAPACITY="vduCapacity";
+	public static final String COKINGCAPACITY="cokingCapacity";
+	public static final String FCCCAPACITY="fccCapacity";
+	public static final String HYDROCRACKINGCAPACITY="hydroCrackingCapacity";
+	public static final String CRUDESTORAGEORTANK="crudeStorageOrTank";
+	public static final String CRUDESTORAGECAPACITY="crudeStorageCapacity";
+	public static final String VISBREAKINGCAPACITY="visbreakingCapacity";
+	public static final String REFORMERCAPACITY="reformerCapacity";
+	public static final String HYDROTREATINGCAPACITY="hydroTreatingCapacity";
+	public static final String ALKYLATIONCAPACITY="alkylationCapacity";
+	public static final String AROMACTICSCAPACITY="aromaticsCapacity";
+	public static final String ISOMERIZATIONCAPACITY="isomerizationCapacity";
+	public static final String POLYMERIZATIONCAPACITY="polymerizationCapacity";
+	public static final String LUBESCAPACITY="lubesCapacity";
+	public static final String OXYGENATESCAPACITY="oxygenatesCapacity";
+	public static final String COKECAPACITY="cokeCapacity";
+	public static final String SULPHURCAPACITY="sulphurCapacity";
+	public static final String HYDROGENCAPACITY="hydrogenCapacity";
+	public static final String ASPHALTCAPACITY="asphaltCapacity";
+	public static final String GASOLINE="gasoline";
+	public static final String LPG="lpg";
+	public static final String KEROSINE="kerosine";
+	public static final String JETFUEL="jetFuel";
+	public static final String DIESEL="diesel";
+	public static final String PROPYLENE="propylene";
+	public static final String LIGHTNAPHTHA="lightNaphtha";
+	public static final String HEAVYNAPHTHA="heavyNaphtha";
+	public static final String KEROJET="kerojet";
+	public static final String MAINTENANCEDETAILS="maintenanceDetails";
+	public static final String MAINTENANCESTARTDATE="maintenanceStartDate";
+	public static final String MAINTENANCEENDDATE="maintenanceEndDate";
+	public static final String MAINTENANCENOTE="maintenanceNote";
+	public static final String NELSONCOMPLEXINDEX="nelsonComplexIndex";
+	public static final String REFINERYUTILIZATIONRATE="refineryUtilizationRate";
+	public static final String OTHERSNAMESOFREFINERY="otherNamesOfRefinery";
 	
 }

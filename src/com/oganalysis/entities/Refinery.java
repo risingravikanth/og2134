@@ -89,6 +89,9 @@ public class Refinery {
     private double kerojet;
     private String benzeneSaturationUnit;
     private String productsSources;
+    private int maintananceStartDate;
+    private int maintananceEndDate;
+    private String maintananceNote;
 	public String getName() {
 		return name;
 	}
@@ -636,6 +639,24 @@ public class Refinery {
 	}
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
+	}
+	public int getMaintananceStartDate() {
+		return maintananceStartDate;
+	}
+	public void setMaintananceStartDate(int maintananceStartDate) {
+		this.maintananceStartDate = maintananceStartDate;
+	}
+	public int getMaintananceEndDate() {
+		return maintananceEndDate;
+	}
+	public void setMaintananceEndDate(int maintananceEndDate) {
+		this.maintananceEndDate = maintananceEndDate;
+	}
+	public String getMaintananceNote() {
+		return maintananceNote;
+	}
+	public void setMaintananceNote(String maintananceNote) {
+		this.maintananceNote = maintananceNote;
 	}
 	
     

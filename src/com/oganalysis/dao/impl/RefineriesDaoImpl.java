@@ -1,12 +1,26 @@
 package com.oganalysis.dao.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OPERATORS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OWNERS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CAPACITYYEAR;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CURRENTOPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_LOCATION;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_NAME;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_REGION;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_STATUS;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -248,6 +262,46 @@ public class RefineriesDaoImpl implements RefineriesDao{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+	@Override
+	public List<Refinery> getTerminalData(String terminalName) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("from Refinery where name=:name");
+		query.setParameter("name",terminalName);
+		List<Refinery> list=(List<Refinery>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<RefineriesFilter> getTerminalCompanies(String terminalName) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("from RefineriesFilter where name=:name and currentEquityPartners!=' '");
+		query.setParameter("name",terminalName);
+		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<RefineriesFilter> getTerminalHistoricCompanies(
+			String terminalName) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("from RefineriesFilter where name=:name and historicEquityPartners!=' '");
+		query.setParameter("name",terminalName);
+		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
+		tx.commit();
+		session.close();
+		return list;
 	}	
 	
 }
