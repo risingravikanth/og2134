@@ -96,6 +96,15 @@
 	Offshore/Onshore
 	Type
 	*/
+	
+	$scope.sortedOrder = function(array){
+		var updatedArray = array.sort(function(a, b){
+		    if(a.id < b.id) return -1;
+		    if(a.id > b.id) return 1;
+		    return 0;
+		});
+		return updatedArray;
+	}
 
 	$scope.example1model = []; 
 	$scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
@@ -110,6 +119,7 @@
 	/* region filter */
 	$scope.regionData = [];
 	$rootScope.regionModel = [];
+	$scope.regionSettings = {enableSearch: true,scrollable:true};
 	$scope.regionEvents = {
 		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'region') }
 	};
@@ -181,16 +191,18 @@
 	/*operator*/	
 		$scope.operatorData = [];
 		$rootScope.operatorModel = [];
+		$scope.operatorSettings = {enableSearch: true,scrollable:true};
+		
  	
 	/* owner*/
 		$scope.ownerData = [];
 		$rootScope.ownerModel = [];
-		$scope.ownerSettings = {scrollable:true};
+		$scope.ownerSettings = {enableSearch: true,scrollable:true};
   
 	/* Status filter */
 	$scope.statusData = [];
 	$rootScope.statusModel = [];
-	
+	$scope.statusSettings = {enableSearch: true,scrollable:true};
  	
 	/*units filter*/
 	$rootScope.unitsModel = [];
@@ -200,7 +212,8 @@
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];
 	$scope.offshoreData = [{id: 'Not_Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
-	 	
+	$scope.offshoreData = $scope.sortedOrder($scope.offshoreData);
+	
 	/*type filter*/
 	$rootScope.typeModel = [];
 	$scope.typeData = [];
@@ -209,6 +222,7 @@
 	$rootScope.sectorModel = [];
 	$scope.sectorData = [{id: 'Exploration', label: "Exploration"}, {id: 'LNG', label: "LNG"}, {id: 'Pipeline', label: "Pipe line"}, {id: 'Refinery', label: "Refinery"}, {id: 'Storage', label: "Storage"}];
 	$scope.sectorSettings = {selectionLimit: 1};
+	$scope.sectorData = $scope.sortedOrder($scope.sectorData);
 	$scope.sectorEvents = {
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'sector') }
 		};
@@ -229,6 +243,8 @@
 		imports: false,
 		exports: false
 	};
+	
+	
  
 	 	
  	HttpService.get('/regions').then(function(resp) {
@@ -238,7 +254,8 @@
 					label : resp[i].region
 			}
 			$scope.regionData.push(obj);
-		}
+ 		}
+		$scope.regionData = $scope.sortedOrder($scope.regionData);
 	});
 	
 	HttpService.get('/countries').then(function(resp) {
@@ -250,6 +267,7 @@
 			$scope.countryData.push(obj);
 			$scope.exportedCountriesData.push(obj);
 		}
+		$scope.exportedCountriesData = $scope.sortedOrder($scope.exportedCountriesData);
 	});
  	
  	
@@ -262,6 +280,7 @@
 			}
 			$scope.locationData.push(obj);
 		}
+		$scope.locationData = $scope.sortedOrder($scope.locationData);
 	});
 	
 	HttpService.get('/operators').then(function(resp) {
@@ -272,6 +291,7 @@
 			}
 			$scope.operatorData.push(obj);
 		}
+		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
 	});
 	
 	HttpService.get('/owners').then(function(resp) {
@@ -283,6 +303,7 @@
 			$scope.ownerData.push(obj);
 			 
 		}
+		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
 	});
 	
 	HttpService.get('/contracts/exportcompanies').then(function(resp) {
@@ -293,6 +314,7 @@
 			}
  			$scope.exportedCompaniesData.push(obj);
 		}
+		$scope.exportedCompaniesData = $scope.sortedOrder($scope.exportedCompaniesData);
 	});
  	
 	HttpService.get('/status').then(function(resp) {
@@ -303,6 +325,7 @@
 			}
 			$scope.statusData.push(obj);
 		}
+		$scope.statusData = $scope.sortedOrder($scope.statusData);
 	});
 	 
 	HttpService.get('/type').then(function(resp) {
@@ -313,6 +336,7 @@
 			}
 			$scope.typeData.push(obj);
 		}
+ 		$scope.typeData = $scope.sortedOrder($scope.typeData);
 	});
 	
 	$scope.generateFormData = function(ary,key){
@@ -368,6 +392,7 @@
  				}
  				$scope.importedCompaniesData.push(obj);
  			}
+ 			$scope.importedCompaniesData = $scope.sortedOrder($scope.importedCompaniesData);
   		});
    	};
 	

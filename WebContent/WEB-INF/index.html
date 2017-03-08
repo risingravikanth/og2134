@@ -71,7 +71,7 @@
 	<script src="./js/controllers/refineriesCtrl.js"></script>
   
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini sidebar-collapse">
 <!-- Site wrapper  ( sidebar-collapse control-sidebar-open )-->
 <div class="wrapper">
 
@@ -229,11 +229,7 @@
         </li>
 		<!--    -->
 		
-		<li>
-		<a href="#/refineries">
-            <i class="fa fa-th"></i> <span>REFINERIES</span>
-           </a>
-        </li>
+	 
         
          <li class="treeview">
           <a href="javascript:void(0)">
@@ -478,7 +474,7 @@
 				<label class="control-sidebar-subheading">
 						Region
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel"  extra-settings="regionSettings" ></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.countryField">
@@ -542,21 +538,21 @@
 				<label class="control-sidebar-subheading">
 						Operator
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="operatorData" selected-model="operatorModel"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="operatorData" selected-model="operatorModel" extra-settings="operatorSettings"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.ownerField">
 				<label class="control-sidebar-subheading">
 						Owner
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel"  extra-settings="ownerSettings"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel"  ></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.statusField">
 				<label class="control-sidebar-subheading">
 						Status
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="statusData" selected-model="statusModel"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="statusData" selected-model="statusModel" extra-settings="statusSettings" ></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.unitsField">

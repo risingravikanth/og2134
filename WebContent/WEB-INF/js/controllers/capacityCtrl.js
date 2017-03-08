@@ -113,7 +113,7 @@
 					 	columns: $scope.modelcolumns,
 						data :$scope.ModelDataList 
 					});
-		 			tableInst.columns.adjust().draw();
+		 			//tableInst.columns.adjust().draw();
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{
@@ -211,6 +211,7 @@
  	  	 	}
 		});
 		
+		$('#terminalDatatable th').click();
 		$('#myModal').modal("show");
  	};
 	
@@ -475,7 +476,8 @@
  							],
  							scrollX: true,
  							columns: $scope.columns,
- 							data : $scope.liquefactionData
+ 							data : $scope.liquefactionData,
+ 							autoWidth: false
  				});
  			
  				$rootScope.table.liquefactionInst = liquefactionInst;
@@ -505,7 +507,8 @@
 	 							],
 	 							scrollX: true,
 	 							columns: $scope.columns,
-	 							data : $scope.regasificationData
+	 							data : $scope.regasificationData,
+	 							autoWidth: false
 	 				 });
 	 			$rootScope.table.regasificationInst = regasificationInst;
 	 		}

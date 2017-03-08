@@ -31,7 +31,7 @@
 	};
  	
 	openModel = function(inputName,type,event){
-		 
+		$('#myModal').modal("show");
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
  			$rootScope.table.modelDatatableInst.destroy();
  			$("#modelDatatable").empty();
@@ -41,10 +41,10 @@
  			$rootScope.table.terminalDatatableInst.destroy();
  			$("#terminalDatatable").empty();
  		}
-		
+ 
 		var modalReq = angular.copy($rootScope.searchFilterObj);
 		modalReq['recordName']= inputName;
-		modalReq['type']= type;
+		//modalReq['type']= type;
 		
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
@@ -103,7 +103,7 @@
 				}
 					
 				 
-	 			
+	 			debugger;
 	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable') ) {
 	 				tableInst = $('#modelDatatable').DataTable();
 	 	 		}
@@ -114,7 +114,7 @@
 					 	columns: $scope.modelcolumns,
 						data :$scope.ModelDataList 
 					});
-		 			tableInst.columns.adjust().draw();
+		 			//tableInst.columns.adjust().draw();
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{
@@ -211,8 +211,7 @@
 	 	 		}
  	  	 	}
 		});
-		
-		$('#myModal').modal("show");
+ 		$('#myModal').modal("show");
  	};
 	
 	$rootScope.typeChangeFn = function(){
