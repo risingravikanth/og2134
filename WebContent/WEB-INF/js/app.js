@@ -445,8 +445,10 @@ function _init() {
           && !$('body').hasClass('control-sidebar-open')) {
           //Open the sidebar
           _this.open(sidebar, o.slide);
+          console.log('open');
         } else {
           _this.close(sidebar, o.slide);
+          console.log('close')
         }
       });
 

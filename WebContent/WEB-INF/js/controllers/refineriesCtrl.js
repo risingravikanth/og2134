@@ -1,5 +1,5 @@
 
- angular.module('OGAnalysis').controller('RefineriesCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+ angular.module('OGAnalysis').controller('RefineriesCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
 	console.log("In CapacityCtrl ctrl");
  	console.log($state)
 	
@@ -31,7 +31,7 @@
 	};
  	
 	openModel = function(inputName,type,event){
-		$('#myModal').modal("show");
+		 
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
  			$rootScope.table.modelDatatableInst.destroy();
  			$("#modelDatatable").empty();
@@ -103,7 +103,7 @@
 				}
 					
 				 
-	 			debugger;
+	 		 
 	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable') ) {
 	 				tableInst = $('#modelDatatable').DataTable();
 	 	 		}
@@ -112,9 +112,16 @@
 		 			var tableInst = $("#modelDatatable").DataTable({
 					 	scrollX: true,
 					 	columns: $scope.modelcolumns,
-						data :$scope.ModelDataList 
+						data :$scope.ModelDataList,
+						autowidth: false
 					});
 		 			//tableInst.columns.adjust().draw();
+		 			//debugger;
+		 			$timeout(function(){
+		 				tableInst.draw()
+		 			},100);
+		 			
+		 			//tableInst.find('thead th').css('width', 'auto');
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{

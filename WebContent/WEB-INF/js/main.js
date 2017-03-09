@@ -407,6 +407,46 @@
  
 
  });
+  
+  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+	 	$rootScope.toggleNav = function(){
+	 		 
+	 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
+	 		
+	 			$timeout(function(){
+	 				$rootScope.table.liquefactionInst.draw();
+	 			},1000);
+	 		}
+	 			
+	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
+	 			
+	 			$timeout(function(){
+	 				$rootScope.table.regasificationInst.draw();
+	 			},1000);
+	 		}
+		};
+		
+		$(".sidebar-menu .side-item").click(function(){
+			$('body').removeClass('control-sidebar-open');
+			$('body').addClass('sidebar-collapse');
+			
+			if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
+		 		
+	 			$timeout(function(){
+	 				$rootScope.table.liquefactionInst.draw();
+	 			},100);
+	 		}
+	 			
+	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
+	 			
+	 			$timeout(function(){
+	 				$rootScope.table.regasificationInst.draw();
+	 			},100);
+	 		}
+			
+			
+		})
+  });
  
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In common ctrl");
@@ -417,7 +457,8 @@
  	$scope.selectedRegions = [];
 	$scope.selectedCountries =[];
 	$scope.selectedSectors =[];
- 	
+	
+	 
 	$scope.setConfigurations = function(){
 		
 		if($state.current.name == "exploration"){

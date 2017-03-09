@@ -114,6 +114,10 @@
 						data :$scope.ModelDataList 
 					});
 		 			//tableInst.columns.adjust().draw();
+		 			$timeout(function(){
+		 				tableInst.draw()
+		 			},100);
+		 			
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{
