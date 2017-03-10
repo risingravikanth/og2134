@@ -89,9 +89,11 @@ public class Refinery {
     private double kerojet;
     private String benzeneSaturationUnit;
     private String productsSources;
+    private String licensors;
     private int maintananceStartDate;
     private int maintananceEndDate;
     private String maintananceNote;
+    private double cduProducingCapacity;
 	public String getName() {
 		return name;
 	}
@@ -657,6 +659,18 @@ public class Refinery {
 	}
 	public void setMaintananceNote(String maintananceNote) {
 		this.maintananceNote = maintananceNote;
+	}
+	public String getLicensors() {
+		return licensors;
+	}
+	public void setLicensors(String licensors) {
+		this.licensors = licensors;
+	}
+	public double getCduProducingCapacity() {
+		return cduProducingCapacity;
+	}
+	public void setCduProducingCapacity(double cduProducingCapacity) {
+		this.cduProducingCapacity = cduProducingCapacity;
 	}
 	
     

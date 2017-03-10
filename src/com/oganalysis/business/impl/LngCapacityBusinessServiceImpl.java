@@ -384,7 +384,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(LngFilter lngFilter:lngFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-				String key=lngFilter.getEquityPartners()+UNDERSCORE+lngFilter.getName();			
+				String key=lngFilter.getEquityPartners().toLowerCase()+UNDERSCORE+lngFilter.getName().toLowerCase();			
 				ownershipMap.put(EQUITYPARTNER,lngFilter.getEquityPartners());
 				ownershipMap.put(EQUITYSTAKE,String.valueOf(companyStakes.get(key)));
 				ownershipList.add(ownershipMap);
