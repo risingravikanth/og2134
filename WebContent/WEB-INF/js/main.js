@@ -217,6 +217,8 @@
 	/*type filter*/
 	$rootScope.typeModel = [];
 	$scope.typeData = [];
+	$scope.typeSettings = {enableSearch: true,scrollable:true};
+	
 	 	
 	/*sector filter*/
 	$rootScope.sectorModel = [];

@@ -545,7 +545,7 @@
 				<label class="control-sidebar-subheading">
 						Owner
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel"  ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel" extra-settings="ownerSettings" ></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.statusField">
@@ -573,7 +573,7 @@
 				<label class="control-sidebar-subheading">
 						Type
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="typeData" selected-model="typeModel"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="typeData" selected-model="typeModel" extra-settings="typeSettings"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.sectorField">
