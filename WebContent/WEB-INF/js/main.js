@@ -429,8 +429,8 @@
 		};
 		
 		$(".sidebar-menu .side-item").click(function(){
-			$('body').removeClass('control-sidebar-open');
-			$('body').addClass('sidebar-collapse');
+			//$('body').removeClass('control-sidebar-open');
+			//$('body').addClass('sidebar-collapse');
 			
 			if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
 		 		
