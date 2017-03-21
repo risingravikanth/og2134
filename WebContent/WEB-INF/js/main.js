@@ -410,21 +410,21 @@
 
  });
   
-  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
 	 	$rootScope.toggleNav = function(){
-	 		 
+ 
 	 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
-	 		
-	 			$timeout(function(){
+	 			 
+	 			//$timeout(function(){
 	 				$rootScope.table.liquefactionInst.draw();
-	 			},1000);
+	 			//},100);
 	 		}
 	 			
 	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
 	 			
-	 			$timeout(function(){
+	 			//$timeout(function(){
 	 				$rootScope.table.regasificationInst.draw();
-	 			},1000);
+	 			//},100);
 	 		}
 		};
 		

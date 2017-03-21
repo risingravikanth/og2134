@@ -38,7 +38,10 @@
     height: 400px !important;
     border-color: #eee;
     width: 150px;
-}*/
+}float:right;*/
 .dropdown-menu{
 	 width: 100%;
+}
+#liquefaction_filter,#regasification_filter,#liquefaction_paginate,#regasification_paginate{
+	
 }

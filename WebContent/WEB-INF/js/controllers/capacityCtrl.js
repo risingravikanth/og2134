@@ -1,5 +1,5 @@
 
- angular.module('OGAnalysis').controller('CapacityCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+ angular.module('OGAnalysis').controller('CapacityCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
 	console.log("In CapacityCtrl ctrl");
  	console.log($state)
 	
@@ -478,8 +478,9 @@
  					"targets": 0
  							}
  							],
- 							scrollX: true,
+ 							//scrollX: true,
  							columns: $scope.columns,
+ 							responsive: true,
  							data : $scope.liquefactionData,
  							autoWidth: false
  				});
@@ -509,8 +510,9 @@
 	 				"targets": 0
 	 							}
 	 							],
-	 							scrollX: true,
+	 							//scrollX: true,
 	 							columns: $scope.columns,
+	 							responsive: true,
 	 							data : $scope.regasificationData,
 	 							autoWidth: false
 	 				 });
