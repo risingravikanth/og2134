@@ -435,6 +435,7 @@
 			if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
 		 		
 	 			$timeout(function(){
+	 				if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" )
 	 				$rootScope.table.liquefactionInst.draw();
 	 			},100);
 	 		}
@@ -442,6 +443,7 @@
 	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
 	 			
 	 			$timeout(function(){
+	 				if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != "")
 	 				$rootScope.table.regasificationInst.draw();
 	 			},100);
 	 		}

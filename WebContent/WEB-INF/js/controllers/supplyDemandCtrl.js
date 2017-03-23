@@ -179,6 +179,11 @@
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				"drawCallback": function( settings ) {
+ 					if(!$("#liquefaction").parent().hasClass("table-responsive")){
+ 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" );
+				     }
+ 		 	    },
  				"columnDefs": [
  				{
  					// The `data` parameter refers to the data for the cell (defined by the
@@ -190,8 +195,7 @@
  					"targets": 0
  							}
  							],
- 							scrollX: true,
- 							columns: $scope.columns,
+ 					 		columns: $scope.columns,
  							data : $scope.liquefactionData
  				});
  			
@@ -203,6 +207,11 @@
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				"drawCallback": function( settings ) {
+	 					if(!$("#regasification").parent().hasClass("table-responsive")){
+	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );
+					     }
+	 		 	    },
 	 				"columnDefs": [
 	 				{
 	 					// The `data` parameter refers to the data for the cell (defined by the
@@ -217,8 +226,7 @@
 	 				"targets": 0
 	 							}
 	 							],
-	 							scrollX: true,
-	 							columns: $scope.columns,
+	 					 		columns: $scope.columns,
 	 							data : $scope.regasificationData
 	 				 });
 	 			$rootScope.table.regasificationInst = regasificationInst;
