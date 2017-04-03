@@ -112,12 +112,15 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
+		Criteria criteria=session.createCriteria(RefineriesFilter.class);//RefineriesFilter.class
 		createFiltersCriteria(selectedOptions, criteria);
 		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
-			terminals=getTerminals(startDate, endDate);								
-					
+		if(startDate!=0 && endDate!=0)	
+			terminals=getTerminals(startDate, endDate);
+		
+//			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
+//			criteria.add(capacityYearCriterion);
+															
 		if(terminals.size()>0)
 			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 		else		
@@ -302,6 +305,154 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		tx.commit();
 		session.close();
 		return list;
+	}
+	//Below one is for cache
+	@Override
+	public List<Refinery> getRefineries(int year) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("from Refinery where capacityYear=:year");
+		query.setParameter("year",year);
+		List<Refinery> list=(List<Refinery>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getCompanies() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct currentEquityPartners from RefineriesFilter where currentEquityPartners!=' ' order by currentEquityPartners asc");		
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getCompanyTerminals(String company) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from RefineriesFilter where currentEquityPartners=:company order by name asc");	
+		query.setParameter("company",company);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<RefineriesFilter> getSelectedRefineries(
+			Map<String, List<String>> selectedOptions, int startDate,
+			int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(RefineriesFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;
+		if(startDate!=0 && endDate!=0)		
+			terminals=getTerminals(startDate, endDate);								
+					
+		if(terminals.size()>0)
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+		else		
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		
+				
+		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct country from RefineriesFilter order by country asc");			
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getTerminals() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from RefineriesFilter order by country asc");			
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getCountryTerminals(String country) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from RefineriesFilter where country=:country order by name asc");	
+		query.setParameter("country",country);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<RefineriesFilter> getCompanyRefineries(String company,Map<String,List<String>> selectedOptions,int startDate,int endDate) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(RefineriesFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;
+		if(startDate!=0 && endDate!=0)		
+			terminals=getTerminals(startDate, endDate);								
+					
+		if(terminals.size()>0)
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+		else		
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		
+		criteria.add(Restrictions.eq("currentEquityPartners",company));
+		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<RefineriesFilter> getCountryRefineries(String country,Map<String,List<String>> selectedOptions,int startDate,int endDate){
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria criteria=session.createCriteria(RefineriesFilter.class);
+		createFiltersCriteria(selectedOptions, criteria);
+		List<String> terminals=null;
+		if(startDate!=0 && endDate!=0)		
+			terminals=getTerminals(startDate, endDate);								
+					
+		if(terminals.size()>0)
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+		else		
+			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		
+		criteria.add(Restrictions.eq("country",country));
+		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
+		tx.commit();
+		session.close();
+		return list;
+		
 	}	
 	
 }

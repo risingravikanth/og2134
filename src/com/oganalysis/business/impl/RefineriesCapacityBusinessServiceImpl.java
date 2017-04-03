@@ -1,16 +1,73 @@
 package com.oganalysis.business.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.ALKYLATIONCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.AROMACTICSCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.ASPHALTCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.BLANK;
+import static com.oganalysis.constants.ApplicationConstants.CAPEX;
+import static com.oganalysis.constants.ApplicationConstants.CDUCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.COKECAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.COKINGCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.COMMA;
+import static com.oganalysis.constants.ApplicationConstants.COMMENCEMENT;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONCOMPANYNAME;
+import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONCONTRACTDETAILS;
+import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONDETAILS;
+import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.CRUDESTORAGECAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.CRUDESTORAGEORTANK;
+import static com.oganalysis.constants.ApplicationConstants.CURRENTEQUITYPARTNER;
+import static com.oganalysis.constants.ApplicationConstants.CURRENTEQUITYSTAKE;
+import static com.oganalysis.constants.ApplicationConstants.DECOMISSIONEDYEAR;
+import static com.oganalysis.constants.ApplicationConstants.DIESEL;
+import static com.oganalysis.constants.ApplicationConstants.FCCCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.GASOLINE;
+import static com.oganalysis.constants.ApplicationConstants.HEAVYNAPHTHA;
+import static com.oganalysis.constants.ApplicationConstants.HISTORICEQUITYPARTNER;
+import static com.oganalysis.constants.ApplicationConstants.HISTORICEQUITYSTAKE;
+import static com.oganalysis.constants.ApplicationConstants.HISTORICOPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.HISTORICOWNERSHIP;
+import static com.oganalysis.constants.ApplicationConstants.HYDROCRACKINGCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.HYDROGENCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.HYDROTREATINGCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.ISOMERIZATIONCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.JETFUEL;
+import static com.oganalysis.constants.ApplicationConstants.KEROJET;
+import static com.oganalysis.constants.ApplicationConstants.KEROSINE;
+import static com.oganalysis.constants.ApplicationConstants.LIGHTNAPHTHA;
+import static com.oganalysis.constants.ApplicationConstants.LOCATION;
+import static com.oganalysis.constants.ApplicationConstants.LPG;
+import static com.oganalysis.constants.ApplicationConstants.LUBESCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.MAINTENANCEDETAILS;
+import static com.oganalysis.constants.ApplicationConstants.MAINTENANCEENDDATE;
+import static com.oganalysis.constants.ApplicationConstants.MAINTENANCENOTE;
+import static com.oganalysis.constants.ApplicationConstants.MAINTENANCESTARTDATE;
+import static com.oganalysis.constants.ApplicationConstants.NELSONCOMPLEXINDEX;
+import static com.oganalysis.constants.ApplicationConstants.OPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.OTHERSNAMESOFREFINERY;
+import static com.oganalysis.constants.ApplicationConstants.OWNERSHIP;
+import static com.oganalysis.constants.ApplicationConstants.OXYGENATESCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.POLYMERIZATIONCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.PROPYLENE;
+import static com.oganalysis.constants.ApplicationConstants.REFINERYUTILIZATIONRATE;
+import static com.oganalysis.constants.ApplicationConstants.REFORMERCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.STATUS;
+import static com.oganalysis.constants.ApplicationConstants.SULPHURCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.TERMINALNAME;
+import static com.oganalysis.constants.ApplicationConstants.TYPE;
+import static com.oganalysis.constants.ApplicationConstants.UNDERSCORE;
+import static com.oganalysis.constants.ApplicationConstants.VDUCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.VISBREAKINGCAPACITY;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.oganalysis.business.RefineriesCapacityBusinessService;
+import com.oganalysis.cache.RefineriesCache;
 import com.oganalysis.dao.RefineriesDao;
-import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.RefineriesFilter;
 import com.oganalysis.entities.Refinery;
 
@@ -19,14 +76,14 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	private RefineriesDao refineriesDao;
 	private static final int STARTYEAR=2000;
 	private static final int ENDYEAR=2020;
-		
+	private RefineriesCache refineriesCache;
 
 	@Override
 	public Map<String, Map<Integer, Double>> getCapacityByCompany(
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Double>> companiesCapacity=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Map<Integer,Double>> companiesCapacity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedCompanies=refineriesDao.getSelectedCompanies(selectedOptions, startDate, endDate);
 		if(selectedCompanies.size()>0)
 			companiesCapacity=calculateCapacitiesByCompany(selectedCompanies,selectedOptions,startDate,endDate);
@@ -39,7 +96,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Map<String,Map<Integer,Double>> countriesCapacity=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Map<Integer,Double>> countriesCapacity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedCountries=refineriesDao.getSelectedCountries(selectedOptions, startDate, endDate);
 		if(selectedCountries.size()>0)
 			countriesCapacity=calculateCapacitiesByCountry(selectedCountries,selectedOptions,startDate,endDate);
@@ -55,22 +112,36 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		Map<String,Map<Integer,Double>> terminalsCapacity=new HashMap<String, Map<Integer,Double>>();
 		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);
 		if(selectedTerminals.size()>0)
-			terminalsCapacity=calculateCapacitiesByTerminal(selectedTerminals,selectedOptions,startDate,endDate);
+			terminalsCapacity=calculateCapacitiesByTerminal(selectedTerminals,startDate,endDate);
 			
 		return terminalsCapacity;
 	}
-	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> selectedCompanies,Map<String,List<String>> selectedOptions,int startDate,int endDate)	
+	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> selectedCompanies,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions,startDate, endDate);
-		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Refinery> refineriesList=refineriesDao.getRefineriesData(selectedOptionsWithoutOwners,selectedTerminals, startDate, endDate);
+		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);		
 		List<Integer> years=getSelectedYears(startDate, endDate);
-		Map<String,Double> companyStakes=getCompanyStakeForTerminal();
+		Map<String,Double> terminalsYearCapacity=null;
+		Map<String,Double> companyStakes=null;
+		if(null==refineriesCache.getTerminalsYearCapacity())
+		{
+			terminalsYearCapacity=refineriesCache.createTerminalsYearCapacity();
+			refineriesCache.setTerminalsYearCapacity(terminalsYearCapacity);
+		}
+		else
+			terminalsYearCapacity=refineriesCache.getTerminalsYearCapacity();
+		
+		if(null==refineriesCache.getCompanyStakeForTerminal())
+		{
+			companyStakes=refineriesCache.createCompanyStakeForTerminal();
+			refineriesCache.setCompanyStakeForTerminal(companyStakes);
+		}
+		else
+			companyStakes=refineriesCache.getCompanyStakeForTerminal();
 		Map<Integer,Double> yearMap=null;
 		Map<String,Map<Integer,Double>> companiesCapacity=new HashMap<String, Map<Integer,Double>>();
 		for(String company:selectedCompanies)
 		{
-			List<String> companyTerminals=refineriesDao.getCompanyTerminals(company,selectedTerminals);
+			List<String> companyTerminals=getCompanyTerminals(company,selectedTerminals);
 			if(companyTerminals.size()>0)
 			{
 				yearMap=new HashMap<Integer, Double>();
@@ -79,15 +150,12 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 					double soc=0;					
 					for(String terminal:companyTerminals)
 					{
-						double stake=companyStakes.get(company.toLowerCase()+UNDERSCORE+terminal.toLowerCase());														
-						for(Refinery refinery:refineriesList)
-						{
-							if(terminal.equals(refinery.getName()) && year==refinery.getCapacityYear())
-								soc=soc+(refinery.getRefiningCapacity()*(stake/100));
-						}
-						soc=round(soc,2);
-						yearMap.put(year, soc);
+						double stake=companyStakes.get(company.toLowerCase()+UNDERSCORE+terminal.toLowerCase())==null?0:companyStakes.get(company.toLowerCase()+UNDERSCORE+terminal.toLowerCase());
+						double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+						soc=soc+(capacity*(stake/100));											
 					}
+					soc=round(soc,2);
+					yearMap.put(year, soc);
 				}
 				companiesCapacity.put(company, yearMap);
 			}						
@@ -96,16 +164,21 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	}
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCountry(List<String> selectedCountries,Map<String,List<String>> selectedOptions,int startDate,int endDate)	
 	{
-		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions,startDate, endDate);
-		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Refinery> refineriesList=refineriesDao.getRefineriesData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
+		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);		
 		List<Integer> years=getSelectedYears(startDate, endDate);
-		
+		Map<String,Double> terminalsYearCapacity=null;
 		Map<Integer,Double> yearMap=null;
 		Map<String,Map<Integer,Double>> countriesCapacity=new HashMap<String, Map<Integer,Double>>();
+		if(null==refineriesCache.getTerminalsYearCapacity())
+		{
+			terminalsYearCapacity=refineriesCache.createTerminalsYearCapacity();
+			refineriesCache.setTerminalsYearCapacity(terminalsYearCapacity);
+		}
+		else
+			terminalsYearCapacity=refineriesCache.getTerminalsYearCapacity();
 		for(String country:selectedCountries)
 		{
-			List<String> countryTerminals=refineriesDao.getCountryTerminals(country,selectedTerminals);
+			List<String> countryTerminals=getCountryTerminals(country,selectedTerminals);
 			if(countryTerminals.size()>0)
 			{
 				yearMap=new HashMap<Integer, Double>();
@@ -113,42 +186,43 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 				{
 					double soc=0;					
 					for(String terminal:countryTerminals)
-					{																			
-						for(Refinery refinery:refineriesList)
-						{
-							if(terminal.equals(refinery.getName()) && year==refinery.getCapacityYear() && country.equals(refinery.getCountry()))
-								soc=soc+refinery.getRefiningCapacity();
-						}
-						soc=round(soc,2);
-						yearMap.put(year, soc);
+					{												
+						double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+						soc=soc+capacity;												
 					}
+					soc=round(soc,2);
+					yearMap.put(year, soc);
 				}
 				countriesCapacity.put(country, yearMap);
 			}						
 		}
 		return countriesCapacity;
 	}
-	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<String> selectedTerminals,Map<String,List<String>> selectedOptions,int startDate,int endDate)	
+	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<String> selectedTerminals,int startDate,int endDate)	
 	{
-		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Refinery> refineriesList=refineriesDao.getRefineriesData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
-		List<Integer> years=getSelectedYears(startDate, endDate);
 		
+		List<Integer> years=getSelectedYears(startDate, endDate);
+		Map<String,Double> terminalsYearCapacity=null;
 		Map<Integer,Double> yearMap=null;
 		Map<String,Map<Integer,Double>> terminalsCapacity=new HashMap<String, Map<Integer,Double>>();
+		if(null==refineriesCache.getTerminalsYearCapacity())
+		{
+			terminalsYearCapacity=refineriesCache.createTerminalsYearCapacity();
+			refineriesCache.setTerminalsYearCapacity(terminalsYearCapacity);
+		}
+		else
+			terminalsYearCapacity=refineriesCache.getTerminalsYearCapacity();
 		for(String terminal:selectedTerminals)
 		{
 				yearMap=new HashMap<Integer, Double>();
+				
 				for(Integer year:years)
-				{
-						double soc=0;																									
-						for(Refinery refinery:refineriesList)
-						{
-							if(terminal.equals(refinery.getName()) && year==refinery.getCapacityYear())
-								soc=soc+refinery.getRefiningCapacity();
-						}
-						soc=round(soc,2);
-						yearMap.put(year, soc);					
+				{				
+					double soc=0;
+					double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+					soc=soc+capacity;				
+					soc=round(soc,2);
+					yearMap.put(year, soc);					
 				}
 				terminalsCapacity.put(terminal, yearMap);							
 		}
@@ -169,19 +243,17 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	}
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);			
-		List<String> countryTerminals=refineriesDao.getCountryTerminals(countryName,selectedTerminals);		
-		Map<String,Map<Integer,Double>> countryterminalsCapacity=calculateCapacitiesByTerminal(countryTerminals,selectedOptions,startDate,endDate);	
-					
+		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);
+		List<String> countryTerminals=getCountryTerminals(countryName, selectedTerminals);		
+		Map<String,Map<Integer,Double>> countryterminalsCapacity=calculateCapacitiesByTerminal(countryTerminals,startDate,endDate);					
 		return countryterminalsCapacity;
 		
 	}
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String companyName,Map<String,List<String>> selectedOptions,int startDate,int endDate)
-	{
-		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);			
-		List<String> companyTerminals=refineriesDao.getCompanyTerminals(companyName,selectedTerminals);		
-		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate);	
-					
+	{				
+		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);
+		List<String> companyTerminals=getCompanyTerminals(companyName, selectedTerminals);		
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,startDate,endDate);				
 		return companyterminalsCapacity;
 	}
 	@Override
@@ -245,7 +317,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		
 		for(Refinery refinery:refineryList)
 		{
-			if(null!=refinery && !("").equalsIgnoreCase(refinery.getRefineryOtherNames()))
+			if(null!=refinery && !(BLANK).equalsIgnoreCase(refinery.getRefineryOtherNames()))
 				otherNames.append(refinery.getRefineryOtherNames()).append(COMMA);								
 		}
 		return otherNames.toString();
@@ -278,7 +350,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		
 		for(Refinery refinery:refineryList)
 		{
-			if(null!=refinery && !("").equalsIgnoreCase(refinery.getMaintananceNote()))
+			if(null!=refinery && !(BLANK).equalsIgnoreCase(refinery.getMaintananceNote()))
 				maintenanceNote.append(refinery.getMaintananceNote()).append(COMMA);								
 		}
 	
@@ -866,44 +938,84 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
-	private Map<String,Double> getCompanyStakeForTerminal()
-	{
-		List<RefineriesFilter> refineriesFilterList=refineriesDao.getRefineriesFilter();
-		Map<String,Double> companyStakeForTerminal=new HashMap<String, Double>();
-		for(RefineriesFilter refineriesFilter:refineriesFilterList)
-		{
-			String companyName=refineriesFilter.getCurrentEquityPartners();
-			String terminalName=refineriesFilter.getName();
-			String key=companyName.toLowerCase()+UNDERSCORE+terminalName.toLowerCase();
-			companyStakeForTerminal.put(key, refineriesFilter.getCurrentEquityStakes());
-		}
-		return companyStakeForTerminal;
-	}
 	private List<Integer> getSelectedYears(int startDate,int endDate)
 	{
 		List<Integer> years=new ArrayList<Integer>();
 		for(int i=startDate;i<=endDate;i++)
 			years.add(i);
 		return years;
-	}
-	private Map<String,List<String>> getSelectedOptionsWithoutOwners(Map<String,List<String>> selectedOptions)
+	}	
+	private List<String> getCompanyTerminals(String company,List<String> selectedTerminals)
 	{
-		Map<String,List<String>> selectedOptionsWithoutOwners=new HashMap<String, List<String>>();
-		Set<String> keys=selectedOptions.keySet();
-		for(String key:keys)
+		List<String> companyTerminals=new ArrayList<String>();
+		List<String> terminalsList=null;
+		if(null==refineriesCache.getCompanyTerminals())
 		{
-			if(null!=key && !OPTION_SELECTED_OWNERS.equals(key) && !OPTION_SELECTED_OPERATORS.equals(key))
-				selectedOptionsWithoutOwners.put(key,selectedOptions.get(key));
+			Map<String,List<String>> companyTerminalsMap=refineriesCache.createCompanyTerminals();
+			refineriesCache.setCompanyTerminals(companyTerminalsMap);
+			terminalsList=companyTerminalsMap.get(company.toLowerCase());
 		}
-		
-		return selectedOptionsWithoutOwners;
+		else
+			terminalsList=refineriesCache.getCompanyTerminals().get(company.toLowerCase());
+		for(String terminal:selectedTerminals)
+		{
+			if(terminalsList.contains(terminal))
+				companyTerminals.add(terminal);
+		}
+		return companyTerminals;
 	}
+	private List<String> getCountryTerminals(String country,List<String> selectedTerminals)
+	{
+		List<String> countryTerminals=new ArrayList<String>();
+		List<String> terminalsList=null;		 
+		if(null==refineriesCache.getCountryTerminals()){
+			Map<String,List<String>> countryTerminalsMap=refineriesCache.createCountryTerminals();
+			refineriesCache.setCountryTerminals(countryTerminalsMap);
+			terminalsList=countryTerminalsMap.get(country.toLowerCase());
+		}
+		else
+			terminalsList=refineriesCache.getCountryTerminals().get(country.toLowerCase());
+		for(String terminal:selectedTerminals)
+		{
+			if(terminalsList.contains(terminal))
+				countryTerminals.add(terminal);
+		}
+		return countryTerminals;
+	}
+//	private Set<String> getSelectedCompanies(List<RefineriesFilter> selectedRefineries)
+//	{
+//		Set<String> companies=new HashSet<String>();
+//		List<String> companiesList=null;
+//		if(null==refineriesCache.getCompanies())
+//		{
+//			companiesList=refineriesCache.createCompaniesList();
+//			refineriesCache.setCompanies(companiesList);
+//		}
+//		else
+//			companiesList=refineriesCache.getCompanies();
+//		
+//		for(RefineriesFilter refineriesFilter:selectedRefineries)
+//		{
+//			if(companiesList.contains(refineriesFilter.getCurrentEquityPartners()))
+//				companies.add(refineriesFilter.getCurrentEquityPartners());
+//		}	
+//		return companies;
+//	}
+
 	public RefineriesDao getRefineriesDao() {
 		return refineriesDao;
 	}
 
 	public void setRefineriesDao(RefineriesDao refineriesDao) {
 		this.refineriesDao = refineriesDao;
+	}
+
+	public RefineriesCache getRefineriesCache() {
+		return refineriesCache;
+	}
+
+	public void setRefineriesCache(RefineriesCache refineriesCache) {
+		this.refineriesCache = refineriesCache;
 	}
 
 	
