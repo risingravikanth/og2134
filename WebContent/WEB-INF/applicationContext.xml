@@ -82,7 +82,7 @@
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>
 	
-	<util:properties id="applicationProps" location="classpath:/application.properties"></util:properties>
+	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
 	<context:property-placeholder properties-ref="applicationProps" />
 	<!-- Schedular task  This is working as of now just commented
 	<task:annotation-driven />
