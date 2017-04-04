@@ -1,19 +1,7 @@
 package com.oganalysis.dao.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OPERATORS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OWNERS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CAPACITYYEAR;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_CURRENTOPERATOR;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_LOCATION;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_NAME;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_REGION;
-import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_STATUS;
+import static com.oganalysis.constants.ApplicationConstants.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,29 +43,11 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS)));		
-		List<String> list=criteria.list();
+		List<String> list=(List<String>)criteria.list();
 		tx.commit();
 		session.close();
 		return list;
-	}
-	public List<String> getTerminals(int startDate,int endDate)
-	{
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Refinery.class);				
-		if(startDate!=0 && endDate!=0)
-		{
-						
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
-		}					
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+	}	
 	@Override
 	public List<String> getSelectedCountries(
 			Map<String, List<String>> selectedOptions, int startDate,
@@ -98,7 +68,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));		
-		List<String> list=criteria.list();
+		List<String> list=(List<String>)criteria.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -127,76 +97,42 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));		
-		List<String> list=criteria.list();
+		List<String> list=(List<String>)criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
-	public List<String> getCompanyTerminals(String company,List<String> selectedTerminals)
+	public List<String> getTerminals(int startYear,int endYear)
 	{
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
+		List<String> list=new ArrayList<String>();
 		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);				
-		if(selectedTerminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,selectedTerminals));
-		else
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS, company));
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
+//		Criteria criteria=session.createCriteria(Refinery.class);	
+		
+		if(startYear!=0 && endYear!=0)
+		{
+						
+			Query query=session.createQuery("select distinct name from Refinery where capacityYear between :startYear and :endYear");
+			query.setParameter("startYear", startYear);
+			query.setParameter("endYear", endYear);
+			list=(List<String>)query.list();
+//			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
+//			criteria.add(capacityYearCriterion);
+		}					
+//		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
+		
 		tx.commit();
 		session.close();
 		return list;
-	}
-	public List<String> getCountryTerminals(String country,List<String> selectedTerminals)
-	{
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);				
-		if(selectedTerminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,selectedTerminals));
-		else
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_COUNTRY, country));
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+	}	
 	public List<RefineriesFilter> getRefineriesFilter()
 	{
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);						
-		List<RefineriesFilter> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	@Override
-	public List<Refinery> getRefineriesData(
-			Map<String, List<String>> selectedOptions,List<String> selectedTerminals, int startDate,
-			int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Refinery.class);
-		createFiltersCriteria(selectedOptions, criteria);		
-		if(startDate!=0 && endDate!=0)
-		{
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
-		}						
-		if(selectedTerminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,selectedTerminals));
-		else
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		List<Refinery> list=criteria.list();
+		Query query=session.createQuery("from RefineriesFilter");//RefineriesFilter.class);						
+		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -252,19 +188,6 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			criteria.add(statusesCriterion);
 		}
 		
-	}
-	private List<String> getEmptyList()
-	{
-		List<String> emptyList=new ArrayList<String>();
-		emptyList.add("");
-		return emptyList;
-	}
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 	@Override
 	public List<Refinery> getTerminalData(String terminalName) {
@@ -345,31 +268,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		session.close();
 		return list;
 	}
-	@Override
-	public List<RefineriesFilter> getSelectedRefineries(
-			Map<String, List<String>> selectedOptions, int startDate,
-			int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
-		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
-			terminals=getTerminals(startDate, endDate);								
-					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		
-				
-		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+	
 	@Override
 	public List<String> getCountries() {
 		// TODO Auto-generated method stub
@@ -381,19 +280,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		tx.commit();
 		session.close();
 		return list;
-	}
-	@Override
-	public List<String> getTerminals() {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct name from RefineriesFilter order by country asc");			
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
+	}	
 	@Override
 	public List<String> getCountryTerminals(String country) {
 		// TODO Auto-generated method stub
@@ -407,52 +294,18 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		session.close();
 		return list;
 	}
-	@Override
-	public List<RefineriesFilter> getCompanyRefineries(String company,Map<String,List<String>> selectedOptions,int startDate,int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
-		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
-			terminals=getTerminals(startDate, endDate);								
-					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		
-		criteria.add(Restrictions.eq("currentEquityPartners",company));
-		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+	private List<String> getEmptyList()
+	{
+		List<String> emptyList=new ArrayList<String>();
+		emptyList.add("");
+		return emptyList;
 	}
-	@Override
-	public List<RefineriesFilter> getCountryRefineries(String country,Map<String,List<String>> selectedOptions,int startDate,int endDate){
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
-		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
-			terminals=getTerminals(startDate, endDate);								
-					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		
-		criteria.add(Restrictions.eq("country",country));
-		List<RefineriesFilter> list=(List<RefineriesFilter>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-		
-	}	
-	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+			
 }

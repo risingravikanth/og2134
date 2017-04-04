@@ -16,38 +16,18 @@ public class RefineriesCache {
 	private Map<String,List<String>> companyTerminals;
 	private Map<String,List<String>> countryTerminals;
 	private Map<String,Double> companyStakeForTerminal;
-	private List<String> terminals;
-	private List<String> companies;
-	private List<String> countries;
-	
-	private int startYear;//=2000;
-	private int endYear;//=2022;
+
+	private int startYear;
+	private int endYear;
 	public void initCache()
 	{
 		System.out.println("RefineryCache Init initialized");
 		terminalsYearCapacity=createTerminalsYearCapacity();
 		companyTerminals=createCompanyTerminals();
 		companyStakeForTerminal=createCompanyStakeForTerminal();
-		countryTerminals=createCountryTerminals();
-		companies=createCompaniesList();
-		terminals=createTerminalsList();
-		countries=createCountriesList();
+		countryTerminals=createCountryTerminals();		
 	}
-	public List<String> createCountriesList()
-	{
-		List<String> countriesList=refineriesDao.getCountries();
-		return countriesList;
-	}
-	public List<String> createTerminalsList()
-	{
-		List<String> terminalsList=refineriesDao.getTerminals();
-		return terminalsList;
-	}
-	public List<String> createCompaniesList()
-	{
-		List<String> countriesList=refineriesDao.getCompanies();
-		return countriesList;
-	}
+
 	public Map<String,Double> createTerminalsYearCapacity()
 	{
 		Map<String,Double> terminalsYearCapacityMap=new HashMap<String, Double>();
@@ -99,17 +79,12 @@ public class RefineriesCache {
 	}
 	public void resetCache()
 	{
-		 terminalsYearCapacity=null;
-		 companyTerminals=null;
-		 companyStakeForTerminal=null;
+		terminalsYearCapacity=null;
+		companyTerminals=null;
+		companyStakeForTerminal=null;
+		countryTerminals=null;	
 	}
-	
-	public List<String> getCompanies() {
-		return companies;
-	}
-	public void setCompanies(List<String> companies) {
-		this.companies = companies;
-	}
+		
 	public Map<String, Double> getCompanyStakeForTerminal() {
 		return companyStakeForTerminal;
 	}
@@ -144,18 +119,7 @@ public class RefineriesCache {
 	public void setCountryTerminals(Map<String, List<String>> countryTerminals) {
 		this.countryTerminals = countryTerminals;
 	}
-	public List<String> getTerminals() {
-		return terminals;
-	}
-	public void setTerminals(List<String> terminals) {
-		this.terminals = terminals;
-	}
-	public List<String> getCountries() {
-		return countries;
-	}
-	public void setCountries(List<String> countries) {
-		this.countries = countries;
-	}
+
 	public int getStartYear() {
 		return startYear;
 	}

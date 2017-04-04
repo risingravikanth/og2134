@@ -1,64 +1,6 @@
 package com.oganalysis.business.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.ALKYLATIONCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.AROMACTICSCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.ASPHALTCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.BLANK;
-import static com.oganalysis.constants.ApplicationConstants.CAPEX;
-import static com.oganalysis.constants.ApplicationConstants.CDUCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.COKECAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.COKINGCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.COMMA;
-import static com.oganalysis.constants.ApplicationConstants.COMMENCEMENT;
-import static com.oganalysis.constants.ApplicationConstants.COMPANY;
-import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONCOMPANYNAME;
-import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONCONTRACTDETAILS;
-import static com.oganalysis.constants.ApplicationConstants.CONSTRUCTIONDETAILS;
-import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.CRUDESTORAGECAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.CRUDESTORAGEORTANK;
-import static com.oganalysis.constants.ApplicationConstants.CURRENTEQUITYPARTNER;
-import static com.oganalysis.constants.ApplicationConstants.CURRENTEQUITYSTAKE;
-import static com.oganalysis.constants.ApplicationConstants.DECOMISSIONEDYEAR;
-import static com.oganalysis.constants.ApplicationConstants.DIESEL;
-import static com.oganalysis.constants.ApplicationConstants.FCCCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.GASOLINE;
-import static com.oganalysis.constants.ApplicationConstants.HEAVYNAPHTHA;
-import static com.oganalysis.constants.ApplicationConstants.HISTORICEQUITYPARTNER;
-import static com.oganalysis.constants.ApplicationConstants.HISTORICEQUITYSTAKE;
-import static com.oganalysis.constants.ApplicationConstants.HISTORICOPERATOR;
-import static com.oganalysis.constants.ApplicationConstants.HISTORICOWNERSHIP;
-import static com.oganalysis.constants.ApplicationConstants.HYDROCRACKINGCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.HYDROGENCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.HYDROTREATINGCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.ISOMERIZATIONCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.JETFUEL;
-import static com.oganalysis.constants.ApplicationConstants.KEROJET;
-import static com.oganalysis.constants.ApplicationConstants.KEROSINE;
-import static com.oganalysis.constants.ApplicationConstants.LIGHTNAPHTHA;
-import static com.oganalysis.constants.ApplicationConstants.LOCATION;
-import static com.oganalysis.constants.ApplicationConstants.LPG;
-import static com.oganalysis.constants.ApplicationConstants.LUBESCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.MAINTENANCEDETAILS;
-import static com.oganalysis.constants.ApplicationConstants.MAINTENANCEENDDATE;
-import static com.oganalysis.constants.ApplicationConstants.MAINTENANCENOTE;
-import static com.oganalysis.constants.ApplicationConstants.MAINTENANCESTARTDATE;
-import static com.oganalysis.constants.ApplicationConstants.NELSONCOMPLEXINDEX;
-import static com.oganalysis.constants.ApplicationConstants.OPERATOR;
-import static com.oganalysis.constants.ApplicationConstants.OTHERSNAMESOFREFINERY;
-import static com.oganalysis.constants.ApplicationConstants.OWNERSHIP;
-import static com.oganalysis.constants.ApplicationConstants.OXYGENATESCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.POLYMERIZATIONCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.PROPYLENE;
-import static com.oganalysis.constants.ApplicationConstants.REFINERYUTILIZATIONRATE;
-import static com.oganalysis.constants.ApplicationConstants.REFORMERCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.STATUS;
-import static com.oganalysis.constants.ApplicationConstants.SULPHURCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.TERMINALNAME;
-import static com.oganalysis.constants.ApplicationConstants.TYPE;
-import static com.oganalysis.constants.ApplicationConstants.UNDERSCORE;
-import static com.oganalysis.constants.ApplicationConstants.VDUCAPACITY;
-import static com.oganalysis.constants.ApplicationConstants.VISBREAKINGCAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,8 +28,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		Map<String,Map<Integer,Double>> companiesCapacity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedCompanies=refineriesDao.getSelectedCompanies(selectedOptions, startDate, endDate);
 		if(selectedCompanies.size()>0)
-			companiesCapacity=calculateCapacitiesByCompany(selectedCompanies,selectedOptions,startDate,endDate);
-			
+			companiesCapacity=calculateCapacitiesByCompany(selectedCompanies,selectedOptions,startDate,endDate);			
 		return companiesCapacity;
 	}
 
@@ -99,8 +40,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		Map<String,Map<Integer,Double>> countriesCapacity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedCountries=refineriesDao.getSelectedCountries(selectedOptions, startDate, endDate);
 		if(selectedCountries.size()>0)
-			countriesCapacity=calculateCapacitiesByCountry(selectedCountries,selectedOptions,startDate,endDate);
-			
+			countriesCapacity=calculateCapacitiesByCountry(selectedCountries,selectedOptions,startDate,endDate);			
 		return countriesCapacity;
 	}
 
@@ -112,8 +52,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		Map<String,Map<Integer,Double>> terminalsCapacity=new HashMap<String, Map<Integer,Double>>();
 		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);
 		if(selectedTerminals.size()>0)
-			terminalsCapacity=calculateCapacitiesByTerminal(selectedTerminals,startDate,endDate);
-			
+			terminalsCapacity=calculateCapacitiesByTerminal(selectedTerminals,startDate,endDate);			
 		return terminalsCapacity;
 	}
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> selectedCompanies,Map<String,List<String>> selectedOptions,int startDate,int endDate)
@@ -876,7 +815,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		StringBuffer sb=new StringBuffer();
 		for(Refinery refinery:refineryList)
 		{
-			if(null!=refinery && null!=refinery.getHistoricOperator() && !("").equalsIgnoreCase(refinery.getHistoricOperator()))
+			if(null!=refinery && null!=refinery.getHistoricOperator() && !(BLANK).equalsIgnoreCase(refinery.getHistoricOperator()))
 				sb.append(refinery.getHistoricOperator()).append(COMMA);
 		}
 		return sb.toString();
@@ -886,7 +825,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		StringBuffer sb=new StringBuffer();
 		for(Refinery refinery:refineryList)
 		{
-			if(null!=refinery && null!=refinery.getCurrentOperator() && !("").equalsIgnoreCase(refinery.getCurrentOperator()))
+			if(null!=refinery && null!=refinery.getCurrentOperator() && !(BLANK).equalsIgnoreCase(refinery.getCurrentOperator()))
 				sb.append(refinery.getCurrentOperator()).append(COMMA);
 		}
 		return sb.toString();
@@ -896,7 +835,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		StringBuffer sb=new StringBuffer();
 		for(Refinery refinery:refineryList)
 		{
-			if(null!=refinery && null!=refinery.getType() && !("").equalsIgnoreCase(refinery.getType()))
+			if(null!=refinery && null!=refinery.getType() && !(BLANK).equalsIgnoreCase(refinery.getType()))
 				sb.append(refinery.getType()).append(COMMA);
 		}
 		return sb.toString();
@@ -982,26 +921,6 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		}
 		return countryTerminals;
 	}
-//	private Set<String> getSelectedCompanies(List<RefineriesFilter> selectedRefineries)
-//	{
-//		Set<String> companies=new HashSet<String>();
-//		List<String> companiesList=null;
-//		if(null==refineriesCache.getCompanies())
-//		{
-//			companiesList=refineriesCache.createCompaniesList();
-//			refineriesCache.setCompanies(companiesList);
-//		}
-//		else
-//			companiesList=refineriesCache.getCompanies();
-//		
-//		for(RefineriesFilter refineriesFilter:selectedRefineries)
-//		{
-//			if(companiesList.contains(refineriesFilter.getCurrentEquityPartners()))
-//				companies.add(refineriesFilter.getCurrentEquityPartners());
-//		}	
-//		return companies;
-//	}
-
 	public RefineriesDao getRefineriesDao() {
 		return refineriesDao;
 	}
