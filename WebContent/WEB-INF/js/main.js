@@ -672,7 +672,9 @@
  		if($rootScope.filterObj.unitsField == true){
  			if($rootScope.unitsModel.id != undefined){
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} else{
+ 			}else if ($rootScope.unitsModel.length >0){
+ 				
+ 	 		}else{
  				$rootScope.unitsModel.length =0;
  			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
@@ -755,6 +757,25 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$scope.formDataJSON ={};
+ 		
+ 		
+ 		if($scope.url != ''){
+			HttpService.get($scope.url).then(function(resp) {
+				$scope.gridDataList = angular.copy(resp);
+				if($rootScope.table.inst != ""){
+	 				if(resp != "" && resp != undefined ){
+	 					resp = resp;
+	 				}else{
+	 					resp = [];
+	 				}
+	 			 	$scope.formDataJSON ={};
+	 				$rootScope.table.inst.clear().draw();
+	 				$rootScope.table.inst.rows.add(resp);
+	 				$rootScope.table.inst.draw();
+	 			 }
+		 	});
+		}
+ 		 
    	};
 	
 	
@@ -813,6 +834,11 @@
 			HttpService.get($scope.url).then(function(resp) {
 				$scope.gridDataList = angular.copy(resp);
 				var tableInst = $("#example1").DataTable({
+					"drawCallback": function( settings ) {
+	 					if(!$("#example1").parent().hasClass("table-responsive")){
+	 						$("#example1").wrap( "<div class='table-responsive'></div>" );
+					     }
+	 		 	    },
 					"columnDefs": [
 					{
 						// The `data` parameter refers to the data for the cell (defined by the
@@ -836,8 +862,7 @@
 						"targets": 0
 					}
 					],
-					scrollX: true,
-					columns: $scope.columns,
+		 			columns: $scope.columns,
 					data : $scope.gridDataList
 				});
 				$rootScope.table.inst = tableInst;
