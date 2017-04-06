@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
@@ -23,94 +23,13 @@ import com.oganalysis.entities.LngRegasification;
 
 public class LngDaoImpl implements LngDao {
 	
-	private HibernateTemplate hibernateTemplate;
+	
 	private SessionFactory sessionFactory;
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+	public void setSessionFactory(SessionFactory sessionFactory) {		
 		this.sessionFactory=sessionFactory;
 	}
-	
-	@Override
-	public List<Lng> getRegasificationCriteriaData(Map<String,List<String>> selectedOptions,List<String> terminals,int startDate,int endDate) {
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngRegasification.class);
-		createFiltersCriteria(selectedOptions, criteria);
 		
-		if(startDate!=0 && endDate!=0)
-		{
-						
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
-		}					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else
-		{
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		}
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	@Override
-	public List<Lng> getLiquefactionCriteriaData(Map<String,List<String>> selectedOptions,List<String> terminals,int startDate,int endDate) {
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngLiquefaction.class);
-		createFiltersCriteria(selectedOptions, criteria); //need to change method definition			
-		if(startDate!=0 && endDate!=0)
-		{
-						
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
-		}					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else
-		{
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		}
-		List<Lng> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	
-//	@Override
-//	public List<Lng> getRegasificationCriteriaData(List<String> terminals) {
-////		List<Object> list=hibernateTemplate.find("from Exploration");
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=session.createCriteria(LngRegasification.class);
-//		criteria.add(Restrictions.in("name",terminals));				
-//		
-//		List<Lng> list=criteria.list();
-//		tx.commit();
-//		session.close();
-//		return list;
-//	}
-//	@Override
-//	public List<Lng> getLiquefactionCriteriaData(List<String> terminals) {
-////		List<Object> list=hibernateTemplate.find("from Exploration");
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=session.createCriteria(LngLiquefaction.class);
-//		criteria.add(Restrictions.in("name",terminals));
-//		List<Lng> list=criteria.list();
-//		tx.commit();
-//		session.close();
-//		return list;
-//	}
-	
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
 	public List<String> getLocations() {
@@ -118,10 +37,8 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_AREA)));
-		
-		List<String> locations=criteria.list();
-				
+		Query query=session.createQuery("select distinct area from Lng order by area asc");
+		List<String> locations=(List<String>)query.list();
 		tx.commit();
 		session.close();
 		return locations;
@@ -133,10 +50,8 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_OPERATOR)));
-		
-		List<String> operators=criteria.list();
-				
+		Query query=session.createQuery("select distinct operator from Lng order by operator asc");
+		List<String> operators=(List<String>)query.list();				
 		tx.commit();
 		session.close();
 		return operators;
@@ -146,11 +61,9 @@ public class LngDaoImpl implements LngDao {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Lng.class).setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_EQUITYPARTNER)));
-		
-		List<String> owners=criteria.list();
-				
+		tx.begin();		
+		Query query=session.createQuery("select distinct equityPartners from Lng order by equityPartners asc");
+		List<String> owners=(List<String>)query.list();				
 		tx.commit();
 		session.close();
 		return owners;
@@ -171,9 +84,8 @@ public class LngDaoImpl implements LngDao {
 			criteria=session.createCriteria(LngLiquefaction.class);	
 			
 		Criterion terminalCriterion=Restrictions.eq(RESTRICTION_PROPERTY_NAME,terminalName);
-		criteria.add(terminalCriterion);
-		
-		List<Lng> list=criteria.list();
+		criteria.add(terminalCriterion);		
+		List<Lng> list=(List<Lng>)criteria.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -206,13 +118,13 @@ public class LngDaoImpl implements LngDao {
 			criteria.add(locationCriterion);
 		}
 		
-		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
-		{
-			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);				
-			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);			
-			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
-			
-		}
+//		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
+//		{
+//			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);				
+//			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);			
+//			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
+//			
+//		}
 		else if(owners!=null && owners.size()>0)
 		{
 			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);
@@ -242,101 +154,53 @@ public class LngDaoImpl implements LngDao {
 	}
 
 	@Override
-	public List<String> getLiqueTerminals(int startDate, int endDate) {
+	public List<String> getLiqueTerminals(int startYear, int endYear) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(LngLiquefaction.class);				
-		if(startDate!=0 && endDate!=0)
+		List<String> list=new ArrayList<String>();					
+		if(startYear!=0 && endYear!=0)
 		{
-						
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
+			Query query=session.createQuery("select distinct name from LngLiquefaction where capacityYear between :startYear and :endYear");
+			query.setParameter("startYear", startYear);
+			query.setParameter("endYear", endYear);
+			list=(List<String>)query.list();
+
 		}					
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
 	@Override
-	public List<String> getRegasTerminals(int startDate, int endDate) {
+	public List<String> getRegasTerminals(int startYear, int endYear) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(LngRegasification.class);				
-		if(startDate!=0 && endDate!=0)
+		List<String> list=new ArrayList<String>();			
+		if(startYear!=0 && endYear!=0)
 		{
 						
-			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-			criteria.add(capacityYearCriterion);
+			Query query=session.createQuery("select distinct name from LngRegasification where capacityYear between :startYear and :endYear");
+			query.setParameter("startYear", startYear);
+			query.setParameter("endYear", endYear);
+			list=(List<String>)query.list();
 		}					
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
 		tx.commit();
 		session.close();
 		return list;
 	}
 	
 	@Override
-	public List<String> getCompanyTerminals(String company,List<String> terminals,String type) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngFilter.class);							
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_EQUITYPARTNER, company));
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else
-		{
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-		}
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-//	@Override
-//	public List<String> getCompanyTerminals(String company,Map<String,List> selectedOptions,String type) {
-//		// TODO Auto-generated method stub
-//		List<String> companyTerminals=getCompanyTerminals(company,selectedOptions,0,0, type);
-//		return companyTerminals;
-//	}
-
-	@Override
-	public List<String> getCountryTerminals(String country,List<String> terminals,String type) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(LngFilter.class);
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));			
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_COUNTRY, country));
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-
-	@Override
 	public List<LngFilter> getLngFilter(String type) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(LngFilter.class);
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));		
-		List<LngFilter> list=criteria.list();
+		Query query=session.createQuery("from LngFilter where type=:type");		
+		query.setParameter("type", type);
+		List<LngFilter> list=(List<LngFilter>)query.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -421,9 +285,8 @@ public class LngDaoImpl implements LngDao {
 			if(terminals.size()>0)
 				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
 			else
-			{
 				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
-			}	
+				
 		}
 		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));	
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
@@ -439,10 +302,10 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(LngFilter.class);
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_NAME,terminal));		
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_TYPE,type));
-		List<LngFilter> list=criteria.list();
+		Query query=session.createQuery("from LngFilter where name=:terminal and type=:type");
+		query.setParameter("terminal",terminal);
+		query.setParameter("type", type);
+		List<LngFilter> list=(List<LngFilter>)query.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -454,32 +317,84 @@ public class LngDaoImpl implements LngDao {
 		List<String> terminals=getSelectedTerminals(selectedOptions, 0,0, type);
 		return terminals;
 	}
-
-//	@Override
-//	public List<Integer> getSelectedYears(int startDate, int endDate,String type) {
-//		// TODO Auto-generated method stub
-//		
-//		Session session=sessionFactory.openSession();
-//		Transaction tx=session.beginTransaction();
-//		tx.begin();
-//		Criteria criteria=null;
-//		if(type.equalsIgnoreCase(LIQUEFACTION))
-//			criteria=session.createCriteria(LngLiquefaction.class);
-//		else
-//			criteria=session.createCriteria(LngRegasification.class);
-//		
-//		criteria.add(Restrictions.between("capacityYear",startDate,endDate));
-//		criteria.setProjection(Projections.distinct(Projections.property("capacityYear")));			
-//		List<Integer> listYears=criteria.list();
-//		tx.commit();
-//		session.close();
-//		return listYears;
-//	}
 	private List<String> getEmptyList()
 	{
 		List<String> emptyList=new ArrayList<String>();
 		emptyList.add(BLANK);
 		return emptyList;
+	}
+
+	@Override
+	public List<Lng> getLng(int year, String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=null;
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+			query=session.createQuery("from LngLiquefaction where capacityYear=:year");
+		else
+			query=session.createQuery("from LngRegasification where capacityYear=:year");
+		query.setParameter("year",year);		
+		List<Lng> list=(List<Lng>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<String> getCountries(String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct country from LngFilter where type=:type order by country asc");		
+		query.setParameter("type", type);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getCountryTerminals(String country) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from LngFilter where country=:country order by name asc");		
+		query.setParameter("country",country);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<String> getCompanies(String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct equityPartners from LngFilter where type=:type and equityPartners!=' ' order by equityPartners asc");		
+		query.setParameter("type", type);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<String> getCompanyTerminals(String company) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from LngFilter where equityPartners=:company order by name asc");		
+		query.setParameter("company",company);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
 	}
 	
 }

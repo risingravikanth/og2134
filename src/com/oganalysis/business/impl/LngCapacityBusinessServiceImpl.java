@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.oganalysis.business.LngCapacityBusinessService;
+import com.oganalysis.cache.LngCache;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.LngFilter;
@@ -16,6 +17,7 @@ import com.oganalysis.entities.LngFilter;
 public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessService {
 
 	private LngDao lngDao;
+	private LngCache lngCache;
 	private static final int STARTYEAR=2005;
 	private static final int ENDYEAR=2020;
 	private static final double BCF_UNIT=48.7;
@@ -147,7 +149,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
-		List<String> countryTerminals=lngDao.getCountryTerminals(countryName,selectedTerminals,type);		
+		List<String> countryTerminals=getCountryTerminals(countryName,selectedTerminals,type);//lngDao.getCountryTerminals(countryName,selectedTerminals,type);		
 		Map<String,Map<Integer,Double>> countryterminalsCapacity=calculateCapacitiesByTerminal(countryTerminals,selectedOptions,startDate,endDate,type);	
 					
 		return countryterminalsCapacity;
@@ -156,30 +158,61 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String companyName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
-		List<String> companyTerminals=lngDao.getCompanyTerminals(companyName,selectedTerminals,type);		
+		List<String> companyTerminals=getCompanyTerminals(companyName,selectedTerminals,type);//lngDao.getCompanyTerminals(companyName,selectedTerminals,type);		
 		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate,type);	
 					
 		return companyterminalsCapacity;
 	}
-	
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
-		Map<String,List<String>> selectedOptionWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
-		else
-			lngList=lngDao.getRegasificationCriteriaData(selectedOptionWithoutOwners,selectedTerminals,startDate,endDate);
-		
 		String unit=getSelectedUnit(selectedOptions);
+		Map<String,Double> terminalsYearCapacity=null;
+		Map<String,Double> companyStakeForTerminal=null;
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+		{				
+			if(null==lngCache.getLiqueTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_LIQUEFACTION);
+				lngCache.setLiqueTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();
+						
+			if(null==lngCache.getLiqueCompanyStakeForTerminal())
+			{
+				companyStakeForTerminal=lngCache.createCompanyStakeForTerminal(LNG_LIQUEFACTION);
+				lngCache.setLiqueCompanyStakeForTerminal(companyStakeForTerminal);
+			}
+			else
+				companyStakeForTerminal=lngCache.getLiqueCompanyStakeForTerminal();
+		}	
+		else
+		{				
+			if(null==lngCache.getRegasTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_REGASIFICATION);
+				lngCache.setRegasTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getRegasTerminalsYearCapacity();	
+						
+			if(null==lngCache.getRegasCompanyStakeForTerminal())
+			{
+				companyStakeForTerminal=lngCache.createCompanyStakeForTerminal(LNG_REGASIFICATION);
+				lngCache.setRegasCompanyStakeForTerminal(companyStakeForTerminal);
+			}
+			else
+				companyStakeForTerminal=lngCache.getRegasCompanyStakeForTerminal();
+		}	
+				
 		Map<String,Map<Integer,Double>> companyMap=new HashMap<String, Map<Integer,Double>>();
 		List<Integer> years=getSelectedYears(startDate,endDate);
-		Map<String,Double> companyStakeForTerminal=getCompanyStakeForTerminal(type);								
+										
 		Map<Integer,Double> yearMap=null;
 		for(String company:companies)
 		{
-				List<String> companyTerminals=lngDao.getCompanyTerminals(company,selectedTerminals,type);
+				List<String> companyTerminals=getCompanyTerminals(company,selectedTerminals,type);//lngDao.getCompanyTerminals(company,selectedTerminals,type);
 				if(companyTerminals.size()>0)
 				{
 					yearMap=new HashMap<Integer, Double>();
@@ -190,35 +223,44 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						{			
 							String key=company.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
 							double stake=companyStakeForTerminal.get(key);			
-												
-							for(Lng lng:lngList)
-							{								
-								if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
-									soc=soc+(lng.getCapacity()*(stake/100));
-							}					
-						}
+							double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);																							
+							soc=soc+(capacity*(stake/100));							
+						}			
 						if(null!=unit && unit.equalsIgnoreCase(BCF))
 							soc=soc*BCF_UNIT;
-						soc=round(soc,2);
+						soc=round(soc,2);						
 						yearMap.put(year,soc);//Double.valueOf(formatCapacity.format(soc))
-					}
-					
+					}					
 					companyMap.put(company, yearMap);
 				}
 				
 		}
 			return companyMap;
-	}
-		
+	}		
 	//This is to calculate capacities by Terminal i.e with name field . 
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByTerminal(List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
-		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Lng> lngList=null;
+		Map<String,Double> terminalsYearCapacity=null;
 		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
+		{				
+			if(null==lngCache.getLiqueTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_LIQUEFACTION);
+				lngCache.setLiqueTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();							
+		}	
 		else
-			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,terminals,startDate,endDate);
+		{				
+			if(null==lngCache.getRegasTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_REGASIFICATION);
+				lngCache.setRegasTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getRegasTerminalsYearCapacity();									
+		}	
 		String unit=getSelectedUnit(selectedOptions);
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
@@ -229,11 +271,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			for(Integer year:years)
 			{
 				double soc=0.0;
-				for(Lng lng:lngList)
-				{
-					if(terminal.equalsIgnoreCase(lng.getName()) && year==lng.getCapacityYear())
-						soc=soc+lng.getCapacity();
-				}
+				double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+				soc=soc+capacity;				
 				if(null!=unit && unit.equalsIgnoreCase(BCF))
 					soc=soc*BCF_UNIT;
 				soc=round(soc,2);
@@ -248,20 +287,35 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCountry(List<String> countries,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);
-		Map<String,List<String>> selectedOptionsWithoutOwners=getSelectedOptionsWithoutOwners(selectedOptions);
-		List<Lng> lngList=null;
-		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
-			lngList=lngDao.getLiquefactionCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
-		else
-			lngList=lngDao.getRegasificationCriteriaData(selectedOptionsWithoutOwners,selectedTerminals,startDate,endDate);
 		
+		Map<String,Double> terminalsYearCapacity=null;
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+		{				
+			if(null==lngCache.getLiqueTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_LIQUEFACTION);
+				lngCache.setLiqueTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();								
+		}	
+		else
+		{				
+			if(null==lngCache.getRegasTerminalsYearCapacity())
+			{
+				terminalsYearCapacity=lngCache.createTerminalsYearCapacity(LNG_REGASIFICATION);
+				lngCache.setRegasTerminalsYearCapacity(terminalsYearCapacity);
+			}
+			else
+				terminalsYearCapacity=lngCache.getRegasTerminalsYearCapacity();									
+		}					
 		String unit=getSelectedUnit(selectedOptions);
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
 		Map<String,Map<Integer,Double>> countryMap=new HashMap<String, Map<Integer,Double>>();		
 		for(String country:countries)
 		{
-			List<String> countryTerminals=lngDao.getCountryTerminals(country, selectedTerminals, type);
+			List<String> countryTerminals=getCountryTerminals(country, selectedTerminals, type);//lngDao.getCountryTerminals(country, selectedTerminals, type);
 			if(countryTerminals.size()>0)
 			{
 				yearMap=new HashMap<Integer, Double>();
@@ -270,11 +324,9 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					double soc=0.0;
 					for(String terminal:countryTerminals)
 					{
-						for(Lng lng:lngList)
-						{
-							if(terminal.equalsIgnoreCase(lng.getName()) && country.equalsIgnoreCase(lng.getCountry()) && year==lng.getCapacityYear())
-								soc=soc+lng.getCapacity();
-						}
+						double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+						soc=soc+capacity;
+						
 					}
 					if(null!=unit && unit.equalsIgnoreCase(BCF))
 						soc=soc*BCF_UNIT;
@@ -296,28 +348,73 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		return unit;
 		
 	}
-//	private Set<Integer> getYears(List<Lng> lngList)
-//	{
-//		Set<Integer> years=new HashSet<Integer>();
-//		for(Lng lng:lngList)
-//		{
-//			if(lng.getCapacityYear()!=0)
-//			years.add(lng.getCapacityYear());			
-//		}
-//		return years;
-//	}	
-	private Map<String,Double> getCompanyStakeForTerminal(String type)
+	private List<String> getCompanyTerminals(String company,List<String> selectedTerminals,String type)
 	{
-		List<LngFilter> lngFilterList=lngDao.getLngFilter(type);
-		Map<String,Double> companyStakeForTerminal=new HashMap<String, Double>();
-		for(LngFilter lngFilter:lngFilterList)
-		{
-			String companyName=lngFilter.getEquityPartners();
-			String terminalName=lngFilter.getName();
-			String key=companyName.toLowerCase()+UNDERSCORE+terminalName.toLowerCase();
-			companyStakeForTerminal.put(key, lngFilter.getEquityStakes());
+		List<String> companyTerminals=new ArrayList<String>();
+		List<String> terminalsList=null;		
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+		{				
+			if(null==lngCache.getLiqueCompanyTerminals())
+			{
+				Map<String,List<String>> companyTerminalsMap=lngCache.createCompanyTerminals(LNG_LIQUEFACTION);
+				lngCache.setLiqueCompanyTerminals(companyTerminalsMap);
+				terminalsList=companyTerminalsMap.get(company.toLowerCase());
+			}
+			else
+				terminalsList=lngCache.getLiqueCompanyTerminals().get(company.toLowerCase());				
+		}	
+		else
+		{			
+			if(null==lngCache.getRegasCompanyTerminals())
+			{
+				Map<String,List<String>> companyTerminalsMap=lngCache.createCompanyTerminals(LNG_REGASIFICATION);
+				lngCache.setRegasCompanyTerminals(companyTerminalsMap);
+				terminalsList=companyTerminalsMap.get(company.toLowerCase());
+			}
+			else
+				terminalsList=lngCache.getRegasCompanyTerminals().get(company.toLowerCase());	
 		}
-		return companyStakeForTerminal;
+			
+		for(String terminal:selectedTerminals)
+		{
+			if(terminalsList.contains(terminal))
+				companyTerminals.add(terminal);
+		}
+		return companyTerminals;
+	}
+	private List<String> getCountryTerminals(String country,List<String> selectedTerminals,String type)
+	{
+		List<String> countryTerminals=new ArrayList<String>();
+		List<String> terminalsList=null;
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+		{			
+			if(null==lngCache.getLiqueCountryTerminals())
+			{
+				Map<String,List<String>> countryTerminalsMap=lngCache.createCountryTerminals(LNG_LIQUEFACTION);
+				lngCache.setLiqueCountryTerminals(countryTerminalsMap);
+				terminalsList=countryTerminalsMap.get(country.toLowerCase());
+			}
+			else
+				terminalsList=lngCache.getLiqueCountryTerminals().get(country.toLowerCase());
+		}
+		else
+		{			
+			if(null==lngCache.getRegasCountryTerminals())
+			{
+				Map<String,List<String>> countryTerminalsMap=lngCache.createCountryTerminals(LNG_REGASIFICATION);
+				lngCache.setRegasCountryTerminals(countryTerminalsMap);
+				terminalsList=countryTerminalsMap.get(country.toLowerCase());
+			}
+			else
+				terminalsList=lngCache.getRegasCountryTerminals().get(country.toLowerCase());
+		}
+			
+		for(String terminal:selectedTerminals)
+		{
+			if(terminalsList.contains(terminal))
+				countryTerminals.add(terminal);
+		}
+		return countryTerminals;
 	}
 	private List<Integer> getSelectedYears(int startDate,int endDate)
 	{
@@ -325,23 +422,10 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(int i=startDate;i<=endDate;i++)
 			years.add(i);
 		return years;
-	}
-	private Map<String,List<String>> getSelectedOptionsWithoutOwners(Map<String,List<String>> selectedOptions)
-	{
-		Map<String,List<String>> selectedOptionsWithoutOwners=new HashMap<String, List<String>>();
-		Set<String> keys=selectedOptions.keySet();
-		for(String key:keys)
-		{
-			if(null!=key && !OPTION_SELECTED_OWNERS.equals(key))
-				selectedOptionsWithoutOwners.put(key,selectedOptions.get(key));
-		}
-		
-		return selectedOptionsWithoutOwners;
-	}
+	}	
 	@Override
 	public Map<String, String> getTerminalData(String recordName,String type) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 		List<Lng> regasificationTerminalList=lngDao.getTerminalData(recordName, type);
 		Map terminalData=new HashMap();
 		Lng lng=regasificationTerminalList.get(0);
@@ -379,14 +463,18 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			
 		List<Map<String,String>> ownershipList=new ArrayList<Map<String,String>>();
 		List<LngFilter> lngFilterList=lngDao.getTerminalCompanies(recordName,type);
-		Map<String,Double> companyStakes=getCompanyStakeForTerminal(type);		
+//		Map<String,Double> companyStakes=null;
+//		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+//			companyStakes=lngCache.getLiqueCompanyStakeForTerminal();
+//		else
+//			companyStakes=lngCache.getRegasCompanyStakeForTerminal();
 		Map<String,String> ownershipMap=null;new HashMap<String, String>();
 		for(LngFilter lngFilter:lngFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-				String key=lngFilter.getEquityPartners().toLowerCase()+UNDERSCORE+lngFilter.getName().toLowerCase();			
+//				String key=lngFilter.getEquityPartners().toLowerCase()+UNDERSCORE+lngFilter.getName().toLowerCase();			
 				ownershipMap.put(EQUITYPARTNER,lngFilter.getEquityPartners());
-				ownershipMap.put(EQUITYSTAKE,String.valueOf(companyStakes.get(key)));
+				ownershipMap.put(EQUITYSTAKE,String.valueOf(lngFilter.getEquityStakes()));//String.valueOf(companyStakes.get(key))
 				ownershipList.add(ownershipMap);
 		}
 		
@@ -569,8 +657,11 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	public void setLngDao(LngDao lngDao) {
 		this.lngDao = lngDao;
 	}
-	
-
-	
+	public LngCache getLngCache() {
+		return lngCache;
+	}
+	public void setLngCache(LngCache lngCache) {
+		this.lngCache = lngCache;
+	}
 	
 }
