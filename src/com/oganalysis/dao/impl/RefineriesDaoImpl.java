@@ -164,13 +164,13 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			criteria.add(locationCriterion);
 		}
 		
-		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
-		{
-			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS,owners);				
-			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTOPERATOR,operators);			
-			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
-			
-		}
+//		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
+//		{
+//			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS,owners);				
+//			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTOPERATOR,operators);			
+//			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
+//			
+//		}
 		else if(owners!=null && owners.size()>0)
 		{
 			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS,owners);
