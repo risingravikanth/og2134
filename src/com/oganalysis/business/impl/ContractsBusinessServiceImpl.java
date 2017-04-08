@@ -28,7 +28,14 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 		Map<String,Map<Integer,Double>> companiesQuantity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);		
 		List<Integer> years=getSelectedYears(startDate, endDate);
-		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();
+		Map<String,Double> contractIndicatorsYearQuantity=null;
+		if(null==contractsCache.getContractIndicatorsYearQuantity())
+		{
+			contractIndicatorsYearQuantity=contractsCache.createContractIndicatorsYearQuantity();
+			contractsCache.setContractIndicatorsYearQuantity(contractIndicatorsYearQuantity);
+		}
+		else
+			contractIndicatorsYearQuantity=contractsCache.getContractIndicatorsYearQuantity();
 		for(String company:companies)
 		{
 			List<String> companyContractIndicators=getExportCompanyContractIndicators(company,selectedContractIndicators);
@@ -41,7 +48,7 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicators:companyContractIndicators)
 					{
-						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicators.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicators.toLowerCase()+year);
+						double contractedQuantity=contractIndicatorsYearQuantity.get(contractIndicators.toLowerCase()+year)==null?0:contractIndicatorsYearQuantity.get(contractIndicators.toLowerCase()+year);
 						soq=soq+contractedQuantity;						
 					}
 					soq=round(soq,2);
@@ -68,7 +75,14 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	{
 		Map<String,Map<Integer,Double>> countriesQuantity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
-		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();		
+		Map<String,Double> contractIndicatorsYearQuantity=null;
+		if(null==contractsCache.getContractIndicatorsYearQuantity())
+		{
+			contractIndicatorsYearQuantity=contractsCache.createContractIndicatorsYearQuantity();
+			contractsCache.setContractIndicatorsYearQuantity(contractIndicatorsYearQuantity);
+		}
+		else
+			contractIndicatorsYearQuantity=contractsCache.getContractIndicatorsYearQuantity();		
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		for(String country:countries)
 		{
@@ -82,7 +96,7 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicator:countryContractIndicators)
 					{
-						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year);
+						double contractedQuantity=contractIndicatorsYearQuantity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearQuantity.get(contractIndicator.toLowerCase()+year);
 						soq=soq+contractedQuantity;
 					}
 					
@@ -110,7 +124,14 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	{
 		Map<String,Map<Integer,Double>> terminalsQuantity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);		
-		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();
+		Map<String,Double> contractIndicatorsYearQuantity=null;
+		if(null==contractsCache.getContractIndicatorsYearQuantity())
+		{
+			contractIndicatorsYearQuantity=contractsCache.createContractIndicatorsYearQuantity();
+			contractsCache.setContractIndicatorsYearQuantity(contractIndicatorsYearQuantity);
+		}
+		else
+			contractIndicatorsYearQuantity=contractsCache.getContractIndicatorsYearQuantity();
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
 		for(String terminal:terminals)
@@ -124,7 +145,7 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicator:terminalContractIndicators)
 					{
-						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year);
+						double contractedQuantity=contractIndicatorsYearQuantity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearQuantity.get(contractIndicator.toLowerCase()+year);
 						soq=soq+contractedQuantity;
 						
 					}
