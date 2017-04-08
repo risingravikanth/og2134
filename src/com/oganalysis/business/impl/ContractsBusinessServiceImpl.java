@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.oganalysis.business.ContractsBusinessService;
+import com.oganalysis.cache.ContractsCache;
 import com.oganalysis.dao.ContractsDao;
-import com.oganalysis.entities.Contracts;
-import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 
 	private ContractsDao contractsDao;
+	private ContractsCache contractsCache;
 	@Override
 	public Map<String, Map<Integer, Double>> getQuantityByCompany(
 			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
@@ -26,15 +25,13 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	}
 	private Map<String,Map<Integer,Double>> calculateCompaniesQuantity(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Double>> companiesQuantity=new HashMap<String, Map<Integer,Double>>();
-		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
-		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
+		Map<String,Map<Integer,Double>> companiesQuantity=new HashMap<String, Map<Integer,Double>>();		
+		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);		
 		List<Integer> years=getSelectedYears(startDate, endDate);
-		
+		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();
 		for(String company:companies)
 		{
-			List<String> companyContractIndicators=contractsDao.getExportCompanyContractIndicators(company,selectedContractIndicators);//selectedOptions,startDate,endDate);
+			List<String> companyContractIndicators=getExportCompanyContractIndicators(company,selectedContractIndicators);
 			Map<Integer,Double> yearMap=null;
 			if(companyContractIndicators.size()>0)
 			{
@@ -44,11 +41,8 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicators:companyContractIndicators)
 					{
-						for(Contracts contracts:contractsList)
-						{
-							if(contractIndicators.equals(contracts.getContractIndicator()) && year==contracts.getYear())
-								soq=soq+contracts.getContractedQuantity();
-						}
+						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicators.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicators.toLowerCase()+year);
+						soq=soq+contractedQuantity;						
 					}
 					soq=round(soq,2);
 					yearMap.put(year, soq);
@@ -72,14 +66,13 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	}
 	private Map<String,Map<Integer,Double>> calculateCountriesQuantity(List<String> countries,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Double>> countriesQuantity=new HashMap<String, Map<Integer,Double>>();
-		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
+		Map<String,Map<Integer,Double>> countriesQuantity=new HashMap<String, Map<Integer,Double>>();		
 		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
+		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();		
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		for(String country:countries)
 		{
-			List<String> countryContractIndicators=contractsDao.getExportCountryContractIndicators(country,selectedContractIndicators);//selectedOptions,startDate,endDate);
+			List<String> countryContractIndicators=getExportCountryContractIndicators(country,selectedContractIndicators);
 			Map<Integer,Double> yearMap=null;
 			if(countryContractIndicators.size()>0)
 			{
@@ -89,12 +82,10 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicator:countryContractIndicators)
 					{
-						for(Contracts contracts:contractsList)
-						{
-							if(contractIndicator.equals(contracts.getContractIndicator()) && year==contracts.getYear() && country.equalsIgnoreCase(contracts.getExportCountry()))
-								soq=soq+contracts.getContractedQuantity();
-						}
+						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year);
+						soq=soq+contractedQuantity;
 					}
+					
 					soq=round(soq,2);
 					yearMap.put(year, soq);
 				}
@@ -117,15 +108,14 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	}
 	private Map<String,Map<Integer,Double>> calculateTerminalsQuantity(List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate)
 	{
-		Map<String,Map<Integer,Double>> terminalsQuantity=new HashMap<String, Map<Integer,Double>>();
-		Map<String,List<String>> selectedOptionsWithoutCompanies=getSelectedOptionsWithoutCompanies(selectedOptions);
-		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);
-		List<Contracts> contractsList=contractsDao.getContractsCriteriaData(selectedOptionsWithoutCompanies,selectedContractIndicators,startDate, endDate);
+		Map<String,Map<Integer,Double>> terminalsQuantity=new HashMap<String, Map<Integer,Double>>();		
+		List<String> selectedContractIndicators=contractsDao.getSelectedContractIndicators(selectedOptions, startDate, endDate);		
+		Map<String,Double> contractIndicatorsYearCapacity=contractsCache.getContractIndicatorsYearQuantity();
 		List<Integer> years=getSelectedYears(startDate, endDate);
 		Map<Integer,Double> yearMap=null;
 		for(String terminal:terminals)
 		{
-			List<String> terminalContractIndicators=contractsDao.getExportTerminalContractIndicators(terminal,selectedContractIndicators);
+			List<String> terminalContractIndicators=getExportTerminalContractIndicators(terminal,selectedContractIndicators);
 			if(terminalContractIndicators.size()>0)
 			{
 				yearMap=new HashMap<Integer, Double>();
@@ -134,11 +124,9 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 					double soq=0;
 					for(String contractIndicator:terminalContractIndicators)
 					{
-						for(Contracts contracts:contractsList)
-						{
-							if(contractIndicator.equalsIgnoreCase(contracts.getContractIndicator()) && terminal.equals(contracts.getExportTerminal()) && year==contracts.getYear())
-								soq=soq+contracts.getContractedQuantity();
-						}
+						double contractedQuantity=contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year)==null?0:contractIndicatorsYearCapacity.get(contractIndicator.toLowerCase()+year);
+						soq=soq+contractedQuantity;
+						
 					}
 					soq=round(soq,2);
 					yearMap.put(year, soq);
@@ -202,29 +190,81 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 			
 		return years;
 	}
+	private List<String> getExportCompanyContractIndicators(String company,List<String> selectedContractIndicators)
+	{
+		List<String> companyContractIndicators=new ArrayList<String>();
+		List<String> contractIndicatorsList=null;
+		if(null==contractsCache.getCompanyContractIndicators())
+		{
+			Map<String,List<String>> companyContractIndicatorsMap=contractsCache.createCompanyContractIndicators();
+			contractsCache.setCompanyContractIndicators(companyContractIndicatorsMap);
+			contractIndicatorsList=companyContractIndicatorsMap.get(company.toLowerCase());
+		}
+		else
+			contractIndicatorsList=contractsCache.getCompanyContractIndicators().get(company.toLowerCase());
+		for(String contractIndicators:selectedContractIndicators)
+		{
+			if(contractIndicatorsList.contains(contractIndicators))
+				companyContractIndicators.add(contractIndicators);
+		}
+		return companyContractIndicators;
+	}
+	private List<String> getExportCountryContractIndicators(String country,List<String> selectedContractIndicators)
+	{
+		List<String> countryContractIndicators=new ArrayList<String>();
+		List<String> contractIndicatorsList=null;
+		if(null==contractsCache.getCountryContractIndicators())
+		{
+			Map<String,List<String>> countryContractIndicatorsMap=contractsCache.createCountryContractIndicators();
+			contractsCache.setCountryContractIndicators(countryContractIndicatorsMap);
+			contractIndicatorsList=countryContractIndicatorsMap.get(country.toLowerCase());
+		}
+		else
+			contractIndicatorsList=contractsCache.getCountryContractIndicators().get(country.toLowerCase());
+		for(String contractIndicators:selectedContractIndicators)
+		{
+			if(contractIndicatorsList.contains(contractIndicators))
+				countryContractIndicators.add(contractIndicators);
+		}
+		return countryContractIndicators;
+	}
+	private List<String> getExportTerminalContractIndicators(String terminal,List<String> selectedContractIndicators)
+	{
+		List<String> terminalContractIndicators=new ArrayList<String>();
+		List<String> contractIndicatorsList=null;
+		if(null==contractsCache.getTerminalContractIndicators())
+		{
+			Map<String,List<String>> terminalContractIndicatorsMap=contractsCache.createTerminalContractIndicators();
+			contractsCache.setTerminalContractIndicators(terminalContractIndicatorsMap);
+			contractIndicatorsList=terminalContractIndicatorsMap.get(terminal.toLowerCase());
+		}
+		else
+			contractIndicatorsList=contractsCache.getTerminalContractIndicators().get(terminal.toLowerCase());
+		for(String contractIndicators:selectedContractIndicators)
+		{
+			if(contractIndicatorsList.contains(contractIndicators))
+				terminalContractIndicators.add(contractIndicators);
+		}
+		return terminalContractIndicators;
+	}
 	private double round(double value, int places) {	    
 
 	    long factor = (long) Math.pow(10, places);
 	    value = value * factor;
 	    long tmp = Math.round(value);
 	    return (double) tmp / factor;
-	}
-	private Map<String,List<String>> getSelectedOptionsWithoutCompanies(Map<String,List<String>> selectedOptions)
-	{
-		Map<String,List<String>> modifiedOptions=new HashMap<String, List<String>>();
-		Set<String> keys=selectedOptions.keySet();
-		for(String key:keys)
-		{
-			if(!OPTION_SELECTED_IMPORT_COMPANIES.equalsIgnoreCase(key) && !OPTION_SELECTED_EXPORT_COMPANIES.equalsIgnoreCase(key))
-				modifiedOptions.put(key,selectedOptions.get(key));
-		}
-		return modifiedOptions;
-	}
+	}	
 	public ContractsDao getContractsDao() {
 		return contractsDao;
 	}
 	public void setContractsDao(ContractsDao contractsDao) {
 		this.contractsDao = contractsDao;
+	}
+	public ContractsCache getContractsCache() {
+		return contractsCache;
+	}
+	public void setContractsCache(ContractsCache contractsCache) {
+		this.contractsCache = contractsCache;
 	}
 	
 	

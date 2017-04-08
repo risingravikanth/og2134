@@ -18,14 +18,20 @@ public interface ContractsDao {
 	
 	
 	List<String> getImportCountries(List<String> exportCountry);
-	List<String> getImportCompanies(List<String> exportCompany);
-	
-	List<String> getExportCompanies();
-	
-	List<Contracts> getContractsCriteriaData(Map<String,List<String>> selectedOptions,List<String> contractIndicators,int startDate,int endDate);
+	List<String> getImportCompanies(List<String> exportCompany);	
 	
 	
-	List<String> getExportCompanyContractIndicators(String company,List<String> contractIndicators);
-	List<String> getExportTerminalContractIndicators(String terminal,List<String> contractIndicators);
-	List<String> getExportCountryContractIndicators(String country,List<String> contractIndicators);
+//	List<String> getExportCompanyContractIndicators(String company,List<String> contractIndicators);
+//	List<String> getExportTerminalContractIndicators(String terminal,List<String> contractIndicators);
+//	List<String> getExportCountryContractIndicators(String country,List<String> contractIndicators);
+	
+//	Below is for Cache
+	public List<String> getCompanyContractIndicators(String company);
+	public List<String> getCountryContractIndicators(String country);
+	public List<String> getTerminalContractIndicators(String terminal);
+	
+	public List<String> getExportCountries();
+	public List<String> getExportCompanies(); //for cache and also companies filter
+	public List<String> getExportTerminals();
+	public List<Contracts> getContractIndicators(int year);
 }

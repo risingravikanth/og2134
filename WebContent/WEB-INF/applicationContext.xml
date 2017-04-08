@@ -69,7 +69,8 @@
 	</bean>
 	
 	<bean id="contractsBusinessServiceImpl" class="com.oganalysis.business.impl.ContractsBusinessServiceImpl">
-		<property name="contractsDao" ref="contractsDao"/>		
+		<property name="contractsDao" ref="contractsDao"/>	
+		<property name="contractsCache" ref="contractsCache"/>	
 	</bean>
 	
 	<bean id="refineriesCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.RefineriesCapacityBusinessServiceImpl">
@@ -79,6 +80,11 @@
 	<!--  Cache Class -->
 	<bean id="refineriesCache" class="com.oganalysis.cache.RefineriesCache" init-method="initCache"><!-- init-method="initCache" -->
 		<property name="refineriesDao" ref="refineriesDao"/>
+		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
+		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
+	</bean>
+	<bean id="contractsCache" class="com.oganalysis.cache.ContractsCache" init-method="initCache"><!-- init-method="initCache" -->
+		<property name="contractsDao" ref="contractsDao"/>
 		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>

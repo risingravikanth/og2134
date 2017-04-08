@@ -16,36 +16,12 @@ import org.hibernate.criterion.Restrictions;
 import com.oganalysis.dao.ContractsDao;
 import com.oganalysis.entities.Contracts;
 import com.oganalysis.entities.ContractsFilter;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class ContractsDaoImpl implements ContractsDao {
 
 	private SessionFactory sessionFactory;
-//	@Override
-	public List<Contracts> getContractsCriteriaData(Map<String,List<String>> selectedOptions,List<String> contractIndiactors,int startDate, int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Contracts.class);		
-		createFiltersCriteria(selectedOptions, criteria);
-		if(startDate!=0 && endDate!=0)
-		{
-						
-			Criterion yearCriterion=Restrictions.between(RESTRICTION_PROPERTY_YEAR, startDate, endDate);
-			criteria.add(yearCriterion);
-		}					
-		if(contractIndiactors.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR,contractIndiactors));
-		else
-		{
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR,getEmptyList()));
-		}
-		List<Contracts> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
 	@Override
 	public List<String> getSelectedExportCompanies(
 			Map<String, List<String>> selectedOptions, int startDate,
@@ -137,92 +113,17 @@ public class ContractsDaoImpl implements ContractsDao {
 		tx.commit();
 		session.close();
 		return list;
-	}
-	@Override
-	public List<String> getExportCompanyContractIndicators(String company,List<String> contractIndicators){
-//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(ContractsFilter.class);
-//		createFiltersCriteria(selectedOptions, criteria);
-//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(contractIndicators.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR,contractIndicators));
-		else
-		{
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR, getEmptyList()));
-		}	
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_EXPORTCOMPANY, company));
-		criteria.setProjection((Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CONTRACTINDICATOR))));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	@Override
-	public List<String> getExportCountryContractIndicators(String country,List<String> contractIndicators){
-//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(ContractsFilter.class);
-//		createFiltersCriteria(selectedOptions, criteria);
-//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(contractIndicators.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR,contractIndicators));
-		else
-		{
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR, getEmptyList()));
-		}	
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_EXPORTCOUNTRY, country));
-		criteria.setProjection((Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CONTRACTINDICATOR))));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	@Override
-	public List<String> getExportTerminalContractIndicators(String terminal,List<String> contractIndicators){
-//			Map<String, List<String>> selectedOptions,int startDate,int endDate) {
-		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(ContractsFilter.class);
-//		createFiltersCriteria(selectedOptions, criteria);
-//		List<String> exportTerminals=getExportTerminals(startDate, endDate);
-		if(contractIndicators.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR,contractIndicators));
-		else
-		{
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_CONTRACTINDICATOR, getEmptyList()));
-		}	
-		criteria.add(Restrictions.eq(RESTRICTION_PROPERTY_EXPORTTERMINAL, terminal));
-		criteria.setProjection((Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CONTRACTINDICATOR))));
-		List<String> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-	
+	}			
 	@Override
 	public List<String> getContractIndicators(int startDate,int endDate) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Criteria criteria=session.createCriteria(Contracts.class);		
-		if(startDate!=0 && endDate!=0)
-		{
-						
-			Criterion yearCriterion=Restrictions.between(RESTRICTION_PROPERTY_YEAR, startDate, endDate);
-			criteria.add(yearCriterion);
-		}					
-		criteria.setProjection((Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CONTRACTINDICATOR))));
-		List<String> list=criteria.list();
+		Query query=session.createQuery("select distinct contractIndicator from Contracts where year between :startYear and :endYear");
+		query.setParameter("startYear", startDate);
+		query.setParameter("endYear",endDate);
+		List<String> list=query.list();
 		tx.commit();
 		session.close();
 		return list;
@@ -238,6 +139,7 @@ public class ContractsDaoImpl implements ContractsDao {
 		query.setParameterList(RESTRICTION_PROPERTY_EXPORTCOUNTRIES, exportCountries);
 		List<String> importCountries=query.list();
 		tx.commit();
+		session.close();
 		return importCountries;
 	}
 	@Override
@@ -258,10 +160,10 @@ public class ContractsDaoImpl implements ContractsDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Query query=session.createQuery("select distinct exportCompany from ContractsFilter");
-		
+		Query query=session.createQuery("select distinct exportCompany from ContractsFilter order by exportCompany asc");		
 		List<String> exportCompanies=query.list();
 		tx.commit();
+		session.close();
 		return exportCompanies;
 	}
 	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
@@ -296,6 +198,82 @@ public class ContractsDaoImpl implements ContractsDao {
 		}
 
 	}
+	@Override
+	public List<String> getCompanyContractIndicators(String company) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct contractIndicator from ContractsFilter where exportCompany=:company order by contractIndicator asc");
+		query.setParameter("company",company);
+		List<String> contractIndicators=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return contractIndicators;
+	}
+	@Override
+	public List<Contracts> getContractIndicators(int year) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("from Contracts where year=:year");
+		query.setParameter("year",year);
+		List<Contracts> contractIndicators=(List<Contracts>)query.list();
+		tx.commit();
+		session.close();
+		return contractIndicators;
+	}
+	@Override
+	public List<String> getExportCountries() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct exportCountry from ContractsFilter order by exportCountry asc");		
+		List<String> exportCompanies=query.list();
+		tx.commit();
+		session.close();
+		return exportCompanies;
+	}
+	@Override
+	public List<String> getCountryContractIndicators(String country) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct contractIndicator from ContractsFilter where exportCountry=:country order by contractIndicator asc");
+		query.setParameter("country",country);
+		List<String> contractIndicators=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return contractIndicators;
+	}
+	@Override
+	public List<String> getTerminalContractIndicators(String terminal) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct contractIndicator from ContractsFilter where exportTerminal=:terminal order by contractIndicator asc");
+		query.setParameter("terminal",terminal);
+		List<String> contractIndicators=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return contractIndicators;
+	}
+	@Override
+	public List<String> getExportTerminals() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct exportTerminal from ContractsFilter order by exportTerminal asc ");		
+		List<String> exportCompanies=query.list();
+		tx.commit();
+		session.close();
+		return exportCompanies;
+	}
 	private List<String> getEmptyList()
 	{
 		List<String> emptyList=new ArrayList<String>();
@@ -308,8 +286,5 @@ public class ContractsDaoImpl implements ContractsDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
-	
-	
-	
+								
 }
