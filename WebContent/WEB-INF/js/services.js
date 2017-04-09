@@ -20,6 +20,7 @@ angular.module('OGAnalysis')
 		this.apiversion = "/oganalysis";
 		this.displayFrom = 2000;
 		this.displayTo = 2022;
+		this.displayTo_2020 = 2020;
 		this.liquefactionType = "Liquefaction";
 		this.regasificationType = "Regasification";
 		this.importType = "import";
