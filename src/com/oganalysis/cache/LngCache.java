@@ -3,7 +3,9 @@ package com.oganalysis.cache;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.oganalysis.business.LngInfraBusinessService;
 import com.oganalysis.constants.ApplicationConstants;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.entities.Lng;
@@ -11,6 +13,7 @@ import com.oganalysis.entities.LngFilter;
 
 public class LngCache {
 	private LngDao lngDao;
+	private LngInfraBusinessService lngInfraBusinessService;
 	private Map<String,Double> liqueTerminalsYearCapacity;
 	private Map<String,Double> regasTerminalsYearCapacity;
 		
@@ -22,6 +25,8 @@ public class LngCache {
 	private Map<String,List<String>> liqueCountryTerminals;
 	private Map<String,List<String>> regasCountryTerminals;
 	
+	private Map<String,Map<String,String>> liqueInfrastructure;
+	private Map<String,Map<String,String>> regasInfrastructure;
 	
 	private int startYear;//=2000;
 	private int endYear;//=2022;
@@ -38,6 +43,9 @@ public class LngCache {
 		
 		liqueCountryTerminals=createCountryTerminals(ApplicationConstants.LNG_LIQUEFACTION);
 		regasCountryTerminals=createCountryTerminals(ApplicationConstants.LNG_REGASIFICATION);
+		
+		liqueInfrastructure=createInfrastructure(ApplicationConstants.LNG_LIQUEFACTION);
+		regasInfrastructure=createInfrastructure(ApplicationConstants.LNG_REGASIFICATION);
 	}
 	public Map<String,Double> createTerminalsYearCapacity(String type)
 	{
@@ -87,6 +95,12 @@ public class LngCache {
 			companyStakeForTerminal.put(key, lngFilter.getEquityStakes());
 		}
 		return companyStakeForTerminal;
+	}
+	public Map<String,Map<String,String>> createInfrastructure(String type)
+	{		
+		List<String> terminals=lngDao.getTerminals(type);		
+		Map<String,Map<String,String>> infrastructureMap=lngInfraBusinessService.createInfrastructure(terminals, type);		
+		return infrastructureMap;
 	}
 	public LngDao getLngDao() {
 		return lngDao;
@@ -161,6 +175,27 @@ public class LngCache {
 	public void setRegasCountryTerminals(
 			Map<String, List<String>> regasCountryTerminals) {
 		this.regasCountryTerminals = regasCountryTerminals;
+	}
+	public LngInfraBusinessService getLngInfraBusinessService() {
+		return lngInfraBusinessService;
+	}
+	public void setLngInfraBusinessService(
+			LngInfraBusinessService lngInfraBusinessService) {
+		this.lngInfraBusinessService = lngInfraBusinessService;
+	}
+	public Map<String, Map<String, String>> getLiqueInfrastructure() {
+		return liqueInfrastructure;
+	}
+	public void setLiqueInfrastructure(
+			Map<String, Map<String, String>> liqueInfrastructure) {
+		this.liqueInfrastructure = liqueInfrastructure;
+	}
+	public Map<String, Map<String, String>> getRegasInfrastructure() {
+		return regasInfrastructure;
+	}
+	public void setRegasInfrastructure(
+			Map<String, Map<String, String>> regasInfrastructure) {
+		this.regasInfrastructure = regasInfrastructure;
 	}
 	
 	
