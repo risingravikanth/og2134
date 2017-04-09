@@ -77,6 +77,13 @@
 	 		if( modalReq['displayType'] != "terminal"){
 	  		 	
 	 			if(resp != undefined){
+	 				
+	 				if(resp != "" && resp != undefined ){
+						resp = resp[0];
+					}else{
+						resp = [];
+					}
+	 				
 					var columnName = 'Terminal'
 					$scope.modelcolumns.push({title:columnName  ,data:"name"});
 					for(var key in resp['terminal'][0]){

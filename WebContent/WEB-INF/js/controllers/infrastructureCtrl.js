@@ -67,6 +67,11 @@
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				"drawCallback": function( settings ) {
+ 					if(!$("#liquefaction").parent().hasClass("table-responsive")){
+ 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" );
+				     }
+ 		 	    },
  				"columnDefs": [
  				{
  					// The `data` parameter refers to the data for the cell (defined by the
@@ -77,10 +82,11 @@
  				 			commonHref =  '<p>'+data+'</p>';
  				 		return commonHref;
  					},
+ 
  					"targets": 0
  							}
  							],
- 							scrollX: true,
+ 							 
  							columns: $scope.columns,
  							data : $scope.liquefactionData
  				});
@@ -93,6 +99,11 @@
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				"drawCallback": function( settings ) {
+	 					if(!$("#regasification").parent().hasClass("table-responsive")){
+	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );
+					     }
+	 		 	    },
 	 				"columnDefs": [
 	 				{
 	 					// The `data` parameter refers to the data for the cell (defined by the
@@ -102,10 +113,11 @@
 	 				 		var commonHref =  '<p>'+data+'</p>';
 	 				 		return commonHref;
 	 				},
+ 
 	 				"targets": 0
 	 							}
 	 							],
-	 							scrollX: true,
+	 							 
 	 							columns: $scope.columns,
 	 							data : $scope.regasificationData
 	 				 });
