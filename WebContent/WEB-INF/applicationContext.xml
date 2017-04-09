@@ -61,7 +61,8 @@
 	</bean>
 	
 	<bean id="lngInfraBusinessServiceImpl" class="com.oganalysis.business.impl.LngInfraBusinessServiceImpl">
-		<property name="lngDao" ref="lngDao"/>		
+		<property name="lngDao" ref="lngDao"/>	
+		<property name="lngCache" ref="lngCache"/>	
 	</bean>
 	
 	<bean id="supplyDemandBusinessServiceImpl" class="com.oganalysis.business.impl.SupplyDemandBusinessServiceImpl">
@@ -90,6 +91,7 @@
 	</bean>
 	<bean id="lngCache" class="com.oganalysis.cache.LngCache" init-method="initCache"><!-- init-method="initCache" -->
 		<property name="lngDao" ref="lngDao"/>
+		<property name="lngInfraBusinessService" ref="lngInfraBusinessServiceImpl"/>
 		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>

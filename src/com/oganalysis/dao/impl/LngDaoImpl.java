@@ -396,5 +396,18 @@ public class LngDaoImpl implements LngDao {
 		session.close();
 		return list;
 	}
+	@Override
+	public List<String> getTerminals(String type) {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from LngFilter where type=:type order by name asc");		
+		query.setParameter("type", type);
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
 	
 }

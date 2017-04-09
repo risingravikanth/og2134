@@ -33,5 +33,6 @@ public interface LngDao {
 	List<String> getCompanies(String type);
 	List<String> getCountryTerminals(String country);
 	List<String> getCompanyTerminals(String company);
-	
+	//cache for Infrastructure
+	List<String> getTerminals(String type);
 }
