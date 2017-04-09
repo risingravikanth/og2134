@@ -17,8 +17,22 @@
 				offshoreField : false,
 				typeField :false
 			};
- 	};
+ 	} ;
 	
+ 	
+ 	$scope.getBreakString= function(value){
+ 		var result = "";
+ 		var stringCount = 50;
+ 		if(value != undefined){
+ 			if(value.length > stringCount){
+ 				result = value.substr(0,stringCount)+'</br>'+value.substr(stringCount+1,value.length)
+ 			}
+ 		}
+ 		return value
+ 	}
+ 	
+ 	
+ 	
 	$scope.setDisplayPeriod = function(){
 		for(var i = URL.displayFrom;i <= URL.displayTo ;i++){
 			var obj = {
@@ -44,24 +58,23 @@
  
 		var modalReq = angular.copy($rootScope.searchFilterObj);
 		modalReq['recordName']= inputName;
-		//modalReq['type']= type;
-		
+ 		
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
-		
+		 
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
-					resp = resp[0];
+					resp = resp;
 				}else{
 					resp = [];
 				}
 		 
 	 		$scope.modelcolumns =[];
 	 		
-	 		if(resp['terminal'] != undefined && resp['terminal'].length != 0){
+	 		if( modalReq['displayType'] != "terminal"){
 	  		 	
 	 			if(resp != undefined){
 					var columnName = 'Terminal'
@@ -126,8 +139,8 @@
 	 	 		}
 	  	 	} else{
 	  	 		$scope.terminalcolumns = [];
-	  	 		$scope.terminalcolumns.push({title:"Name" ,data:"name"});
-				for(var i =2005 ; i<= 2020; i++){
+	  	 		$scope.terminalcolumns.push({title:"Name" ,data:"name"});  
+				for(var i =URL.displayFrom ; i<= URL.displayTo_2020; i++){
 					var terminalColObj = {
 							title:i.toString().toUpperCase(),
 							data:i
@@ -139,67 +152,355 @@
 					$scope.terminalDataList =[];
 				 
 					var obj = {
-						"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+						"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
 						"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
 	 				};
 					
-					for(var i in $scope.gridDataList.trainsOrVaporizers){
-						obj["name"]="Trains Or Vaporizers";
+					for(var i in $scope.gridDataList.cduCapacity){
+						obj["name"]="CDU Capacity (Kb/d)";
+						obj["desc"]="Refining Capacity(Kb/d)";
 						
-						if($scope.gridDataList.trainsOrVaporizers[i] != undefined ){
-							obj[i] = $scope.gridDataList.trainsOrVaporizers[i]; 
+						if($scope.gridDataList.cduCapacity[i] != undefined ){
+							obj[i] = $scope.gridDataList.cduCapacity[i]; 
 						}else{
 							obj[i] = "-" 
 						}
 			 		}
-					
-					$scope.terminalDataList.push(obj);
-					obj = {
-							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+				 	$scope.terminalDataList.push(obj);
+				 	
+				 	obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
 							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
 		 				};
-					
-					for(var i in $scope.gridDataList.storageCapacity){
-						obj["name"]="Storage Capacity";
 						
-						if($scope.gridDataList.storageCapacity[i] != undefined ){
-							obj[i] = $scope.gridDataList.storageCapacity[i] 
-						}else{
-							obj[i] = "-" 
-						}
-			 		}
-					$scope.terminalDataList.push(obj);
-					obj = {
-							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+						for(var i in $scope.gridDataList.vduCapacity){
+							obj["name"]="VDU Capacity (Kb/d)";
+							obj["desc"]="VDU Capacity (Kb/d)";
+							
+							if($scope.gridDataList.vduCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.vduCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+				 	
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
 							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
 		 				};
-					 
-					
-					for(var i in $scope.gridDataList.processingCapacity){
-						obj["name"]="Processing Capacity";
 						
-						if($scope.gridDataList.processingCapacity[i] != undefined ){
-							obj[i] = $scope.gridDataList.processingCapacity[i] 
-						}else{
-							obj[i] = "-" 
-						}
-		 	 		}
-					$scope.terminalDataList.push(obj);
-					obj = {
-							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+						for(var i in $scope.gridDataList.cokingCapacity){
+							obj["name"]="Coking Capacity (Kb/d)";
+							obj["desc"]="Coking Capacity";
+							
+							if($scope.gridDataList.cokingCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.cokingCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+				 	
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
 							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
 		 				};
-					
-					for(var i in $scope.gridDataList.storageTanks){
-						obj["name"]="Storage Tanks";
 						
-						if($scope.gridDataList.storageTanks[i] != undefined ){
-							obj[i] = $scope.gridDataList.storageTanks[i] 
-						}else{
-							obj[i] = "-" 
-						}
-	  				}
-					$scope.terminalDataList.push(obj);
+						for(var i in $scope.gridDataList.fccCapacity){
+							obj["name"]="Fluid Catalytic Cracking Capacity (Kb/d)";
+							obj["desc"]="FCC (Kb/d)";
+							
+							if($scope.gridDataList.fccCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.fccCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.hydroCrackingCapacity){
+							obj["name"]="Hydrocracking Capacity (Kb/d)";
+							obj["desc"]="HydroCracking Capacity(Kb/D)";
+							
+							if($scope.gridDataList.hydroCrackingCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.hydroCrackingCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.crudeStorageOrTank){
+							obj["name"]="Crude Storage UNIT / Tanks No.";
+							obj["desc"]="Crude Storage UNIT / Tanks No.";
+							
+							if($scope.gridDataList.crudeStorageOrTank[i] != undefined ){
+								obj[i] = $scope.gridDataList.crudeStorageOrTank[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.crudeStorageCapacity){
+							obj["name"]="Crude Storage Capacity";
+							obj["desc"]="Crude Storage Capacity";
+							
+							if($scope.gridDataList.crudeStorageCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.crudeStorageCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.visbreakingCapacity){
+							obj["name"]="Visbreaking Capacity(Kb/d)";
+							obj["desc"]="Visbreaking Capacity(Kb/d)";
+							
+							if($scope.gridDataList.visbreakingCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.visbreakingCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.reformerCapacity){
+							obj["name"]="Reformer Capacity(Kb/d)";
+							obj["desc"]="Reformer Capacity(Kb/d)";
+							
+							if($scope.gridDataList.reformerCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.reformerCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.hydroTreatingCapacity){
+							obj["name"]="Hydrotreating capacity(kb/d)";
+							obj["desc"]="Hydrotreating capacity(kb/d)";
+							
+							if($scope.gridDataList.hydroTreatingCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.hydroTreatingCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.alkylationCapacity){
+							obj["name"]="Alkylation Capacity (Kb/d)";
+							obj["desc"]="Alkylation Capacity";
+							
+							if($scope.gridDataList.alkylationCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.alkylationCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.aromaticsCapacity){
+							obj["name"]="Aromatics Capacity (Kb/d)";
+							obj["desc"]="Aromatics Capacity";
+							
+							if($scope.gridDataList.aromaticsCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.aromaticsCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.isomerizationCapacity){
+							obj["name"]="Isomerization Capacity (Kb/d)";
+							obj["desc"]="Isomerization Capacity";
+							
+							if($scope.gridDataList.isomerizationCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.isomerizationCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.polymerizationCapacity){
+							obj["name"]="Polymerization Capacity (Kb/d)";
+							obj["desc"]="Polymerization Capacity";
+							
+							if($scope.gridDataList.polymerizationCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.polymerizationCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.lubesCapacity){
+							obj["name"]="Lubes Capacity (Kb/d)";
+							obj["desc"]="Lubes Capacity";
+							
+							if($scope.gridDataList.lubesCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.lubesCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.oxygenatesCapacity){
+							obj["name"]="Oxygenates Capacity (Kb/d)";
+							obj["desc"]="Oxygenates Capacity";
+							
+							if($scope.gridDataList.oxygenatesCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.oxygenatesCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.cokeCapacity){
+							obj["name"]="Coke Capacity (Kb/d)";
+							obj["desc"]="Coke Capacity";
+							
+							if($scope.gridDataList.cokeCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.cokeCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.sulphurCapacity){
+							obj["name"]="Sulphur Capacity (Kb/d)";
+							obj["desc"]="Sulphur Capacity";
+							
+							if($scope.gridDataList.sulphurCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.sulphurCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		
+			 		
+
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.hydrogenCapacity){
+							obj["name"]="Hydrogen Capacity (Kb/d)";
+							obj["desc"]="Hydrogen Capacity";
+							
+							if($scope.gridDataList.hydrogenCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.hydrogenCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
+			 		obj = {
+							"name":"","desc":"", "2000":"","2001":"","2002":"","2003":"","2004":"","2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+						
+						for(var i in $scope.gridDataList.asphaltCapacity){
+							obj["name"]="Asphalt Capacity (Kb/d)";
+							obj["desc"]="Asphalt Capacity";
+							
+							if($scope.gridDataList.asphaltCapacity[i] != undefined ){
+								obj[i] = $scope.gridDataList.asphaltCapacity[i]; 
+							}else{
+								obj[i] = "-" 
+							}
+				 		}
+			 		$scope.terminalDataList.push(obj);
+			 		
 		 	 	 
 		  	 		if ( $.fn.dataTable.isDataTable( '#terminalDatatable' ) ) {
 		 				tableInst = $('#terminalDatatable').DataTable();
