@@ -11,6 +11,29 @@ import org.json.simple.JSONObject;
 
 public class RefineriesJsonResponse {
 	
+	public String createInfrastructureRes(List<Map<String,String>> infraList)
+	{
+		
+		JSONObject infraJsonObj=new JSONObject();			
+		JSONArray infraArray=new JSONArray();
+		JSONObject infraDataObj=null;
+		for(Map<String,String> map:infraList)
+		{
+			infraDataObj=new JSONObject();
+			infraDataObj.put(TERMINALNAME,map.get(TERMINALNAME));
+			infraDataObj.put(LOCATION,map.get(LOCATION));
+			infraDataObj.put(STATUS,map.get(STATUS));
+			infraDataObj.put(STARTYEAR,map.get(STARTYEAR));
+			infraDataObj.put(OPERATOR, map.get(OPERATOR));
+			infraDataObj.put(CDUCAPACITY,map.get(CDUCAPACITY));
+			infraDataObj.put(COKINGCAPACITY,map.get(COKINGCAPACITY));
+			infraDataObj.put(FCCCAPACITY,map.get(FCCCAPACITY));
+			infraDataObj.put(HYDROCRACKINGCAPACITY,map.get(HYDROCRACKINGCAPACITY));			
+			infraArray.add(infraDataObj);
+		}
+		infraJsonObj.put(DATA_KEY, infraArray);
+		return infraJsonObj.toString();
+	}
 	public String createCapacityByCompany(Map<String,Map<Integer,Double>> capacityData,int startDate,int endDate)
 	{					
 		JSONArray capacityByCompany=new JSONArray();

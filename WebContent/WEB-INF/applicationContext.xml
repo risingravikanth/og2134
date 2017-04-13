@@ -51,7 +51,8 @@
 	</bean>
 	
 	<bean id="refineriesServiceImpl" class="com.oganalysis.service.impl.RefineriesServiceImpl">
-		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>			
+		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>
+		<property name="refineriesInfraBusinessServiceImpl" ref="refineriesInfraBusinessServiceImpl"/>			
 	</bean>
 	
 	<!-- BusinessServiceImpl -->
@@ -59,7 +60,7 @@
 		<property name="lngDao" ref="lngDao"/>
 		<property name="lngCache" ref="lngCache"/>			
 	</bean>
-	
+		
 	<bean id="lngInfraBusinessServiceImpl" class="com.oganalysis.business.impl.LngInfraBusinessServiceImpl">
 		<property name="lngDao" ref="lngDao"/>	
 		<property name="lngCache" ref="lngCache"/>	
@@ -78,9 +79,15 @@
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="refineriesCache" ref="refineriesCache"/>
 	</bean>
+	
+	<bean id="refineriesInfraBusinessServiceImpl" class="com.oganalysis.business.impl.RefineriesInfraBusinessServiceImpl">
+		<property name="refineriesDao" ref="refineriesDao"/>
+		<property name="refineriesCache" ref="refineriesCache"/>
+	</bean>
 	<!--  Cache Class -->
 	<bean id="refineriesCache" class="com.oganalysis.cache.RefineriesCache" init-method="initCache"><!-- init-method="initCache" -->
 		<property name="refineriesDao" ref="refineriesDao"/>
+		<property name="refineriesInfraBusinessService" ref="refineriesInfraBusinessServiceImpl"/>
 		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>

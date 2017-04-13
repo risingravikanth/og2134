@@ -2,7 +2,6 @@ package com.oganalysis.dao.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,14 +32,18 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		tx.begin();
 		Criteria criteria=session.createCriteria(RefineriesFilter.class);
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
+		
+		if(startDate!=0 && endDate!=0)	
+		{
+			List<String> terminals=null;
 			terminals=getTerminals(startDate, endDate);								
-					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+			else		
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		}
+			
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS)));		
 		List<String> list=(List<String>)criteria.list();
@@ -58,14 +61,18 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		tx.begin();
 		Criteria criteria=session.createCriteria(RefineriesFilter.class);
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)		
+		
+		if(startDate!=0 && endDate!=0)
+		{
+			List<String> terminals=null;
 			terminals=getTerminals(startDate, endDate);								
-					
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+			else		
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		}
+			
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));		
 		List<String> list=(List<String>)criteria.list();
@@ -84,17 +91,21 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		tx.begin();
 		Criteria criteria=session.createCriteria(RefineriesFilter.class);//RefineriesFilter.class
 		createFiltersCriteria(selectedOptions, criteria);
-		List<String> terminals=null;
-		if(startDate!=0 && endDate!=0)	
-			terminals=getTerminals(startDate, endDate);
 		
+		if(startDate!=0 && endDate!=0)
+		{
+			List<String> terminals=null;
+			terminals=getTerminals(startDate, endDate);
+			
 //			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
 //			criteria.add(capacityYearCriterion);
 															
-		if(terminals.size()>0)
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-		else		
-			criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			if(terminals.size()>0)
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+			else		
+				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+		}
+		
 		
 		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));		
 		List<String> list=(List<String>)criteria.list();
@@ -294,6 +305,25 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		session.close();
 		return list;
 	}
+	@Override
+	public List<String> getTerminals() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct name from RefineriesFilter order by name asc");				
+		List<String> list=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
+	@Override
+	public List<String> getSelectedTerminals(
+			Map<String, List<String>> selectedOptions) {
+		// TODO Auto-generated method stub
+		List<String> terminals=getSelectedTerminals(selectedOptions, 0,0);
+		return terminals;
+	}
 	private List<String> getEmptyList()
 	{
 		List<String> emptyList=new ArrayList<String>();
@@ -307,5 +337,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
+	
 			
 }

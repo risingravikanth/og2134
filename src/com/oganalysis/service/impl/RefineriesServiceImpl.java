@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.oganalysis.business.RefineriesCapacityBusinessService;
+import com.oganalysis.business.RefineriesInfraBusinessService;
 import com.oganalysis.helper.RefineriesJsonResponse;
 import com.oganalysis.service.RefineriesService;
 
 public class RefineriesServiceImpl implements RefineriesService {
 	
 	private RefineriesCapacityBusinessService refineriesCapacityBusinessServiceImpl;
+	private RefineriesInfraBusinessService refineriesInfraBusinessServiceImpl;
 	@Override
 	public String getRefineriesData(Map<String, List<String>> selectedOptions,
 			String startDate, String endDate, String displayType) {
@@ -67,6 +69,16 @@ public class RefineriesServiceImpl implements RefineriesService {
 								
 		return modalCapacityDataRes;
 	}
+	@Override
+	public String getInfrastructureData(
+			Map<String, List<String>> selectedOptions) {
+		// TODO Auto-generated method stub
+		String infrastructureDataRes=null;;
+		List<Map<String,String>> refineriesInfra=refineriesInfraBusinessServiceImpl.getInfrastructure(selectedOptions);
+		RefineriesJsonResponse jsonResponse=new RefineriesJsonResponse();
+		infrastructureDataRes=jsonResponse.createInfrastructureRes(refineriesInfra);
+		return infrastructureDataRes;
+	}
 	public RefineriesCapacityBusinessService getRefineriesCapacityBusinessServiceImpl() {
 		return refineriesCapacityBusinessServiceImpl;
 	}
@@ -74,7 +86,12 @@ public class RefineriesServiceImpl implements RefineriesService {
 			RefineriesCapacityBusinessService refineriesCapacityBusinessServiceImpl) {
 		this.refineriesCapacityBusinessServiceImpl = refineriesCapacityBusinessServiceImpl;
 	}
-	
-	
+	public RefineriesInfraBusinessService getRefineriesInfraBusinessServiceImpl() {
+		return refineriesInfraBusinessServiceImpl;
+	}
+	public void setRefineriesInfraBusinessServiceImpl(
+			RefineriesInfraBusinessService refineriesInfraBusinessServiceImpl) {
+		this.refineriesInfraBusinessServiceImpl = refineriesInfraBusinessServiceImpl;
+	}			
 	
 }

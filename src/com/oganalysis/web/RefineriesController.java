@@ -57,6 +57,16 @@ public class RefineriesController {
 		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/infrastructure",method={RequestMethod.GET})
+	public String getRefineriesInfrastructureData(HttpServletRequest req)
+	{
+		
+		String response=null;
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);			
+		response=refineriesServiceImpl.getInfrastructureData(selectedOptions);				
+		return response;
+	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

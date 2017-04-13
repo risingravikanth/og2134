@@ -6,16 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.oganalysis.business.RefineriesInfraBusinessService;
 import com.oganalysis.dao.RefineriesDao;
 import com.oganalysis.entities.RefineriesFilter;
 import com.oganalysis.entities.Refinery;
 
 public class RefineriesCache {
+	private RefineriesInfraBusinessService refineriesInfraBusinessService;
 	private RefineriesDao refineriesDao;
 	private Map<String,Double> terminalsYearCapacity;
 	private Map<String,List<String>> companyTerminals;
 	private Map<String,List<String>> countryTerminals;
 	private Map<String,Double> companyStakeForTerminal;
+	private Map<String,Map<String,String>> infrastructure;
 
 	private int startYear;
 	private int endYear;
@@ -25,9 +28,10 @@ public class RefineriesCache {
 		terminalsYearCapacity=createTerminalsYearCapacity();
 		companyTerminals=createCompanyTerminals();
 		companyStakeForTerminal=createCompanyStakeForTerminal();
-		countryTerminals=createCountryTerminals();		
+		countryTerminals=createCountryTerminals();	
+		infrastructure=createInfrastructure();
 	}
-
+	
 	public Map<String,Double> createTerminalsYearCapacity()
 	{
 		Map<String,Double> terminalsYearCapacityMap=new HashMap<String, Double>();
@@ -76,6 +80,12 @@ public class RefineriesCache {
 			companyStakeForTerminal.put(key, refineriesFilter.getCurrentEquityStakes());
 		}
 		return companyStakeForTerminal;
+	}
+	public Map<String,Map<String,String>> createInfrastructure()
+	{		
+		List<String> terminals=refineriesDao.getTerminals();		
+		Map<String,Map<String,String>> infrastructureMap=refineriesInfraBusinessService.createInfrastructure(terminals);		
+		return infrastructureMap;
 	}
 	public void resetCache()
 	{
@@ -131,6 +141,23 @@ public class RefineriesCache {
 	}
 	public void setEndYear(int endYear) {
 		this.endYear = endYear;
+	}
+
+	public RefineriesInfraBusinessService getRefineriesInfraBusinessService() {
+		return refineriesInfraBusinessService;
+	}
+
+	public void setRefineriesInfraBusinessService(
+			RefineriesInfraBusinessService refineriesInfraBusinessService) {
+		this.refineriesInfraBusinessService = refineriesInfraBusinessService;
+	}
+
+	public Map<String, Map<String, String>> getInfrastructure() {
+		return infrastructure;
+	}
+
+	public void setInfrastructure(Map<String, Map<String, String>> infrastructure) {
+		this.infrastructure = infrastructure;
 	}
 	
 	

@@ -28,5 +28,10 @@ public interface RefineriesDao {
 	public List<String> getCountries();	
 	public List<String> getCountryTerminals(String country);
 	public List<String> getCompanyTerminals(String company);
+	public List<String> getTerminals();
+	
+	//Infra
+	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions);
+	
 			
 }
