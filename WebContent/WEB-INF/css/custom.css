@@ -45,3 +45,7 @@
 #liquefaction_filter,#regasification_filter,#liquefaction_paginate,#regasification_paginate{
 	
 }
+dl {
+    margin-top: 10px !important;
+    margin-bottom: 20px;
+}

@@ -40,6 +40,11 @@
         templateUrl: 'views/refineries.html',
 		controller:"RefineriesCtrl"
 	  })
+	  .state('refineries/infrastructure', {
+        url:'/refineries/infrastructure',
+        templateUrl: 'views/refineriesInfra.html',
+		controller:"RefineriesInfraCtrl"
+	  })
 	   .state('storage', {
         url:'/storage',
         templateUrl: 'views/commonpage.html',

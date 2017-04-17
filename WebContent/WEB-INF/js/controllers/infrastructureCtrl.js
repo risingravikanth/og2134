@@ -47,6 +47,199 @@
 	 	];
 	};
 	
+	openModel = function(inputName,type,event){
+		
+		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
+ 			$rootScope.table.modelDatatableInst.destroy();
+ 			$("#modelDatatable").empty();
+ 		}
+		
+		if($rootScope.table.terminalDatatableInst != undefined && $rootScope.table.terminalDatatableInst != "" && $rootScope.searchFilterObj.displayType == "terminal" ){
+ 			$rootScope.table.terminalDatatableInst.destroy();
+ 			$("#terminalDatatable").empty();
+ 		}
+		
+		var modalReq = angular.copy($rootScope.searchFilterObj);
+		modalReq['recordName']= inputName;
+		modalReq['type']= type;
+ 		//modalReq['startDate']= URL.currentYear;
+		//modalReq['endDate']= URL.displayTo;
+		modalReq['displayType']= "terminal";
+	 	
+		for(var key in $rootScope.capacityFilterJSON){
+			modalReq[key] = $rootScope.capacityFilterJSON[key];
+  		}
+		
+		HttpService.get("/modalcapacity",modalReq).then(function(resp) {
+			$scope.gridDataList = angular.copy(resp);
+			
+			if(resp != "" && resp != undefined ){
+					resp = resp;
+				}else{
+					resp = [];
+				}
+		 
+	 		$scope.modelcolumns =[];
+	 		
+	 		if(resp['terminal'] != undefined && resp['terminal'].length != 0){
+	  		 	
+	 			if(resp != undefined){
+					var columnName = 'Terminal'
+					$scope.modelcolumns.push({title:columnName  ,data:"name"});
+					for(var key in resp['terminal'][0]){
+						if(key != "name"){
+							var colObj = {
+									title:key.toUpperCase(),
+									data:key
+							};
+							
+							$scope.modelcolumns.push(colObj);
+						}
+			 	  	}
+		 		}
+	 			
+	 			$scope.ModelDataList = [];
+				 
+				if(resp.type =="Liquefaction"){
+			 		$scope.ModelDataList = resp['terminal'];
+			 		var tempCapacity = resp.totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.ModelDataList.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.ModelDataList.slice();
+			 	 	$scope.ModelDataList = [];
+			 	 	$scope.ModelDataList = reverseOrder.reverse();
+			 	 	
+				}else if(resp.type =="Regasification"){
+				 	$scope.ModelDataList = resp['terminal'];
+				 	
+				 	var tempCapacity = resp.totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.ModelDataList.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.ModelDataList.slice();
+			 	 	$scope.ModelDataList = [];
+			 	 	$scope.ModelDataList = reverseOrder.reverse();
+				}
+					
+				 
+	 			
+	 			if ( $.fn.dataTable.isDataTable( '#modelDatatable') ) {
+	 				tableInst = $('#modelDatatable').DataTable();
+	 	 		}
+	 	 		else {
+			 
+		 			var tableInst = $("#modelDatatable").DataTable({
+					 	scrollX: true,
+					 	columns: $scope.modelcolumns,
+						data :$scope.ModelDataList 
+					});
+		 			//tableInst.columns.adjust().draw();
+		 			$timeout(function(){
+		 				tableInst.draw()
+		 			},100);
+		 			
+		 			$rootScope.table.modelDatatableInst = tableInst;
+	 	 		}
+	  	 	} else{
+	  	 		$scope.terminalcolumns = [];
+	  	 		$scope.terminalcolumns.push({title:"Name" ,data:"name"});
+				for(var i =2005 ; i<= 2020; i++){
+					var terminalColObj = {
+							title:i.toString().toUpperCase(),
+							data:i
+					};
+					 
+			 		$scope.terminalcolumns.push(terminalColObj)
+				}
+				
+					$scope.terminalDataList =[];
+				 
+					var obj = {
+						"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+						"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+	 				};
+					
+					for(var i in $scope.gridDataList.trainsOrVaporizers){
+						obj["name"]="Trains Or Vaporizers";
+						
+						if($scope.gridDataList.trainsOrVaporizers[i] != undefined ){
+							obj[i] = $scope.gridDataList.trainsOrVaporizers[i]; 
+						}else{
+							obj[i] = "-" 
+						}
+			 		}
+					
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					
+					for(var i in $scope.gridDataList.storageCapacity){
+						obj["name"]="Storage Capacity";
+						
+						if($scope.gridDataList.storageCapacity[i] != undefined ){
+							obj[i] = $scope.gridDataList.storageCapacity[i] 
+						}else{
+							obj[i] = "-" 
+						}
+			 		}
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					 
+					
+					for(var i in $scope.gridDataList.processingCapacity){
+						obj["name"]="Processing Capacity";
+						
+						if($scope.gridDataList.processingCapacity[i] != undefined ){
+							obj[i] = $scope.gridDataList.processingCapacity[i] 
+						}else{
+							obj[i] = "-" 
+						}
+		 	 		}
+					$scope.terminalDataList.push(obj);
+					obj = {
+							"name":"", "2005":"","2006":"","2007":"","2008":"","2009":"","2010":"","2011":"","2012":"","2013":"",
+							"2014":"","2015":"","2016":"","2017":"","2018":"","2019":"","2020":""
+		 				};
+					
+					for(var i in $scope.gridDataList.storageTanks){
+						obj["name"]="Storage Tanks";
+						
+						if($scope.gridDataList.storageTanks[i] != undefined ){
+							obj[i] = $scope.gridDataList.storageTanks[i] 
+						}else{
+							obj[i] = "-" 
+						}
+	  				}
+					$scope.terminalDataList.push(obj);
+		 	 	 
+		  	 		if ( $.fn.dataTable.isDataTable( '#terminalDatatable' ) ) {
+		 				tableInst = $('#terminalDatatable').DataTable();
+		 	 		}
+		 	 		else {
+				 
+		 			var terminaltableInst = $("#terminalDatatable").DataTable({
+				 		scrollX: true,
+						bFilter:false,
+						columns: $scope.terminalcolumns,
+						bPaginate:false,
+						data :$scope.terminalDataList 
+					});
+		 			
+		 			$rootScope.table.terminalDatatableInst = terminaltableInst;
+	 	 		}
+ 	  	 	}
+		});
+		
+		$('#terminalDatatable th').click();
+		$('#myModal').modal("show");
+ 	};
+	
 	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
  			$rootScope.table.liquefactionInst.destroy();
@@ -79,8 +272,8 @@
  					// this case `data: 0`.
  					"render": function ( data, type, row ) {
  						var commonHref = "";
- 				 			commonHref =  '<p>'+data+'</p>';
- 				 		return commonHref;
+ 			 	 			commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
+ 		 		  		return commonHref;
  					},
  
  					"targets": 0
@@ -111,7 +304,8 @@
 	 				// this case `data: 0`.
 	 				"render": function ( data, type, row ) {
 	 				 		var commonHref =  '<p>'+data+'</p>';
-	 				 		return commonHref;
+	 						commonHref =  '<a recordName="'+data+'"  type="regasification"  class="openModel">'+data +'</a>';
+	 	 		 		return commonHref;
 	 				},
  
 	 				"targets": 0
@@ -123,6 +317,22 @@
 	 				 });
 	 			$rootScope.table.regasificationInst = regasificationInst;
 	 		}
+	 		
+ 			$("#liquefaction").unbind( "click" );
+	 	 	
+			$("#liquefaction").on("click", "td .openModel",function(e){
+			  	openModel(e.currentTarget.getAttribute('recordName'),'liquefaction',e);
+				e.preventDefault();
+				e.stopPropagation(); 
+			});
+			
+			$("#regasification").unbind( "click" );
+			
+			$("#regasification").on("click", "td .openModel",function(e){
+				openModel(e.currentTarget.getAttribute('recordName'),'regasification',e);
+				e.preventDefault();
+				e.stopPropagation(); 
+			});
 		 			
   	};
   	
@@ -262,8 +472,9 @@
 				modelDatatableInst:"",
 				terminalDatatableInst:""
 		};
+		 
 		$rootScope.searchFilterObj = {
- 		};
+	 	};
 		
 		$scope.setConfigurations();
 		
@@ -293,17 +504,17 @@
 	 			$scope.gridDataList = [];
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
-			 		for(var k=0; k < resp.length; k++){
-			 			if(resp[k].type == URL.liquefactionType){
+					for(var k=0; k < resp.length; k++){
+						if(resp[k].type == URL.liquefactionType){
 					 		$scope.liquefactionData = resp[k]['data'];
 	 					}
 
 						if(resp[k].type == URL.regasificationType){
 						 	$scope.regasificationData = resp[k]['data'];
 			 			}
-			 		}
-			 		
-					$rootScope.inItDataTable();
+						
+					}
+	 		 		$rootScope.inItDataTable();
 	 			}
 	 		});
 		}
