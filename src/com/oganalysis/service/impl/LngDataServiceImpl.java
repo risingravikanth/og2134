@@ -54,8 +54,13 @@ public class LngDataServiceImpl implements LngDataService{
 		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
 		LngJsonResponse lngJsonResponse=new LngJsonResponse();
 		JSONObject modalCapacityDataRes=null;
-		int startDateVal=Integer.parseInt(startDate);
-		int endDateVal=Integer.parseInt(endDate);
+		int startDateVal=0;
+		int endDateVal=0;
+		if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL))
+		{
+			startDateVal=Integer.parseInt(startDate);
+			endDateVal=Integer.parseInt(endDate);
+		}		
 		
 		if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL) && null!=type && LNG_LIQUEFACTION.equalsIgnoreCase(type))
 		{

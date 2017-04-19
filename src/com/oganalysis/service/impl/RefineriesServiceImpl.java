@@ -52,11 +52,11 @@ public class RefineriesServiceImpl implements RefineriesService {
 		Map<String,Map<Integer,Double>> modalCapacityData=new HashMap<String, Map<Integer,Double>>();		
 		RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
 		String modalCapacityDataRes=null;
-		int startDateVal=Integer.parseInt(startDate);
-		int endDateVal=Integer.parseInt(endDate);
-		
+				
 		if(null!=displayType && !displayType.equalsIgnoreCase(TERMINAL))
 		{
+			int startDateVal=Integer.parseInt(startDate);
+			int endDateVal=Integer.parseInt(endDate);
 			modalCapacityData=refineriesCapacityBusinessServiceImpl.getModalCapacityForRecord(selectedOptions,startDateVal, endDateVal,displayType,recordName);
 			modalCapacityDataRes=jsonRes.createCapacityByTerminal(modalCapacityData, startDateVal, endDateVal);
 		}			
