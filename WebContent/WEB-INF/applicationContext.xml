@@ -31,7 +31,8 @@
 	<!-- Service Layer -->
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
 		<property name="filterDataDao" ref="filterDataDao"/>
-		<property name="lngDao" ref="lngDao"/>		
+		<property name="lngDao" ref="lngDao"/>
+		<property name="refineriesDao" ref="refineriesDao"/>		
 	</bean>
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>

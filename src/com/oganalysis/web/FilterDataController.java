@@ -47,27 +47,51 @@ public class FilterDataController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/locations",method={RequestMethod.GET})
-	public String getLocations()
+	@RequestMapping(value="/lng/locations",method={RequestMethod.GET})
+	public String getLngLocations()
 	{			
 		
-		String response=filterDataServiceImpl.getLocations();		
+		String response=filterDataServiceImpl.getLngLocations();		
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/operators",method={RequestMethod.GET})
-	public String getOperator()
+	@RequestMapping(value="/lng/operators",method={RequestMethod.GET})
+	public String getLngOperators()
 	{			
 		
-		String response=filterDataServiceImpl.getOperator();		
+		String response=filterDataServiceImpl.getLngOperators();		
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/owners",method={RequestMethod.GET})
-	public String getOwners()
+	@RequestMapping(value="/lng/owners",method={RequestMethod.GET})
+	public String getLngOwners()
 	{			
 		
-		String response=filterDataServiceImpl.getOwners();		
+		String response=filterDataServiceImpl.getLngOwners();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/refineries/locations",method={RequestMethod.GET})
+	public String getRefineryLocations()
+	{			
+		
+		String response=filterDataServiceImpl.getRefineryLocations();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/refineries/operators",method={RequestMethod.GET})
+	public String getRefineryOperators()
+	{			
+		
+		String response=filterDataServiceImpl.getRefineryOperators();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/refineries/owners",method={RequestMethod.GET})
+	public String getRefineryOwners()
+	{			
+		
+		String response=filterDataServiceImpl.getRefineryOwners();		
 		return response;
 	}
 	public FilterDataService getFilterDataServiceImpl() {

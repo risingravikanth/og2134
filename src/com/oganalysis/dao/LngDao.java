@@ -15,7 +15,7 @@ public interface LngDao {
 	
 	//Below is for filters
 	List<String> getLocations();
-	List<String> getOperator();
+	List<String> getOperators();
 	List<String> getOwners();
 				
 	List<String> getSelectedCompanies(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);

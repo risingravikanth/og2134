@@ -45,12 +45,12 @@ public class LngDaoImpl implements LngDao {
 	}
 
 	@Override
-	public List<String> getOperator() {
+	public List<String> getOperators() {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		Query query=session.createQuery("select distinct operator from Lng order by operator asc");
+		Query query=session.createQuery("select distinct operator from Lng where operator!=' ' order by operator asc");
 		List<String> operators=(List<String>)query.list();				
 		tx.commit();
 		session.close();
@@ -62,7 +62,7 @@ public class LngDaoImpl implements LngDao {
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();		
-		Query query=session.createQuery("select distinct equityPartners from Lng order by equityPartners asc");
+		Query query=session.createQuery("select distinct equityPartners from Lng where equityPartners!=' ' order by equityPartners asc");
 		List<String> owners=(List<String>)query.list();				
 		tx.commit();
 		session.close();

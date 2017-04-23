@@ -5,7 +5,10 @@ public interface FilterDataService {
 	public String getCountries();
 	public String getStatus();
 	public String getType();
-	public String getLocations();
-	public String getOperator();
-	public String getOwners();
+	public String getLngLocations();
+	public String getLngOperators();
+	public String getLngOwners();
+	public String getRefineryLocations();
+	public String getRefineryOperators();
+	public String getRefineryOwners();
 }

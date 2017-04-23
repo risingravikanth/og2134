@@ -324,6 +324,42 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		List<String> terminals=getSelectedTerminals(selectedOptions, 0,0);
 		return terminals;
 	}
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct location from Refinery where location!=' ' order by location asc");
+		List<String> locations=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return locations;
+	}
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct currentOperator from Refinery where currentOperator!=' ' order by currentOperator asc");
+		List<String> operators=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return operators;
+	}
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Query query=session.createQuery("select distinct currentEquityPartners from Refinery where currentEquityPartners!=' ' order by currentEquityPartners asc");
+		List<String> owners=(List<String>)query.list();
+		tx.commit();
+		session.close();
+		return owners;
+	}
 	private List<String> getEmptyList()
 	{
 		List<String> emptyList=new ArrayList<String>();
@@ -337,7 +373,5 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
-	
-			
+								
 }
