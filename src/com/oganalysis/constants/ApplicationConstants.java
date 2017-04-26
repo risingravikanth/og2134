@@ -181,4 +181,6 @@ public interface ApplicationConstants {
 	public static final String REFINERYUTILIZATIONRATE="refineryUtilizationRate";
 	public static final String OTHERSNAMESOFREFINERY="otherNamesOfRefinery";
 	
+	//Exception
+	public static final String ERROR_MSG="error";
 }
