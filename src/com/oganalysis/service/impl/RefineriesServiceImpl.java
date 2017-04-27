@@ -23,25 +23,26 @@ public class RefineriesServiceImpl implements RefineriesService {
 		// TODO Auto-generated method stub
 		int startDateVal=Integer.parseInt(startDate);
 		int endDateVal=Integer.parseInt(endDate);
+		String response=null;
 		if(null!=displayType && COMPANY.equalsIgnoreCase(displayType))
 		{
 			Map<String,Map<Integer,Double>> companiesCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByCompany(selectedOptions, startDateVal, endDateVal);
 			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
-			return jsonRes.createCapacityByCompany(companiesCapacity, startDateVal, endDateVal);			
+			response=jsonRes.createCapacityByCompany(companiesCapacity, startDateVal, endDateVal);			
 		}	
 		else if(null!=displayType && COUNTRY.equalsIgnoreCase(displayType))
 		{	
 			Map<String,Map<Integer,Double>> countriesCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByCountry(selectedOptions, startDateVal, endDateVal);
 			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
-			return jsonRes.createCapacityByCountry(countriesCapacity, startDateVal, endDateVal);
+			response=jsonRes.createCapacityByCountry(countriesCapacity, startDateVal, endDateVal);
 		}
 		else if(null!=displayType && TERMINAL.equalsIgnoreCase(displayType))
 		{	
 			Map<String,Map<Integer,Double>> terminalsCapacity=refineriesCapacityBusinessServiceImpl.getCapacityByTerminal(selectedOptions, startDateVal, endDateVal);
 			RefineriesJsonResponse jsonRes=new RefineriesJsonResponse();
-			return jsonRes.createCapacityByTerminal(terminalsCapacity, startDateVal, endDateVal);
+			response=jsonRes.createCapacityByTerminal(terminalsCapacity, startDateVal, endDateVal);
 		}
-		return null;
+		return response;
 		
 	}
 	@Override

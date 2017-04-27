@@ -31,18 +31,12 @@ public class LngDataServiceImpl implements LngDataService{
 		// TODO Auto-generated method stub
 		
 		String capacityDataRes=null;
-		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))
-		{
-			capacityDataRes=getCapacityByCountry(selectedOptions,startDate,endDate);
-		}
-		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
-		{
-			capacityDataRes=getCapacityByTerminal(selectedOptions,startDate,endDate);
-		}
-		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))
-		{
-			capacityDataRes=getCapacityByCompany(selectedOptions,startDate,endDate);
-		}
+		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))		
+			capacityDataRes=getCapacityByCountry(selectedOptions,startDate,endDate);		
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))		
+			capacityDataRes=getCapacityByTerminal(selectedOptions,startDate,endDate);		
+		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))		
+			capacityDataRes=getCapacityByCompany(selectedOptions,startDate,endDate);		
 		
 		return capacityDataRes;
 	}
