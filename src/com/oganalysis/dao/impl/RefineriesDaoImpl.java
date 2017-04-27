@@ -27,58 +27,76 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
-		createFiltersCriteria(selectedOptions, criteria);
-		
-		if(startDate!=0 && endDate!=0)	
+		List<String> selectedCompanies=null;
+		Session session=null;
+		try
 		{
-			List<String> terminals=null;
-			terminals=getTerminals(startDate, endDate);								
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			selectedCompanies=new ArrayList<String>();
+			tx.begin();
+			Criteria criteria=session.createCriteria(RefineriesFilter.class);
+			createFiltersCriteria(selectedOptions, criteria);
 			
-			if(terminals.size()>0)
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-			else		
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			if(startDate!=0 && endDate!=0)	
+			{
+				List<String> terminals=null;
+				terminals=getTerminals(startDate, endDate);								
+				
+				if(terminals.size()>0)
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+				else		
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			}				
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS)));		
+			selectedCompanies=(List<String>)criteria.list();
+			tx.commit();
 		}
-			
-		
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS)));		
-		List<String> list=(List<String>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return selectedCompanies;
 	}	
 	@Override
 	public List<String> getSelectedCountries(
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);
-		createFiltersCriteria(selectedOptions, criteria);
-		
-		if(startDate!=0 && endDate!=0)
+		Session session=null;
+		List<String> selectedCountries=null;
+		try
 		{
-			List<String> terminals=null;
-			terminals=getTerminals(startDate, endDate);								
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			selectedCountries=new ArrayList<String>();
+			tx.begin();
+			Criteria criteria=session.createCriteria(RefineriesFilter.class);
+			createFiltersCriteria(selectedOptions, criteria);
 			
-			if(terminals.size()>0)
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-			else		
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			if(startDate!=0 && endDate!=0)
+			{
+				List<String> terminals=null;
+				terminals=getTerminals(startDate, endDate);								
+				
+				if(terminals.size()>0)
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+				else		
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			}
+				
+			
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));		
+			selectedCountries=(List<String>)criteria.list();
+			tx.commit();
 		}
-			
-		
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));		
-		List<String> list=(List<String>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return selectedCountries;
 	}
 
 	@Override
@@ -86,67 +104,96 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Map<String, List<String>> selectedOptions, int startDate,
 			int endDate) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(RefineriesFilter.class);//RefineriesFilter.class
-		createFiltersCriteria(selectedOptions, criteria);
-		
-		if(startDate!=0 && endDate!=0)
+		Session session=null;
+		List<String> selectedTerminals=null;
+		try
 		{
-			List<String> terminals=null;
-			terminals=getTerminals(startDate, endDate);
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			selectedTerminals=new ArrayList<String>();
+			tx.begin();
+			Criteria criteria=session.createCriteria(RefineriesFilter.class);//RefineriesFilter.class
+			createFiltersCriteria(selectedOptions, criteria);
 			
-//			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-//			criteria.add(capacityYearCriterion);
-															
-			if(terminals.size()>0)
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
-			else		
-				criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			if(startDate!=0 && endDate!=0)
+			{
+				List<String> terminals=null;
+				terminals=getTerminals(startDate, endDate);
+				
+//				Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
+//				criteria.add(capacityYearCriterion);
+																
+				if(terminals.size()>0)
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,terminals));
+				else		
+					criteria.add(Restrictions.in(RESTRICTION_PROPERTY_NAME,getEmptyList()));
+			}
+			
+			
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));		
+			selectedTerminals=(List<String>)criteria.list();
+			tx.commit();
 		}
-		
-		
-		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));		
-		List<String> list=(List<String>)criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return selectedTerminals;
 	}
 	public List<String> getTerminals(int startYear,int endYear)
 	{
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		List<String> list=new ArrayList<String>();
-		tx.begin();
-//		Criteria criteria=session.createCriteria(Refinery.class);	
-		
-		if(startYear!=0 && endYear!=0)
+		List<String> terminals=null;
+		Session session=null;
+		try
 		{
-						
-			Query query=session.createQuery("select distinct name from Refinery where capacityYear between :startYear and :endYear");
-			query.setParameter("startYear", startYear);
-			query.setParameter("endYear", endYear);
-			list=(List<String>)query.list();
-//			Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
-//			criteria.add(capacityYearCriterion);
-		}					
-//		criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
-		
-		tx.commit();
-		session.close();
-		return list;
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			terminals=new ArrayList<String>();
+			tx.begin();
+//			Criteria criteria=session.createCriteria(Refinery.class);	
+			
+			if(startYear!=0 && endYear!=0)
+			{
+							
+				Query query=session.createQuery("select distinct name from Refinery where capacityYear between :startYear and :endYear");
+				query.setParameter("startYear", startYear);
+				query.setParameter("endYear", endYear);
+				terminals=(List<String>)query.list();
+//				Criterion capacityYearCriterion=Restrictions.between(RESTRICTION_PROPERTY_CAPACITYYEAR, startDate, endDate);
+//				criteria.add(capacityYearCriterion);
+			}					
+//			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_NAME)));
+			
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}				
+		return terminals;
 	}	
 	public List<RefineriesFilter> getRefineriesFilter()
 	{
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("from RefineriesFilter");//RefineriesFilter.class);						
-		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<RefineriesFilter> refineriesFilter=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			refineriesFilter=new ArrayList<RefineriesFilter>();
+			tx.begin();
+			Query query=session.createQuery("from RefineriesFilter");//RefineriesFilter.class);						
+			refineriesFilter=(List<RefineriesFilter>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}				
+		return refineriesFilter;
 	}
 	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
 	{
@@ -203,119 +250,209 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	@Override
 	public List<Refinery> getTerminalData(String terminalName) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("from Refinery where name=:name");
-		query.setParameter("name",terminalName);
-		List<Refinery> list=(List<Refinery>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<Refinery> refinery=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			refinery=new ArrayList<Refinery>();
+			tx.begin();
+			Query query=session.createQuery("from Refinery where name=:name");
+			query.setParameter("name",terminalName);
+			refinery=(List<Refinery>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}				
+		return refinery;
 	}
 	@Override
 	public List<RefineriesFilter> getTerminalCompanies(String terminalName) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("from RefineriesFilter where name=:name and currentEquityPartners!=' '");
-		query.setParameter("name",terminalName);
-		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		List<RefineriesFilter> terminalCompanies=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			terminalCompanies=new ArrayList<RefineriesFilter>();
+			tx.begin();
+			Query query=session.createQuery("from RefineriesFilter where name=:name and currentEquityPartners!=' '");
+			query.setParameter("name",terminalName);
+			terminalCompanies=(List<RefineriesFilter>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}	
+		return terminalCompanies;
 	}
 	@Override
 	public List<RefineriesFilter> getTerminalHistoricCompanies(
 			String terminalName) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("from RefineriesFilter where name=:name and historicEquityPartners!=' '");
-		query.setParameter("name",terminalName);
-		List<RefineriesFilter> list=(List<RefineriesFilter>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		List<RefineriesFilter> terminalHistoricCompanies=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			terminalHistoricCompanies=new ArrayList<RefineriesFilter>();
+			tx.begin();
+			Query query=session.createQuery("from RefineriesFilter where name=:name and historicEquityPartners!=' '");
+			query.setParameter("name",terminalName);
+			terminalHistoricCompanies=(List<RefineriesFilter>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return terminalHistoricCompanies;
 	}
 	//Below one is for cache
 	@Override
 	public List<Refinery> getRefineries(int year) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("from Refinery where capacityYear=:year");
-		query.setParameter("year",year);
-		List<Refinery> list=(List<Refinery>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<Refinery> refineries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			refineries=new ArrayList<Refinery>();
+			tx.begin();
+			Query query=session.createQuery("from Refinery where capacityYear=:year");
+			query.setParameter("year",year);
+			refineries=(List<Refinery>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return refineries;
 	}
 	@Override
 	public List<String> getCompanies() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct currentEquityPartners from RefineriesFilter where currentEquityPartners!=' ' order by currentEquityPartners asc");		
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		List<String> companies=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			companies=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct currentEquityPartners from RefineriesFilter where currentEquityPartners!=' ' order by currentEquityPartners asc");		
+			companies=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}		
+		return companies;
 	}
 	@Override
 	public List<String> getCompanyTerminals(String company) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct name from RefineriesFilter where currentEquityPartners=:company order by name asc");	
-		query.setParameter("company",company);
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<String> companyTerminals=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			companyTerminals=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct name from RefineriesFilter where currentEquityPartners=:company order by name asc");	
+			query.setParameter("company",company);
+			companyTerminals=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}				
+		return companyTerminals;
 	}
 	
 	@Override
 	public List<String> getCountries() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct country from RefineriesFilter order by country asc");			
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<String> countries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countries=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from RefineriesFilter order by country asc");			
+			countries=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}		
+		return countries;
 	}	
 	@Override
 	public List<String> getCountryTerminals(String country) {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct name from RefineriesFilter where country=:country order by name asc");	
-		query.setParameter("country",country);
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<String> countryTermnials=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countryTermnials=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct name from RefineriesFilter where country=:country order by name asc");	
+			query.setParameter("country",country);
+			countryTermnials=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return countryTermnials;
 	}
 	@Override
 	public List<String> getTerminals() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct name from RefineriesFilter order by name asc");				
-		List<String> list=(List<String>)query.list();
-		tx.commit();
-		session.close();
-		return list;
+		List<String> terminals=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			terminals=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct name from RefineriesFilter order by name asc");				
+			terminals=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}		
+		return terminals;
 	}
 	@Override
 	public List<String> getSelectedTerminals(
@@ -327,37 +464,67 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	@Override
 	public List<String> getLocations() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct location from Refinery where location!=' ' order by location asc");
-		List<String> locations=(List<String>)query.list();
-		tx.commit();
-		session.close();
+		Session session=null;
+		List<String> locations=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			locations=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct location from Refinery where location!=' ' order by location asc");
+			locations=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}		
 		return locations;
 	}
 	@Override
 	public List<String> getOperators() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct currentOperator from Refinery where currentOperator!=' ' order by currentOperator asc");
-		List<String> operators=(List<String>)query.list();
-		tx.commit();
-		session.close();
+		Session session=null;
+		List<String> operators=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			operators=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct currentOperator from Refinery where currentOperator!=' ' order by currentOperator asc");
+			operators=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
 		return operators;
 	}
 	@Override
 	public List<String> getOwners() {
 		// TODO Auto-generated method stub
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Query query=session.createQuery("select distinct currentEquityPartners from Refinery where currentEquityPartners!=' ' order by currentEquityPartners asc");
-		List<String> owners=(List<String>)query.list();
-		tx.commit();
-		session.close();
+		Session session=null;
+		List<String> owners=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			owners=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct currentEquityPartners from Refinery where currentEquityPartners!=' ' order by currentEquityPartners asc");
+			owners=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
 		return owners;
 	}
 	private List<String> getEmptyList()
