@@ -847,20 +847,13 @@
 		 	 	$scope.liquefactionData = [];
 		 	 	$scope.liquefactionData = reverseOrder.reverse();
 	 		}
-		 
-		/*if(resp[k].type =="Regasification"){
-		 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-		 	
-		 	var tempCapacity = resp[k].totalCapacity;
-	 		tempCapacity.name = " Total";
-	 	 	$scope.regasificationData.push(tempCapacity);
-	 	 	
-	 	 	var reverseOrder = $scope.regasificationData.slice();
-	 	 	$scope.regasificationData = [];
-	 	 	$scope.regasificationData = reverseOrder.reverse();
-		}*/
-		
-		}
+ 		}
+	 		
+		if($scope.liquefactionData.length ==0){
+   			$scope.noDataAvailable = false;
+   		}else{
+   			$scope.noDataAvailable = true;
+   		}
   	}
 	
 	
@@ -897,6 +890,8 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		
+ 		$scope.noDataAvailable = true;
 		
 		
 		$scope.occurrenceOptions = [

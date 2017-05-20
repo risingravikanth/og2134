@@ -555,6 +555,13 @@
 			}
 			
 		}
+   		
+   		if($scope.regasificationData.length == 0 && $scope.liquefactionData.length ==0 ){
+   			$scope.noDataAvailable = false;
+   		}else{
+   			$scope.noDataAvailable = true;
+   		}
+   		
 	};
 	
 	
@@ -591,6 +598,8 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		
+ 		$scope.noDataAvailable = true;
 		
 		
 		$scope.occurrenceOptions = [

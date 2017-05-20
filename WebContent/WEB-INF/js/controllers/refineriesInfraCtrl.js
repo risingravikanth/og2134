@@ -751,6 +751,12 @@
    		if(resp['data'] != undefined && resp['data'].length >0){
 			$scope.liquefactionData = resp['data'];
 		}
+   		
+   		if($scope.liquefactionData.length ==0){
+   			$scope.noDataAvailable = false;
+   		}else{
+   			$scope.noDataAvailable = true;
+   		}
    	}
 	
 	
@@ -785,6 +791,8 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		
+ 		$scope.noDataAvailable = true;
  		
  		if($scope.url != ''){
 			var initailReq = angular.copy($rootScope.searchFilterObj)
