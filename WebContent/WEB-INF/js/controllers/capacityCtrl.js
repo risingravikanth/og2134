@@ -5,6 +5,7 @@
 	
  	$scope.setConfigurations = function(){
 	 		$scope.url = "/capacity";
+	 		$rootScope.loadLngFilter();
 			$rootScope.filterObj = {
 				regionField :true,
 				countryField :true,
@@ -256,52 +257,11 @@
 								}
 					 	  	}
 						}
-			 		 		
-			 			/*for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
-							var colObj = {
-									title:key.toUpperCase(),
-									data:key
-							};
-							
-							$scope.columns.push(colObj);
-					 	}*/
+			 	 
 						
 						$scope.gridDataList = [];
-						for(var k=0; k < resp.length; k++){
-							if(resp[k].type =="Liquefaction"){
-						 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-						 		var tempCapacity = resp[k].totalCapacity;
-						 		tempCapacity.name = " Total";
-						 	 	$scope.liquefactionData.push(tempCapacity);
-						 	 	
-						 	 	var reverseOrder = $scope.liquefactionData.slice();
-						 	 	$scope.liquefactionData = [];
-						 	 	$scope.liquefactionData = reverseOrder.reverse();
-						 	 	
-							}
-
-							if(resp[k].type =="Regasification"){
-							 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-							 	
-							 	var tempCapacity = resp[k].totalCapacity;
-						 		tempCapacity.name = " Total";
-						 	 	$scope.regasificationData.push(tempCapacity);
-						 	 	
-						 	 	var reverseOrder = $scope.regasificationData.slice();
-						 	 	$scope.regasificationData = [];
-						 	 	$scope.regasificationData = reverseOrder.reverse();
-							}
-							
-						}
-			 		//}
-				  	/*$rootScope.table.liquefactionInst.clear().draw();
-					$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
-					$rootScope.table.liquefactionInst.draw();
-					
-					$rootScope.table.regasificationInst.clear().draw();
-					$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
-					$rootScope.table.regasificationInst.draw();*/
-			 		$rootScope.inItDataTable();
+						$scope.loadTableData(resp);
+						$rootScope.inItDataTable();
 				 }
 		 	});
  		}else{
@@ -374,14 +334,7 @@
 				 
 				
 		 		$scope.columns =[];
-			 	/*for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
-					var colObj = {
-							title:key.toUpperCase(),
-							data:key
-					};
-					console.log(key.toUpperCase())
-					$scope.columns.push(colObj);
-			 	}*/
+			  
 		 		
 		 		if(resp[0] != undefined){
 					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
@@ -400,44 +353,10 @@
 		 		
 				
 				$scope.gridDataList = [];
-				for(var k=0; k < resp.length; k++){
-					if(resp[k].type =="Liquefaction"){
-				 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-				 		var tempCapacity = resp[k].totalCapacity;
-				 		tempCapacity.name = " Total";
-				 	 	$scope.liquefactionData.push(tempCapacity);
-				 	 	
-				 	 	var reverseOrder = $scope.liquefactionData.slice();
-				 	 	$scope.liquefactionData = [];
-				 	 	$scope.liquefactionData = reverseOrder.reverse();
-				 	 	
-					}
-
-					if(resp[k].type =="Regasification"){
-					 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-					 	
-					 	var tempCapacity = resp[k].totalCapacity;
-				 		tempCapacity.name = " Total";
-				 	 	$scope.regasificationData.push(tempCapacity);
-				 	 	
-				 	 	var reverseOrder = $scope.regasificationData.slice();
-				 	 	$scope.regasificationData = [];
-				 	 	$scope.regasificationData = reverseOrder.reverse();
-					}
-					
-				}
-			 	 
-			  	/*$rootScope.table.liquefactionInst.clear().draw();
-				$rootScope.table.liquefactionInst.rows.add($scope.liquefactionData);
-				$rootScope.table.liquefactionInst.draw();
-				
-				$rootScope.table.regasificationInst.clear().draw();
-				$rootScope.table.regasificationInst.rows.add($scope.regasificationData);
-				$rootScope.table.regasificationInst.draw();*/
+				$scope.loadTableData(resp);
+		 
 			 	$rootScope.inItDataTable();
-				
-				
-				
+ 				
 			 }
 	 	});
  	};
@@ -530,14 +449,7 @@
 			$("#liquefaction tbody tr:first").addClass('total-row');
 			$("#regasification tbody tr:first").addClass('total-row');
 			
-			/*$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
-		 	});
-			
-			$(document).delegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
-		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
-			});*/
-			
-		 
+ 		 
 			
 			$("#liquefaction").unbind( "click" );
 	 	 	
@@ -554,20 +466,7 @@
 				e.preventDefault();
 				e.stopPropagation(); 
 			});
-			
-			 
-		/*$(".openModel").off("click",function(e){
-		   	e.preventDefault();
-		    e.stopPropagation();
-		  });
-		  
-		  $(".openModel").on("click",function(e){
-			  openModel(e.currentTarget.getAttribute('recordName'),e.currentTarget.getAttribute('type'),e);
-			  e.preventDefault();
-			  e.stopPropagation();
-		  });*/
-			   
-			 
+ 	 			 
   	};
   	
   	$rootScope.resetFilter = function(){
@@ -616,42 +515,47 @@
 				 	  	}
 					}
 					$scope.gridDataList = [];
-					for(var k=0; k < resp.length; k++){
-						if(resp[k].type =="Liquefaction"){
-					 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-					 		
-					 		var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.liquefactionData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.liquefactionData.slice();
-					 	 	$scope.liquefactionData = [];
-					 	 	$scope.liquefactionData = reverseOrder.reverse();
-					 	 	
-						}
-						
-						if(resp[k].type =="Regasification"){
-						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-						 	
-						 	var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.regasificationData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.regasificationData.slice();
-					 	 	$scope.regasificationData = [];
-					 	 	$scope.regasificationData = reverseOrder.reverse();
-						}
-						
-					}
-			 		
+					$scope.loadTableData(resp);
 					$rootScope.inItDataTable();
 	 			}
 	 		});
 		}
- 		
- 		
- 		
    	};
+   	
+   	$scope.loadTableData = function(resp){
+   		 
+   		for(var k=0; k < resp.length; k++){
+			if(resp[k].type =="Liquefaction"){
+		 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
+		 		
+		 		if($scope.liquefactionData && $scope.liquefactionData.length > 0){
+			 		var tempCapacity = resp[k].totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.liquefactionData.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.liquefactionData.slice();
+			 	 	$scope.liquefactionData = [];
+			 	 	$scope.liquefactionData = reverseOrder.reverse();
+		 		}
+			}
+			
+			if(resp[k].type =="Regasification"){
+			 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
+			 	
+			 	if($scope.regasificationData && $scope.regasificationData.length > 0){
+			 		var tempCapacity = resp[k].totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.regasificationData.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.regasificationData.slice();
+			 	 	$scope.regasificationData = [];
+			 	 	$scope.regasificationData = reverseOrder.reverse();
+			 	}
+			 	
+			}
+			
+		}
+	};
 	
 	
 	
@@ -741,58 +645,8 @@
 				 	  	}
 					}
 					$scope.gridDataList = [];
-					for(var k=0; k < resp.length; k++){
-						if(resp[k].type =="Liquefaction"){
-					 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-					 		
-					 		var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.liquefactionData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.liquefactionData.slice();
-					 	 	$scope.liquefactionData = [];
-					 	 	$scope.liquefactionData = reverseOrder.reverse();
-					 	 	
-					 	 	/*$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "fffff"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "fff"});
-					 	 	$scope.liquefactionData.push({2017: 8.9, 2018: 8.9, 2019: 8.9, 2020: 8.9, 2021: "", 2022: "", name: "Australia"});
-							*/
-						}
-
-						if(resp[k].type =="Regasification"){
-						 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
-						 	
-						 	var tempCapacity = resp[k].totalCapacity;
-					 		tempCapacity.name = " Total";
-					 	 	$scope.regasificationData.push(tempCapacity);
-					 	 	
-					 	 	var reverseOrder = $scope.regasificationData.slice();
-					 	 	$scope.regasificationData = [];
-					 	 	$scope.regasificationData = reverseOrder.reverse();
-						}
-						
-					}
-					 
-			 		
-					$rootScope.inItDataTable();
+					$scope.loadTableData(resp);
+			 		$rootScope.inItDataTable();
 	 			}
 	 		});
 		}

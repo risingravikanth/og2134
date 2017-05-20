@@ -1,3 +1,19 @@
+
+ .full-content-wrapper{
+	 margin-left: 0px !important;
+	 transition: none 0s ease 0s ;
+ }
+ .full-content-wrapper, .right-side, .main-footer {
+    margin-left: 0px !important;
+	transition: none 0s ease 0s ;
+ }
+  .login-content-wrapper, .right-side, .main-footer {
+    margin-left: 0px !important;
+	transition: none 0s ease 0s ;
+	background-color :transparent;
+ }
+ 
+
 .filter-control{
 		padding: 0;
 } 

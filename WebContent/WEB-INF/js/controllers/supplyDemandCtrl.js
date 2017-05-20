@@ -50,8 +50,7 @@
 			 		$scope.liquefactionData = [];
 			 		$scope.regasificationData =[];
 			 		 
-			 		//if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
-			  		 	
+		 	  		 	
 			 		$scope.columns.push({title:"Country"  ,data:"country"});
 		 	 		if(resp.data != undefined && resp.data[0] != undefined){
 					 	for(var key in resp.data[0]){
@@ -231,19 +230,7 @@
 	 				 });
 	 			$rootScope.table.regasificationInst = regasificationInst;
 	 		}
-		 			
-		 
-			//$("#liquefaction tbody tr:first").addClass('total-row');
-			//$("#regasification tbody tr:first").addClass('total-row');
-			
-			/*$(document).undelegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
-		 	});
-			
-			$(document).delegate('.openModel', "click",function (event) {// <-- notice where the selector and event is
-		 		openModel(event.currentTarget.getAttribute('recordName'),event.currentTarget.getAttribute('type'));
-			});*/
-			
-			 
+ 			 
   	};
   	
   	$rootScope.resetFilter = function(){
@@ -296,10 +283,7 @@
 	 			}
 	 		});
 		}
- 		
- 		
- 		
-   	};
+ 	};
 	
 	
 	

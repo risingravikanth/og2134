@@ -703,7 +703,7 @@
 	 			$scope.gridDataList = [];
 				$scope.liquefactionData =[];
 				$scope.regasificationData =[];
-	 	 		$scope.liquefactionData = resp['data'];
+				$scope.loadTableData(resp);
 	 		 	$scope.regasificationData = [];
 		 	 	$rootScope.inItDataTable();
 	 	});
@@ -739,13 +739,19 @@
 					$scope.gridDataList = angular.copy(resp);
 		 			
 		 	 	 	$scope.gridDataList = [];
-		 	 		$scope.liquefactionData = resp['data'];
+		 	 	 	$scope.loadTableData(resp);
 			 	 	$scope.regasificationData = [];
 		 			$rootScope.inItDataTable();
 	 			}
 	 		});
 		}
    	};
+   	
+   	$scope.loadTableData = function(resp){
+   		if(resp['data'] != undefined && resp['data'].length >0){
+			$scope.liquefactionData = resp['data'];
+		}
+   	}
 	
 	
  	$scope.init = function(){
@@ -793,7 +799,7 @@
 	 			$scope.gridDataList = [];
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
-		 	 		$scope.liquefactionData = resp['data'];
+					$scope.loadTableData(resp);
 			 	 	$scope.regasificationData = [];
 			 		$rootScope.inItDataTable();
 	 			}

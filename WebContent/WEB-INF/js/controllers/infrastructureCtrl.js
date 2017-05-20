@@ -62,9 +62,7 @@
 		var modalReq = angular.copy($rootScope.searchFilterObj);
 		modalReq['recordName']= inputName;
 		modalReq['type']= type;
- 		//modalReq['startDate']= URL.currentYear;
-		//modalReq['endDate']= URL.displayTo;
-		modalReq['displayType']= "terminal";
+ 	 	modalReq['displayType']= "terminal";
 	 	
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
@@ -267,10 +265,7 @@
  		 	    },
  				"columnDefs": [
  				{
- 					// The `data` parameter refers to the data for the cell (defined by the
- 					// `data` option, which defaults to the column being worked with, in
- 					// this case `data: 0`.
- 					"render": function ( data, type, row ) {
+ 		 			"render": function ( data, type, row ) {
  						var commonHref = "";
  			 	 			commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
  		 		  		return commonHref;
@@ -299,10 +294,7 @@
 	 		 	    },
 	 				"columnDefs": [
 	 				{
-	 					// The `data` parameter refers to the data for the cell (defined by the
-	 				// `data` option, which defaults to the column being worked with, in
-	 				// this case `data: 0`.
-	 				"render": function ( data, type, row ) {
+	  				"render": function ( data, type, row ) {
 	 				 		var commonHref =  '<p>'+data+'</p>';
 	 						commonHref =  '<a recordName="'+data+'"  type="regasification"  class="openModel">'+data +'</a>';
 	 	 		 		return commonHref;
@@ -397,15 +389,7 @@
 				$scope.gridDataList = [];
 				$scope.liquefactionData =[];
 				$scope.regasificationData =[];
-				for(var k=0; k < resp.length; k++){
-					if(resp[k].type == URL.liquefactionType){
-				 		$scope.liquefactionData = resp[k]['data'];
- 					}
-
-					if(resp[k].type == URL.regasificationType){
-					 	$scope.regasificationData = resp[k]['data'];
-		 			}
-				}
+				$scope.loadTableData(resp);
 				$rootScope.inItDataTable();
 	 	});
  	};
@@ -440,22 +424,26 @@
 					$scope.gridDataList = angular.copy(resp);
 		 			
 		 	 	 	$scope.gridDataList = [];
-					for(var k=0; k < resp.length; k++){
-						if(resp[k].type == URL.liquefactionType){
-					 		$scope.liquefactionData = resp[k]['data'];
-	 					}
-
-						if(resp[k].type == URL.regasificationType){
-						 	$scope.regasificationData = resp[k]['data'];
-			 			}
-						
-					}
-			 		
-					$rootScope.inItDataTable();
+		 	 	 	$scope.loadTableData(resp);
+		 			$rootScope.inItDataTable();
 	 			}
 	 		});
 		}
    	};
+   	
+	$scope.loadTableData = function(resp){
+		
+		for(var k=0; k < resp.length; k++){
+			if(resp[k].type == URL.liquefactionType){
+		 		$scope.liquefactionData = resp[k]['data'];
+			}
+
+			if(resp[k].type == URL.regasificationType){
+			 	$scope.regasificationData = resp[k]['data'];
+ 			}
+			
+		}
+ 	};
 	
 	
  	$scope.init = function(){
@@ -504,16 +492,7 @@
 	 			$scope.gridDataList = [];
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
-					for(var k=0; k < resp.length; k++){
-						if(resp[k].type == URL.liquefactionType){
-					 		$scope.liquefactionData = resp[k]['data'];
-	 					}
-
-						if(resp[k].type == URL.regasificationType){
-						 	$scope.regasificationData = resp[k]['data'];
-			 			}
-						
-					}
+					$scope.loadTableData(resp);
 	 		 		$rootScope.inItDataTable();
 	 			}
 	 		});

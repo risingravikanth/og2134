@@ -6,6 +6,18 @@
   <title>OG Analysis</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  <style type="text/css">
+		  
+		  	
+		 .login-content-wrapper, .right-side, .main-footer {
+		    margin-left: 0px !important;
+			transition: none 0s ease 0s ;
+			background-color :transparent;
+		 }
+  </style>
+  
+  
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="./js/plugins/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -27,7 +39,8 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="./css/skins/_all-skins.min.css">
   
-   <link rel="stylesheet" href="./css/custom.css">
+  <link rel="stylesheet" href="bower_components/font-icons/style.css">
+  <link rel="stylesheet" href="./css/custom.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -81,11 +94,11 @@
 	<script src="./js/controllers/refineriesInfraCtrl.js"></script>
   
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini" ng-if="$state">
 <!-- Site wrapper  ( sidebar-collapse control-sidebar-open )-->
 <div class="wrapper">
 
-  <header class="main-header" ng-controller="HeaderCtrl" >
+  <header class="main-header" ng-controller="HeaderCtrl" ng-if="!$state.includes('login')">
     <!-- Logo -->
     <a  class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -162,7 +175,7 @@
   <!-- =============================================== -->
 
   <!-- Left side column. contains the sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar" ng-if="!$state.includes('login')">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel 
@@ -205,7 +218,7 @@
         
         <li class="treeview">
           <a href="javascript:void(0)">
-            <i class="fa fa-dashboard"></i> <span>LNG</span>
+            <i class="icon-ship"></i> <span>LNG</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -449,10 +462,10 @@
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-  
+    <div class="content-wrapper" ng-class="{ 'login-content-wrapper': $state.includes('login') }">
+  		
 		<div ui-view></div>
-   
+   		 
     </div>
   <!-- /.content-wrapper -->
 
