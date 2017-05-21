@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'ogicons';
+  src:  url('fonts/ogicons.eot?8wgflu');
+  src:  url('fonts/ogicons.eot?8wgflu#iefix') format('embedded-opentype'),
+    url('fonts/ogicons.ttf?8wgflu') format('truetype'),
+    url('fonts/ogicons.woff?8wgflu') format('woff'),
+    url('fonts/ogicons.svg?8wgflu#ogicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ogicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.og-size{
+	font-size:0.85em;
+}
+.icon-exploration:before {
+  content: "\e900";
+}
+.icon-lng:before {
+  content: "\e901";
+}
+.icon-pipeline:before {
+  content: "\e902";
+}
+.icon-production:before {
+  content: "\e903";
+}
+.icon-refineries:before {
+  content: "\e904";
+}
+.icon-storage:before {
+  content: "\e905";
+}
+
