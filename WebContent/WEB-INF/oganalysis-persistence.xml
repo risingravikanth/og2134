@@ -32,7 +32,7 @@
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdevdb -->
 		<property name="user" value="root"/>
-		<property name="password" value="root"/>
+		<property name="password" value="mysqlroot123"/><!-- mysqlroot123 ogr@@t123-->
 		
 		 		
   		<property name="maxPoolSize" value="50" />
@@ -62,6 +62,7 @@
 				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
 				<value>com/oganalysis/entities/Contracts.hbm.xml</value>
 				<value>com/oganalysis/entities/ContractsFilter.hbm.xml</value>
+				<value>com/oganalysis/entities/User.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -126,6 +127,10 @@
 	</bean>
 	
 	<bean id="refineriesDao" class="com.oganalysis.dao.impl.RefineriesDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="userDao" class="com.oganalysis.dao.impl.UserDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		

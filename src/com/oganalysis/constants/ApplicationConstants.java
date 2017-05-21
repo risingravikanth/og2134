@@ -183,4 +183,8 @@ public interface ApplicationConstants {
 	
 	//Exception
 	public static final String ERROR_MSG="error";
+	
+	//Login
+	public static final String INCORRECT="incorrect";
+	public static final String CORRECT="correct";
 }

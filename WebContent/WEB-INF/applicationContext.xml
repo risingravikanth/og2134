@@ -29,6 +29,9 @@
 	</bean>
 			
 	<!-- Service Layer -->
+	<bean id="loginServiceImpl" class="com.oganalysis.service.impl.LoginServiceImpl">
+		<property name="loginBusinessServiceImpl" ref="loginBusinessServiceImpl"/>			
+	</bean>
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
 		<property name="filterDataDao" ref="filterDataDao"/>
 		<property name="lngDao" ref="lngDao"/>
@@ -85,8 +88,12 @@
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="refineriesCache" ref="refineriesCache"/>
 	</bean>
+	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
+		<property name="userDao" ref="userDao"/>		
+	</bean>
+	<!-- BusinessServiceImpl -->
 	<!--  Cache Class -->
-	<bean id="refineriesCache" class="com.oganalysis.cache.RefineriesCache" init-method="initCache"><!-- init-method="initCache" -->
+	<bean id="refineriesCache" class="com.oganalysis.cache.RefineriesCache"><!-- init-method="initCache" -->
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="refineriesInfraBusinessService" ref="refineriesInfraBusinessServiceImpl"/>
 		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
@@ -103,6 +110,7 @@
 		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>
+	
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
 	<context:property-placeholder properties-ref="applicationProps" />

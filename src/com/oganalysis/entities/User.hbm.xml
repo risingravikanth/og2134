@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="User" table="user">
+		<id name="id">
+			<generator class="increment"/>
+		</id>
+		<property name="userName" type="string"/>
+		<property name="firstName" type="string"/>		
+		<property name="lastName" type="string"/>
+		<property name="mobile" type="string"/>
+		<property name="email" type="string"/>
+		<property name="address" type="string"/>
+		<property name="password" type="string"/>
+		<property name="admin" type="string"/>
+		<property name="role" type="string"/>
+		<property name="userImage" type="string" column="image"/>
+		<property name="passwordReset" type="string"/>
+	</class>
+	
+</hibernate-mapping>	

@@ -28,10 +28,10 @@
 	<session-config>
     	<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
-    <!-- <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
+      <welcome-file-list>
+        <welcome-file></welcome-file>
     </welcome-file-list>
-  <welcome-file-list>
+  <!-- <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
