@@ -33,7 +33,7 @@ public class LoginController {
 		HttpSession session=request.getSession();
 		session.setAttribute("email",email);
 		String res=loginService.login(email, password);		
-		return "home";
+		return res;
 	}
 //	@RequestMapping({"/"})
 //	
