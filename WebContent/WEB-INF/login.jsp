@@ -112,8 +112,6 @@
     
     
     
-    
-    
 
     <!-- jQuery 2.1.4 -->
     <script src="./js/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -123,6 +121,9 @@
     <script src="./js/plugins/iCheck/icheck.min.js"></script>
     
     <script src="./js/plugins/angular/angular.min.js"></script>
+    
+    
+      
   
     <script>
    	  $(function () {
@@ -135,10 +136,35 @@
       });
       
       angular.module('LoginApp', []);
-      angular.module('LoginApp').controller('LoginCtrl', function($scope,$rootScope) {
+      angular.module('LoginApp')
+  			.service("URL", function(){
+  				this.contextPath = "http://localhost:8080";
+  				this.loginUrl = this.contextPath+'/oganalysis/login';
+  				this.headerRequest = {	// TODO: Once api need user token then uncomment this.
+  						"Content-type": 'application/x-www-form-urlencoded',
+  						'Access-Control-Allow-Origin':'*'
+  					};
+  			})
+      angular.module('LoginApp').controller('LoginCtrl', function($scope,$rootScope,URL,$http) {
     	  
     	  $scope.login = function(){
-     			alert("login")
+    		 	   var request = {
+    					method: 'POST',
+    					url: URL.loginUrl,
+    					data: $scope.loginObj,
+    					headers: URL.headerRequest
+    				};
+    				 
+    				$http(request).success(function (resp){
+    	 				 if(resp == 'correct'){
+    						 window.location.href = "index.html#/"
+    					 }else if(resp =='incorrect'){
+    						 alert("login failed!")
+    					 }
+    				     
+    			    }).error(function (resp){
+    					console.log("Error")
+    		        });
     	  }
     	  
     	  $scope.signup = function(){

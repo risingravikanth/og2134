@@ -4,6 +4,7 @@
  	
  	$scope.setConfigurations = function(){
  		$scope.url = "/infrastructure";
+ 		$rootScope.loadLngFilter();
 		$rootScope.filterObj = {
 			regionField :true,
 			countryField :true,

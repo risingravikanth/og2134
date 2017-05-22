@@ -4,6 +4,7 @@
  	
  	$scope.setConfigurations = function(){
  		$scope.url = "/refineries/infrastructure";
+ 		$rootScope.loadRefineriesFilter();
 		$rootScope.filterObj = {
 			regionField :true,
 			countryField :true,

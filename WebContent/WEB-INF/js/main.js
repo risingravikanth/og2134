@@ -378,7 +378,10 @@
 	
 	
     $rootScope.loadLngFilter = function(){
-
+    	$scope.locationData = [];
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	
     	HttpService.get('/lng/locations').then(function(resp) {
     		for(var i=0;i< resp.length;i++){
     			var obj = {
@@ -418,7 +421,10 @@
     
     
     $rootScope.loadRefineriesFilter = function(){
-
+     	$scope.locationData = [];
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	
     	HttpService.get('/refineries/locations').then(function(resp) {
     		for(var i=0;i< resp.length;i++){
     			var obj = {
