@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import static com.oganalysis.constants.ApplicationConstants.*;
 import com.oganalysis.service.LoginService;
 
 @Controller
@@ -23,16 +23,20 @@ public class LoginController {
 		return "login";
 	}
 	
-	@RequestMapping(value="/login",method={RequestMethod.POST},produces="text/html")
-	
+	@RequestMapping(value="/login",method={RequestMethod.POST},produces="text/html")	
 	@ResponseBody
 	public String onLoginSubmit(HttpServletRequest request)
 	{
-		String email=(String)request.getParameter("email");
-		String password=request.getParameter("password");
-		HttpSession session=request.getSession();
-		session.setAttribute("email",email);
-		String res=loginService.login(email, password);		
+		String res=INCORRECT;
+		String email=request.getParameter("username");//email
+		if(null!=email)
+		{
+			String password=request.getParameter("password");
+			HttpSession session=request.getSession();		
+			res=loginService.login(email, password);	
+			if(null!=res && res.equals(CORRECT))
+				session.setAttribute(EMAIL,email);
+		}		
 		return res;
 	}
 //	@RequestMapping({"/"})

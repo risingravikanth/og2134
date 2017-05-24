@@ -187,4 +187,8 @@ public interface ApplicationConstants {
 	//Login
 	public static final String INCORRECT="incorrect";
 	public static final String CORRECT="correct";
+	
+	//session email
+	public static final String EMAIL="email";
+	public static final String LOGIN="login";
 }

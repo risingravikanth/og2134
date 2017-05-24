@@ -11,7 +11,6 @@ import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.NaturalGas;
 import com.oganalysis.entities.PipeLine;
 import com.oganalysis.entities.Refinery;
-import com.oganalysis.entities.Report;
 import com.oganalysis.entities.Storage;
 import com.oganalysis.entities.source.Countries;
 import com.oganalysis.entities.source.Region;

@@ -1,29 +1,6 @@
 package com.oganalysis.web;
 
-import static com.oganalysis.constants.ApplicationConstants.DISPLAYTYPE;
-import static com.oganalysis.constants.ApplicationConstants.ENDDATE;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_LOCATION;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_OFFONSHORE;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_OPERATOR;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_OWNER;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_REGION;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OFFONSHORES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OPERATORS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OWNERS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TYPES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_UNITS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_STATUS;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_TYPE;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_UNIT;
-import static com.oganalysis.constants.ApplicationConstants.RECORDNAME;
-import static com.oganalysis.constants.ApplicationConstants.STARTDATE;
-import static com.oganalysis.constants.ApplicationConstants.TYPE;
-
+import static com.oganalysis.constants.ApplicationConstants.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -53,15 +30,16 @@ public class LngDataDisplayController {
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
 	public String getLngCapacityData(HttpServletRequest req)
-	{		
-		String response=null;
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-		String startDate=req.getParameter(STARTDATE);
-		String endDate=req.getParameter(ENDDATE);		
-		String displayType=req.getParameter(DISPLAYTYPE);		
-		
-		response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
-		
+	{				
+		String response=LOGIN;		
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			String startDate=req.getParameter(STARTDATE);
+			String endDate=req.getParameter(ENDDATE);		
+			String displayType=req.getParameter(DISPLAYTYPE);					
+			response=lngDataServiceImpl.getCapacityData(selectedOptions,startDate,endDate,displayType);
+		}						
 		return response;
 	}
 	@ResponseBody
@@ -69,10 +47,12 @@ public class LngDataDisplayController {
 	public String getLngInfrastructureData(HttpServletRequest req)
 	{
 		
-		String response=null;
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);								
-		response=lngDataServiceImpl.getInfrastructureData(selectedOptions);
-		
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);								
+			response=lngDataServiceImpl.getInfrastructureData(selectedOptions);
+		}				
 		return response;
 	}
 	@ResponseBody
@@ -80,16 +60,17 @@ public class LngDataDisplayController {
 	public String getLngCapacityModalData(HttpServletRequest req)
 	{
 		
-		String response=null;
-		
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		String startDate=req.getParameter(STARTDATE);
-		String endDate=req.getParameter(ENDDATE);
-		String displayType=req.getParameter(DISPLAYTYPE);
-		String type=req.getParameter(TYPE);
-		String recordName=req.getParameter(RECORDNAME);				
-		response=lngDataServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,type,recordName);
-		
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
+			String startDate=req.getParameter(STARTDATE);
+			String endDate=req.getParameter(ENDDATE);
+			String displayType=req.getParameter(DISPLAYTYPE);
+			String type=req.getParameter(TYPE);
+			String recordName=req.getParameter(RECORDNAME);				
+			response=lngDataServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,type,recordName);
+		}			
 		return response;
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)

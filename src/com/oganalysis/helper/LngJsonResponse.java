@@ -84,7 +84,7 @@ public class LngJsonResponse {
 		
 		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
 		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, COMPANY);
-		System.out.println(capacityLiquefactionJsonObj.toJSONString());
+//		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
@@ -94,7 +94,7 @@ public class LngJsonResponse {
 		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, COMPANY);
 					
 		
-		System.out.println(capacityRegasificationJsonObj.toJSONString());
+//		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
 		// ------------------- End of Regasifaction---------------------------
 		
@@ -118,7 +118,7 @@ public class LngJsonResponse {
 		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
 				 
 		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, TERMINAL);	
-		System.out.println(capacityLiquefactionJsonObj.toJSONString());
+//		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
@@ -127,7 +127,7 @@ public class LngJsonResponse {
 		
 		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, TERMINAL);
 		
-		System.out.println(capacityRegasificationJsonObj.toJSONString());
+//		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
 		// ------------------- End of Regasifaction---------------------------
 		
@@ -151,7 +151,7 @@ public class LngJsonResponse {
 		Map<String,Map<Integer,Double>> liquefaction=capacityData.get(LNG_LIQUEFACTION);
 				 
 		JSONObject capacityLiquefactionJsonObj=createCapacityLiquefactionRes(liquefaction, startDateVal, endDateVal, COUNTRY);
-		System.out.println(capacityLiquefactionJsonObj.toJSONString());
+//		System.out.println(capacityLiquefactionJsonObj.toJSONString());
 		
 		// --------------------end of Liquefaction-----------------------
 		
@@ -160,7 +160,7 @@ public class LngJsonResponse {
 		
 		JSONObject capacityRegasificationJsonObj=createCapacityRegasificationRes(regasification, startDateVal, endDateVal, COUNTRY);
 		
-		System.out.println(capacityRegasificationJsonObj.toJSONString());
+//		System.out.println(capacityRegasificationJsonObj.toJSONString());
 		
 		// ------------------- End of Regasifaction---------------------------
 		
