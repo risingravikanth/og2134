@@ -31,7 +31,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
-        <form id="loginForm" method="post">
+        <form id="loginForm" name="loginForm" >
           <div class="form-group has-feedback">
             <input type="email" class="form-control" placeholder="Email" name="email" ng-Model="loginObj.username" required>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -49,7 +49,7 @@
               </div>
             </div><!-- /.col -->
             <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="login()">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat"  ng-disabled="loginForm.$invalid" ng-click="login()">Sign In</button>
             </div><!-- /.col -->
           </div>
         </form>
@@ -73,7 +73,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Register your account</p>
-        <form id="loginForm">
+        <form id="loginRegForm">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Name" name="name" ng-Model="registerObj.name" required>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -91,7 +91,7 @@
             <div class="col-xs-8">
                
             </div><!-- /.col -->
-            <div class="col-xs-4">
+            <div class="col-xs-4"> 
               <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="signup()">Register</button>
             </div><!-- /.col -->
           </div>

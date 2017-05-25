@@ -63,8 +63,8 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	  .state('capacity', {
-        url:'/capacity',
+	  .state('lng/capacity', {
+        url:'/lng/capacity',
         templateUrl: 'views/capacity.html',
 		controller:"CapacityCtrl"
 	  })

@@ -224,7 +224,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a class="side-item" href="#/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li>
+            <li><a class="side-item" href="#/lng/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li>
              <li><a class="side-item" href="#/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
               <li><a class="side-item" href="#/supplydemand"><i class="fa fa-circle-o"></i> Supply & Demand</a></li>
                <li><a class="side-item" href="#/contracts"><i class="fa fa-circle-o"></i> Contracts </a></li>
