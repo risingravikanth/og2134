@@ -151,7 +151,7 @@
     		 	   var request = {
     					method: 'POST',
     					url: URL.loginUrl,
-    					data: $scope.loginObj,
+    					data: $.param($scope.loginObj),
     					headers: URL.headerRequest
     				};
     				 
