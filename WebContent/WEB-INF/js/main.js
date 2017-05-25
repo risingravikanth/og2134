@@ -28,19 +28,48 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  .state('lng/capacity', {
+        url:'/lng/capacity',
+        templateUrl: 'views/capacity.html',
+		controller:"CapacityCtrl"
+	  })
+	   .state('lng/infrastructure', {
+        url:'/lng/infrastructure',
+        templateUrl: 'views/infrastructure.html',
+		controller:"InfrastructureCtrl"
+	  }) 
+	   .state('lng/contracts', {
+        url:'/lng/contracts',
+        templateUrl: 'views/contracts.html',
+		controller:"ContractsCtrl"
+	  })
+	  .state('lng/supplydemand', {
+        url:'/lng/supplydemand',
+        templateUrl: 'views/supplydemand.html',
+		controller:"SupplyDemandCtrl"
+	  })
+	  
+	  
+	  
+	  
+	  
 	  .state('pipelines', {
         url:'/pipelines',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  
+	  
 	  .state('production', {
         url:'/production',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	  .state('refineries', {
+	  
+	  
+	  .state('refineries/capacitycapacity25/5/1725/5/1725/5/1725/5/1725/5/17', {
         url:'/refineries',
-        templateUrl: 'views/refineries.html',
+        templateUrl: 'views/refineries',
 		controller:"RefineriesCtrl"
 	  })
 	  .state('refineries/infrastructure', {
@@ -48,12 +77,14 @@
         templateUrl: 'views/refineriesInfra.html',
 		controller:"RefineriesInfraCtrl"
 	  })
+	  
+	  
 	   .state('storage', {
         url:'/storage',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	   .state('crude', {
+ 	   .state('crude', {
         url:'/crude',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
@@ -63,26 +94,9 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	  .state('lng/capacity', {
-        url:'/lng/capacity',
-        templateUrl: 'views/capacity.html',
-		controller:"CapacityCtrl"
-	  })
-	  .state('contracts', {
-        url:'/contracts',
-        templateUrl: 'views/contracts.html',
-		controller:"ContractsCtrl"
-	  })
-	  .state('supplydemand', {
-        url:'/supplydemand',
-        templateUrl: 'views/supplydemand.html',
-		controller:"SupplyDemandCtrl"
-	  })
-	   .state('infrastructure', {
-        url:'/infrastructure',
-        templateUrl: 'views/infrastructure.html',
-		controller:"InfrastructureCtrl"
-	  })
+	 
+	 
+	   
 	  .state('reports', {
         url:'/reports',
         templateUrl: 'views/commonpage.html',

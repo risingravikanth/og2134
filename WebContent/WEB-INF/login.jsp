@@ -156,8 +156,9 @@
     				};
     				 
     				$http(request).success(function (resp){
+    					 
     	 				 if(resp == 'correct'){
-    						 window.location.href = "index.html#/"
+    						window.location.href = "index.html#/"
     					 }else if(resp =='incorrect'){
     						 alert("login failed!")
     					 }

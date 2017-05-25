@@ -494,6 +494,7 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
+		$scope.title = "Contracts";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];

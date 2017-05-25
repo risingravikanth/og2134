@@ -39,7 +39,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="./css/skins/_all-skins.min.css">
   
-  <link rel="stylesheet" href="bower_components/font-icons/style.css">
+  <link rel="stylesheet" href="bower_components/ogfont-awesome/ogstyle.css">
   <link rel="stylesheet" href="./css/custom.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -104,7 +104,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>O</b>G</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>OG</b>Analysis</span>
+      <span class="logo-lg"><b>OG</b>index.html</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -138,7 +138,7 @@
               </li>
               <!-- Menu Body -->
               <li class="user-body">
-                <div class="row">
+                <!--  <div class="row">
                   <div class="col-xs-4 text-center">
                     <a href="#">Followers</a>
                   </div>
@@ -148,7 +148,7 @@
                   <div class="col-xs-4 text-center">
                     <a href="#">Friends</a>
                   </div>
-                </div>
+                </div>-->
                 <!-- /.row -->
               </li>
               <!-- Menu Footer-->
@@ -206,7 +206,7 @@
 		<!-- EXPLORATION -->
 		<li>
           <a class="side-item" href="#/exploration">
-            <i class="fa fa-th"></i> <span>EXPLORATION</span>
+            <i class="icon-exploration"></i> <span>EXPLORATION</span>
            </a>
         </li>
 		
@@ -218,29 +218,29 @@
         
         <li class="treeview">
           <a href="javascript:void(0)">
-            <i class="icon-ship"></i> <span>LNG</span>
+            <i class="icon-lng"></i> <span>LNG</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a class="side-item" href="#/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li>
-             <li><a class="side-item" href="#/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
-              <li><a class="side-item" href="#/supplydemand"><i class="fa fa-circle-o"></i> Supply & Demand</a></li>
-               <li><a class="side-item" href="#/contracts"><i class="fa fa-circle-o"></i> Contracts </a></li>
+            <li><a class="side-item" href="#/lng/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li>
+             <li><a class="side-item" href="#/lng/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
+              <li><a class="side-item" href="#/lng/supplydemand"><i class="fa fa-circle-o"></i> Supply & Demand</a></li>
+               <li><a class="side-item" href="#/lng/contracts"><i class="fa fa-circle-o"></i> Contracts </a></li>
             </ul>
         </li>
 		
 		<li>
  		<a class="side-item" href="#/pipelines">
-            <i class="fa fa-link"></i> <span>PIPELINES</span>
+            <i class="icon-pipeline"></i> <span>PIPELINES</span>
            </a>
         </li>
      
 	 
 		<li class="treeview">
           <a href="javascript:void(0)">
-            <i class="fa fa-dashboard"></i> <span>PRODUCTION</span>
+            <i class="icon-production"></i> <span>PRODUCTION</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -256,20 +256,20 @@
         
          <li class="treeview">
           <a href="javascript:void(0)">
-            <i class="fa fa-dashboard"></i> <span>REFINERIES</span>
+            <i class="icon-refineries"></i> <span>REFINERIES</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a class="side-item" href="#/refineries"><i class="fa fa-circle-o"></i> Capacity</a></li> 
+            <li><a class="side-item" href="#/refineries/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li> 
             <li><a class="side-item" href="#/refineries/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
             </ul>
         </li>
 		
 		<li>
 		<a class="side-item" href="#/storage">
-            <i class="fa fa-th"></i> <span>STORAGE</span>
+            <i class="icon-storage"></i> <span>STORAGE</span>
            </a>
         </li>
 		<li>
@@ -469,7 +469,7 @@
     </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer class="main-footer" style="float:right;">
     <div class="pull-right hidden-xs">
       <!-- <b>Version</b> 2.3.6 -->
     </div>

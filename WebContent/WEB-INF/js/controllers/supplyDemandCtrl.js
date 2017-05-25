@@ -289,6 +289,7 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
+		$scope.title = "Supply & Demand";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];

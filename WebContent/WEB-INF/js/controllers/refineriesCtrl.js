@@ -860,6 +860,7 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
+		$scope.title = "Capacity";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];
