@@ -67,7 +67,7 @@
 	  })
 	  
 	  
-	  .state('refineries/capacitycapacity25/5/1725/5/1725/5/1725/5/1725/5/17', {
+	  .state('refineries/capacity', {
         url:'/refineries',
         templateUrl: 'views/refineries',
 		controller:"RefineriesCtrl"
