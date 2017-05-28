@@ -9,12 +9,12 @@ public class LoginBusinessServiceImpl implements LoginBusinessService {
 	@Override
 	public boolean isvalidUser(String email,String password) {
 		// TODO Auto-generated method stub
-		boolean isUserExists=false;
+		boolean isValidUser=false;
 		User user=userDao.getUser(email);
-		if(null!=user)
-			isUserExists=true;
-		return isUserExists;
-	}
+		if(null!=user && password.equals(user.getPassword()))
+			isValidUser=true;
+		return isValidUser;
+	}	
 	public UserDao getUserDao() {
 		return userDao;
 	}
