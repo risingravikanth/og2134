@@ -27,11 +27,15 @@ public class SupplyDemandController {
 	@RequestMapping(value="/supplyDemand",method={RequestMethod.GET})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
-		String startDate=req.getParameter(STARTDATE);//"2014";
-		String endDate=req.getParameter(ENDDATE);//"2020";
-		String displayType=req.getParameter(DISPLAYTYPE);//export";
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-		String response=supplyDemandServiceImpl.getSupplyDemandData(selectedOptions, startDate, endDate, displayType);
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			String startDate=req.getParameter(STARTDATE);//"2014";
+			String endDate=req.getParameter(ENDDATE);//"2020";
+			String displayType=req.getParameter(DISPLAYTYPE);//export";
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			response=supplyDemandServiceImpl.getSupplyDemandData(selectedOptions, startDate, endDate, displayType);
+		}		
 		return response;
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)

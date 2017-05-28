@@ -20,7 +20,7 @@ public class LoginController {
 //	@ResponseBody
 	public String loginPage(HttpServletRequest request)
 	{			
-		return "login";
+		return LOGIN;
 	}
 	
 	@RequestMapping(value="/login",method={RequestMethod.POST},produces="text/html")	

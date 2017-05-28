@@ -24,10 +24,12 @@
 				org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
-	
 	<session-config>
-    	<tracking-mode>COOKIE</tracking-mode>
+		<session-timeout>1</session-timeout>
 	</session-config>
+	<!-- <session-config>
+    	<tracking-mode>COOKIE</tracking-mode>
+	</session-config> -->
       <welcome-file-list>
         <welcome-file></welcome-file>
     </welcome-file-list>

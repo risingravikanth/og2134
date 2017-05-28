@@ -31,14 +31,16 @@ public class RefineriesController {
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
 	public String getRefineriesCapacityData(HttpServletRequest req)
 	{		
-		String response=null;
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-		String startDate=req.getParameter(STARTDATE);
-		String endDate=req.getParameter(ENDDATE);		
-		String displayType=req.getParameter(DISPLAYTYPE);		
-		
-		response=refineriesServiceImpl.getRefineriesData(selectedOptions,startDate,endDate,displayType);
-		
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			String startDate=req.getParameter(STARTDATE);
+			String endDate=req.getParameter(ENDDATE);		
+			String displayType=req.getParameter(DISPLAYTYPE);		
+			
+			response=refineriesServiceImpl.getRefineriesData(selectedOptions,startDate,endDate,displayType);
+		}			
 		return response;
 	}
 	@ResponseBody
@@ -46,15 +48,16 @@ public class RefineriesController {
 	public String getRefineriesCapacityModalData(HttpServletRequest req)
 	{
 		
-		String response=null;
-		
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
-		String startDate=req.getParameter(STARTDATE);
-		String endDate=req.getParameter(ENDDATE);
-		String displayType=req.getParameter(DISPLAYTYPE);
-		String recordName=req.getParameter(RECORDNAME);				
-		response=refineriesServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,recordName);
-		
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
+			String startDate=req.getParameter(STARTDATE);
+			String endDate=req.getParameter(ENDDATE);
+			String displayType=req.getParameter(DISPLAYTYPE);
+			String recordName=req.getParameter(RECORDNAME);				
+			response=refineriesServiceImpl.getModalCapacityData(selectedOptions,startDate,endDate,displayType,recordName);
+		}			
 		return response;
 	}
 	@ResponseBody
@@ -62,9 +65,12 @@ public class RefineriesController {
 	public String getRefineriesInfrastructureData(HttpServletRequest req)
 	{
 		
-		String response=null;
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);			
-		response=refineriesServiceImpl.getInfrastructureData(selectedOptions);				
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);			
+			response=refineriesServiceImpl.getInfrastructureData(selectedOptions);
+		}					
 		return response;
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)

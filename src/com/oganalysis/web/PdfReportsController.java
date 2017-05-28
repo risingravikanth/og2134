@@ -32,35 +32,41 @@ public class PdfReportsController {
 	@RequestMapping("/pdfReports")
 	public String pdfReportsFileList(HttpServletRequest request)
 	{
-		String response=null;
-		Map<String,List> selectedOptions=getSelectedOptionsData(request);
-		response=pdfReportsServiceImpl.getReportsList(selectedOptions);
-		
+		String response=LOGIN;
+		if(null!=request.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List> selectedOptions=getSelectedOptionsData(request);
+			response=pdfReportsServiceImpl.getReportsList(selectedOptions);
+			
+		}		
 		return response;
 	}
 
 	@RequestMapping("/pdf/reports/{fileName}")
 	public void downloadPDF(HttpServletRequest request, HttpServletResponse response,@PathVariable String fileName) throws IOException {
-		 
+		 		
 		final ServletContext servletContext = request.getSession().getServletContext();
 	    final String directory = (String) servletContext.getRealPath("/WEB-INF/pdf/");
 	    File tempDirectory=new File(directory);
 	    final String temperotyFilePath = tempDirectory.getAbsolutePath();
- 
 	    String actualFileName=fileName+".pdf";
-	    response.setContentType("application/pdf");
-	    response.setHeader("Content-disposition", "attachment; filename="+ actualFileName);
- 
-	    try {
- 	        
-	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	        baos = pdfReportsServiceImpl.convertPDFToByteArrayOutputStream(temperotyFilePath+"\\"+actualFileName);
-	        OutputStream os = response.getOutputStream();
-	        baos.writeTo(os);
-	        os.flush();
-	    } catch (Exception e1) {
-	        e1.printStackTrace();
+	    if(null!=request.getSession().getAttribute(EMAIL))
+	    {
+	    	response.setContentType("application/pdf");
+	    	response.setHeader("Content-disposition", "attachment; filename="+ actualFileName);	   
+	    	 try {
+	  	        
+	 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	 	        baos = pdfReportsServiceImpl.convertPDFToByteArrayOutputStream(temperotyFilePath+"/"+actualFileName);
+	 	        OutputStream os = response.getOutputStream();
+	 	        baos.writeTo(os);
+	 	        os.flush();
+	 	    } catch (Exception e) {
+	 	        System.out.println("Exception in  pdfReportsController - downloadPDF()"+e);
+	 	       
+	 	    }
 	    }
+	   
  
 	}
 	

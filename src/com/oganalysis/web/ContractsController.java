@@ -1,16 +1,6 @@
 package com.oganalysis.web;
 
-import static com.oganalysis.constants.ApplicationConstants.DISPLAYTYPE;
-import static com.oganalysis.constants.ApplicationConstants.ENDDATE;
-import static com.oganalysis.constants.ApplicationConstants.EXPORT_COMPANY;
-import static com.oganalysis.constants.ApplicationConstants.EXPORT_COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.IMPORT_COMPANY;
-import static com.oganalysis.constants.ApplicationConstants.IMPORT_COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_EXPORT_COMPANIES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_EXPORT_COUNTRIES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_IMPORT_COMPANIES;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_IMPORT_COUNTRIES;
-import static com.oganalysis.constants.ApplicationConstants.STARTDATE;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -39,11 +29,15 @@ public class ContractsController {
 	@RequestMapping(value="/quantity",method={RequestMethod.GET})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
-		String startDate=req.getParameter(STARTDATE);
-		String endDate=req.getParameter(ENDDATE);
-		String displayType=req.getParameter(DISPLAYTYPE);
-		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-		String response=contractsServiceImpl.getContractsData(selectedOptions, startDate, endDate, displayType);
+		String response=LOGIN;
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			String startDate=req.getParameter(STARTDATE);
+			String endDate=req.getParameter(ENDDATE);
+			String displayType=req.getParameter(DISPLAYTYPE);
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			response=contractsServiceImpl.getContractsData(selectedOptions, startDate, endDate, displayType);
+		}		
 		return response;
 	}
 //	@ResponseBody
