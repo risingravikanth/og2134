@@ -68,7 +68,7 @@
 	  
 	  
 	  .state('refineries/capacity', {
-        url:'/refineries',
+        url:'refineries/capacity',
         templateUrl: 'views/refineries',
 		controller:"RefineriesCtrl"
 	  })

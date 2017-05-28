@@ -103,10 +103,11 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	  	}
 		
 		$http(request).success(function (resp){
-			if(resp.status == "fail"){
-				 
-			}
-		    deferred.resolve(resp);
+			if(resp == "login"){
+				window.location.href = window.location.origin+URL.apiversion+'/'
+			}else{
+				deferred.resolve(resp);
+			} 
 	    }).error(function (resp){
 			deferred.reject(resp);
         });
@@ -199,10 +200,11 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 		};
 		 
 		$http(request).success(function (resp){
-			if(resp.status == "fail"){
-				 
-			}
-		    deferred.resolve(resp);
+			if(resp == "login"){
+				window.location.href = window.location.origin+URL.apiversion+'/'
+			}else{
+				deferred.resolve(resp);
+			} 
 	    }).error(function (resp){
 			deferred.reject(resp);
         });
