@@ -521,6 +521,15 @@
 			
 			
 		})
+		
+		
+		$scope.logout = function(){
+			HttpService.get('/logout').then(function(resp) {
+				if(resp == "login"){
+					window.location.href = window.location.origin+URL.apiversion+'/'
+				}
+		 	});
+		}
   });
  
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
