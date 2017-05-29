@@ -27,10 +27,11 @@
   <body class="hold-transition login-page" ng-controller="LoginCtrl" ng-init="init()">
     <div class="login-box" ng-if="showLogin">
       <div class="login-logo">
-        <a href="login.html"><b>OG</b>Analysis</a>
+        <a href="#"><b>OG</b>Analysis</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg" style="color:red;" ng-if="errorMessage != ''">{{ errorMessage}} </p>
         <form id="loginForm" name="loginForm" >
           <div class="form-group has-feedback">
             <input type="email" class="form-control" placeholder="Email" name="email" ng-Model="loginObj.username" required>
@@ -69,7 +70,7 @@
     
     <div class="login-box" ng-if="!showLogin">
       <div class="login-logo">
-        <a href="login.html"><b>OG</b>Analysis</a>
+        <a href="#"><b>OG</b>Analysis</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Register your account</p>
@@ -160,7 +161,8 @@
     	 				 if(resp == 'correct'){
     						window.location.href = "index.html#/"
     					 }else if(resp =='incorrect'){
-    						 alert("login failed!")
+    						 //alert("login failed!")
+    						 $scope.errorMessage = "login failed!";
     					 }
     				     
     			    }).error(function (resp){
@@ -169,7 +171,7 @@
     	  }
     	  
     	  $scope.signup = function(){
-    		  alert("signup")
+    		  //alert("signup")
     	  }
     	  
     	  $scope.init = function(){
@@ -178,6 +180,8 @@
   		    		password: ""
 	    	  };
     		  
+    		  $scope.errorMessage = ""; 
+    			  
     		  $scope.registerObj = {
    				  name: "",
    				  username : "",
