@@ -522,10 +522,12 @@
 			
 		})
 		
+		$scope.userName = HttpService.getUserName();
 		
 		$scope.logout = function(){
 			HttpService.get('/logout').then(function(resp) {
 				if(resp == "login"){
+					localStorage.setItem("oganalysis-ud-name",null);
 					window.location.href = window.location.origin+URL.apiversion+'/'
 				}
 		 	});

@@ -233,6 +233,16 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	
 		return deferred.promise;
 	},
+	
+	this.setUserName =function(name){
+		localStorage.setItem("oganalysis-ud-name",name);
+		
+	},
+	
+	this.getUserName =function(name){
+		return localStorage.getItem("oganalysis-ud-name");
+		
+	},
  	
 	this.setUserSession=function(obj){
 		localStorage.setItem("notice-ud-session",null);

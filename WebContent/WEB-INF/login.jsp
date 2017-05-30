@@ -146,7 +146,7 @@
   						'Access-Control-Allow-Origin':'*'
   					};
   			})
-      angular.module('LoginApp').controller('LoginCtrl', function($scope,$rootScope,URL,$http) {
+      angular.module('LoginApp').controller('LoginCtrl', function($scope,$rootScope,URL,$http, $timeout) {
     	  
     	  $scope.login = function(){
     		 	   var request = {
@@ -157,12 +157,16 @@
     				};
     				 
     				$http(request).success(function (resp){
-    					 
-    	 				 if(resp == 'correct'){
+    	 				 if(resp.st == 'correct'){
+    	 					localStorage.setItem("oganalysis-ud-name",resp.user);
     						window.location.href = "index.html#/"
-    					 }else if(resp =='incorrect'){
+    					 }else if(resp.st =='incorrect'){
     						 //alert("login failed!")
-    						 $scope.errorMessage = "login failed!";
+    						 $scope.errorMessage = "Invalid email or password.";
+    						 
+    						 $timeout(function(){
+    							 $scope.errorMessage = "";
+    						 },3000)
     					 }
     				     
     			    }).error(function (resp){
