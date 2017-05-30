@@ -7,14 +7,14 @@ import com.oganalysis.entities.User;
 public class LoginBusinessServiceImpl implements LoginBusinessService {
 	private UserDao userDao;
 	@Override
-	public boolean isvalidUser(String email,String password) {
-		// TODO Auto-generated method stub
-		boolean isValidUser=false;
+	public User validateUser(String email,String password) {
+		// TODO Auto-generated method stub			
 		User user=userDao.getUser(email);
-		if(null!=user && password.equals(user.getPassword()))
-			isValidUser=true;
-		return isValidUser;
-	}	
+		if(null!=user && !password.equals(user.getPassword()))
+			user=null;		
+		return user;
+	}
+	
 	public UserDao getUserDao() {
 		return userDao;
 	}

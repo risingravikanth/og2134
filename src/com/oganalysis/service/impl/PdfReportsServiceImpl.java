@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.oganalysis.dao.PdfReportsDao;
 import com.oganalysis.entities.Report;
-import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.ReportsJsonResponse;
 import com.oganalysis.service.PdfReportsService;
 

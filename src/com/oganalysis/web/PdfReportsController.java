@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 import com.oganalysis.service.PdfReportsService;
@@ -43,13 +45,14 @@ public class PdfReportsController {
 	}
 
 	@RequestMapping("/pdf/reports/{fileName}")
-	public void downloadPDF(HttpServletRequest request, HttpServletResponse response,@PathVariable String fileName) throws IOException {
+	public String downloadPDF(HttpServletRequest request, HttpServletResponse response,@PathVariable String fileName) throws IOException, ServletException {
 		 		
 		final ServletContext servletContext = request.getSession().getServletContext();
 	    final String directory = (String) servletContext.getRealPath("/WEB-INF/pdf/");
 	    File tempDirectory=new File(directory);
 	    final String temperotyFilePath = tempDirectory.getAbsolutePath();
 	    String actualFileName=fileName+".pdf";
+	    String res=null;
 	    if(null!=request.getSession().getAttribute(EMAIL))
 	    {
 	    	response.setContentType("application/pdf");
@@ -66,8 +69,11 @@ public class PdfReportsController {
 	 	       
 	 	    }
 	    }
-	   
- 
+	    else
+	    {
+	    	return "redirect:/";
+	    }
+	   return res;
 	}
 	
 	

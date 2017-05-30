@@ -1,5 +1,7 @@
 package com.oganalysis.business;
 
+import com.oganalysis.entities.User;
+
 public interface LoginBusinessService {
-	public boolean isvalidUser(String email,String password);
+	public User validateUser(String email,String password);
 }
