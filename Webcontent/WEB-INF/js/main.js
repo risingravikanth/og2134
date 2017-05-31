@@ -4,10 +4,13 @@
 	'angularjs-dropdown-multiselect'
     
   ])
+  .run(function($state,$rootScope){
+	  $rootScope.$state = $state;
+  })
   .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	  
 	  $urlRouterProvider.otherwise('/exploration');
-	  
+
 	  $stateProvider
       .state('dashboard', {
         url:'/dashboard',
@@ -25,27 +28,63 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  .state('lng/capacity', {
+        url:'/lng/capacity',
+        templateUrl: 'views/capacity.html',
+		controller:"CapacityCtrl"
+	  })
+	   .state('lng/infrastructure', {
+        url:'/lng/infrastructure',
+        templateUrl: 'views/infrastructure.html',
+		controller:"InfrastructureCtrl"
+	  }) 
+	   .state('lng/contracts', {
+        url:'/lng/contracts',
+        templateUrl: 'views/contracts.html',
+		controller:"ContractsCtrl"
+	  })
+	  .state('lng/supplydemand', {
+        url:'/lng/supplydemand',
+        templateUrl: 'views/supplydemand.html',
+		controller:"SupplyDemandCtrl"
+	  })
+	  
+	  
+	  
+	  
+	  
 	  .state('pipelines', {
         url:'/pipelines',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  
+	  
 	  .state('production', {
         url:'/production',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	  .state('refineries', {
-        url:'/refineries',
+	  
+	  
+	  .state('refineries/capacity', {
+        url:'/refineries/capacity',
         templateUrl: 'views/refineries.html',
 		controller:"RefineriesCtrl"
 	  })
+	  .state('refineries/infrastructure', {
+        url:'/refineries/infrastructure',
+        templateUrl: 'views/refineriesInfra.html',
+		controller:"RefineriesInfraCtrl"
+	  })
+	  
+	  
 	   .state('storage', {
         url:'/storage',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	   .state('crude', {
+ 	   .state('crude', {
         url:'/crude',
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
@@ -55,29 +94,17 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
-	  .state('capacity', {
-        url:'/capacity',
-        templateUrl: 'views/capacity.html',
-		controller:"CapacityCtrl"
-	  })
-	  .state('contracts', {
-        url:'/contracts',
-        templateUrl: 'views/contracts.html',
-		controller:"ContractsCtrl"
-	  })
-	  .state('supplydemand', {
-        url:'/supplydemand',
-        templateUrl: 'views/supplydemand.html',
-		controller:"SupplyDemandCtrl"
-	  })
-	   .state('infrastructure', {
-        url:'/infrastructure',
-        templateUrl: 'views/infrastructure.html',
-		controller:"InfrastructureCtrl"
-	  })
+	 
+	 
+	   
 	  .state('reports', {
         url:'/reports',
         templateUrl: 'views/commonpage.html',
+		controller:"CommonCtrl"
+	  })
+	  .state('login', {
+        url:'/login',
+        templateUrl: 'views/login.html',
 		controller:"CommonCtrl"
 	  })
   }]);
@@ -246,10 +273,7 @@
 		exports: false
 	};
 	
-	
- 
-	 	
- 	HttpService.get('/regions').then(function(resp) {
+	HttpService.get('/regions').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
 			var obj = {
 					id : resp[i].region ,
@@ -259,7 +283,9 @@
  		}
 		$scope.regionData = $scope.sortedOrder($scope.regionData);
 	});
-	
+ 
+	 	
+ 	
 	HttpService.get('/countries').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
 			var obj = {
@@ -273,40 +299,6 @@
 	});
  	
  	
-	
-	HttpService.get('/locations').then(function(resp) {
-		for(var i=0;i< resp.length;i++){
-			var obj = {
-					id : resp[i].location ,
-					label : resp[i].location
-			}
-			$scope.locationData.push(obj);
-		}
-		$scope.locationData = $scope.sortedOrder($scope.locationData);
-	});
-	
-	HttpService.get('/operators').then(function(resp) {
-		for(var i=0;i< resp.length;i++){
-			var obj = {
-					id : resp[i].operator ,
-					label : resp[i].operator
-			}
-			$scope.operatorData.push(obj);
-		}
-		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
-	});
-	
-	HttpService.get('/owners').then(function(resp) {
-		for(var i=0;i< resp.length;i++){
-			var obj = {
-					id : resp[i].owner ,
-					label : resp[i].owner
-			}
-			$scope.ownerData.push(obj);
-			 
-		}
-		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
-	});
 	
 	HttpService.get('/contracts/exportcompanies').then(function(resp) {
 		for(var i=0;i< resp.length;i++){
@@ -399,42 +391,122 @@
    	};
 	
 	
-	
-	/*$scope.initFilter = function(){
-		console.log("in side filter initialization")
-		
-	};)*/
-	
-	
+    $rootScope.loadLngFilter = function(){
+    	$scope.locationData = [];
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	
+    	HttpService.get('/lng/locations').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].location ,
+    					label : resp[i].location
+    			}
+    			$scope.locationData.push(obj);
+    		}
+    		$scope.locationData = $scope.sortedOrder($scope.locationData);
+    	});
+    	
+    	HttpService.get('/lng/operators').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].operator ,
+    					label : resp[i].operator
+    			}
+    			$scope.operatorData.push(obj);
+    		}
+    		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
+    	});
+    	
+    	HttpService.get('/lng/owners').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].owner ,
+    					label : resp[i].owner
+    			}
+    			$scope.ownerData.push(obj);
+    			 
+    		}
+    		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
+    	});
+    	
+    	
+    };	
+    
+    
+    $rootScope.loadRefineriesFilter = function(){
+     	$scope.locationData = [];
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	
+    	HttpService.get('/refineries/locations').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].location ,
+    					label : resp[i].location
+    			}
+    			$scope.locationData.push(obj);
+    		}
+    		$scope.locationData = $scope.sortedOrder($scope.locationData);
+    	});
+    	
+    	HttpService.get('/refineries/operators').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].operator ,
+    					label : resp[i].operator
+    			}
+    			$scope.operatorData.push(obj);
+    		}
+    		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
+    	});
+    	
+    	HttpService.get('/refineries/owners').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].owner ,
+    					label : resp[i].owner
+    			}
+    			$scope.ownerData.push(obj);
+    			 
+    		}
+    		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
+    	});
+    	
+    	
+    };	
  
+    
+    
 
  });
   
-  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
 	 	$rootScope.toggleNav = function(){
-	 		 
+ 
 	 		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
-	 		
-	 			$timeout(function(){
+	 			 
+	 			//$timeout(function(){
 	 				$rootScope.table.liquefactionInst.draw();
-	 			},1000);
+	 			//},100);
 	 		}
 	 			
 	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
 	 			
-	 			$timeout(function(){
+	 			//$timeout(function(){
 	 				$rootScope.table.regasificationInst.draw();
-	 			},1000);
+	 			//},100);
 	 		}
 		};
 		
 		$(".sidebar-menu .side-item").click(function(){
-			$('body').removeClass('control-sidebar-open');
-			$('body').addClass('sidebar-collapse');
+			//$('body').removeClass('control-sidebar-open');
+			//$('body').addClass('sidebar-collapse');
 			
 			if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
 		 		
 	 			$timeout(function(){
+	 				if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" )
 	 				$rootScope.table.liquefactionInst.draw();
 	 			},100);
 	 		}
@@ -442,12 +514,24 @@
 	 		if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != ""){
 	 			
 	 			$timeout(function(){
+	 				if($rootScope.table.regasificationInst != undefined && $rootScope.table.regasificationInst != "")
 	 				$rootScope.table.regasificationInst.draw();
 	 			},100);
 	 		}
 			
 			
 		})
+		
+		$scope.userName = HttpService.getUserName();
+		
+		$scope.logout = function(){
+			HttpService.get('/logout').then(function(resp) {
+				if(resp == "login"){
+					localStorage.setItem("oganalysis-ud-name",null);
+					window.location.href = window.location.origin+URL.apiversion+'/'
+				}
+		 	});
+		}
   });
  
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope,$state,$rootScope,URL,HttpService) {
@@ -670,7 +754,9 @@
  		if($rootScope.filterObj.unitsField == true){
  			if($rootScope.unitsModel.id != undefined){
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} else{
+ 			}else if ($rootScope.unitsModel.length >0){
+ 				
+ 	 		}else{
  				$rootScope.unitsModel.length =0;
  			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
@@ -753,6 +839,25 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$scope.formDataJSON ={};
+ 		
+ 		
+ 		if($scope.url != ''){
+			HttpService.get($scope.url).then(function(resp) {
+				$scope.gridDataList = angular.copy(resp);
+				if($rootScope.table.inst != ""){
+	 				if(resp != "" && resp != undefined ){
+	 					resp = resp;
+	 				}else{
+	 					resp = [];
+	 				}
+	 			 	$scope.formDataJSON ={};
+	 				$rootScope.table.inst.clear().draw();
+	 				$rootScope.table.inst.rows.add(resp);
+	 				$rootScope.table.inst.draw();
+	 			 }
+		 	});
+		}
+ 		 
    	};
 	
 	
@@ -811,6 +916,11 @@
 			HttpService.get($scope.url).then(function(resp) {
 				$scope.gridDataList = angular.copy(resp);
 				var tableInst = $("#example1").DataTable({
+					"drawCallback": function( settings ) {
+	 					if(!$("#example1").parent().hasClass("table-responsive")){
+	 						$("#example1").wrap( "<div class='table-responsive'></div>" );
+					     }
+	 		 	    },
 					"columnDefs": [
 					{
 						// The `data` parameter refers to the data for the cell (defined by the
@@ -834,8 +944,7 @@
 						"targets": 0
 					}
 					],
-					scrollX: true,
-					columns: $scope.columns,
+		 			columns: $scope.columns,
 					data : $scope.gridDataList
 				});
 				$rootScope.table.inst = tableInst;
