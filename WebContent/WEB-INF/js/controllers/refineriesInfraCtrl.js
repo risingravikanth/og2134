@@ -5,7 +5,7 @@
  	$scope.setConfigurations = function(){
  		$scope.url = "/refineries/infrastructure";
  		$rootScope.loadRefineriesFilter();
-		$rootScope.filterObj = {
+		/*$rootScope.filterObj = {
 			regionField :true,
 			countryField :true,
 			locationField : true,
@@ -15,7 +15,19 @@
 			unitsField : true,
 			offshoreField : true,
 			typeField :true
-		};
+		};*/
+ 		
+ 		$rootScope.filterObj = {
+				regionField :true,
+				countryField :true,
+				locationField : true,
+	 			operatorField : true,
+				ownerField : true,
+				statusField : true,
+				unitsField : false,
+				offshoreField : false,
+				typeField :false
+			};
 		
 		$scope.columns = [
 			{ title: "Refinery Name",
