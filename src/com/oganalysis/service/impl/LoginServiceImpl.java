@@ -1,5 +1,7 @@
 package com.oganalysis.service.impl;
 
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 
 import com.oganalysis.business.impl.LoginBusinessServiceImpl;
@@ -17,6 +19,11 @@ public class LoginServiceImpl implements LoginService {
 		JSONObject response=loginJson.loginResponse(user);		
 		return response;
 	}	
+	@Override
+	public String saveCustomer(Map<String, String> customerMap) {
+		// TODO Auto-generated method stub
+		return loginBusinessServiceImpl.saveCustomer(customerMap);		
+	}
 	public LoginBusinessServiceImpl getLoginBusinessServiceImpl() {
 		return loginBusinessServiceImpl;
 	}
@@ -24,5 +31,7 @@ public class LoginServiceImpl implements LoginService {
 			LoginBusinessServiceImpl loginBusinessServiceImpl) {
 		this.loginBusinessServiceImpl = loginBusinessServiceImpl;
 	}
+
+	
 	
 }

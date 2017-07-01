@@ -193,4 +193,7 @@ public interface ApplicationConstants {
 	public static final String LOGIN="login";
 	public static final String LOGIN_STATUS="st";
 	public static final String LOGIN_USER="user";
+	
+	public static final String SUCCESS="success";
+	public static final String FAIL="fail";
 }

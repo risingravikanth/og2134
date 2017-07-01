@@ -89,7 +89,8 @@
 		<property name="refineriesCache" ref="refineriesCache"/>
 	</bean>
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
-		<property name="userDao" ref="userDao"/>		
+		<property name="userDao" ref="userDao"/>
+		<property name="customerDao" ref="customerDao"/>		
 	</bean>
 	<!-- BusinessServiceImpl -->
 	<!--  Cache Class -->
