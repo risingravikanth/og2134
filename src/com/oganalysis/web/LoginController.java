@@ -48,21 +48,23 @@ public class LoginController {
 		}		
 		return resObj.toString();
 	}
-	@RequestMapping(value="/contactus",method={RequestMethod.GET},produces="text/html")	
+	@RequestMapping(value="/contactus",method={RequestMethod.POST},produces="text/html")	
 	@ResponseBody
 	public String onContactUsSubmit(HttpServletRequest request)
 	{				
 		String fname=request.getParameter("fname");
 		String lname=request.getParameter("lname");
-		String mobile=request.getParameter("phone");
+		String mobile=request.getParameter("mobile");
 		String email=request.getParameter("email");
-		String officeNo=request.getParameter("office");
+		String landline=request.getParameter("landline");
+		String custMsg=request.getParameter("message");
 		Map<String,String> custMap=new HashMap<String, String>();
 		custMap.put("fname",fname);
 		custMap.put("lname",lname);
 		custMap.put("mobile",mobile);
 		custMap.put("email",email);
-		custMap.put("officeNo",officeNo);
+		custMap.put("landline",landline);
+		custMap.put("custMsg",custMsg);
 		String msg=loginService.saveCustomer(custMap);
 		return msg;
 	}

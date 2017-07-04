@@ -6,7 +6,8 @@ public class Customer {
 	private String lastName;
 	private String email;
 	private String mobile;
-	private String officeNo;
+	private String landline;
+	private String message;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -30,12 +31,18 @@ public class Customer {
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}	
+	public String getLandline() {
+		return landline;
 	}
-	public String getOfficeNo() {
-		return officeNo;
+	public void setLandline(String landline) {
+		this.landline = landline;
+	}	
+	public String getMessage() {
+		return message;
 	}
-	public void setOfficeNo(String officeNo) {
-		this.officeNo = officeNo;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	public int getId() {
 		return id;

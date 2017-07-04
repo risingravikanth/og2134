@@ -11,7 +11,10 @@
 		<property name="lastName" type="string"/>
 		<property name="mobile" type="string"/>
 		<property name="email" type="string"/>
-		<property name="officeNo" type="string"/>		
+		<property name="landline" type="string"/>
+		<property name="message" type="string">
+				<column name="message" sql-type="longtext"/>
+		</property>			
 	</class>
 	
 </hibernate-mapping>	

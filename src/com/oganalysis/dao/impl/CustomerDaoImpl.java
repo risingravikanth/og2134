@@ -24,8 +24,9 @@ public class CustomerDaoImpl implements CustomerDao {
 			cust.setFirstName(customerMap.get("fname"));
 			cust.setLastName(customerMap.get("lname"));
 			cust.setMobile(customerMap.get("mobile"));
-			cust.setOfficeNo(customerMap.get("officeNo"));
+			cust.setLandline(customerMap.get("landline"));
 			cust.setEmail(customerMap.get("email"));
+			cust.setMessage(customerMap.get("custMsg"));
 			session.save(cust);
 			flag=true;
 			tx.commit();
