@@ -92,6 +92,9 @@
 	<script src="./js/controllers/supplyDemandCtrl.js"></script>
 	<script src="./js/controllers/refineriesCtrl.js"></script>
 	<script src="./js/controllers/refineriesInfraCtrl.js"></script>
+	<script src="./js/controllers/storageCapacityCtrl.js"></script>
+	<script src="./js/controllers/storageInfraCtrl.js"></script>
+	
   
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-if="$state">
@@ -266,12 +269,25 @@
             <li><a class="side-item" href="#/refineries/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
             </ul>
         </li>
+        
+        <li class="treeview">
+          <a href="javascript:void(0)">
+            <i class="icon-storage"></i> <span>STORAGE</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a class="side-item" href="#/storage/capacity"><i class="fa fa-circle-o"></i> Capacity</a></li> 
+            <li><a class="side-item" href="#/storage/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
+            </ul>
+        </li>
 		
-		<li>
+		<!--  <li>
 		<a class="side-item" href="#/storage">
             <i class="icon-storage"></i> <span>STORAGE</span>
            </a>
-        </li>
+        </li>-->
 		<li>
 		<a class="side-item" href="#/reports">
             <i class="fa fa-bar-chart"></i> <span>REPORTS</span>
