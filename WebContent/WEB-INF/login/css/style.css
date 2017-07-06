@@ -1723,7 +1723,7 @@ h1, h2, h3, h4, h5, h6, figure {
 .login-box, .register-box {
     width: 360px;
     margin: 7% auto;
-    margin-right: 41%;
+    margin-right: 39%;
     margin-top: 20px;
 	 border: 0px solid #eee;
 }
@@ -1738,5 +1738,19 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .login-background{
 	background-color:#e8e8e8;
+}
+
+#fh5co-hero .flexslider .slides li:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    background: rgba(0, 0, 0, 0);
+    z-index: 1;
+}
+.boldtext{
+	font-weight: 400;
 }
    

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+ <!DOCTYPE HTML>
 <html ng-app="LoginApp">
 	<head>
 	<meta charset="utf-8">
@@ -92,7 +92,7 @@
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
-							<li class="active"><a href="index.html">Home</a></li>
+							<li class="active"><a href="javascript:void(0);">Home</a></li>
 							<!--<li><a href="about.html">About</a></li>-->
 							<!--<li><a href="courses.html">Courses</a></li>
 							<li><a href="teacher.html">Teacher</a></li>
@@ -121,7 +121,7 @@
 			</div>
 		</div>
 		<div class="top-menu login-background" id="loginPage" style="display:none;">
-			 <div class="login-box" >
+			 <div class="login-box animate-box" >
 			  <div class="login-logo">
 				<a href="#"><b>&nbsp;</b></a>
 			  </div><!-- /.login-logo -->
@@ -172,7 +172,7 @@
 							  <strong>Thank you!</strong>We will get back you soon.
 							</div>
 							<div class="alert alert-danger" ng-if="errMessage != ''">
-							  <strong>Error!</strong>Not able to send message now.Please try again after some time.
+							  <strong>Error!</strong>{{ errMessage }}
 							</div>
 							<h3>Interest In Trail !</h3>
 							<form id="contactForm" name="contactForm">
@@ -183,7 +183,7 @@
 									</div>
 									<div class="col-md-6">
 										<!-- <label for="lname">Last Name</label> -->
-										<input type="text" id="lname" class="form-control" ng-Model="contactUsObj.lname" placeholder="Your lastname">
+										<input type="text" id="lname" class="form-control" ng-Model="contactUsObj.lname" placeholder="Your lastname" required>
 									</div>
 								</div>
 								<div class="row form-group">
@@ -200,7 +200,7 @@
 								<div class="row form-group">
 									<div class="col-md-12">
 										<!-- <label for="email">Email</label> -->
-										<input type="text" id="email" class="form-control" ng-Model="contactUsObj.email" placeholder="Your email address">
+										<input type="text" id="email" class="form-control" ng-Model="contactUsObj.email" placeholder="Your email address" required>
 									</div>
 								</div>
 
@@ -243,7 +243,7 @@
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1>Discover Global Upstream <span class="redtextcolor">Market</span> Dynamics </h1>
+			   					<h1>Discover Global Upstream <span class="redtextcolor boldtext">Market</span> Dynamics </h1>
 									<!--<h2>Brought to you by <a href="#" target="_blank">freehtml5.co</a></h2>
 									<p><a class="btn btn-danger btn-lg" href="#">Start Learning Now!</a></p>-->
 			   				</div>
@@ -257,7 +257,7 @@
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1>Refined Downstream <span class="redtextcolor">Industry Data</span> at your finger tips </h1>
+			   					<h1>Refined Downstream <span class="redtextcolor boldtext">Industry Data</span> at your finger tips </h1>
 									<!--<h2>Brought to you by <a href="#" target="_blank">freehtml5.co</a></h2>
 									<p><a class="btn btn-danger btn-lg btn-learn" href="#">Start Learning Now!</a></p>-->
 			   				</div>
@@ -271,7 +271,7 @@
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1>Explore what <span class="redtextcolor">LNG</span> Industry has to Offer </h1>
+			   					<h1>Explore what <span class="redtextcolor boldtext">LNG</span> Industry has to Offer </h1>
 									<!--<h2>Brought to you by <a href="#" target="_blank">freehtml5.co</a></h2>
 									<p><a class="btn btn-danger btn-lg btn-learn" href="#">Start Learning Now!</a></p>-->
 			   				</div>
@@ -921,11 +921,11 @@
 			
 			 $(function () {
 				   
-					$('#rememberMe').iCheck({
+					/*$('#rememberMe').iCheck({
 					  checkboxClass: 'icheckbox_square-blue',
 					  radioClass: 'iradio_square-blue',
 					  increaseArea: '20%' // optional
-					});
+					});*/
 			  });
 			  
 			  angular.module('LoginApp', []);
@@ -968,34 +968,43 @@
 				  }
 				  
 				  $scope.sendMessage = function(){
+						var validFlag = true;
+						if($scope.contactUsObj.mobile == "" &&  $scope.contactUsObj.landline == ""){
+							validFlag = false;
+							$scope.errMessage = "Please enter either mobile number or office number.";
+							$timeout(function(){
+								 $scope.errMessage = "";
+							},3000)
+							
+						}
+						 
 						   var request = {
 								method: 'POST',
 								url: URL.contactUsUrl,
 								data: $.param($scope.contactUsObj),
 								headers: URL.headerRequest
 							};
-							 
-							$http(request).success(function (resp){
-								 if(resp.error == 'correct'){
-									$scope.successMessage = "Invalid email or password.";
-									
-									
-									 $timeout(function(){
+							if(validFlag){
+								$http(request).success(function (resp){
+								 if(resp == 'success'){
+									 $scope.successMessage = "Invalid email or password.";
+								 	 $timeout(function(){
 										 $scope.successMessage = "";
 										 $(".login-background").hide();//('display','block');
 									 },3000)
 									
 								 }else if(resp.error =='appError'){
-									 $scope.errMessage = "errro";
+									 $scope.errMessage = "Unable to send message now.Please try again after some time.";
 									 $timeout(function(){
 										 $scope.errMessage = "";
 									 },3000)
 									
 								 }
 								 
-							}).error(function (resp){
-								console.log("Error")
-							});
+								}).error(function (resp){
+									console.log("Error")
+								});
+						 	}
 				  }
 				  
 				  $scope.signup = function(){
@@ -1063,3 +1072,4 @@
 	</body>
 </html>
 
+ 
