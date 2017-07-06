@@ -84,6 +84,19 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  .state('storage/capacity', {
+        url:'/storage/capacity',
+        templateUrl: 'views/storageCapacity.html',
+		controller:"StorageCapacityCtrl"
+	  })
+	  .state('storage/infrastructure', {
+        url:'/storage/infrastructure',
+        templateUrl: 'views/storageInfra.html',
+		controller:"StorageInfraCtrl"
+	  })
+	  
+	  
+	  
  	   .state('crude', {
         url:'/crude',
         templateUrl: 'views/commonpage.html',
@@ -462,6 +475,48 @@
     	});
     	
     	HttpService.get('/refineries/owners').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].owner ,
+    					label : resp[i].owner
+    			}
+    			$scope.ownerData.push(obj);
+    			 
+    		}
+    		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
+    	});
+    	
+    	
+    };	
+    
+    $rootScope.loadStorageFilter = function(){
+     	$scope.locationData = [];
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	
+    	HttpService.get('/storage/locations').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].location ,
+    					label : resp[i].location
+    			}
+    			$scope.locationData.push(obj);
+    		}
+    		$scope.locationData = $scope.sortedOrder($scope.locationData);
+    	});
+    	
+    	HttpService.get('/storage/operators').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].operator ,
+    					label : resp[i].operator
+    			}
+    			$scope.operatorData.push(obj);
+    		}
+    		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
+    	});
+    	
+    	HttpService.get('/storage/owners').then(function(resp) {
     		for(var i=0;i< resp.length;i++){
     			var obj = {
     					id : resp[i].owner ,
