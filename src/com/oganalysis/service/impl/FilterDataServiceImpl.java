@@ -5,6 +5,7 @@ import java.util.List;
 import com.oganalysis.dao.FilterDataDao;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.dao.RefineriesDao;
+import com.oganalysis.dao.StorageDao;
 import com.oganalysis.entities.source.Countries;
 import com.oganalysis.entities.source.Region;
 import com.oganalysis.entities.source.Status;
@@ -16,6 +17,7 @@ public class FilterDataServiceImpl implements FilterDataService {
 	private FilterDataDao filterDataDao;
 	private LngDao lngDao;
 	private RefineriesDao refineriesDao;
+	private StorageDao storageDao;
 	@Override
 	public String getRegions() {
 		// TODO Auto-generated method stub
@@ -106,6 +108,33 @@ public class FilterDataServiceImpl implements FilterDataService {
 		jsonRes=res.createOwnersResponse(ownersList);
 		return jsonRes;
 	}
+	@Override
+	public String getStorageLocations() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> locationsList=storageDao.getLocations();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createLocationsResponse(locationsList);
+		return jsonRes;
+	}
+	@Override
+	public String getStorageOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=storageDao.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
+	}
+	@Override
+	public String getStorageOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorList=storageDao.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorList);
+		return jsonRes;
+	}
 	public FilterDataDao getFilterDataDao() {
 		return filterDataDao;
 	}
@@ -123,6 +152,12 @@ public class FilterDataServiceImpl implements FilterDataService {
 	}
 	public void setRefineriesDao(RefineriesDao refineriesDao) {
 		this.refineriesDao = refineriesDao;
+	}
+	public StorageDao getStorageDao() {
+		return storageDao;
+	}
+	public void setStorageDao(StorageDao storageDao) {
+		this.storageDao = storageDao;
 	}
 	
 	

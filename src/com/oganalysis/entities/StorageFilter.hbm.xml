@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="StorageFilter" table="storage_filter_data">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+		<property name="tankFarm" type="string"/>
+		<property name="region" type="string"/>
+		<property name="country" type="string"/> 
+		<property name="location" type="string"/>
+		<property name="status" type="string"/>		
+		<property name="currentOperator" type="string"/>
+		<property name="currentOwners" type="string"/>
+		<property name="currentOwnership" type="double"/>		
+		<property name="capacityM3" type="double"/>		
+	</class>
+	
+</hibernate-mapping>	

@@ -11,4 +11,7 @@ public interface FilterDataService {
 	public String getRefineryLocations();
 	public String getRefineryOperators();
 	public String getRefineryOwners();
+	public String getStorageLocations();
+	public String getStorageOperators();
+	public String getStorageOwners();
 }

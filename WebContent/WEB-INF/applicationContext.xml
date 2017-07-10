@@ -25,7 +25,7 @@
 		<property name="naturalGasDao" ref="naturalGasDao"/>
 		<property name="pipeLineDao" ref="pipeLineDao"/>
 		<property name="refineryDao" ref="refineryDao"/>
-		<property name="storageDao" ref="storageDao"/>
+		<!-- <property name="storageDao" ref="storageDao"/>-->
 	</bean>
 			
 	<!-- Service Layer -->
@@ -35,7 +35,8 @@
 	<bean id="filterdataServiceImpl" class="com.oganalysis.service.impl.FilterDataServiceImpl">
 		<property name="filterDataDao" ref="filterDataDao"/>
 		<property name="lngDao" ref="lngDao"/>
-		<property name="refineriesDao" ref="refineriesDao"/>		
+		<property name="refineriesDao" ref="refineriesDao"/>
+		<property name="storageDao" ref="storageDao"/>	
 	</bean>
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
@@ -58,6 +59,12 @@
 		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>
 		<property name="refineriesInfraBusinessServiceImpl" ref="refineriesInfraBusinessServiceImpl"/>			
 	</bean>
+	
+	<bean id="storageServiceImpl" class="com.oganalysis.service.impl.StorageServiceImpl">
+		<property name="storageCapacityBusinessServiceImpl" ref="storageCapacityBusinessServiceImpl"/>
+		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>				
+	</bean>
+	<!-- Service Layer -->
 	
 	<!-- BusinessServiceImpl -->
 	<bean id="lngCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.LngCapacityBusinessServiceImpl">
@@ -88,12 +95,29 @@
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="refineriesCache" ref="refineriesCache"/>
 	</bean>
+	
+	<bean id="storageCapacityBusinessServiceImpl" class="com.oganalysis.business.impl.StorageCapacityBusinessServiceImpl">
+		<property name="storageDao" ref="storageDao"/>
+		<property name="storageCache" ref="storageCache"/>
+	</bean>
+	<bean id="storageInfraBusinessServiceImpl" class="com.oganalysis.business.impl.StorageInfraBusinessServiceImpl">
+		<property name="storageDao" ref="storageDao"/>
+		<property name="storageCache" ref="storageCache"/>
+	</bean>
+	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
 		<property name="userDao" ref="userDao"/>
 		<property name="customerDao" ref="customerDao"/>		
 	</bean>
 	<!-- BusinessServiceImpl -->
 	<!--  Cache Class -->
+	<bean id="storageCache" class="com.oganalysis.cache.StorageCache"><!-- init-method="initCache" -->
+		<property name="storageDao" ref="storageDao"/>
+		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>
+		<property name="startYear" value="#{applicationProps['STARTYEAR']}"/>
+		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
+	</bean>
+	
 	<bean id="refineriesCache" class="com.oganalysis.cache.RefineriesCache"><!-- init-method="initCache" -->
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="refineriesInfraBusinessService" ref="refineriesInfraBusinessServiceImpl"/>

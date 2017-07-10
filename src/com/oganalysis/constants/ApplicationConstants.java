@@ -135,6 +135,11 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_CURRENTOPERATOR="currentOperator";
 	public static final String RESTRICTION_PROPERTY_LOCATION=LOCATION;
 	
+	//Storage Restrictions in StorageDaoImpl
+	public static final String RESTRICTION_PROPERTY_CURRENTOWNERS="currentOwners";
+	public static final String RESTRICTION_PROPERTY_TANKFARM="tankFarm";
+	public static final String STORAGE_CAPACITY="capacity";
+		
 	//Refineries Capactiy Modal Terminal Data display
 	public static final String HISTORICOPERATOR="historicOperator";
 	public static final String CURRENTEQUITYPARTNER="currentEquityPartners";

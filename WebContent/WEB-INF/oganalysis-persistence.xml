@@ -57,6 +57,7 @@
 				<value>com/oganalysis/entities/Refinery.hbm.xml</value>
 				<value>com/oganalysis/entities/RefineriesFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
+				<value>com/oganalysis/entities/StorageFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
@@ -107,10 +108,6 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	
-	<bean id="storageDao" class="com.oganalysis.dao.impl.StorageDaoImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	
 	<bean id="filterDataDao" class="com.oganalysis.dao.impl.FilterDataDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
@@ -128,6 +125,10 @@
 	</bean>
 	
 	<bean id="refineriesDao" class="com.oganalysis.dao.impl.RefineriesDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="storageDao" class="com.oganalysis.dao.impl.StorageDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	

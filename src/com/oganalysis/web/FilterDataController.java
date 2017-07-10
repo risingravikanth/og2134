@@ -94,6 +94,30 @@ public class FilterDataController {
 		String response=filterDataServiceImpl.getRefineryOwners();		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/storage/locations",method={RequestMethod.GET})
+	public String getStorageLocations()
+	{			
+		
+		String response=filterDataServiceImpl.getStorageLocations();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/storage/operators",method={RequestMethod.GET})
+	public String getStorageOperators()
+	{			
+		
+		String response=filterDataServiceImpl.getStorageOperators();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/storage/owners",method={RequestMethod.GET})
+	public String getStorageOwners()
+	{			
+		
+		String response=filterDataServiceImpl.getStorageOwners();		
+		return response;
+	}
 	public FilterDataService getFilterDataServiceImpl() {
 		return filterDataServiceImpl;
 	}
