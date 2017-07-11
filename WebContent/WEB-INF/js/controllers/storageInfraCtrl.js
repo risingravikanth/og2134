@@ -35,28 +35,13 @@
 			},
 			{ title: "Location",
 				  data: "location"
-			},
- 	 		{ title: "Status",
-			  data: "status"
-			},
-			{ title: "Start Year",
-				  data: "startYear"
-			},
-			{ title: "Operator",
+			} ,
+ 			{ title: "Operator",
 				  data: "operator"
 			},
-			{ title: "CDU Capacity",
-				  data: "cduCapacity"
-			},
-			{ title: "Coking  Capacity",
-			  data: "cokingCapacity"
-			},
-			{ title: "FCC Capacity",
-				  data: "fccCapacity"
-			},
-			{ title: "Hydrocracking Capacity",
-			  data: "hydroCrackingCapacity"
-			}
+			{ title: "Capacity",
+				  data: "capacity"
+			} 
 	 	];
 	};
 	

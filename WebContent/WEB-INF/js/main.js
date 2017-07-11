@@ -137,6 +137,12 @@
 	Type
 	*/
 	
+	
+	$( ".right-filter" )
+	   .mouseleave(function() {
+	    $( "body" ).click();
+ 	  });
+	
 	$scope.sortedOrder = function(array){
 		var updatedArray = array.sort(function(a, b){
 		    if(a.id < b.id) return -1;

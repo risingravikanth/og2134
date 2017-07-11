@@ -63,7 +63,7 @@
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
 		 
-		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
+		HttpService.get("/storage/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
