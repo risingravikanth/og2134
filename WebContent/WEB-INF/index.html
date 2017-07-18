@@ -95,6 +95,9 @@
 	<script src="./js/controllers/storageCapacityCtrl.js"></script>
 	<script src="./js/controllers/storageInfraCtrl.js"></script>
 	
+	<script src="./js/controllers/productionAssetCtrl.js"></script>
+	<script src="./js/controllers/productionCompanyCtrl.js"></script>
+	
   
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-if="$state">
@@ -249,8 +252,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a class="side-item" href="#/crude"><i class="fa fa-circle-o"></i> Crude</a></li>
-            <li><a  class="side-item" href="#/naturalgas"><i class="fa fa-circle-o"></i> Natural Gas</a></li>
+            <li><a class="side-item" href="#/production/asset"><i class="fa fa-circle-o"></i> Asset</a></li>
+            <li><a  class="side-item" href="#/production/company"><i class="fa fa-circle-o"></i> Company</a></li>
           </ul>
         </li>
 		<!--    -->
@@ -510,6 +513,20 @@
   <aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" ng-init="initFilter()">
 		 
 		<div class="tab-content right-filter" id="right-filter" >
+			<div class="form-group" ng-show="filterObj.assetTypeField">
+				<label class="control-sidebar-subheading">
+						Type
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetTypeData" selected-model="assetTypeModel"  extra-settings="assetTypeSettings" ></div>
+			</div>
+			
+			<div class="form-group" ng-show="filterObj.assetUnitField">
+				<label class="control-sidebar-subheading">
+						Unit
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" ></div>
+			</div>
+			
 			<div class="form-group" ng-show="filterObj.regionField">
 				<label class="control-sidebar-subheading">
 						Region

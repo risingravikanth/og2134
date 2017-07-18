@@ -60,11 +60,7 @@
 	  })
 	  
 	  
-	  .state('production', {
-        url:'/production',
-        templateUrl: 'views/commonpage.html',
-		controller:"CommonCtrl"
-	  })
+	 
 	  
 	  
 	  .state('refineries/capacity', {
@@ -96,7 +92,11 @@
 	  })
 	  
 	  
-	  
+	   .state('production', {
+        url:'/production',
+        templateUrl: 'views/commonpage.html',
+		controller:"CommonCtrl"
+	  })
  	   .state('crude', {
         url:'/crude',
         templateUrl: 'views/commonpage.html',
@@ -107,6 +107,18 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	  .state('production/asset', {
+        url:'/production/asset',
+        templateUrl: 'views/productionAsset.html',
+		controller:"ProductionAssetCtrl"
+	  })
+	 .state('production/company', {
+        url:'/production/company',
+        templateUrl: 'views/productionCompany.html',
+		controller:"ProductionCompanyCtrl"
+	  })
+	  
+	  
 	 
 	 
 	   
@@ -275,7 +287,15 @@
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'sector') }
 		};
 	
+	/*sector filter*/
+	$rootScope.assetTypeModel = [];
+	$scope.assetTypeData = [{id: 'both(gas,oil)', label: "Both"}, {id: 'gas', label: "Gas"}, {id: 'oil', label: "Oil"}];
+	$scope.assetTypeSettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
 	
+	/*sector filter*/
+	$rootScope.assetUnitModel = [];
+	$scope.assetUnitData = [{id: 'MToe', label: "MToe"}, {id: 'MBoE', label: "MBoE"}, {id: 'BcM NG', label: "BcM NG"}];
+	$scope.assetUnitSettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
 	
 	$rootScope.filterObj = {
 		regionField :true,
@@ -289,7 +309,9 @@
 		typeField :true,
 		sectorField :true,
 		imports: false,
-		exports: false
+		exports: false,
+		assetTypeField :false,
+		assetUnitField :false
 	};
 	
 	HttpService.get('/regions').then(function(resp) {
@@ -831,6 +853,15 @@
  		if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
+ 		
+ 		if($rootScope.filterObj.assetTypeField == true){
+ 			$scope.generateFormData($rootScope.assetTypeModel,'type');
+ 		}
+ 		
+ 		if($rootScope.filterObj.assetTypeField == true){
+ 			$scope.generateFormData($rootScope.assetUnitModel,'unit');
+ 		}
+ 		
  
  		HttpService.getHttp($scope.url,$scope.formDataJSON).then(function(resp) {
  			 if($rootScope.table.inst != ""){
@@ -899,6 +930,8 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		$rootScope.assetTypeModel =[];
+ 		$rootScope.assetUnitModel =[];
  		$scope.formDataJSON ={};
  		
  		
