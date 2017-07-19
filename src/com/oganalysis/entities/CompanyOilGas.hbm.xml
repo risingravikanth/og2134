@@ -3,26 +3,14 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.oganalysis.entities">
-	<class name="CrudeOil" table="crudeoil">
+	<class name="CompanyOilGas" table="prod_company_oil_gas">
 		<id name="id">
 			<generator class="increment"/>
 		</id>	
-			<property name="field" type="string"/> 
+			<property name="name" type="string"/> 
 			<property name="region" type="string"/>
 			<property name="country" type="string"/>
-			<property name="location" type="string"/>
-			<property name="basin" type="string"/>
-			<property name="status" type="string"/>
-			<property name="onshoreOrOffshore" type="string"/>
-			<property name="productionStartDate" type="date"/>
-			<property name="currentOperator" type="string"/>
-			<property  name="currentOwners" type="string"/>
-			<property name="currentOwnership" type="double"/>
-			<property name="historicOperator" type="string"/>
-			<property name="historicOwners" type="string"/>
-			<property name="historicOwnership" type="double"/>
-			<property name="historicEquityYear" type="int"/>
-			<property name="sourceEquity" type="string"/>
+			<property name="type" type="string"/>	
 			<property name="year2005" type="double"/>
 			<property name="year2006" type="double"/>
 			<property name="year2007" type="double"/>
@@ -37,6 +25,19 @@
 			<property name="year2016" type="double"/>
 			<property name="year2017" type="double"/>
 			<property name="notes" type="string"/>
+			<property name="source2005" type="string"/>
+			<property name="source2006" type="string"/>
+			<property name="source2007" type="string"/>
+			<property name="source2008" type="string"/>
+			<property name="source2009" type="string"/>
+			<property name="source2010" type="string"/>
+			<property name="source2011" type="string"/>
+			<property name="source2012" type="string"/>
+			<property name="source2013" type="string"/>
+			<property name="source2014" type="string"/>
+			<property name="source2015" type="string"/>
+			<property name="source2016" type="string"/>
+			<property name="source2017" type="string"/>
 	</class>
 	
 </hibernate-mapping>	

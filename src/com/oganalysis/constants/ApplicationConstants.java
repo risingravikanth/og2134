@@ -201,4 +201,30 @@ public interface ApplicationConstants {
 	
 	public static final String SUCCESS="success";
 	public static final String FAIL="fail";
+	
+	//Production Tab
+	public static final String FIELD="field";
+	public static final String BOTH="both";
+	public static final String OIL="oil";
+	public static final String GAS="gas";
+	public static final String NATURALGAS="Natural Gas";
+	public static final String CRUDEOIL="Crude Oil";
+	public static final String MTOE="MToe";
+	public static final String MBOE="MBoE";
+	public static final String BCMNG="BcMNG";
+	
+	public static final String YEAR2005="2005";
+	public static final String YEAR2006="2006";
+	public static final String YEAR2007="2007";
+	public static final String YEAR2008="2008";
+	public static final String YEAR2009="2009";
+	public static final String YEAR2010="2010";
+	public static final String YEAR2011="2011";
+	public static final String YEAR2012="2012";
+	public static final String YEAR2013="2013";
+	public static final String YEAR2014="2014";
+	public static final String YEAR2015="2015";
+	public static final String YEAR2016="2016";
+	public static final String YEAR2017="2017";
+	
 }

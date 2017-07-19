@@ -33,6 +33,9 @@
 			<property name="year2012" type="double"/>
 			<property name="year2013" type="double"/>
 			<property name="year2014" type="double"/>
+			<property name="year2015" type="double"/>
+			<property name="year2016" type="double"/>
+			<property name="year2017" type="double"/>
 			<property name="notes" type="string"/>
 	</class>
 	

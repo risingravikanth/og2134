@@ -31,6 +31,9 @@ public class NaturalGas {
 	private double year2012;
 	private double year2013;
 	private double year2014;
+	private double year2015;
+	private double year2016;
+	private double year2017;
 	private String notes;
 	public String getField() {
 		return field;
@@ -191,6 +194,24 @@ public class NaturalGas {
 	}
 	public void setYear2014(double year2014) {
 		this.year2014 = year2014;
+	}	
+	public double getYear2015() {
+		return year2015;
+	}
+	public void setYear2015(double year2015) {
+		this.year2015 = year2015;
+	}
+	public double getYear2016() {
+		return year2016;
+	}
+	public void setYear2016(double year2016) {
+		this.year2016 = year2016;
+	}
+	public double getYear2017() {
+		return year2017;
+	}
+	public void setYear2017(double year2017) {
+		this.year2017 = year2017;
 	}
 	public String getNotes() {
 		return notes;

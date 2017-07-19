@@ -65,6 +65,7 @@
 				<value>com/oganalysis/entities/ContractsFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/User.hbm.xml</value>
 				<value>com/oganalysis/entities/Customer.hbm.xml</value>
+				<value>com/oganalysis/entities/CompanyOilGas.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Region.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Countries.hbm.xml</value>
 				<value>com/oganalysis/entities/source/Status.hbm.xml</value>
@@ -74,7 +75,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<!-- <prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.show_sql">true</prop>
 				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
 				<!-- <prop key="hibernate.generate_statistics">true</prop>-->				
 				 <prop key="hibernate.cache.use_second_level_cache">true</prop>
@@ -136,6 +137,10 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	<bean id="customerDao" class="com.oganalysis.dao.impl.CustomerDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="companyOilGasDao" class="com.oganalysis.dao.impl.CompanyOilGasDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 		

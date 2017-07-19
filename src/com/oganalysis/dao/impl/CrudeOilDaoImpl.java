@@ -1,5 +1,10 @@
 package com.oganalysis.dao.impl;
 
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_REGION;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,80 +14,64 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.oganalysis.dao.OGDao;
+import com.oganalysis.dao.CrudeOilDao;
 import com.oganalysis.entities.CrudeOil;
+import com.oganalysis.entities.NaturalGas;
 
-public class CrudeOilDaoImpl implements OGDao {
+public class CrudeOilDaoImpl implements CrudeOilDao {
 
-	private HibernateTemplate hibernateTemplate;
+	
 	private SessionFactory sessionFactory;
 	
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+		
 		this.sessionFactory=sessionFactory;
 	}
+
+
 	@Override
-	public List<Object> getOGAnalysisCriteriaData(
-			Map<String, List> selectedOptions) {
-		
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(CrudeOil.class);
-		
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
+	public List<CrudeOil> getCrudeOil(Map<String, List<String>> selectedOptions) {
+		// TODO Auto-generated method stub
+		List<CrudeOil> crudeOil=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();			
+			tx.begin();
+			Criteria criteria=session.createCriteria(CrudeOil.class);
+			createFiltersCriteria(selectedOptions, criteria);											
+			crudeOil=criteria.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return crudeOil;
+	}
+	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
+	{
+		List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
+		List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
+			
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
+			Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
 			criteria.add(counrtryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)
 		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
+			Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION, regions);
 			criteria.add(regionCriterion);
 		}
-		 
+	
 		
-//		Criterion criterion1=Restrictions.eq("country", c1);
-//		Criterion criterion2=Restrictions.eq("country", c2);
-//		
-//		Criterion criterion3=Restrictions.eq("region", r1);
-//		Criterion criterion4=Restrictions.eq("region", r2);
-//		
-//		Criterion countries=Restrictions.or(criterion1, criterion2);
-//		Criterion region=Restrictions.or(criterion3, criterion4);
-		
-		
-		
-		
-		
-		List<Object> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
-	}
-
-	@Override
-	public List<Object> getOGAnalysisData() {
-		// TODO Auto-generated method stub
-		
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(CrudeOil.class);
-		
-		List<Object> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
 	}
 
 }

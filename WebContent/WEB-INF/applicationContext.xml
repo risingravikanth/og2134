@@ -19,10 +19,10 @@
 	
 	<!--  ServiceImpl -->
 	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
-		<property name="crudeOilDao" ref="crudeOilDao"/>
+		<!-- <property name="crudeOilDao" ref="crudeOilDao"/>-->
 		<property name="explorationDao" ref="explorationDao"/>
 		<!-- <property name="lngDao" ref="lngDao"/>-->
-		<property name="naturalGasDao" ref="naturalGasDao"/>
+		<!-- <property name="naturalGasDao" ref="naturalGasDao"/>-->
 		<property name="pipeLineDao" ref="pipeLineDao"/>
 		<property name="refineryDao" ref="refineryDao"/>
 		<!-- <property name="storageDao" ref="storageDao"/>-->
@@ -64,6 +64,9 @@
 		<property name="storageCapacityBusinessServiceImpl" ref="storageCapacityBusinessServiceImpl"/>
 		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>				
 	</bean>
+	<bean id="productionServiceImpl" class="com.oganalysis.service.impl.ProductionServiceImpl">
+		<property name="productionBusinessServiceImpl" ref="productionBusinessServiceImpl"/>				
+	</bean>
 	<!-- Service Layer -->
 	
 	<!-- BusinessServiceImpl -->
@@ -103,6 +106,12 @@
 	<bean id="storageInfraBusinessServiceImpl" class="com.oganalysis.business.impl.StorageInfraBusinessServiceImpl">
 		<property name="storageDao" ref="storageDao"/>
 		<property name="storageCache" ref="storageCache"/>
+	</bean>
+	<bean id="productionBusinessServiceImpl" class="com.oganalysis.business.impl.ProductionBusinessServiceImpl">
+		<property name="naturalGasDao" ref="naturalGasDao"/>
+		<property name="crudeOilDao" ref="crudeOilDao"/>
+		<property name="companyOilGasDao" ref="companyOilGasDao"/>
+		<!-- <property name="storageCache" ref="storageCache"/>-->
 	</bean>
 	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
