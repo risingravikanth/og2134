@@ -339,7 +339,7 @@
 		 		}*/
 			}
 			
-			if(resp[k].type =="gas"){
+			if(resp[k].type =="oil"){
 			 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 			 	
 			 	/*if($scope.regasificationData && $scope.regasificationData.length > 0){
