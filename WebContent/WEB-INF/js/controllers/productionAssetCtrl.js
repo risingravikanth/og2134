@@ -21,7 +21,7 @@
  	};
 	
 	$scope.setDisplayPeriod = function(){
-		for(var i = URL.displayFrom;i <= URL.displayTo_2017 ;i++){
+		for(var i = URL.displayFrom_2005;i <= URL.displayTo_2017 ;i++){
 			var obj = {
 				id : i,
 				name : i
@@ -53,10 +53,10 @@
 			 		$scope.regasificationData =[];
 			 		 
 		 	  		 	
-			 		if($scope.gridDataList[0] != undefined){
+			 		if(resp[0] != undefined){
 						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
 						$scope.columns.push({title:columnName  ,data:"name"});
-						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+						for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
 							if(key != "name"){
 								var colObj = {
 										title:key.toUpperCase(),
@@ -87,7 +87,8 @@
 	}
 	
 	$rootScope.filterSubmit = function(){
- 
+		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
 		$scope.destroyTable();
 		$rootScope.capacityFilterJSON = {};
 		if($rootScope.filterObj.regionField == true){
@@ -121,24 +122,31 @@
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
  		if($rootScope.filterObj.assetTypeField == true){
- 			if($rootScope.assetTypeModel.id != undefined){
+ 		 	if($rootScope.assetTypeModel.id != undefined){
+ 		 		$rootScope.assetTypeModel.length =0;
  				$rootScope.assetTypeModel.push({id:$rootScope.assetTypeModel.id});
  			}else if ($rootScope.assetTypeModel.length >0){
- 				
+ 				if($rootScope.assetTypeModel.id == undefined)
+						$rootScope.assetTypeModel.length =0
  	 		}else{
  				$rootScope.assetTypeModel.length =0;
  			}
  			$scope.generateFormData($rootScope.assetTypeModel,'type');
  		}
  		if($rootScope.filterObj.assetUnitField == true){
- 			if($rootScope.assetUnitModel.id != undefined){
+ 	 		if($rootScope.assetUnitModel.id != undefined){
+ 	 			$rootScope.assetUnitModel.length =0;
  				$rootScope.assetUnitModel.push({id:$rootScope.assetUnitModel.id});
+ 				$scope.CO_unit = $rootScope.assetUnitModel.id;
+ 	 	 		$scope.NG_unit = $rootScope.assetUnitModel.id;
  			}else if ($rootScope.assetUnitModel.length >0){
- 				
+ 					if($rootScope.assetUnitModel.id == undefined)
+ 						$rootScope.assetUnitModel.length =0
  	 		}else{
  				$rootScope.assetUnitModel.length =0;
  			}
  			$scope.generateFormData($rootScope.assetUnitModel,'unit');
+ 			
  		}
  		
   		for(var key in $rootScope.searchFilterObj){
@@ -156,10 +164,10 @@
 				
 		 		$scope.columns =[];
 			  
-		 		if($scope.gridDataList[0] != undefined){
+		 		if(resp[0] != undefined){
 					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
 					$scope.columns.push({title:columnName  ,data:"name"});
-					for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
 						if(key != "name"){
 							var colObj = {
 									title:key.toUpperCase(),
@@ -177,6 +185,11 @@
 	 		 }
 	 	});
  	};
+ 	
+ 	$rootScope.onFilterSelect = function(item,filterType){
+ 		console.log($scope.countryModel);
+ 		
+  	};
  	
  	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
@@ -269,6 +282,8 @@
  		$rootScope.assetTypeModel =[];
  		$rootScope.assetUnitModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
  		
  		if($scope.url != ''){
 			var resetReq = angular.copy($rootScope.searchFilterObj);
@@ -324,7 +339,7 @@
 		 		}*/
 			}
 			
-			if(resp[k].type =="oil"){
+			if(resp[k].type =="gas"){
 			 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
 			 	
 			 	/*if($scope.regasificationData && $scope.regasificationData.length > 0){
@@ -386,8 +401,11 @@
  		$rootScope.assetTypeModel =[];
  		$rootScope.assetUnitModel =[];
  		$rootScope.capacityFilterJSON ={};
-		
-		
+ 		
+ 		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
+ 		
+ 		
 		$scope.occurrenceOptions = [
         {
 			name : "Country",
@@ -400,10 +418,9 @@
         }];
 		
 		$rootScope.searchFilterObj = {
-				startDate: $scope.dateObj.getFullYear(),
-				endDate:URL.displayTo_2017,
-				displayType:"country",
-				type: "both(oil,gas)"
+				startDate: URL.displayFrom_2005,
+				endDate:URL.displayTo_2016,
+				displayType:"country"
  		};
   
 		if($scope.url != ''){

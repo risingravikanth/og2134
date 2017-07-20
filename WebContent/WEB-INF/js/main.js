@@ -289,7 +289,7 @@
 	
 	/*sector filter*/
 	$rootScope.assetTypeModel = [];
-	$scope.assetTypeData = [{id: 'both(gas,oil)', label: "Both"}, {id: 'gas', label: "Gas"}, {id: 'oil', label: "Oil"}];
+	$scope.assetTypeData = [{id: 'both', label: "Both"}, {id: 'gas', label: "Gas"}, {id: 'oil', label: "Oil"}];
 	$scope.assetTypeSettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
 	
 	/*sector filter*/

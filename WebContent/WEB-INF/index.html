@@ -513,19 +513,7 @@
   <aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" ng-init="initFilter()">
 		 
 		<div class="tab-content right-filter" id="right-filter" >
-			<div class="form-group" ng-show="filterObj.assetTypeField">
-				<label class="control-sidebar-subheading">
-						Type
-				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetTypeData" selected-model="assetTypeModel"  extra-settings="assetTypeSettings" ></div>
-			</div>
 			
-			<div class="form-group" ng-show="filterObj.assetUnitField">
-				<label class="control-sidebar-subheading">
-						Unit
-				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" ></div>
-			</div>
 			
 			<div class="form-group" ng-show="filterObj.regionField">
 				<label class="control-sidebar-subheading">
@@ -638,6 +626,20 @@
 						Sector
 				</label>
 				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="sectorData" selected-model="sectorModel" ></div>
+			</div>
+			
+			<div class="form-group" ng-show="filterObj.assetTypeField">
+				<label class="control-sidebar-subheading">
+						Type
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetTypeData" selected-model="assetTypeModel"  extra-settings="assetTypeSettings" ></div>
+			</div>
+			
+			<div class="form-group" ng-show="filterObj.assetUnitField">
+				<label class="control-sidebar-subheading">
+						Unit
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" ></div>
 			</div>
 			
 	 		

@@ -20,8 +20,10 @@ angular.module('OGAnalysis')
 		this.apiversion = "/oganalysis";
 		this.displayFrom = 2000;
 		this.displayTo = 2022;
+		this.displayFrom_2005 =2005;
 		this.displayTo_2020 = 2020;
 		this.displayTo_2017 = 2017;
+		this.displayTo_2016 = 2016;
 		this.dateObj = new Date();
 		this.currentYear = this.dateObj.getFullYear()
 		this.liquefactionType = "Liquefaction";
