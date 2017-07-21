@@ -323,7 +323,8 @@
  	};
 	
  	$scope.loadTableData = function(resp){
-  		 
+ 		$scope.liquefactionData = [];
+ 		$scope.regasificationData = [];
    		for(var k=0; k < resp.length; k++){
 			if(resp[k].type =="gas"){
 		 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
