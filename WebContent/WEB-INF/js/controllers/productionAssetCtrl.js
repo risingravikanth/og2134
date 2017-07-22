@@ -163,6 +163,11 @@
 				 
 				
 		 		$scope.columns =[];
+		 		if(!Array.isArray(resp)){
+		 			var tempresp = resp;
+		 			resp = [];
+		 			resp.push(tempresp);
+		 		}
 			  
 		 		if(resp[0] != undefined){
 					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
@@ -325,6 +330,9 @@
  	$scope.loadTableData = function(resp){
  		$scope.liquefactionData = [];
  		$scope.regasificationData = [];
+ 		
+ 	
+ 		
    		for(var k=0; k < resp.length; k++){
 			if(resp[k].type =="gas"){
 		 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
