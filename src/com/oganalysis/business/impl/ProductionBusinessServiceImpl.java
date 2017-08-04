@@ -25,6 +25,7 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 	private double OIL_MTOE=0.04980;
 	private double OIL_MBOE=0.36500;
 	private double OIL_BCMNG=0.05475;
+	private String defaultCountry="Algeria";
 	@Override
 	public List<Map<String,String>> getNaturalGasCapacityByCountry(
 			Map<String, List<String>> selectedOptions) {
@@ -427,29 +428,59 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 		return capacity;
 	}
 	@Override
-	public List<Map<String, String>> getCompanyOilGasCapacity(String country,
+	public List<Map<String, String>> getCompanyOilGasCapacity(Map<String,List<String>> selectedOptions,
 			String filterType) {
 		// TODO Auto-generated method stub
+		String country=null;
+		if(null!=selectedOptions.get(OPTION_SELECTED_COUNTRIES) && selectedOptions.get(OPTION_SELECTED_COUNTRIES).size()>0)
+			country=selectedOptions.get(OPTION_SELECTED_COUNTRIES).get(0);
+		else
+			country=defaultCountry;
 		List<CompanyOilGas> companiesOilGasList=companyOilGasDao.getCompanyOilGas(country, filterType);
+		double units=0;
+		if(filterType.equals(NATURALGAS))
+			units=getGasUnitValue(selectedOptions);
+		else
+			units=getOilUnitValue(selectedOptions);
 		List<Map<String,String>> companiesOilGasMapList=new ArrayList<Map<String,String>>();
 		Map<String,String> countryOilGasMap=null;
 		for(CompanyOilGas compOilGas:companiesOilGasList)
 		{
 			countryOilGasMap=new HashMap<String, String>();
 			countryOilGasMap.put(COMPANY,compOilGas.getName());
-			countryOilGasMap.put(YEAR2005,String.valueOf(round(compOilGas.getYear2005(),2)));
-			countryOilGasMap.put(YEAR2006,String.valueOf(round(compOilGas.getYear2006(),2)));
-			countryOilGasMap.put(YEAR2007,String.valueOf(round(compOilGas.getYear2007(),2)));
-			countryOilGasMap.put(YEAR2008,String.valueOf(round(compOilGas.getYear2008(),2)));
-			countryOilGasMap.put(YEAR2009,String.valueOf(round(compOilGas.getYear2009(),2)));
-			countryOilGasMap.put(YEAR2010,String.valueOf(round(compOilGas.getYear2010(),2)));
-			countryOilGasMap.put(YEAR2011,String.valueOf(round(compOilGas.getYear2011(),2)));
-			countryOilGasMap.put(YEAR2012,String.valueOf(round(compOilGas.getYear2012(),2)));
-			countryOilGasMap.put(YEAR2013,String.valueOf(round(compOilGas.getYear2013(),2)));
-			countryOilGasMap.put(YEAR2014,String.valueOf(round(compOilGas.getYear2014(),2)));
-			countryOilGasMap.put(YEAR2015,String.valueOf(round(compOilGas.getYear2015(),2)));
-			countryOilGasMap.put(YEAR2016,String.valueOf(round(compOilGas.getYear2016(),2)));
-			countryOilGasMap.put(YEAR2017,String.valueOf(round(compOilGas.getYear2017(),2)));
+			if(units!=0)
+			{
+				countryOilGasMap.put(YEAR2005,String.valueOf(round(compOilGas.getYear2005()*units,2)));
+				countryOilGasMap.put(YEAR2006,String.valueOf(round(compOilGas.getYear2006()*units,2)));
+				countryOilGasMap.put(YEAR2007,String.valueOf(round(compOilGas.getYear2007()*units,2)));
+				countryOilGasMap.put(YEAR2008,String.valueOf(round(compOilGas.getYear2008()*units,2)));
+				countryOilGasMap.put(YEAR2009,String.valueOf(round(compOilGas.getYear2009()*units,2)));
+				countryOilGasMap.put(YEAR2010,String.valueOf(round(compOilGas.getYear2010()*units,2)));
+				countryOilGasMap.put(YEAR2011,String.valueOf(round(compOilGas.getYear2011()*units,2)));
+				countryOilGasMap.put(YEAR2012,String.valueOf(round(compOilGas.getYear2012()*units,2)));
+				countryOilGasMap.put(YEAR2013,String.valueOf(round(compOilGas.getYear2013()*units,2)));
+				countryOilGasMap.put(YEAR2014,String.valueOf(round(compOilGas.getYear2014()*units,2)));
+				countryOilGasMap.put(YEAR2015,String.valueOf(round(compOilGas.getYear2015()*units,2)));
+				countryOilGasMap.put(YEAR2016,String.valueOf(round(compOilGas.getYear2016()*units,2)));
+				countryOilGasMap.put(YEAR2017,String.valueOf(round(compOilGas.getYear2017()*units,2)));
+			}
+			else
+			{
+				countryOilGasMap.put(YEAR2005,String.valueOf(round(compOilGas.getYear2005(),2)));
+				countryOilGasMap.put(YEAR2006,String.valueOf(round(compOilGas.getYear2006(),2)));
+				countryOilGasMap.put(YEAR2007,String.valueOf(round(compOilGas.getYear2007(),2)));
+				countryOilGasMap.put(YEAR2008,String.valueOf(round(compOilGas.getYear2008(),2)));
+				countryOilGasMap.put(YEAR2009,String.valueOf(round(compOilGas.getYear2009(),2)));
+				countryOilGasMap.put(YEAR2010,String.valueOf(round(compOilGas.getYear2010(),2)));
+				countryOilGasMap.put(YEAR2011,String.valueOf(round(compOilGas.getYear2011(),2)));
+				countryOilGasMap.put(YEAR2012,String.valueOf(round(compOilGas.getYear2012(),2)));
+				countryOilGasMap.put(YEAR2013,String.valueOf(round(compOilGas.getYear2013(),2)));
+				countryOilGasMap.put(YEAR2014,String.valueOf(round(compOilGas.getYear2014(),2)));
+				countryOilGasMap.put(YEAR2015,String.valueOf(round(compOilGas.getYear2015(),2)));
+				countryOilGasMap.put(YEAR2016,String.valueOf(round(compOilGas.getYear2016(),2)));
+				countryOilGasMap.put(YEAR2017,String.valueOf(round(compOilGas.getYear2017(),2)));
+			}
+		
 			companiesOilGasMapList.add(countryOilGasMap);
 		}
 		return companiesOilGasMapList;

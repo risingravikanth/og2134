@@ -30,19 +30,14 @@ public class ProductionController {
 	public String getProductionAsset(HttpServletRequest req)
 	{
 		String response=LOGIN;
-//		if(null!=req.getSession().getAttribute(EMAIL))
-//		{
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
 			String startYear=req.getParameter(STARTDATE);
 			String endYear=req.getParameter(ENDDATE);
-			String displayType=req.getParameter(DISPLAYTYPE);
-			String filterType=req.getParameter(TYPE);
-//			if(null!=req.getParameter(TYPE))
-//				filterType=req.getParameter(TYPE);
-//			else
-//				filterType=BOTH;
+			String displayType=req.getParameter(DISPLAYTYPE);			
 			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-			response=productionServiceImpl.getAssetData(selectedOptions, startYear, endYear, displayType, filterType);
-//		}		
+			response=productionServiceImpl.getAssetData(selectedOptions, startYear, endYear, displayType);
+		}		
 		return response;
 	}
 	@ResponseBody
@@ -53,13 +48,9 @@ public class ProductionController {
 		if(null!=req.getSession().getAttribute(EMAIL))
 		{
 			String startYear=req.getParameter(STARTDATE);
-			String endYear=req.getParameter(ENDDATE);
-//			String displayType=req.getParameter(DISPLAYTYPE);
-			String filterType=req.getParameter(TYPE);
-			String country=req.getParameter(COUNTRY);
-			
-//			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-			response=productionServiceImpl.getCompanyOilGasData(country,startYear,endYear,filterType);
+			String endYear=req.getParameter(ENDDATE);						
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			response=productionServiceImpl.getCompanyOilGasData(selectedOptions,startYear,endYear);
 		}		
 		return response;
 	}
@@ -70,6 +61,7 @@ public class ProductionController {
 		List<String> selectedCountries=new ArrayList<String>();
 		List<String> selectedRegions=new ArrayList<String>();
 		List<String> selectedUnits=new ArrayList<String>();
+		List<String> selectedTypes=new ArrayList<String>();
 					
 		while(selectedOptions.hasMoreElements())
 		{
@@ -80,12 +72,15 @@ public class ProductionController {
 				selectedRegions.add(request.getParameter(option));
 			else if(option.contains(OPTION_UNIT))
 				selectedUnits.add(request.getParameter(option));
+			else if(option.contains(TYPE))
+				selectedTypes.add(request.getParameter(option));
 					
 		}
 		
 			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);
 			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
-			optionsMap.put(OPTION_SELECTED_UNITS,selectedUnits);			
+			optionsMap.put(OPTION_SELECTED_UNITS,selectedUnits);
+			optionsMap.put(OPTION_SELECTED_TYPES,selectedTypes);
 									
 		return optionsMap;
 	}
