@@ -297,6 +297,13 @@
 	$scope.assetUnitData = [{id: 'MToe', label: "MToe"}, {id: 'MBoE', label: "MBoE"}, {id: 'BcM NG', label: "BcM NG"}];
 	$scope.assetUnitSettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
 	
+	/*asset counry field */
+ 	$scope.assetCountryData = [];
+	$rootScope.assetCountryModel = [];
+	$scope.assetCountrySettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
+	 
+	
+	
 	$rootScope.filterObj = {
 		regionField :true,
 		countryField :true,
@@ -311,7 +318,8 @@
 		imports: false,
 		exports: false,
 		assetTypeField :false,
-		assetUnitField :false
+		assetUnitField :false,
+		assetCountryField :false
 	};
 	
 	HttpService.get('/regions').then(function(resp) {
@@ -335,6 +343,7 @@
 			}
 			$scope.countryData.push(obj);
 			$scope.exportedCountriesData.push(obj);
+			$scope.assetCountryData.push(obj);
 		}
 		$scope.exportedCountriesData = $scope.sortedOrder($scope.exportedCountriesData);
 	});
@@ -558,7 +567,10 @@
     	
     	
     };	
- 
+    
+    $rootScope.loadProductionCompanyFilter = function(){
+     	$scope.countrySettings = {enableSearch: true,scrollable:true,selectionLimit :1};
+    };
     
     
 

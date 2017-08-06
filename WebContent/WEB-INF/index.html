@@ -529,6 +529,13 @@
 				<div ng-dropdown-multiselect="" options="countryData" class="form-control filter-control col-md-12" selected-model="countryModel" extra-settings="countrySettings"  events="countryEvents" ></div>
 			</div>
 			
+			<div class="form-group" ng-show="filterObj.assetCountryField">
+				<label class="control-sidebar-subheading">
+						Country
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetCountryData" selected-model="assetCountryModel"  extra-settings="assetCountrySettings" ></div>
+			</div>
+			
 			<div class="form-group" ng-show="filterObj.exports">
 				<label class="control-sidebar-subheading">
 						Export Countries
@@ -641,6 +648,10 @@
 				</label>
 				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" ></div>
 			</div>
+			
+			
+			
+			
 			
 	 		
 			<!-- <div class="form-group" ng-show="filterObj.typeField">

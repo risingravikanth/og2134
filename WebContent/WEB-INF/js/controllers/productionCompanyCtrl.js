@@ -1,25 +1,31 @@
 
+
+
  angular.module('OGAnalysis').controller('ProductionCompanyCtrl', function($scope,$state,$rootScope,URL,HttpService) {
 	console.log("In ProductionCompanyCtrl");
  	console.log($state)
 	
  	$scope.setConfigurations = function(){
-	 		$scope.url = "/supplyDemand";
+	 		$scope.url = "/production/company";
 			$rootScope.filterObj = {
-				regionField :true,
-				countryField :true,
+				regionField :false,
+				countryField :false,
 				locationField : false,
 				operatorField : false,
 				ownerField : false,
 				statusField : false,
 				unitsField : false,
 				offshoreField : false,
-				typeField :false
+				typeField :false,
+				assetTypeField :true,
+				assetUnitField :true,
+				assetCountryField :true
 			};
+			$rootScope.loadProductionCompanyFilter()
  	};
 	
 	$scope.setDisplayPeriod = function(){
-		for(var i = URL.displayFrom;i <= URL.displayTo ;i++){
+		for(var i = URL.displayFrom_2005;i <= URL.displayTo_2017 ;i++){
 			var obj = {
 				id : i,
 				name : i
@@ -51,22 +57,22 @@
 			 		$scope.regasificationData =[];
 			 		 
 		 	  		 	
-			 		$scope.columns.push({title:"Country"  ,data:"country"});
-		 	 		if(resp.data != undefined && resp.data[0] != undefined){
-					 	for(var key in resp.data[0]){
-					 		if(key != "country"){
+			 		if(resp[0] != undefined){
+						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						$scope.columns.push({title:columnName  ,data:"name"});
+						for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+							if(key != "name"){
 								var colObj = {
 										title:key.toUpperCase(),
 										data:key
 								};
 								
 								$scope.columns.push(colObj);
-					 		}
+							}
 				 	  	}
 					}
 					$scope.gridDataList = [];
-					$scope.liquefactionData = resp.data;
-				  	 
+					$scope.loadTableData(resp);
 			 		$rootScope.inItDataTable();
 				 }
 		 	});
@@ -85,6 +91,8 @@
 	}
 	
 	$rootScope.filterSubmit = function(){
+		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
 		$scope.destroyTable();
 		$rootScope.capacityFilterJSON = {};
 		if($rootScope.filterObj.regionField == true){
@@ -117,6 +125,49 @@
  		if($rootScope.filterObj.sectorField == true){
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
+ 		if($rootScope.filterObj.assetTypeField == true){
+ 		 	if($rootScope.assetTypeModel.id != undefined){
+ 		 		$rootScope.assetTypeModel.length =0;
+ 				$rootScope.assetTypeModel.push({id:$rootScope.assetTypeModel.id});
+ 			}else if ($rootScope.assetTypeModel.length >0){
+ 				if($rootScope.assetTypeModel.id == undefined)
+						$rootScope.assetTypeModel.length =0
+ 	 		}else{
+ 				$rootScope.assetTypeModel.length =0;
+ 			}
+ 			$scope.generateFormData($rootScope.assetTypeModel,'type');
+ 		}
+ 		if($rootScope.filterObj.assetUnitField == true){
+ 	 		if($rootScope.assetUnitModel.id != undefined){
+ 	 			$rootScope.assetUnitModel.length =0;
+ 				$rootScope.assetUnitModel.push({id:$rootScope.assetUnitModel.id});
+ 				$scope.CO_unit = $rootScope.assetUnitModel.id;
+ 	 	 		$scope.NG_unit = $rootScope.assetUnitModel.id;
+ 			}else if ($rootScope.assetUnitModel.length >0){
+ 					if($rootScope.assetUnitModel.id == undefined)
+ 						$rootScope.assetUnitModel.length =0
+ 	 		}else{
+ 				$rootScope.assetUnitModel.length =0;
+ 			}
+ 			$scope.generateFormData($rootScope.assetUnitModel,'unit');
+ 			
+ 		}
+ 		if($rootScope.filterObj.assetCountryField == true){
+ 	 		if($rootScope.assetCountryModel.id != undefined){
+ 	 			$rootScope.assetCountryModel.length =0;
+ 				$rootScope.assetCountryModel.push({id:$rootScope.assetCountryModel.id});
+ 				$scope.CO_unit = $rootScope.assetCountryModel.id;
+ 	 	 		$scope.NG_unit = $rootScope.assetCountryModel.id;
+ 			}else if ($rootScope.assetCountryModel.length >0){
+ 					if($rootScope.assetCountryModel.id == undefined)
+ 						$rootScope.assetCountryModel.length =0
+ 	 		}else{
+ 				$rootScope.assetCountryModel.length =0;
+ 			}
+ 			$scope.generateFormData($rootScope.assetCountryModel,'country');
+ 			
+ 		}
+ 		
  		
   		for(var key in $rootScope.searchFilterObj){
  			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
@@ -132,31 +183,38 @@
 				 
 				
 		 		$scope.columns =[];
+		 		if(!Array.isArray(resp)){
+		 			var tempresp = resp;
+		 			resp = [];
+		 			resp.push(tempresp);
+		 		}
 			  
-		 		$scope.columns.push({title:"Country"  ,data:"country"});
-	 	 		if(resp.data != undefined && resp.data[0] != undefined){
-				 	for(var key in resp.data[0]){
-				 		if(key != "country"){
+		 		if(resp[0] != undefined){
+					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+					$scope.columns.push({title:columnName  ,data:"name"});
+					for(var key in resp[0][$rootScope.searchFilterObj.displayType][0]){
+						if(key != "name"){
 							var colObj = {
 									title:key.toUpperCase(),
 									data:key
 							};
 							
 							$scope.columns.push(colObj);
-				 		}
+						}
 			 	  	}
 				}
 				$scope.gridDataList = [];
-				$scope.liquefactionData = resp.data;
-			 	 
-			   
-			 	$rootScope.inItDataTable();
+				$scope.loadTableData(resp);
+		 		$rootScope.inItDataTable();
 				
-				
-				
-			 }
+	 		 }
 	 	});
  	};
+ 	
+ 	$rootScope.onFilterSelect = function(item,filterType){
+ 		console.log($scope.countryModel);
+ 		
+  	};
  	
  	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
@@ -246,7 +304,11 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		$rootScope.assetTypeModel =[];
+ 		$rootScope.assetUnitModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
  		
  		if($scope.url != ''){
 			var resetReq = angular.copy($rootScope.searchFilterObj);
@@ -263,33 +325,79 @@
 					$scope.gridDataList = angular.copy(resp);
 					$scope.columns =[];
 					
-					$scope.columns.push({title:"Country"  ,data:"country"});
-		 	 		if(resp.data != undefined && resp.data[0] != undefined){
-					 	for(var key in resp.data[0]){
-					 		if(key != "country"){
+					if($scope.gridDataList[0] != undefined){
+						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						$scope.columns.push({title:columnName  ,data:"name"});
+						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+							if(key != "name"){
 								var colObj = {
 										title:key.toUpperCase(),
 										data:key
 								};
 								
 								$scope.columns.push(colObj);
-					 		}
+							}
 				 	  	}
 					}
 					$scope.gridDataList = [];
-					$scope.liquefactionData = resp.data;
-			 		
-					$rootScope.inItDataTable();
+					$scope.loadTableData(resp);
+			 		$rootScope.inItDataTable();
 	 			}
 	 		});
 		}
  	};
 	
+ 	$scope.loadTableData = function(resp){
+ 		$scope.liquefactionData = [];
+ 		$scope.regasificationData = [];
+ 		
+ 	
+ 		
+   		for(var k=0; k < resp.length; k++){
+			if(resp[k].type =="gas"){
+		 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
+		 		
+		 		/*if($scope.liquefactionData && $scope.liquefactionData.length > 0){
+			 		var tempCapacity = resp[k].totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.liquefactionData.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.liquefactionData.slice();
+			 	 	$scope.liquefactionData = [];
+			 	 	$scope.liquefactionData = reverseOrder.reverse();
+		 		}*/
+			}
+			
+			if(resp[k].type =="oil"){
+			 	$scope.regasificationData = resp[k][$rootScope.searchFilterObj.displayType];
+			 	
+			 	/*if($scope.regasificationData && $scope.regasificationData.length > 0){
+			 		var tempCapacity = resp[k].totalCapacity;
+			 		tempCapacity.name = " Total";
+			 	 	$scope.regasificationData.push(tempCapacity);
+			 	 	
+			 	 	var reverseOrder = $scope.regasificationData.slice();
+			 	 	$scope.regasificationData = [];
+			 	 	$scope.regasificationData = reverseOrder.reverse();
+			 	}*/
+			 	
+			}
+			
+		}
+   		
+   		if($scope.regasificationData.length == 0 && $scope.liquefactionData.length ==0 ){
+   			$scope.noDataAvailable = false;
+   		}else{
+   			$scope.noDataAvailable = true;
+   		}
+   		
+	};
+ 	
 	
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
-		$scope.title = "Supply & Demand";
+		$scope.title = "Company";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];
@@ -319,28 +427,34 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		$rootScope.assetTypeModel =[];
+ 		$rootScope.assetUnitModel =[];
  		$rootScope.capacityFilterJSON ={};
-		
-		
+ 		
+ 		$scope.CO_unit = "Kb/d";
+ 		$scope.NG_unit = "Mmcf/d";
+ 		
+ 		
 		$scope.occurrenceOptions = [
         {
-			name : "Import",
-			value : "import",
+			name : "Country",
+			value : "country",
 			checked :true
         },{
-			name : "Export",
-			value : "export",
+			name : "Field",
+			value : "field",
 			checked :false
         }];
 		
 		$rootScope.searchFilterObj = {
-				startDate: $scope.dateObj.getFullYear(),
-				endDate:URL.displayTo,
-				displayType:"import"
+				startDate: URL.displayFrom_2005,
+				endDate:URL.displayTo_2016,
+				displayType:"country"
  		};
   
 		if($scope.url != ''){
 			var initailReq = angular.copy($rootScope.searchFilterObj)
+			//initailReq['type'] = "both(oil,gas)";
 	 		HttpService.getHttp($scope.url,initailReq).then(function(resp) {
 	 			
 	 			
@@ -353,23 +467,25 @@
 	 			if(resp != "" && resp != undefined){
 					$scope.gridDataList = angular.copy(resp);
 					$scope.columns =[];
-					$scope.columns.push({title:"Country"  ,data:"country"});
-		 	 		if($scope.gridDataList.data[0] != undefined){
-					 	for(var key in $scope.gridDataList.data[0]){
-					 		if(key != "country"){
+				 	 
+					if($scope.gridDataList[0] != undefined){
+						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						$scope.columns.push({title:columnName  ,data:"name"});
+						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
+							if(key != "name"){
 								var colObj = {
 										title:key.toUpperCase(),
 										data:key
 								};
 								
 								$scope.columns.push(colObj);
-					 		}
+							}
 				 	  	}
 					}
 					$scope.gridDataList = [];
-					$scope.liquefactionData = resp.data;
-				 	
-					$rootScope.inItDataTable();
+					$scope.loadTableData(resp);
+			 		$rootScope.inItDataTable();
+		 			
 	 			}
 	 		});
 		}
@@ -377,3 +493,6 @@
 	  
 
  });
+
+
+ 

@@ -15,7 +15,7 @@
 					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
 				</select>
 			</div>
-			<div class="form-group pull-right">
+			<div class="form-group pull-right" style="display:none;">
 				<label class="control-label" for="inputEmail3">Display Type : </label>
 				<label ng-repeat="option in occurrenceOptions track by $index" style="padding:5px;">
 					<input type="radio" name="displayType" class="minimal" ng-value="option.value" ng-change="typeChangeFn()" ng-model="searchFilterObj.displayType" checked>
@@ -30,7 +30,7 @@
 	<section class="content-header">
 		<h1 ng-cloak class="ng-cloak">
 			<!--  {{ Supply & Demand |  uppercase}} -->
-       SUPPLY & DEMAND
+      Company
         
 			<!-- <small>it all starts here</small>  -->
 		</h1>
@@ -74,7 +74,7 @@
 		</div>
 		<!-- /.box -->
 		<!-- Default box -->
-		<div class="box box-info" style="display:none;">
+		<div class="box box-info" ng-hide= "regasificationData.length == 0">
 			<div class="box-header with-border">
 				<h3 class="box-title">
 					<span  ng-if=" url != '/pdfReports'" >Global {{ searchFilterObj.displayType }}</span>
@@ -105,7 +105,7 @@
 		
 		
 		
-	<div class="box box-info" ng-show= "liquefactionData.length == 0">
+	<div class="box box-info" ng-hide= "noDataAvailable">
 		<div class="box-header with-border">
 			<h3 class="box-title">
 				 
