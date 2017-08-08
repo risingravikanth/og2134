@@ -294,7 +294,7 @@
 	
 	/*sector filter*/
 	$rootScope.assetUnitModel = [];
-	$scope.assetUnitData = [{id: 'MToe', label: "MToe"}, {id: 'MBoE', label: "MBoE"}, {id: 'BcM NG', label: "BcM NG"}];
+	$scope.assetUnitData = [{id: 'MToe', label: "MToe"}, {id: 'MBoE', label: "MBoE"}, {id: 'BcMNG', label: "BcMNG"}];
 	$scope.assetUnitSettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
 	
 	/*asset counry field */
