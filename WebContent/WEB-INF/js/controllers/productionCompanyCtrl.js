@@ -437,8 +437,8 @@
  		
 		$scope.occurrenceOptions = [
         {
-			name : "Country",
-			value : "country",
+			name : "Company",
+			value : "company",
 			checked :true
         },{
 			name : "Field",
