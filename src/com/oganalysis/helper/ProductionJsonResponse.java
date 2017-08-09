@@ -100,7 +100,7 @@ public class ProductionJsonResponse {
 			}
 			productionArray.add(prodObj);
 		}		
-		productionJsonObj.put(COUNTRY,productionArray);
+		productionJsonObj.put(COMPANY,productionArray);
 //		if(type.equalsIgnoreCase(GAS))
 //			productionJsonObj.put(GAS,productionArray);
 //		else if(type.equalsIgnoreCase(OIL))
