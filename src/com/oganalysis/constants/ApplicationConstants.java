@@ -11,6 +11,7 @@ public interface ApplicationConstants {
 	public static final String ENDDATE="endDate";
 	public static final String DISPLAYTYPE="displayType";
 	public static final String RECORDNAME="recordName";
+	public static final String REGION="region";
 	public static final String UNDERSCORE="_";
 	
 	
@@ -38,6 +39,8 @@ public interface ApplicationConstants {
 	public static final String CONSTRUCTIONEND="constructionEnd";
 	public static final String CONSTRUCTIONCOMPANYNAME="constructionCompanyName";
 	public static final String CONSTRUCTIONCONTRACTDETAILS="constructionContractDetails";
+	public static final String OTHER_DETAILS="otherDetails";
+	public static final String CAPACITY="Capacity";
 	
 	//LNG Infra and Some values are also for LNG Capacity
 	public static final String TERMINALNAME="terminalName";
@@ -139,12 +142,17 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_CURRENTOWNERS="currentOwners";
 	public static final String RESTRICTION_PROPERTY_TANKFARM="tankFarm";
 	public static final String STORAGE_CAPACITY="capacity";
+	public static final String TANKSIZERANGE_MIN="tankSizeRangeMin";
+	public static final String TANKSIZERANGE_MAX="tankSizeRangeMax";
+	public static final String CURRENTOWNERS=RESTRICTION_PROPERTY_CURRENTOWNERS;
+	public static final String CURRENTOWNERSHIP="currentOwnerShip";
 		
 	//Refineries Capactiy Modal Terminal Data display
 	public static final String HISTORICOPERATOR="historicOperator";
 	public static final String CURRENTEQUITYPARTNER="currentEquityPartners";
 	public static final String CURRENTEQUITYSTAKE="currentEquityStake";
-	public static final String COMMENCEMENT="commencement";	
+	public static final String COMMENCEMENT="commencement";
+	public static final String STATUSDETAILS="statusDetails";
 	public static final String DECOMISSIONEDYEAR="decomissionedYear";
 	public static final String HISTORICEQUITYPARTNER="historicEquityPartner";
 	public static final String HISTORICEQUITYSTAKE="historicEquityStake";
@@ -213,6 +221,31 @@ public interface ApplicationConstants {
 	public static final String MBOE="MBoE";
 	public static final String BCMNG="BcMNG";
 	
+	//Pipeline Tab
+	public static final String OPTION_COMMODITY="commodity";
+	public static final String OPTION_STARTPOINT="startPoint";
+	public static final String OPTION_ENDPOINT="endPoint";
+	public static final String OPTION_SELECTED_COMMODITIES="commodities";
+	public static final String OPTION_SELECTED_STARTPOINTS="startpoints";
+	public static final String OPTION_SELECTED_ENDPOINTS="endpoints";
+	
+	public static final String RESTRICTION_PROPERTY_COMMODITY="commodity";
+	public static final String RESTRICTION_PROPERTY_STARTPOINT="startPoint";
+	public static final String RESTRICTION_PROPERTY_ENDPOINT="endPoint";
+	public static final String RESTRICTION_PROPERTY_SUBPIPELINE="subPipelines";
+	public static final String RESTRICTION_PROPERTY_PARENT_CHILD="parentChildRelation";
+	public static final String RESTRICTION_PROPERTY_PIPELINE_TYPE="pipelineType";
+	public static final String DOMESTIC="domestic";
+	public static final String PARENT="P";
+	public static final String CHILD="C";
+	public static final String PIPELINE="pipeline";
+	public static final String SUBPIPELINE="subpipeline";
+	public static final String LENGTH="length";
+	public static final String DIAMETER="diameter";
+	public static final String STARTPOINT=OPTION_STARTPOINT;
+	public static final String ENDPOINT=OPTION_ENDPOINT;
+	public static final String RELATION="relation";
+	
 	public static final String YEAR2005="2005";
 	public static final String YEAR2006="2006";
 	public static final String YEAR2007="2007";
@@ -226,5 +259,9 @@ public interface ApplicationConstants {
 	public static final String YEAR2015="2015";
 	public static final String YEAR2016="2016";
 	public static final String YEAR2017="2017";
+	
+	public static final String EXCEL_LNG="LNG For ";
+	public static final String EXCEL_REFINERY="Refinery For ";
+	public static final String EXCEL_STORAGE="Storage For ";
 	
 }

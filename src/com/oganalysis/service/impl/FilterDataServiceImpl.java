@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oganalysis.dao.FilterDataDao;
 import com.oganalysis.dao.LngDao;
+import com.oganalysis.dao.PipeLineDao;
 import com.oganalysis.dao.RefineriesDao;
 import com.oganalysis.dao.StorageDao;
 import com.oganalysis.entities.source.Countries;
@@ -18,6 +19,7 @@ public class FilterDataServiceImpl implements FilterDataService {
 	private LngDao lngDao;
 	private RefineriesDao refineriesDao;
 	private StorageDao storageDao;
+	private PipeLineDao pipelineDao;
 	@Override
 	public String getRegions() {
 		// TODO Auto-generated method stub
@@ -135,6 +137,33 @@ public class FilterDataServiceImpl implements FilterDataService {
 		jsonRes=res.createOperatorResponse(operatorList);
 		return jsonRes;
 	}
+	@Override
+	public String getPipeLineCommodities() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> commodityList=pipelineDao.getCommodities();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCommoditiesResponse(commodityList);
+		return jsonRes;		
+	}
+	@Override
+	public String getPipeLineStartPoints() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> startPointList=pipelineDao.getStartPoints();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStartPointResponse(startPointList);
+		return jsonRes;	
+	}
+	@Override
+	public String getPipeLineEndPoints() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> endPointList=pipelineDao.getEndPoints();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createEndPointResponse(endPointList);
+		return jsonRes;	
+	}		
 	public FilterDataDao getFilterDataDao() {
 		return filterDataDao;
 	}
@@ -159,10 +188,11 @@ public class FilterDataServiceImpl implements FilterDataService {
 	public void setStorageDao(StorageDao storageDao) {
 		this.storageDao = storageDao;
 	}
+	public PipeLineDao getPipelineDao() {
+		return pipelineDao;
+	}
+	public void setPipelineDao(PipeLineDao pipelineDao) {
+		this.pipelineDao = pipelineDao;
+	}
 	
-	
-	
-	
-	
-
 }

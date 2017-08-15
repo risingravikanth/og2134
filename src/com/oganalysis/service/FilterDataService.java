@@ -14,4 +14,7 @@ public interface FilterDataService {
 	public String getStorageLocations();
 	public String getStorageOperators();
 	public String getStorageOwners();
+	public String getPipeLineCommodities();
+	public String getPipeLineStartPoints();
+	public String getPipeLineEndPoints();
 }

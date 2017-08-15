@@ -6,6 +6,7 @@ public class PipeLine {
 	private int id;
 	private int recordId;
 	private String pipeline;
+	private String parentChildRelation;
 	private String subPipelines;
 	private String status;
 	private String commodity;
@@ -232,6 +233,12 @@ public class PipeLine {
 	}
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
+	}
+	public String getParentChildRelation() {
+		return parentChildRelation;
+	}
+	public void setParentChildRelation(String parentChildRelation) {
+		this.parentChildRelation = parentChildRelation;
 	}
 	
 	

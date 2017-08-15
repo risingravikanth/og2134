@@ -19,13 +19,12 @@
 	
 	<!--  ServiceImpl -->
 	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
-		<!-- <property name="crudeOilDao" ref="crudeOilDao"/>-->
+		
 		<property name="explorationDao" ref="explorationDao"/>
-		<!-- <property name="lngDao" ref="lngDao"/>-->
-		<!-- <property name="naturalGasDao" ref="naturalGasDao"/>-->
-		<property name="pipeLineDao" ref="pipeLineDao"/>
+		
+		
 		<property name="refineryDao" ref="refineryDao"/>
-		<!-- <property name="storageDao" ref="storageDao"/>-->
+		
 	</bean>
 			
 	<!-- Service Layer -->
@@ -37,10 +36,12 @@
 		<property name="lngDao" ref="lngDao"/>
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="storageDao" ref="storageDao"/>	
+		<property name="pipelineDao" ref="pipelineDao"/>
 	</bean>
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
-		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>		
+		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>
+		<!-- <property name="lngExcel" ref="lngExcel"/>	 -->	
 	</bean>
 	
 	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
@@ -57,15 +58,21 @@
 	
 	<bean id="refineriesServiceImpl" class="com.oganalysis.service.impl.RefineriesServiceImpl">
 		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>
-		<property name="refineriesInfraBusinessServiceImpl" ref="refineriesInfraBusinessServiceImpl"/>			
+		<property name="refineriesInfraBusinessServiceImpl" ref="refineriesInfraBusinessServiceImpl"/>
+		<!-- <property name="refineriesExcel" ref="refineriesExcel"/> -->			
 	</bean>
 	
 	<bean id="storageServiceImpl" class="com.oganalysis.service.impl.StorageServiceImpl">
 		<property name="storageCapacityBusinessServiceImpl" ref="storageCapacityBusinessServiceImpl"/>
-		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>				
+		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>	
+		<!-- <property name="storageExcel" ref="storageExcel"/> -->			
 	</bean>
 	<bean id="productionServiceImpl" class="com.oganalysis.service.impl.ProductionServiceImpl">
 		<property name="productionBusinessServiceImpl" ref="productionBusinessServiceImpl"/>				
+	</bean>
+	
+	<bean id="pipeLineServiceImpl" class="com.oganalysis.service.impl.PipeLineServiceImpl">
+		<property name="pipeLineBusinessServiceImpl" ref="pipeLineBusinessServiceImpl"/>				
 	</bean>
 	<!-- Service Layer -->
 	
@@ -113,6 +120,9 @@
 		<property name="companyOilGasDao" ref="companyOilGasDao"/>
 		<!-- <property name="storageCache" ref="storageCache"/>-->
 	</bean>
+	<bean id="pipeLineBusinessServiceImpl" class="com.oganalysis.business.impl.PipeLineBusinessServiceImpl">
+		<property name="pipelineDao" ref="pipelineDao"/>
+	</bean>
 	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
 		<property name="userDao" ref="userDao"/>
@@ -145,6 +155,9 @@
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>
 	
+	<!-- <bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
+	<bean id="refineriesExcel" class="com.oganalysis.excel.RefineriesExcel"/>
+	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/> -->
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
 	<context:property-placeholder properties-ref="applicationProps" />

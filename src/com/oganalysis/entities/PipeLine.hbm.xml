@@ -8,6 +8,7 @@
 			<generator class="increment"/>
 		</id>	
 		<property name="pipeline" type="string"/>
+		<property name="parentChildRelation" type="string" column="parent_child_relation"/>
 		<property name="subPipelines" type="string"/>
 		<property name="status" type="string"/>
 		<property  name="commodity" type="string"/>

@@ -16,6 +16,7 @@ import com.oganalysis.entities.source.Countries;
 import com.oganalysis.entities.source.Region;
 import com.oganalysis.entities.source.Status;
 import com.oganalysis.entities.source.Type;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class JsonResponse {
 	
@@ -308,11 +309,8 @@ public class JsonResponse {
 			for(Object object:dataList)
 			{
 				 Region region=(Region)object;
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  				  			 
-				  jsonObj.put("region",region.getName());
-				  						      			      
+				 JSONObject jsonObj=new JSONObject();				 											  				  		
+				  jsonObj.put(OPTION_REGION,region.getName());				  						      			     
 			      array.add(jsonObj);
 			      
 			}
@@ -320,7 +318,7 @@ public class JsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createCountriesResponse(List<Countries> dataList)
@@ -333,19 +331,16 @@ public class JsonResponse {
 			for(Countries countries:dataList)
 			{
 				 
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  				  			 
-				  jsonObj.put("country",countries.getName());
-				  						      			      
-			      array.add(jsonObj);
+				JSONObject jsonObj=new JSONObject();				 											  				  			
+				jsonObj.put(OPTION_COUNTRY,countries.getName());										      			     
+			    array.add(jsonObj);
 			      
 			}
 			
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createStatusResponse(List<Status> dataList)
@@ -356,21 +351,16 @@ public class JsonResponse {
 			JSONArray array=new JSONArray();
 			
 			for(Status status:dataList)
-			{
-				 
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  				  			 
-				  jsonObj.put("status",status.getName());
-				  						      			      
-			      array.add(jsonObj);
-			      
+			{				 
+				JSONObject jsonObj=new JSONObject();				 											 				  			
+				jsonObj.put(OPTION_STATUS,status.getName());				  						      			     
+			    array.add(jsonObj);			     
 			}
 			
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createTypeResponse(List<Type> dataList)
@@ -383,19 +373,15 @@ public class JsonResponse {
 			for(Type type:dataList)
 			{
 				 
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  			  			 
-				  jsonObj.put("type",type.getName());
-				  						      			      
-			      array.add(jsonObj);
-			      
+				 JSONObject jsonObj=new JSONObject();				 											  			  		
+				  jsonObj.put(OPTION_TYPE,type.getName());				  					      			     
+			      array.add(jsonObj);			      
 			}
 			
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	
@@ -407,23 +393,19 @@ public class JsonResponse {
 			
 			JSONArray array=new JSONArray();
 			for(String locations:locationsList)
-			{
-				 
-				 JSONObject jsonObj=new JSONObject();
-				 							
-				  if(locations!=null && !locations.equalsIgnoreCase(""))
-				  {
-					  jsonObj.put("location",locations);				  						      			     
+			{				 
+				 JSONObject jsonObj=new JSONObject();									
+				 if(locations!=null && !locations.equalsIgnoreCase(BLANK))
+				 {
+					  jsonObj.put(OPTION_LOCATION,locations);				  						      			     
 				      array.add(jsonObj);
-				  }
-				 
-			      
+				 }				 			     
 			}
 			
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	
@@ -439,9 +421,9 @@ public class JsonResponse {
 				 
 				 JSONObject jsonObj=new JSONObject();
 				 							
-				 if(operator!=null && !operator.equalsIgnoreCase(""))
+				 if(operator!=null && !operator.equalsIgnoreCase(BLANK))
 				 { 
-					 jsonObj.put("operator",operator);				  						      			     				
+					 jsonObj.put(OPTION_OPERATOR,operator);				  						      			     				
 			      	 array.add(jsonObj);
 				 }
 			      
@@ -450,7 +432,7 @@ public class JsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
 		return response;
 	}
 	public String createOwnersResponse(List<String> ownersList)
@@ -465,9 +447,9 @@ public class JsonResponse {
 				 
 				 JSONObject jsonObj=new JSONObject();
 				 							
-				 if(owner!=null && !owner.equalsIgnoreCase(""))
+				 if(owner!=null && !owner.equalsIgnoreCase(BLANK))
 				 { 
-					 jsonObj.put("owner",owner);				  						      			     				
+					 jsonObj.put(OPTION_OWNER,owner);				  						      			     				
 			      	 array.add(jsonObj);
 				 }
 			      
@@ -476,7 +458,82 @@ public class JsonResponse {
 			response=array.toString();		      
 		}
 		else
-			response="";
+			response=BLANK;
+		return response;
+	}
+	public String createCommoditiesResponse(List<String> commoditiesList)
+	{
+		String response=null;
+		if(commoditiesList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String commodity:commoditiesList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(commodity!=null && !commodity.equalsIgnoreCase(BLANK))
+				 { 
+					 jsonObj.put(OPTION_COMMODITY,commodity);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createStartPointResponse(List<String> startPointList)
+	{
+		String response=null;
+		if(startPointList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String startPoint:startPointList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(startPoint!=null && !startPoint.equalsIgnoreCase(BLANK))
+				 { 
+					 jsonObj.put(OPTION_STARTPOINT,startPoint);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createEndPointResponse(List<String> endPointList)
+	{
+		String response=null;
+		if(endPointList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String endPoint:endPointList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(endPoint!=null && !endPoint.equalsIgnoreCase(BLANK))
+				 { 
+					 jsonObj.put(OPTION_ENDPOINT,endPoint);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
 		return response;
 	}
 }

@@ -118,6 +118,30 @@ public class FilterDataController {
 		String response=filterDataServiceImpl.getStorageOwners();		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/pipeline/commodities",method={RequestMethod.GET})
+	public String getPipeLineCommodities()
+	{			
+		
+		String response=filterDataServiceImpl.getPipeLineCommodities();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/pipeline/startpoints",method={RequestMethod.GET})
+	public String getPipeLineStartPoints()
+	{			
+		
+		String response=filterDataServiceImpl.getPipeLineStartPoints();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/pipeline/endpoints",method={RequestMethod.GET})
+	public String getPipeLineEndPoints()
+	{			
+		
+		String response=filterDataServiceImpl.getPipeLineEndPoints();		
+		return response;
+	}
 	public FilterDataService getFilterDataServiceImpl() {
 		return filterDataServiceImpl;
 	}

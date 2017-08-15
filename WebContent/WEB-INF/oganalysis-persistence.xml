@@ -102,7 +102,7 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>	
 	
-	<bean id="pipeLineDao" class="com.oganalysis.dao.impl.PipeLineDaoImpl">
+	<bean id="pipelineDao" class="com.oganalysis.dao.impl.PipeLineDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	<bean id="refineryDao" class="com.oganalysis.dao.impl.RefineryDaoImpl">
