@@ -29,14 +29,12 @@ public class PipeLineController {
 	public String getDomesticData(HttpServletRequest req)
 	{				
 		String response=LOGIN;		
-//		if(null!=req.getSession().getAttribute(EMAIL))
-//		{
-			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
-//			String startDate=req.getParameter(STARTDATE);
-//			String endDate=req.getParameter(ENDDATE);		
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);			
 			String displayType=req.getParameter(DISPLAYTYPE);					
 			response=pipeLineServiceImpl.getDomesticData(selectedOptions,displayType);
-//		}						
+		}						
 		return response;
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
