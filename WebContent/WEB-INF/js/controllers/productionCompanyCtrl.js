@@ -156,9 +156,7 @@
  	 		if($rootScope.assetCountryModel.id != undefined){
  	 			$rootScope.assetCountryModel.length =0;
  				$rootScope.assetCountryModel.push({id:$rootScope.assetCountryModel.id});
- 				$scope.CO_unit = $rootScope.assetCountryModel.id;
- 	 	 		$scope.NG_unit = $rootScope.assetCountryModel.id;
- 			}else if ($rootScope.assetCountryModel.length >0){
+ 		 	}else if ($rootScope.assetCountryModel.length >0){
  					if($rootScope.assetCountryModel.id == undefined)
  						$rootScope.assetCountryModel.length =0
  	 		}else{
@@ -449,7 +447,7 @@
 		$rootScope.searchFilterObj = {
 				startDate: URL.displayFrom_2005,
 				endDate:URL.displayTo_2016,
-				displayType:"country"
+				displayType:"company"
  		};
   
 		if($scope.url != ''){
