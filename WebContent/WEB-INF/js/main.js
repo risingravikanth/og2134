@@ -58,7 +58,18 @@
         templateUrl: 'views/commonpage.html',
 		controller:"CommonCtrl"
 	  })
+	   .state('pipeline/domestic', {
+        url:'/pipeline/domestic',
+        templateUrl: 'views/pipelinesDomestic.html',
+		controller:"PipelinesDomesticCtrl"
+	  })
+	 .state('pipeline/trans-national', {
+        url:'/pipeline/trans-national',
+        templateUrl: 'views/pipelinesTransNational.html',
+		controller:"PipelinesTransNationalCtrl"
+	  })
 	  
+	 
 	  
 	 
 	  
@@ -118,8 +129,6 @@
 		controller:"ProductionCompanyCtrl"
 	  })
 	  
-	  
-	 
 	 
 	   
 	  .state('reports', {
@@ -301,6 +310,24 @@
  	$scope.assetCountryData = [];
 	$rootScope.assetCountryModel = [];
 	$scope.assetCountrySettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
+	
+	
+	/*pipeline commodity field */
+ 	$scope.pdCommodityData = [];
+	$rootScope.pdCommodityModel = [];
+	$scope.pdCommoditySettings = {selectionLimit: 1,enableSearch: true,scrollable:true};
+	
+	
+	/*pipeline statpoint field */
+ 	$scope.pdStartPointData = [];
+	$rootScope.pdStartPointModel = [];
+	$scope.pdStartPointSettings = {enableSearch: true,scrollable:true};
+	
+	/*pipeline endpoint field */
+ 	$scope.pdEndPointData = [];
+	$rootScope.pdEndPointModel = [];
+	$scope.pdEndPointSettings = {enableSearch: true,scrollable:true};
+	
 	 
 	
 	
@@ -319,7 +346,10 @@
 		exports: false,
 		assetTypeField :false,
 		assetUnitField :false,
-		assetCountryField :false
+		assetCountryField :false,
+		pdCommodityField :false,
+		pdStartPointField :false,
+		pdEndPointField :false
 	};
 	
 	HttpService.get('/regions').then(function(resp) {
@@ -381,6 +411,40 @@
 			$scope.typeData.push(obj);
 		}
  		$scope.typeData = $scope.sortedOrder($scope.typeData);
+	});
+	
+	HttpService.get('/pipeline/commodities').then(function(resp) {
+ 		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].commodity ,
+					label : resp[i].commodity
+			}
+			$scope.pdCommodityData.push(obj);
+		}
+ 		$scope.pdCommodityData = $scope.sortedOrder($scope.pdCommodityData);
+	});
+	
+	
+	HttpService.get('/pipeline/startpoints').then(function(resp) {
+ 		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].startPoint ,
+					label : resp[i].startPoint
+			}
+			$scope.pdStartPointData.push(obj);
+		}
+ 		$scope.pdStartPointData = $scope.sortedOrder($scope.pdStartPointData);
+	});
+	
+	HttpService.get('/pipeline/endpoints').then(function(resp) {
+ 		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].endPoint ,
+					label : resp[i].endPoint
+			}
+			$scope.pdEndPointData.push(obj);
+		}
+ 		$scope.pdEndPointData = $scope.sortedOrder($scope.pdEndPointData);
 	});
 	
 	$scope.generateFormData = function(ary,key){
@@ -571,6 +635,12 @@
     $rootScope.loadProductionCompanyFilter = function(){
      	$scope.countrySettings = {enableSearch: true,scrollable:true,selectionLimit :1};
     };
+    
+    
+    $rootScope.loadPipelinesDomesticFilter = function(){
+    	
+    	
+    }
     
     
 
