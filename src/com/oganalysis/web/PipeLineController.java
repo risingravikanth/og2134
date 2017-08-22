@@ -37,6 +37,19 @@ public class PipeLineController {
 		}						
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/transnational/length",method={RequestMethod.GET})
+	public String getTransNationalData(HttpServletRequest req)
+	{				
+		String response=LOGIN;		
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);			
+			String displayType=req.getParameter(DISPLAYTYPE);					
+			response=pipeLineServiceImpl.getTransNationalData(selectedOptions,displayType);
+		}						
+		return response;
+	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();
