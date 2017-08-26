@@ -32,7 +32,7 @@
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdevdb -->
 		<property name="user" value="root"/>
-		<property name="password" value="mysqlroot123"/><!-- mysqlroot123-->
+		<property name="password" value="root"/><!-- mysqlroot123-->
 		
 		 		
   		<property name="maxPoolSize" value="50" />

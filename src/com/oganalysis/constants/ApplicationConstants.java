@@ -236,7 +236,6 @@ public interface ApplicationConstants {
 	public static final String RESTRICTION_PROPERTY_PARENT_CHILD="parentChildRelation";
 	public static final String RESTRICTION_PROPERTY_PIPELINE_TYPE="pipelineType";
 	public static final String DOMESTIC="domestic";
-	public static final String TRANSNATIONAL="transnational";
 	public static final String PARENT="P";
 	public static final String CHILD="C";
 	public static final String PIPELINE="pipeline";

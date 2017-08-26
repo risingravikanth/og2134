@@ -3,11 +3,12 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.oganalysis.entities">
-	<class name="PipeLine">
+	<class name="PipeLine" table="pipeLine">
 		<id name="id">
 			<generator class="increment"/>
 		</id>	
 		<property name="pipeline" type="string"/>
+		<property name="parentChildRelation" type="string" column="parent_child_relation"/>
 		<property name="subPipelines" type="string"/>
 		<property name="status" type="string"/>
 		<property  name="commodity" type="string"/>

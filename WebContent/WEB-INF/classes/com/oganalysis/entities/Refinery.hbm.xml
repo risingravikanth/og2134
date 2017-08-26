@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.oganalysis.entities">
-	<class name="Refinery" table="Refineries">
+	<class name="Refinery" table="refineries">
 			<id name="id">
 				<generator class="increment"/>
 			</id>
@@ -91,5 +91,10 @@
 		    <property name="kerojet" type="double"/>
 		    <property name="benzeneSaturationUnit" type="string"/>
 		    <property name="productsSources" type="string"/>
+		    <property name="licensors" type="string"/>
+		    <property name="maintananceStartDate" type="int"/>
+		    <property name="maintananceEndDate" type="int"/>
+		    <property name="maintananceNote" type="string"/>
+		    <property name="cduProducingCapacity" type="double"/>
 	</class>
 </hibernate-mapping>	
