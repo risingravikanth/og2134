@@ -1,19 +1,19 @@
-  	
+   	
 <nav ng-if=" url != '/pdfReports'" class="navbar navbar-default custom-navbar" role="navigation" id="submenu" ng-init="init()">
 	<div class="row subheader">
 		<form class="form-inline">
-			<div class="form-group">
+			 <div class="form-group" style="display:none;">
 				<label for="email">Display Period From:</label>
 				<select class="form-control" name="displayForm" ng-model="searchFilterObj.startDate" ng-change="typeChangeFn()">
 					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group" style="display:none;">
 				<label for="pwd">Display Period To:</label>
 				<select class="form-control" name="displayTo" ng-model="searchFilterObj.endDate" ng-change="typeChangeFn()">
 					<option ng-repeat="item in displayPeriodList" ng-value="item.id">{{ item.name }}</option>
 				</select>
-			</div>
+			</div>  
 			<div class="form-group pull-right">
 				<label class="control-label" for="inputEmail3">Display Type : </label>
 				<label ng-repeat="option in occurrenceOptions track by $index" style="padding:5px;">
@@ -36,7 +36,7 @@
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1 ng-cloak class="ng-cloak">
-        {{ "refineries" |  uppercase}} 
+        {{ "Trans National Pipeline" |  uppercase}} 
         
 		<!-- <small>it all starts here</small>  -->
 	</h1>

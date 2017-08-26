@@ -1,21 +1,24 @@
 
- angular.module('OGAnalysis').controller('RefineriesCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
-	console.log("In CapacityCtrl ctrl");
+ angular.module('OGAnalysis').controller('PipelinesTransNationalCtrl', function($scope,$state,$rootScope,URL,HttpService,$timeout) {
+	console.log("In PipelinesTransNationalCtrl ctrl");
  	console.log($state)
 	
  	$scope.setConfigurations = function(){
-	 		$scope.url = "/refineries/capacity";
-	 		$rootScope.loadRefineriesFilter();
+	 		$scope.url = "/pipeline/transnational/length";
+	 		$rootScope.loadPipelinesDomesticFilter();
 			$rootScope.filterObj = {
 				regionField :true,
 				countryField :true,
-				locationField : true,
-	 			operatorField : true,
-				ownerField : true,
+				locationField : false,
+	 			operatorField : false,
+				ownerField : false,
 				statusField : true,
 				unitsField : false,
 				offshoreField : false,
-				typeField :false
+				typeField :false,
+				pdCommodityField :true,
+				pdStartPointField :true,
+				pdEndPointField :true
 			};
  	} ;
 	
@@ -530,8 +533,7 @@
  	};
 	
 	$rootScope.typeChangeFn = function(){
-		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
-			$scope.destroyTable();
+	 		$scope.destroyTable();
 			
 			for(var key in $rootScope.searchFilterObj){
 	 			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
@@ -541,7 +543,11 @@
 				 if($rootScope.table.liquefactionInst != ""){
 					 
 					if(resp != "" && resp != undefined ){
-	 					resp = resp;
+						if($rootScope.searchFilterObj.displayType != "pipeline"){
+		 					resp = resp.data;
+		 				}else{
+		 					resp = resp;
+		 				}
 	 				}else{
 	 					resp = [];
 	 				}
@@ -552,37 +558,36 @@
 			 		 
 			 		//if(resp[0][$rootScope.searchFilterObj.displayType].length != 0){
 			  		 	
-			 			if(resp[0] != undefined){
-							var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
-							$scope.columns.push({title:columnName  ,data:"name"});
-							for(var key in resp[0]['totalCapacity']){
-								if(key != "name"){
-									var colObj = {
-											title:key.toUpperCase(),
-											data:key
-									};
-									
-									$scope.columns.push(colObj);
-								}
-					 	  	}
-						}
-			 	 
-						
+			 			if(resp != undefined){
+			 				var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+						 	$scope.columns.push({title:columnName  ,data:$rootScope.searchFilterObj.displayType});
+							$scope.columns.push({title: "Length"  ,data: "length"});
+							
+							if($rootScope.searchFilterObj.displayType == "pipeline"){
+								$scope.columns = [];
+								$scope.columns.push({title: "pipeline"  ,data: "pipeline"});
+								$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
+								$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
+								$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+								$scope.columns.push({title: "Length"  ,data: "length"});
+								$scope.columns.push({title: "Diameter"  ,data: "diameter"});
+								$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
+							}
+					 	}
+			 		 	
 						$scope.gridDataList = [];
 						$scope.loadTableData(resp);
 						$rootScope.inItDataTable();
 				 }
 		 	});
- 		}else{
- 			alert("Display period From is always greater than Dispaly period to field.")
- 		}
-		
-		
-	};
+ 	 };
 	
 	$scope.generateFormData = function(ary,key){
 		for(var i=0;i< ary.length; i++){
 			var fromkey = key+i
+			if(key == 'singleSelection'){
+				 fromkey = key;
+			}
 	 		$rootScope.capacityFilterJSON[fromkey] = ary[i].id;
  		}
 	}
@@ -627,14 +632,39 @@
  			$scope.generateFormData($rootScope.sectorModel,'sector');
  		}
  		
+ 		if($rootScope.filterObj.pdCommodityField == true){
+ 		 	if($rootScope.pdCommodityModel.id != undefined){
+ 		 		$rootScope.pdCommodityModel.length =0;
+ 				$rootScope.pdCommodityModel.push({id:$rootScope.pdCommodityModel.id});
+ 			}else if ($rootScope.pdCommodityModel.length >0){
+ 				if($rootScope.pdCommodityModel.id == undefined)
+						$rootScope.pdCommodityModel.length =0
+ 	 		}else{
+ 				$rootScope.pdCommodityModel.length =0;
+ 			}
+ 			$scope.generateFormData($rootScope.pdCommodityModel,'singleSelection');
+ 		}
+ 		
+ 		if($rootScope.filterObj.pdStartPointField == true){
+ 			$scope.generateFormData($rootScope.pdStartPointModel,'startpoint');
+ 		} 
+ 		
+ 		if($rootScope.filterObj.pdEndPointField == true){
+ 			$scope.generateFormData($rootScope.pdEndPointModel,'endpoint');
+ 		} 
+ 	 	
   		for(var key in $rootScope.searchFilterObj){
  			$rootScope.capacityFilterJSON[key] = $rootScope.searchFilterObj[key];
   		}
- 
+   
  		HttpService.getHttp($scope.url,$rootScope.capacityFilterJSON).then(function(resp) {
 			 if($rootScope.table.liquefactionInst != ""){
 				 if(resp != "" && resp != undefined ){
-	 					resp = resp;
+					 	if($rootScope.searchFilterObj.displayType != "pipeline"){
+		 					resp = resp.data;
+		 				}else{
+		 					resp = resp;
+		 				}
 	 				}else{
 	 					resp = [];
 	 				}
@@ -642,19 +672,23 @@
 				
 		 		$scope.columns =[];
 	  		
-		 		if(resp[0] != undefined){
-					var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
-					$scope.columns.push({title:columnName  ,data:"name"});
-					for(var key in resp[0]['totalCapacity']){
-						if(key != "name"){
-							var colObj = {
-									title:key.toUpperCase(),
-									data:key
-							};
-							
-							$scope.columns.push(colObj);
-						}
-			 	  	}
+		 		if(resp != undefined){
+		 			var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
+				 	$scope.columns.push({title:columnName  ,data:$rootScope.searchFilterObj.displayType});
+					$scope.columns.push({title: "Length"  ,data: "length"});
+					
+
+					if($rootScope.searchFilterObj.displayType == "pipeline"){
+						$scope.columns = [];
+						$scope.columns.push({title: "pipeline"  ,data: "pipeline"});
+						$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
+						$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
+						$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+						$scope.columns.push({title: "Length"  ,data: "length"});
+						$scope.columns.push({title: "Diameter"  ,data: "diameter"});
+						$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
+					}
+			
 				}
 		 		
 				
@@ -662,10 +696,7 @@
 				$scope.loadTableData(resp);
 			 	 
 				$rootScope.inItDataTable();
-				
-				
-				
-			 }
+ 			 }
 	 	});
  	};
  	
@@ -703,7 +734,7 @@
  						var commonHref = "";
  						if(data != ' Total'){
  							var modalParam = "'"+data+"'";
- 							commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
+ 							commonHref =  '<p>'+data+'</p>';
  						}else{
  							commonHref =  '<p>'+data+'</p>';
  						}
@@ -712,7 +743,7 @@
  					"targets": 0
  							}
  							],
- 	 
+ 							"bSort" : false,
  							columns: $scope.columns,
  							data : $scope.liquefactionData
  				});
@@ -754,7 +785,7 @@
 	 		}
 		 			
 		 
-			$("#liquefaction tbody tr:first").addClass('total-row');
+			//$("#liquefaction tbody tr:first").addClass('total-row');
 			$("#regasification tbody tr:first").addClass('total-row');
 	 	 
 			
@@ -790,6 +821,9 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		$rootScope.pdEndPointModel = [];
+ 		$rootScope.pdStartPointModel = [];
+ 		$rootScope.pdCommodityModel = [];
  		$rootScope.capacityFilterJSON ={};
  		
  		if($scope.url != ''){
@@ -798,7 +832,11 @@
 	 			
 	 			
 	 			if(resp != "" && resp != undefined ){
- 					resp = resp;
+	 				if($rootScope.searchFilterObj.displayType != "pipeline"){
+	 					resp = resp.data;
+	 				}else{
+	 					resp = resp;
+	 				}
  				}else{
  					resp = [];
  				}
@@ -810,17 +848,21 @@
 		 			//for(var i =0 ; i < $scope.gridDataList[0].country.length; i++){
 					if($scope.gridDataList[0] != undefined){
 						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
-						$scope.columns.push({title:columnName  ,data:"name"});
-						for(var key in $scope.gridDataList[0]['totalCapacity']){
-							if(key != "name"){
-								var colObj = {
-										title:key.toUpperCase(),
-										data:key
-								};
-								
-								$scope.columns.push(colObj);
-							}
-				 	  	}
+					 	$scope.columns.push({title:columnName  ,data:$rootScope.searchFilterObj.displayType});
+						$scope.columns.push({title: "Length"  ,data: "length"});
+						
+
+						if($rootScope.searchFilterObj.displayType == "pipeline"){
+							$scope.columns = [];
+							$scope.columns.push({title: "pipeline"  ,data: "pipeline"});
+							$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
+							$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
+							$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+							$scope.columns.push({title: "Length"  ,data: "length"});
+							$scope.columns.push({title: "Diameter"  ,data: "diameter"});
+							$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
+						}
+				
 					}
 					$scope.gridDataList = [];
 					$scope.loadTableData(resp);
@@ -834,21 +876,22 @@
  		
    	};
    	$scope.loadTableData = function(resp){
-		for(var k=0; k < resp.length; k++){
-			 
-	 		$scope.liquefactionData = resp[k][$rootScope.searchFilterObj.displayType];
-	 		
-	 		if($scope.liquefactionData && $scope.liquefactionData.length > 0){
-		 		var tempCapacity = resp[k].totalCapacity;
-		 		tempCapacity.name = " Total";
-		 	 	$scope.liquefactionData.push(tempCapacity);
-		 	 	
-		 	 	var reverseOrder = $scope.liquefactionData.slice();
-		 	 	$scope.liquefactionData = [];
-		 	 	$scope.liquefactionData = reverseOrder.reverse();
-	 		}
- 		}
-	 		
+	 	
+   		if($rootScope.searchFilterObj.displayType == "pipeline"){
+   			var pipeLineAry = [];
+   			if(resp != undefined && resp.length >0){
+   				for(var i=0; i< resp.length; i++){
+   					for(var j=0; j< resp[i].length; j++){
+   						pipeLineAry.push(resp[i][j])
+   					}
+   			 	}
+   			}
+   			$scope.liquefactionData = pipeLineAry;
+   		}else{
+   			$scope.liquefactionData = resp;
+   		}
+ 		
+	  		
 		if($scope.liquefactionData.length ==0){
    			$scope.noDataAvailable = false;
    		}else{
@@ -860,7 +903,7 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
-		$scope.title = "Capacity";
+		$scope.title = "Trans National Pipeline";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];
@@ -877,7 +920,7 @@
 		};
 		
 		$scope.setConfigurations();
-		$scope.setDisplayPeriod();
+		//$scope.setDisplayPeriod();
 		
 		$scope.destroyTable();
 		$rootScope.regionModel = [];
@@ -890,6 +933,9 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		$rootScope.pdEndPointModel = [];
+ 		$rootScope.pdStartPointModel = [];
+ 		$rootScope.pdCommodityModel = [];
  		$rootScope.capacityFilterJSON ={};
  		
  		$scope.noDataAvailable = true;
@@ -905,15 +951,13 @@
 			value : "company",
 			checked :false
         },{
-			name : "Terminal",
-			value : "terminal",
+			name : "Pipeline",
+			value : "pipeline",
 			checked :false
         }];
 		
 		$rootScope.searchFilterObj = {
-				startDate: $scope.dateObj.getFullYear(),
-				endDate:"2022",
-				displayType:"country"
+	 			displayType:"country"
  		};
   
 		if($scope.url != ''){
@@ -922,7 +966,12 @@
 	 			
 	 			
 	 			if(resp != "" && resp != undefined ){
- 					resp = resp;
+	 				if($rootScope.searchFilterObj.displayType != "pipeline"){
+	 					resp = resp.data;
+	 				}else{
+	 					resp = resp;
+	 				}
+ 					
  				}else{
  					resp = [];
  				}
@@ -934,17 +983,20 @@
 		 			//for(var i =0 ; i < $scope.gridDataList[0].country.length; i++){
 					if($scope.gridDataList[0] != undefined){
 						var columnName = $rootScope.searchFilterObj.displayType.charAt(0).toUpperCase() +  $rootScope.searchFilterObj.displayType.slice(1);
-						$scope.columns.push({title:columnName  ,data:"name"});
-						for(var key in $scope.gridDataList[0][$rootScope.searchFilterObj.displayType][0]){
-							if(key != "name"){
-								var colObj = {
-										title:key.toUpperCase(),
-										data:key
-								};
-								
-								$scope.columns.push(colObj);
-							}
-				 	  	}
+						$scope.columns.push({title:columnName  ,data:$rootScope.searchFilterObj.displayType});
+						$scope.columns.push({title: "Length"  ,data: "length"});
+						
+
+						if($rootScope.searchFilterObj.displayType == "pipeline"){
+							$scope.columns = [];
+							$scope.columns.push({title: "pipeline"  ,data: "pipeline"});
+							$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
+							$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
+							$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+							$scope.columns.push({title: "Length"  ,data: "length"});
+							$scope.columns.push({title: "Diameter"  ,data: "diameter"});
+							$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
+						}
 					}
 					$scope.gridDataList = [];
 				 	$scope.loadTableData(resp);
