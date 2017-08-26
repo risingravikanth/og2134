@@ -957,7 +957,7 @@
         }];
 		
 		$rootScope.searchFilterObj = {
-	 			displayType:"country"
+	 			displayType:"pipeline"
  		};
   
 		if($scope.url != ''){
