@@ -33,7 +33,7 @@ public class JsonResponse {
 				  jsonObj.put("blockNo",exploration.getBlockNo());
 				  jsonObj.put("region",exploration.getRegion());
 				  jsonObj.put("country",exploration.getCountry());
-				  jsonObj.put("onshoreoroffshore", exploration.getOnShoreOrOffShore());
+				  jsonObj.put("onshoreoroffshore", exploration.getOnshoreOrOffshore());
 				  jsonObj.put("basin",exploration.getBasin());
 				  jsonObj.put("status",exploration.getStatus());
 				  jsonObj.put("startDate",exploration.getStartDate().toString());

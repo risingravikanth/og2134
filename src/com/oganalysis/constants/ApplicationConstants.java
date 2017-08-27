@@ -230,8 +230,8 @@ public interface ApplicationConstants {
 	public static final String OPTION_SELECTED_ENDPOINTS="endpoints";
 	
 	public static final String RESTRICTION_PROPERTY_COMMODITY="commodity";
-	public static final String RESTRICTION_PROPERTY_STARTPOINT="startPoint";
-	public static final String RESTRICTION_PROPERTY_ENDPOINT="endPoint";
+	public static final String RESTRICTION_PROPERTY_STARTPOINT=OPTION_STARTPOINT;
+	public static final String RESTRICTION_PROPERTY_ENDPOINT=OPTION_ENDPOINT;
 	public static final String RESTRICTION_PROPERTY_SUBPIPELINE="subPipelines";
 	public static final String RESTRICTION_PROPERTY_PARENT_CHILD="parentChildRelation";
 	public static final String RESTRICTION_PROPERTY_PIPELINE_TYPE="pipelineType";
@@ -264,5 +264,19 @@ public interface ApplicationConstants {
 	public static final String EXCEL_LNG="LNG For ";
 	public static final String EXCEL_REFINERY="Refinery For ";
 	public static final String EXCEL_STORAGE="Storage For ";
+	
+	//Exploration
+	public static final String OPTION_BASIN="basin";
+	public static final String OPTION_SELECTED_BASINS="basins";
+	public static final String BLOCK="block";
+	public static final String RESTRICTION_PROPERTY_BASIN=OPTION_BASIN;
+//	public static final String RESTRICTION_PROPERTY_ONOFFSHORE="onShoreOrOffShore";
+	
+	public static final String BLOCKNAME="blockName";
+	public static final String BASIN=OPTION_BASIN;
+	public static final String ON_OFF_SHORE=ONSHORE_OR_OFFSHORE;
+	public static final String DATE_AWAREDED="dateawarded";
+	public static final String AREA=RESTRICTION_PROPERTY_AREA;
+	public static final String OWNERS=OPTION_OWNER;
 	
 }

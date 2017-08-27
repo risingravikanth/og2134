@@ -10,12 +10,13 @@
 		<property name="blockNo" type="string"/>
 		<property name="region" type="string"/>		
 		<property name="country" type="string"/>
-		<property name="onShoreOrOffShore" type="string"/>
+		<property name="onshoreOrOffshore" type="string"/>
 		<property name="basin" type="string"/>
 		<property name="status" type="string"/>
 		<property name="startDate" type="date"/> 
 		<property name="operator" type="string"/>
 		<property name="equityParterns" type="string"/>
+		<property name="equityStakes" type="double"/>
 		<property name="sourceEquity" type="string"/> 
 		<property name="area" type="double"/>
 		<property name="licenseEnddate" type="date"/>
