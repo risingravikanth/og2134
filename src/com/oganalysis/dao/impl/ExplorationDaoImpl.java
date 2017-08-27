@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -108,6 +109,75 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Criterion typeCriterion=Restrictions.in(RESTRICTION_PROPERTY_ONSHOREOROFFSHORE,types);
 			criteria.add(typeCriterion);
 		}
+	}
+
+	@Override
+	public List<String> getBasins() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> basins=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			basins=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct basin from Exploration where basin!=' ' order by basin asc");
+			basins=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return basins;
+	}
+
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> owners=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			owners=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct equityPartners from Exploration where equityPartners!=' ' order by equityPartners asc");
+			owners=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return owners;
+	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> operators=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			operators=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct operator from Exploration where operator!=' ' order by operator asc");
+			operators=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return operators;
 	}
 	
 }

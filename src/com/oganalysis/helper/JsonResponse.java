@@ -536,4 +536,29 @@ public class JsonResponse {
 			response=BLANK;
 		return response;
 	}
+	public String createBasinResponse(List<String> basinList)
+	{
+		String response=null;
+		if(basinList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String basin:basinList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(basin!=null && !basin.equalsIgnoreCase(BLANK))
+				 { 
+					 jsonObj.put(OPTION_BASIN,basin);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
 }

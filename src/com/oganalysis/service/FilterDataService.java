@@ -17,4 +17,7 @@ public interface FilterDataService {
 	public String getPipeLineCommodities();
 	public String getPipeLineStartPoints();
 	public String getPipeLineEndPoints();
+	public String getExplorationBasins();
+	public String getExplorationOwners();
+	public String getExplorationOperators();
 }

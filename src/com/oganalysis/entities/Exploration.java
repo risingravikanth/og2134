@@ -12,7 +12,7 @@ public class Exploration {
 	private String status;
 	private Date startDate;
 	private String operator;
-	private String equityParterns;
+	private String equityPartners;
 	private double equityStakes;
 	private String sourceEquity;
 	private double area;
@@ -73,13 +73,12 @@ public class Exploration {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	public String getEquityParterns() {
-		return equityParterns;
+	public String getEquityPartners() {
+		return equityPartners;
 	}
-	public void setEquityParterns(String equityParterns) {
-		this.equityParterns = equityParterns;
-	}	
-	
+	public void setEquityPartners(String equityPartners) {
+		this.equityPartners = equityPartners;
+	}
 	public double getEquityStakes() {
 		return equityStakes;
 	}

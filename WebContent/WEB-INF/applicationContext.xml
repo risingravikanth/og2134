@@ -37,6 +37,7 @@
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="storageDao" ref="storageDao"/>	
 		<property name="pipelineDao" ref="pipelineDao"/>
+		<property name="explorationDao" ref="explorationDao"/>
 	</bean>
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>

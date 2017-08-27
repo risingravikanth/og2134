@@ -2,6 +2,7 @@ package com.oganalysis.service.impl;
 
 import java.util.List;
 
+import com.oganalysis.dao.ExplorationDao;
 import com.oganalysis.dao.FilterDataDao;
 import com.oganalysis.dao.LngDao;
 import com.oganalysis.dao.PipeLineDao;
@@ -20,6 +21,7 @@ public class FilterDataServiceImpl implements FilterDataService {
 	private RefineriesDao refineriesDao;
 	private StorageDao storageDao;
 	private PipeLineDao pipelineDao;
+	private ExplorationDao explorationDao;
 	@Override
 	public String getRegions() {
 		// TODO Auto-generated method stub
@@ -164,33 +166,55 @@ public class FilterDataServiceImpl implements FilterDataService {
 		jsonRes=res.createEndPointResponse(endPointList);
 		return jsonRes;	
 	}		
-	public FilterDataDao getFilterDataDao() {
-		return filterDataDao;
+	@Override
+	public String getExplorationBasins() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> basinList=explorationDao.getBasins();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createBasinResponse(basinList);
+		return jsonRes;	
 	}
+	@Override
+	public String getExplorationOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=explorationDao.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;	
+	}
+	@Override
+	public String getExplorationOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorsList=explorationDao.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorsList);
+		return jsonRes;
+	}
+	
+	
+	public void setExplorationDao(ExplorationDao explorationDao) {
+		this.explorationDao = explorationDao;
+	}
+	
 	public void setFilterDataDao(FilterDataDao filterDataDao) {
 		this.filterDataDao = filterDataDao;
 	}
-	public LngDao getLngDao() {
-		return lngDao;
-	}
+	
 	public void setLngDao(LngDao lngDao) {
 		this.lngDao = lngDao;
 	}
-	public RefineriesDao getRefineriesDao() {
-		return refineriesDao;
-	}
+	
 	public void setRefineriesDao(RefineriesDao refineriesDao) {
 		this.refineriesDao = refineriesDao;
 	}
-	public StorageDao getStorageDao() {
-		return storageDao;
-	}
+	
 	public void setStorageDao(StorageDao storageDao) {
 		this.storageDao = storageDao;
 	}
-	public PipeLineDao getPipelineDao() {
-		return pipelineDao;
-	}
+	
 	public void setPipelineDao(PipeLineDao pipelineDao) {
 		this.pipelineDao = pipelineDao;
 	}
