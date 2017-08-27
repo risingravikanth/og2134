@@ -73,8 +73,8 @@ public class ExplorationBusinessServiceImpl implements
 		String hypen="-";
 		for(Exploration e:explorationList)
 		{
-			if(null!=e && null!=e.getEquityParterns() && blockNo.equals(e.getBlockNo())&& !BLANK.equals(e.getEquityParterns()))
-				list.add(e.getEquityParterns()+hypen+e.getEquityStakes());
+			if(null!=e && null!=e.getEquityPartners() && blockNo.equals(e.getBlockNo())&& !BLANK.equals(e.getEquityPartners()))
+				list.add(e.getEquityPartners()+hypen+e.getEquityStakes());
 		}
 		
 		return list;

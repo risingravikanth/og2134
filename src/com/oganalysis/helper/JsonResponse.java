@@ -38,7 +38,7 @@ public class JsonResponse {
 				  jsonObj.put("status",exploration.getStatus());
 				  jsonObj.put("startDate",exploration.getStartDate().toString());
 				  jsonObj.put("operator",exploration.getOperator());
-				  jsonObj.put("equityParterns",exploration.getEquityParterns());
+				  jsonObj.put("equityParterns",exploration.getEquityPartners());
 				  jsonObj.put("sourceEquity",exploration.getSourceEquity());
 				  jsonObj.put("area",exploration.getArea());
 				  if(exploration.getLicenseEnddate()!=null)
