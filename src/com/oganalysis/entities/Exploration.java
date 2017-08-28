@@ -7,12 +7,13 @@ public class Exploration {
 	public String blockNo;
 	public String region;
 	private String country;
-	private String onShoreOrOffShore;
+	private String onshoreOrOffshore;
 	private String basin;
 	private String status;
 	private Date startDate;
 	private String operator;
-	private String equityParterns;
+	private String equityPartners;
+	private double equityStakes;
 	private String sourceEquity;
 	private double area;
 	private Date licenseEnddate;
@@ -41,11 +42,12 @@ public class Exploration {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public String getOnShoreOrOffShore() {
-		return onShoreOrOffShore;
+	
+	public String getOnshoreOrOffshore() {
+		return onshoreOrOffshore;
 	}
-	public void setOnShoreOrOffShore(String onShoreOrOffShore) {
-		this.onShoreOrOffShore = onShoreOrOffShore;
+	public void setOnshoreOrOffshore(String onshoreOrOffshore) {
+		this.onshoreOrOffshore = onshoreOrOffshore;
 	}
 	public String getBasin() {
 		return basin;
@@ -71,11 +73,17 @@ public class Exploration {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	public String getEquityParterns() {
-		return equityParterns;
+	public String getEquityPartners() {
+		return equityPartners;
 	}
-	public void setEquityParterns(String equityParterns) {
-		this.equityParterns = equityParterns;
+	public void setEquityPartners(String equityPartners) {
+		this.equityPartners = equityPartners;
+	}
+	public double getEquityStakes() {
+		return equityStakes;
+	}
+	public void setEquityStakes(double equityStakes) {
+		this.equityStakes = equityStakes;
 	}
 	public String getSourceEquity() {
 		return sourceEquity;

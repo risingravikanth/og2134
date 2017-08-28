@@ -33,12 +33,12 @@ public class JsonResponse {
 				  jsonObj.put("blockNo",exploration.getBlockNo());
 				  jsonObj.put("region",exploration.getRegion());
 				  jsonObj.put("country",exploration.getCountry());
-				  jsonObj.put("onshoreoroffshore", exploration.getOnShoreOrOffShore());
+				  jsonObj.put("onshoreoroffshore", exploration.getOnshoreOrOffshore());
 				  jsonObj.put("basin",exploration.getBasin());
 				  jsonObj.put("status",exploration.getStatus());
 				  jsonObj.put("startDate",exploration.getStartDate().toString());
 				  jsonObj.put("operator",exploration.getOperator());
-				  jsonObj.put("equityParterns",exploration.getEquityParterns());
+				  jsonObj.put("equityParterns",exploration.getEquityPartners());
 				  jsonObj.put("sourceEquity",exploration.getSourceEquity());
 				  jsonObj.put("area",exploration.getArea());
 				  if(exploration.getLicenseEnddate()!=null)
@@ -526,6 +526,31 @@ public class JsonResponse {
 				 if(endPoint!=null && !endPoint.equalsIgnoreCase(BLANK))
 				 { 
 					 jsonObj.put(OPTION_ENDPOINT,endPoint);				  						      			     				
+			      	 array.add(jsonObj);
+				 }
+			      
+			}			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createBasinResponse(List<String> basinList)
+	{
+		String response=null;
+		if(basinList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String basin:basinList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				 if(basin!=null && !basin.equalsIgnoreCase(BLANK))
+				 { 
+					 jsonObj.put(OPTION_BASIN,basin);				  						      			     				
 			      	 array.add(jsonObj);
 				 }
 			      

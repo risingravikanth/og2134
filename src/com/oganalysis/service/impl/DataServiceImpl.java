@@ -19,10 +19,10 @@ public class DataServiceImpl implements DataService {
 	
 	
 	private OGDao crudeOilDao;
-	private OGDao explorationDao;
+//	private OGDao explorationDao;
 //	private LDao lngDao;
 	private OGDao naturalGasDao;
-	private OGDao pipeLineDao;
+//	private OGDao pipeLineDao;
 	private OGDao refineryDao;
 	private OGDao storageDao;
 	
@@ -47,22 +47,23 @@ public class DataServiceImpl implements DataService {
 	}
 	@Override
 	public String getExplorationData(Map<String,List> selectedOptions) {
-		// TODO Auto-generated method stub
-		List explorationList=null;
-		if(selectedOptions.size()>0)
-			explorationList=explorationDao.getOGAnalysisCriteriaData(selectedOptions);
-		else
-			explorationList=explorationDao.getOGAnalysisData();
-		for(int i=0;i<explorationList.size();i++)
-		{
-			Exploration exploration=(Exploration)explorationList.get(i);
-			
-			
-			System.out.println("ID:"+exploration.getId()+" blockNo:"+exploration.getBlockNo()+" Region:"+exploration.getRegion()+" Country:"+exploration.getCountry());
-		}
-		JsonResponse res=new JsonResponse();
-		String response=res.createExplorationResponse(explorationList);
-		return response;
+		return null;
+//		// TODO Auto-generated method stub
+//		List explorationList=null;
+//		if(selectedOptions.size()>0)
+//			explorationList=explorationDao.getOGAnalysisCriteriaData(selectedOptions);
+//		else
+//			explorationList=explorationDao.getOGAnalysisData();
+//		for(int i=0;i<explorationList.size();i++)
+//		{
+//			Exploration exploration=(Exploration)explorationList.get(i);
+//			
+//			
+//			System.out.println("ID:"+exploration.getId()+" blockNo:"+exploration.getBlockNo()+" Region:"+exploration.getRegion()+" Country:"+exploration.getCountry());
+//		}
+//		JsonResponse res=new JsonResponse();
+//		String response=res.createExplorationResponse(explorationList);
+//		return response;
 	}
 //	@Override
 //	public String getLngData(Map<String, List> selectedOptions) {
@@ -102,25 +103,25 @@ public class DataServiceImpl implements DataService {
 				String response=res.createNaturalGasResponse(naturalGasList);
 				return response;
 	}
-	@Override
-	public String getPipeLineData(Map<String, List> selectedOptions) {
-		// TODO Auto-generated method stub
-				List pipeLineList=null;
-				if(selectedOptions.size()>0)
-					pipeLineList=pipeLineDao.getOGAnalysisCriteriaData(selectedOptions);
-				else
-					pipeLineList=pipeLineDao.getOGAnalysisData();
-				for(int i=0;i<pipeLineList.size();i++)
-				{
-					PipeLine pipeLine=(PipeLine)pipeLineList.get(i);
-				
-				
-					System.out.println("ID:"+pipeLine.getId()+" pipeline:"+pipeLine.getPipeline()+" Region:"+pipeLine.getRegion()+" Country:"+pipeLine.getCountry());
-				}
-				JsonResponse res=new JsonResponse();
-				String response=res.createPipeLineResponse(pipeLineList);
-				return response;
-	}
+//	@Override
+//	public String getPipeLineData(Map<String, List> selectedOptions) {
+//		// TODO Auto-generated method stub
+//				List pipeLineList=null;
+//				if(selectedOptions.size()>0)
+//					pipeLineList=pipeLineDao.getOGAnalysisCriteriaData(selectedOptions);
+//				else
+//					pipeLineList=pipeLineDao.getOGAnalysisData();
+//				for(int i=0;i<pipeLineList.size();i++)
+//				{
+//					PipeLine pipeLine=(PipeLine)pipeLineList.get(i);
+//				
+//				
+//					System.out.println("ID:"+pipeLine.getId()+" pipeline:"+pipeLine.getPipeline()+" Region:"+pipeLine.getRegion()+" Country:"+pipeLine.getCountry());
+//				}
+//				JsonResponse res=new JsonResponse();
+//				String response=res.createPipeLineResponse(pipeLineList);
+//				return response;
+//	}
 	@Override
 	public String getRefineryData(Map<String,List> selectedOptions) {
 		// TODO Auto-generated method stub
@@ -159,13 +160,13 @@ public class DataServiceImpl implements DataService {
 		String response=res.createStorageResponse(storageList);
 		return response;
 	}
-	public OGDao getExplorationDao() {
-		return explorationDao;
-	}
-	
-	public void setExplorationDao(OGDao explorationDao) {
-		this.explorationDao = explorationDao;
-	}
+//	public OGDao getExplorationDao() {
+//		return explorationDao;
+//	}
+//	
+//	public void setExplorationDao(OGDao explorationDao) {
+//		this.explorationDao = explorationDao;
+//	}
 	public OGDao getRefineryDao() {
 		return refineryDao;
 	}
@@ -196,13 +197,18 @@ public class DataServiceImpl implements DataService {
 	public void setStorageDao(OGDao storageDao) {
 		this.storageDao = storageDao;
 	}	
-	public OGDao getPipeLineDao() {
-		return pipeLineDao;
+//	public OGDao getPipeLineDao() {
+//		return pipeLineDao;
+//	}
+//	public void setPipeLineDao(OGDao pipeLineDao) {
+//		this.pipeLineDao = pipeLineDao;
+//	}
+//	
+	@Override
+	public String getPipeLineData(Map<String, List> selectedOptions) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	public void setPipeLineDao(OGDao pipeLineDao) {
-		this.pipeLineDao = pipeLineDao;
-	}
-	
 	
 	
 		

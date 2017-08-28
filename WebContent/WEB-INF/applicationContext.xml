@@ -20,7 +20,7 @@
 	<!--  ServiceImpl -->
 	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
 		
-		<property name="explorationDao" ref="explorationDao"/>
+		
 		
 		
 		<property name="refineryDao" ref="refineryDao"/>
@@ -37,6 +37,7 @@
 		<property name="refineriesDao" ref="refineriesDao"/>
 		<property name="storageDao" ref="storageDao"/>	
 		<property name="pipelineDao" ref="pipelineDao"/>
+		<property name="explorationDao" ref="explorationDao"/>
 	</bean>
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
@@ -73,6 +74,10 @@
 	
 	<bean id="pipeLineServiceImpl" class="com.oganalysis.service.impl.PipeLineServiceImpl">
 		<property name="pipeLineBusinessServiceImpl" ref="pipeLineBusinessServiceImpl"/>				
+	</bean>
+	
+	<bean id="explorationServiceImpl" class="com.oganalysis.service.impl.ExplorationServiceImpl">
+		<property name="explorationBusinessServiceImpl" ref="explorationBusinessServiceImpl"/>				
 	</bean>
 	<!-- Service Layer -->
 	
@@ -122,6 +127,10 @@
 	</bean>
 	<bean id="pipeLineBusinessServiceImpl" class="com.oganalysis.business.impl.PipeLineBusinessServiceImpl">
 		<property name="pipelineDao" ref="pipelineDao"/>
+	</bean>
+	
+	<bean id="explorationBusinessServiceImpl" class="com.oganalysis.business.impl.ExplorationBusinessServiceImpl">
+		<property name="explorationDao" ref="explorationDao"/>
 	</bean>
 	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">

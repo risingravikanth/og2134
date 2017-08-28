@@ -1,116 +1,183 @@
 package com.oganalysis.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static com.oganalysis.constants.ApplicationConstants.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.oganalysis.dao.OGDao;
+import com.oganalysis.dao.ExplorationDao;
 import com.oganalysis.entities.Exploration;
+import com.oganalysis.entities.PipeLine;
 
-public class ExplorationDaoImpl implements OGDao {
-	private HibernateTemplate hibernateTemplate;
+public class ExplorationDaoImpl implements ExplorationDao {
+	
 	private SessionFactory sessionFactory;
 	
-	
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+		
 		this.sessionFactory=sessionFactory;
 	}
 
 	@Override
-	public List<Object> getOGAnalysisCriteriaData(Map<String,List> selectedOptions) {
+	public List<Exploration> getSelectedExploration(
+			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-			
-		
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Exploration.class);
-		
-		List<String> countries=selectedOptions.get("countries");
-		List<String> regions=selectedOptions.get("regions");
+		Session session=null;
+		List<Exploration> selectedExploration=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			selectedExploration=new ArrayList<Exploration>();
+			tx.begin();
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);			
+			selectedExploration=criteria.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return selectedExploration;
+	}
+	
+	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
+	{
+		List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
+		List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
+		List<String> basins=selectedOptions.get(OPTION_SELECTED_BASINS);		
+		List<String> owners=selectedOptions.get(OPTION_SELECTED_OWNERS);
+		List<String> operators=selectedOptions.get(OPTION_SELECTED_OPERATORS);
+		List<String> statuses=selectedOptions.get(OPTION_SELECTED_STATUSES);		
+		List<String> types=selectedOptions.get(OPTION_SELECTED_TYPES);	
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
+			Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
 			criteria.add(counrtryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)
 		{
-			Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
+			Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION, regions);
 			criteria.add(regionCriterion);
 		}
+		if(basins!=null && basins.size()>0)
+		{
+			Criterion basinCriterion=Restrictions.in(RESTRICTION_PROPERTY_BASIN,basins);
+			criteria.add(basinCriterion);
+		}
+		
+//		if((owners!=null && owners.size()>0) && (operators!=null && operators.size()>0))
+//		{
+//			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);				
+//			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);			
+//			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
+//			
+//		}
+		else if(owners!=null && owners.size()>0)
+		{
+			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_EQUITYPARTNER,owners);
+			criteria.add(ownersCriterion);
+		}
+		else if(operators!=null && operators.size()>0)
+		{
+			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_OPERATOR,operators);
+			criteria.add(operatorCriterion);
+		}
+		
+		if(statuses!=null && statuses.size()>0)
+		{
+			Criterion statusesCriterion=Restrictions.in(RESTRICTION_PROPERTY_STATUS,statuses);
+			criteria.add(statusesCriterion);
+		}
+		
+		if(types!=null && types.size()>0)
+		{
+			Criterion typeCriterion=Restrictions.in(RESTRICTION_PROPERTY_ONSHOREOROFFSHORE,types);
+			criteria.add(typeCriterion);
+		}
+	}
+
+	@Override
+	public List<String> getBasins() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> basins=null;
 		try
 		{
-			SimpleDateFormat sfd=new SimpleDateFormat("yyyy-MM-dd");
-			
-			Criterion dateRange=Restrictions.between("startDate",sfd.parse("2010-01-16"),sfd.parse("2011-03-31"));
-			criteria.add(dateRange);
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			basins=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct basin from Exploration where basin!=' ' order by basin asc");
+			basins=(List<String>)query.list();				
+			tx.commit();
 		}
-		catch(Exception e)
+		finally
 		{
-			System.out.println("Exception in date formatting");
-		}
-		
-//		Criterion criterion1=Restrictions.eq("country", c1);
-//		Criterion criterion2=Restrictions.eq("country", c2);
-//		
-//		Criterion criterion3=Restrictions.eq("region", r1);
-//		Criterion criterion4=Restrictions.eq("region", r2);
-//		
-//		Criterion countries=Restrictions.or(criterion1, criterion2);
-//		Criterion region=Restrictions.or(criterion3, criterion4);
-		
-		
-		
-		
-		
-		List<Object> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+			if(null!=session)
+				session.close();
+		}			
+		return basins;
 	}
+
 	@Override
-	public List<Object> getOGAnalysisData() {
+	public List<String> getOwners() {
 		// TODO Auto-generated method stub
-			
-		
-//		List<Object> list=hibernateTemplate.find("from Exploration");
-		Session session=sessionFactory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria criteria=session.createCriteria(Exploration.class);
-		
-//		Criterion counrtryCriterion=Restrictions.in("country", selectedOptions.get("countries"));
-//		Criterion regionCriterion=Restrictions.in("region", selectedOptions.get("regions"));
-//		
-////		Criterion criterion1=Restrictions.eq("country", c1);
-////		Criterion criterion2=Restrictions.eq("country", c2);
-////		
-////		Criterion criterion3=Restrictions.eq("region", r1);
-////		Criterion criterion4=Restrictions.eq("region", r2);
-////		
-////		Criterion countries=Restrictions.or(criterion1, criterion2);
-////		Criterion region=Restrictions.or(criterion3, criterion4);
-//		
-//		criteria.add(counrtryCriterion);
-//		criteria.add(regionCriterion);
-//		
-		
-		List<Object> list=criteria.list();
-		tx.commit();
-		session.close();
-		return list;
+		Session session=null;
+		List<String> owners=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			owners=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct equityPartners from Exploration where equityPartners!=' ' order by equityPartners asc");
+			owners=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return owners;
 	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> operators=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			operators=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct operator from Exploration where operator!=' ' order by operator asc");
+			operators=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return operators;
+	}
+	
 }

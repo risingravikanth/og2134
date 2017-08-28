@@ -142,6 +142,30 @@ public class FilterDataController {
 		String response=filterDataServiceImpl.getPipeLineEndPoints();		
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/exploration/basins",method={RequestMethod.GET})
+	public String getExplorationBasins()
+	{			
+		
+		String response=filterDataServiceImpl.getExplorationBasins();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/exploration/owners",method={RequestMethod.GET})
+	public String getExplorationOwners()
+	{			
+		
+		String response=filterDataServiceImpl.getExplorationOwners();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/exploration/operators",method={RequestMethod.GET})
+	public String getExplorationOperators()
+	{			
+		
+		String response=filterDataServiceImpl.getExplorationOperators();		
+		return response;
+	}
 	public FilterDataService getFilterDataServiceImpl() {
 		return filterDataServiceImpl;
 	}

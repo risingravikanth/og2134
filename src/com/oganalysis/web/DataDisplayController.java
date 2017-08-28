@@ -43,7 +43,7 @@ public class DataDisplayController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/exploration",method={RequestMethod.GET})
+	@RequestMapping(value="/exp",method={RequestMethod.GET})
 	public String getExplorationData(HttpServletRequest req)
 	{
 		String response=null;
