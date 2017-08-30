@@ -19,8 +19,8 @@
 	  })
 	  .state('exploration', {
         url:'/exploration',
-        templateUrl: 'views/commonpage.html',
-		controller:"CommonCtrl"
+        templateUrl: 'views/exploration.html',
+		controller:"ExplorationCtrl"
 	  })
 	  
 	  .state('lng', {
@@ -199,6 +199,16 @@
 			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'country') }
 		};
 	
+	
+	/* basinField filter */
+	$scope.basinData = [];
+	$rootScope.basinModel = [];
+	$scope.basinSettings = {enableSearch: true,scrollable:true};
+	$scope.basinEvents = {
+			onItemSelect: function(item) { $rootScope.onFilterSelect(item,'basin') }
+		};
+	
+	
 	/* exportedCountries filter */
 	$scope.exportedCountriesData = [];
 	$rootScope.exportedCountriesModel = [];
@@ -349,7 +359,8 @@
 		assetCountryField :false,
 		pdCommodityField :false,
 		pdStartPointField :false,
-		pdEndPointField :false
+		pdEndPointField :false,
+		BasinField :false
 	};
 	
 	HttpService.get('/regions').then(function(resp) {
@@ -377,7 +388,20 @@
 		}
 		$scope.exportedCountriesData = $scope.sortedOrder($scope.exportedCountriesData);
 	});
+	
+	HttpService.get('/exploration/basins').then(function(resp) {
+		for(var i=0;i< resp.length;i++){
+			var obj = {
+					id : resp[i].basin ,
+					label : resp[i].basin
+			}
+			$scope.basinData.push(obj);
+		 
+		}
+		$scope.basinData = $scope.sortedOrder($scope.basinData);
+	});
  	
+	
  	
 	
 	HttpService.get('/contracts/exportcompanies').then(function(resp) {
@@ -641,6 +665,43 @@
     	
     	
     }
+    
+    $rootScope.loadExplorationFilter = function(){
+    	$scope.operatorData = [];
+    	$scope.ownerData =[];
+    	$scope.unitsData = [];
+    	$scope.typeData = [];
+    	/* KMs, Miles (Hardcode this values)
+		Type – Onshore, Offshore (Hardcode this values)*/
+    	
+    	 
+    	$scope.unitsData = [{id: 'KMs', label: "KMs"},{id: 'Miles', label: "Miles"}];
+    	$scope.typeData = [{id: 'Onshore', label: "Onshore"},{id: 'Offshore', label: "Offshore"}];
+    	
+    	HttpService.get('/exploration/operators').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].operator ,
+    					label : resp[i].operator
+    			}
+    			$scope.operatorData.push(obj);
+    		}
+    		$scope.operatorData = $scope.sortedOrder($scope.operatorData);
+    	});
+    	
+    	HttpService.get('/exploration/owners').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].owner ,
+    					label : resp[i].owner
+    			}
+    			$scope.ownerData.push(obj);
+    			 
+    		}
+    		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
+    	});
+    }
+    
     
     
 
