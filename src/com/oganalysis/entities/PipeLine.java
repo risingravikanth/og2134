@@ -31,7 +31,7 @@ public class PipeLine {
 	private String companySource;
 	private String companyNotes;
 	private double length;
-	private String diameter;
+	private double diameter;
 	private double capacity;
 	private double capex;
 	private String parameterSource;
@@ -190,12 +190,10 @@ public class PipeLine {
 	public void setLength(double length) {
 		this.length = length;
 	}
-	
-	
-	public String getDiameter() {
+	public double getDiameter() {
 		return diameter;
 	}
-	public void setDiameter(String diameter) {
+	public void setDiameter(double diameter) {
 		this.diameter = diameter;
 	}
 	public double getCapacity() {
