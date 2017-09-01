@@ -351,7 +351,7 @@
 			$scope.generateFormData($rootScope.operatorModel,'operator');
  		}
 		
-		if($rootScope.filterObj.basinData == true){
+		if($rootScope.filterObj.basinField == true){
 			$scope.generateFormData($rootScope.basinModel,'basin');
  		}
 		
@@ -363,12 +363,19 @@
  			$scope.generateFormData($rootScope.statusModel,'status');
  		}
  		if($rootScope.filterObj.unitsField == true){
+ 			 
  			if($rootScope.unitsModel.id != undefined){
+ 		 		$rootScope.unitsModel.length =0;
  				$rootScope.unitsModel.push({id:$rootScope.unitsModel.id});
- 			} else{
+ 			}else if ($rootScope.unitsModel.length >0){
+ 				if($rootScope.unitsModel.id == undefined)
+						$rootScope.unitsModel.length =0
+ 	 		}else{
  				$rootScope.unitsModel.length =0;
  			}
  			$scope.generateFormData($rootScope.unitsModel,'units');
+ 			
+ 			
  		}
  		if($rootScope.filterObj.offshoreField == true){
  			$scope.generateFormData($rootScope.offshoreModel,'offonshore');
