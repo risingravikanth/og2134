@@ -245,7 +245,10 @@ public interface ApplicationConstants {
 	public static final String DIAMETER="diameter";
 	public static final String STARTPOINT=OPTION_STARTPOINT;
 	public static final String ENDPOINT=OPTION_ENDPOINT;
+	public static final String STARTCOUNTRY="startCountry";
+	public static final String ENDCOUNTRY="endCountry";
 	public static final String RELATION="relation";
+	
 	
 	public static final String YEAR2005="2005";
 	public static final String YEAR2006="2006";
