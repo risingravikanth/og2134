@@ -45,7 +45,7 @@
 	 		{ title: "Owners",
 			  data: "owner"
 			},
-	 		{ title: "Acreag(KM2)",
+	 		{ title: "Acreage(KM2)",
 			  data: "area"
 			}
 	 	];
@@ -270,12 +270,15 @@
  				"columnDefs": [
  				{
  		 			"render": function ( data, type, row ) {
- 				   		return '<p>'+data+'</p>';
- 					},
+ 		 					var htmlStr  = data.join('<br>');
+ 		 				 
+ 		 					return '<p>'+htmlStr+'</p>';
+ 		 		 	},
  
- 					"targets": 0
+ 					"targets": 7
+ 					
  							}
- 							],
+				],
  							 
  							columns: $scope.columns,
  							data : $scope.liquefactionData
