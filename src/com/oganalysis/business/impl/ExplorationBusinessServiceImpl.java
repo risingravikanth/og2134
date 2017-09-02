@@ -34,7 +34,7 @@ public class ExplorationBusinessServiceImpl implements
 					exploration.put(BASIN,e.getBasin());
 					exploration.put(ON_OFF_SHORE,e.getOnshoreOrOffshore());
 					exploration.put(STATUS,e.getStatus());
-					exploration.put(DATE_AWAREDED,getDateAwarded(blockNo,explorationList));
+					exploration.put(DATE_AWAREDED,"2017");
 					exploration.put(OPERATOR,getOperator(blockNo,explorationList));
 					exploration.put(OWNERS, getOwnerAndStakeList(blockNo,explorationList));
 					exploration.put(AREA, getArea(blockNo,explorationList));

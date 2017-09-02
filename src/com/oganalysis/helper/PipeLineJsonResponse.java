@@ -21,9 +21,9 @@ public class PipeLineJsonResponse {
 			JSONObject jsonVal=new JSONObject();
 			jsonVal.put(COUNTRY, key);
 			if(null!=lengthByCountry.get(key) && lengthByCountry.get(key)!=0)
-				jsonVal.put("length",lengthByCountry.get(key));
+				jsonVal.put(LENGTH,lengthByCountry.get(key));
 			else
-				jsonVal.put("length",BLANK);
+				jsonVal.put(LENGTH,BLANK);
 			
 			countryArray.add(jsonVal);
 		}
@@ -40,9 +40,9 @@ public class PipeLineJsonResponse {
 			JSONObject jsonVal=new JSONObject();
 			jsonVal.put(COMPANY, key);
 			if(null!=lengthByCompany.get(key) && lengthByCompany.get(key)!=0)
-				jsonVal.put("length",lengthByCompany.get(key));
+				jsonVal.put(LENGTH,lengthByCompany.get(key));
 			else
-				jsonVal.put("length",BLANK);
+				jsonVal.put(LENGTH,BLANK);
 			
 			companyArray.add(jsonVal);
 		}
@@ -68,7 +68,7 @@ public class PipeLineJsonResponse {
 				pipelineDataJson.put(STARTPOINT, pipelineMap.get(STARTPOINT));
 				pipelineDataJson.put(ENDPOINT, pipelineMap.get(ENDPOINT));
 				pipelineDataJson.put(LENGTH, pipelineMap.get(LENGTH));
-				pipelineDataJson.put(DIAMETER, pipelineMap.get(PIPELINE));
+				pipelineDataJson.put(DIAMETER, pipelineMap.get(DIAMETER));
 				pipelineDataJson.put(CAPACITY, pipelineMap.get(CAPACITY));
 				pipelineJsonDataArr.add(i,pipelineDataJson);
 				i++;

@@ -100,6 +100,8 @@
 	<script src="./js/controllers/pipelinesDomesticCtrl.js"></script>
 	<script src="./js/controllers/pipelinesTransNationalCtrl.js"></script>
 	
+	<script src="./js/controllers/explorationCtrl.js"></script>
+	
   
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-if="$state">
@@ -376,6 +378,14 @@
 				</label>
 				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetCountryData" selected-model="assetCountryModel"  extra-settings="assetCountrySettings" ></div>
 			</div>
+			
+			<div class="form-group" ng-show="filterObj.basinField">
+				<label class="control-sidebar-subheading">
+						Basin
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="basinData" selected-model="basinModel"  extra-settings="basinSettings" ></div>
+			</div>
+			
 			
 			<div class="form-group" ng-show="filterObj.exports">
 				<label class="control-sidebar-subheading">

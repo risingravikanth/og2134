@@ -50,9 +50,37 @@ public class PipeLineServiceImpl implements PipeLineService {
 	public String getTransNationalData(
 			Map<String, List<String>> selectedOptions, String displayType) {
 		// TODO Auto-generated method stub
-		return null;
+		String lengthDataRes=null;
+		if(null!=displayType && displayType.equalsIgnoreCase(COUNTRY))		
+			lengthDataRes=getTransNationalLengthByCountry(selectedOptions);				
+		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))		
+			lengthDataRes=getTransNationalLengthByCompany(selectedOptions);
+		else if(null!=displayType && displayType.equalsIgnoreCase(PIPELINE))		
+			lengthDataRes=getTransNationalLengthByPipeLine(selectedOptions);
+		return lengthDataRes;
 	}
 	
+	private String getTransNationalLengthByCountry(Map<String,List<String>> selectedOptions)
+	{
+		Map<String,Double> lengthByCountry=pipeLineBusinessServiceImpl.getTransNationalLengthByCountry(selectedOptions);
+		PipeLineJsonResponse pipeLineJson=new PipeLineJsonResponse();
+		String pipelineRes=pipeLineJson.createLengthByCountry(lengthByCountry);
+		return pipelineRes;
+	}
+	private String getTransNationalLengthByCompany(Map<String,List<String>> selectedOptions)
+	{
+		Map<String,Double> lengthByCompany=pipeLineBusinessServiceImpl.getTransNationalLengthByCompany(selectedOptions);
+		PipeLineJsonResponse pipeLineJson=new PipeLineJsonResponse();
+		String pipelineRes=pipeLineJson.createLengthByCompany(lengthByCompany);
+		return pipelineRes;
+	}
+	private String getTransNationalLengthByPipeLine(Map<String,List<String>> selectedOptions)
+	{
+		Map<String,List<Map>> pipeLineData=pipeLineBusinessServiceImpl.getTransNationalPipeLines(selectedOptions);
+		PipeLineJsonResponse pipeLineJson=new PipeLineJsonResponse();
+		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData);
+		return pipelineRes;
+	}
 	public void setPipeLineBusinessServiceImpl(
 			PipeLineBusinessService pipeLineBusinessServiceImpl) {
 		this.pipeLineBusinessServiceImpl = pipeLineBusinessServiceImpl;
