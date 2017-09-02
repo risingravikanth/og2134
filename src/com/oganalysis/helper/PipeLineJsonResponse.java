@@ -49,9 +49,8 @@ public class PipeLineJsonResponse {
 		companyObj.put(DATA_KEY, companyArray);
 		return companyObj.toJSONString();
 	}
-	public String createPipelineData(Map<String,List<Map>> pipelines)
-	{
-		JSONObject pipelineJson=new JSONObject();
+	public String createPipelineData(Map<String,List<Map>> pipelines,String type)
+	{		
 		JSONArray pipelineJsonArray=new JSONArray();
 		Set<String> pipelineSetKeys=pipelines.keySet();
 		TreeSet<String> sortedSetKeys=new TreeSet<String>(pipelineSetKeys);
@@ -67,6 +66,11 @@ public class PipeLineJsonResponse {
 				pipelineDataJson.put(SUBPIPELINE, pipelineMap.get(SUBPIPELINE));
 				pipelineDataJson.put(STARTPOINT, pipelineMap.get(STARTPOINT));
 				pipelineDataJson.put(ENDPOINT, pipelineMap.get(ENDPOINT));
+				if(type.equals(TRANSNATIONAL))
+				{
+					pipelineDataJson.put(STARTCOUNTRY, pipelineMap.get(STARTCOUNTRY));
+					pipelineDataJson.put(ENDCOUNTRY, pipelineMap.get(ENDCOUNTRY));
+				}
 				pipelineDataJson.put(LENGTH, pipelineMap.get(LENGTH));
 				pipelineDataJson.put(DIAMETER, pipelineMap.get(DIAMETER));
 				pipelineDataJson.put(CAPACITY, pipelineMap.get(CAPACITY));
