@@ -42,7 +42,7 @@
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
 		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>
-		<!-- <property name="lngExcel" ref="lngExcel"/>	 -->	
+		<property name="lngExcel" ref="lngExcel"/>	
 	</bean>
 	
 	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
@@ -164,8 +164,8 @@
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>
 	
-	<!-- <bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
-	<bean id="refineriesExcel" class="com.oganalysis.excel.RefineriesExcel"/>
+	<bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
+	<!-- <bean id="refineriesExcel" class="com.oganalysis.excel.RefineriesExcel"/>
 	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/> -->
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>

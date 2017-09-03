@@ -2,11 +2,11 @@ package com.oganalysis.business.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.cache.LngCache;
@@ -19,10 +19,11 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private LngDao lngDao;
 	private LngCache lngCache;
 	private static final int STARTYEAR=2005;
-	private static final int ENDYEAR=2020;
+	private static final int ENDYEAR=2022;
 	private static final double BCF_UNIT=48.7;
 	private static final String BCF="bcf";
 	private static final String UNDERSCORE="_";
+	private SimpleDateFormat sd=new SimpleDateFormat("yyyy");
 	
 	@Override
 	public Map<String,Map<Integer,Double>> getRegasificationCapacityByCountry(Map<String,List<String>>selectedOptions,String startDate,String endDate) {
@@ -159,9 +160,49 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	{
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
 		List<String> companyTerminals=getCompanyTerminals(companyName,selectedTerminals,type);//lngDao.getCompanyTerminals(companyName,selectedTerminals,type);		
-		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,selectedOptions,startDate,endDate,type);	
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateTerminalsCapacityForCompany(companyName,companyTerminals,selectedOptions,startDate,endDate,type);	
 					
 		return companyterminalsCapacity;
+	}
+	private Map<String,Map<Integer,Double>> calculateTerminalsCapacityForCompany(String companyName,List<String> terminals,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)	
+	{
+		
+		Map<String,Double> terminalsYearCapacity=null;
+		Map<String,Double> companyStakeForTerminal=null;
+		if(type.equalsIgnoreCase(LNG_LIQUEFACTION))
+		{				
+			terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();	
+			companyStakeForTerminal=lngCache.getLiqueCompanyStakeForTerminal();								
+		}	
+		else
+		{				
+			terminalsYearCapacity=lngCache.getRegasTerminalsYearCapacity();
+			companyStakeForTerminal=lngCache.getRegasCompanyStakeForTerminal();								
+		}	
+		String unit=getSelectedUnit(selectedOptions);
+		List<Integer> years=getSelectedYears(startDate, endDate);
+		Map<Integer,Double> yearMap=null;
+		Map<String,Map<Integer,Double>> terminalMap=new HashMap<String, Map<Integer,Double>>();
+		for(String terminal:terminals)
+		{
+			yearMap=new HashMap<Integer, Double>();
+			String key=companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
+			double stake=companyStakeForTerminal.get(key);
+			for(Integer year:years)
+			{
+				double soc=0.0;
+				double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+				soc=soc+(round((capacity*(stake/100)),2));				
+				if(null!=unit && unit.equalsIgnoreCase(BCF))
+					soc=soc*BCF_UNIT;
+				soc=round(soc,2);
+				yearMap.put(year,soc);
+			}
+			terminalMap.put(terminal,yearMap);
+		}
+		return terminalMap;
+	
+	
 	}
 	private Map<String,Map<Integer,Double>> calculateCapacitiesByCompany(List<String> companies,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{		
@@ -224,7 +265,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 							String key=company.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
 							double stake=companyStakeForTerminal.get(key);			
 							double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);																							
-							soc=soc+(capacity*(stake/100));							
+							soc=soc+(round(capacity*(stake/100),2));							
 						}			
 						if(null!=unit && unit.equalsIgnoreCase(BCF))
 							soc=soc*BCF_UNIT;
@@ -249,7 +290,8 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 				lngCache.setLiqueTerminalsYearCapacity(terminalsYearCapacity);
 			}
 			else
-				terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();							
+				terminalsYearCapacity=lngCache.getLiqueTerminalsYearCapacity();	
+			
 		}	
 		else
 		{				
@@ -424,39 +466,67 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		return years;
 	}	
 	@Override
-	public Map<String, String> getTerminalData(String recordName,String type) {
+	public Map getTerminalData(String recordName,String type) {
 		// TODO Auto-generated method stub		
-		List<Lng> regasificationTerminalList=lngDao.getTerminalData(recordName, type);
+		List<Lng> terminalList=lngDao.getTerminalData(recordName, type);
 		Map terminalData=new HashMap();
-		Lng lng=regasificationTerminalList.get(0);
+		Lng lng=terminalList.get(0);
+		//Header
 		terminalData.put(TERMINALNAME,lng.getName());
-		terminalData.put(TYPE, lng.getType());
-		terminalData.put(STATUS,lng.getStatus());
-		terminalData.put(LOCATION,lng.getArea());
-		terminalData.put(COUNTRY,lng.getCountry());
-		terminalData.put(ONSHORE_OR_OFFSHORE,lng.getOnshoreOrOffshore());
-		terminalData.put(EXPECTEDSTARTUP, lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK);
-		if(null!=lng.getScheduledStartYear() && !BLANK.equals(lng.getScheduledStartYear()))
+		//General
+		terminalData.put(REGION,(lng.getRegion()!=null && !lng.getRegion().equals(BLANK))?lng.getRegion():NA);
+		terminalData.put(COUNTRY,(lng.getCountry()!=null && !lng.getCountry().equals(BLANK))?lng.getCountry():NA);
+		terminalData.put(LOCATION,(lng.getArea()!=null && !lng.getArea().equals(BLANK))?lng.getArea():NA);
+		terminalData.put(TYPE, (lng.getType()!=null && !lng.getType().equals(BLANK))?lng.getType():NA);
+		terminalData.put(ONSHORE_OR_OFFSHORE,(lng.getOnshoreOrOffshore()!=null && !lng.getOnshoreOrOffshore().equals(BLANK))?lng.getOnshoreOrOffshore():NA);
+		terminalData.put(STATUS,(lng.getStatus()!=null && !lng.getStatus().equals(BLANK))?lng.getStatus():NA);	
+		String otherStatusDetails=getOtherStatusDetails(terminalList).toString();
+		terminalData.put(OTHER_DETAILS,!otherStatusDetails.equals(BLANK)?otherStatusDetails:NA);
+		String expectedStartUp=getExpectedStartUpYear(terminalList).toString();
+		terminalData.put(EXPECTEDSTARTUP,!expectedStartUp.equals(BLANK)?expectedStartUp:NA);
+		//Infra
+		terminalData.put(CAPACITY,lng.getCapacity());		
+		
+		//Technology
+		String technologyDetails=getTechnologyDetails(terminalList).toString();
+		terminalData.put(TECHNOLOGY,!technologyDetails.equals(BLANK)?technologyDetails:NA);
+		terminalData.put(CAPEX,round(getCapexDetails(terminalList),2));
+		terminalData.put(CONSTRUCTIONPERIOD,getConstructionPeriod(terminalList));// Need to check This is not required.
+		terminalData.put(CONSTRUCTIONDETAILS,getConstructionDetails(terminalList));
+		
+		// Company info
+		String operator=getOperator(terminalList).toString();
+		terminalData.put(OPERATOR,!operator.equals(BLANK)?operator:NA);
+		terminalData.put(OWNERSHIP,getOwnership(recordName,type));
+		
+		if(null!=lng.getScheduledStartYear() && !BLANK.equals(lng.getScheduledStartYear()))// This also need to check
 			terminalData.put(SCHEDULEDSTARTUP,lng.getScheduledStartYear().toString());
 		else
 			terminalData.put(SCHEDULEDSTARTUP,BLANK);
 		
-		terminalData.put(PROCESSINGCAPACITY, getProcessingCapacity(regasificationTerminalList));
-		terminalData.put(TRAINSORVAPORIZERS,getTrainsOrVaporizers(regasificationTerminalList));
-		terminalData.put(STORAGECAPACITY,getStorageCapacity(regasificationTerminalList));
-		terminalData.put(STORAGETANKS, getStorageTanks(regasificationTerminalList));
+		//Capacity ForeCasts
+		terminalData.put(PROCESSINGCAPACITY, getProcessingCapacity(terminalList));
+		terminalData.put(TRAINSORVAPORIZERS,getTrainsOrVaporizers(terminalList));
+		terminalData.put(STORAGECAPACITY,getStorageCapacity(terminalList));
+		terminalData.put(STORAGETANKS, getStorageTanks(terminalList));									
 		
-		terminalData.put(OPERATOR,getOperator(regasificationTerminalList).toString());
-		terminalData.put(OWNERSHIP,getOwnership(recordName,type));
-
-		terminalData.put(CAPEX, String.valueOf(getCapexDetails(regasificationTerminalList)));
-		terminalData.put(TECHNOLOGY,getTechnologyDetails(regasificationTerminalList).toString());
-		terminalData.put(CONSTRUCTIONPERIOD,getConstructionPeriod(regasificationTerminalList));
-		terminalData.put(CONSTRUCTIONDETAILS,getConstructionDetails(regasificationTerminalList));
-		
-		terminalData.put(SOURCEFIELDS,getSourceFields(regasificationTerminalList).toString());
-		terminalData.put(DISTRIBUTIONTYPE,getDistributionType(regasificationTerminalList).toString());
+		terminalData.put(SOURCEFIELDS,getSourceFields(terminalList).toString());// This is not required
+		terminalData.put(DISTRIBUTIONTYPE,getDistributionType(terminalList).toString());//This is not required
 		return terminalData;
+	}
+	private StringBuffer getExpectedStartUpYear(List<Lng> dataList)
+	{
+		StringBuffer expectedStartUpYear=new StringBuffer();
+		for(Lng lng:dataList)
+		{
+			if(null!=lng.getExpectedStartYear() && !BLANK.equals(lng.getExpectedStartYear()))
+			{
+				expectedStartUpYear.append(sd.format(lng.getExpectedStartYear())).append(COMMA);
+			}
+		}
+		if(expectedStartUpYear.length()>0)
+			removeCommaAtEnd(expectedStartUpYear);
+		return expectedStartUpYear;
 	}
 	private List<Map<String,String>> getOwnership(String recordName,String type)
 	{
@@ -472,10 +542,14 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		for(LngFilter lngFilter:lngFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-//				String key=lngFilter.getEquityPartners().toLowerCase()+UNDERSCORE+lngFilter.getName().toLowerCase();			
-				ownershipMap.put(EQUITYPARTNER,lngFilter.getEquityPartners());
-				ownershipMap.put(EQUITYSTAKE,String.valueOf(lngFilter.getEquityStakes()));//String.valueOf(companyStakes.get(key))
-				ownershipList.add(ownershipMap);
+//				String key=lngFilter.getEquityPartners().toLowerCase()+UNDERSCORE+lngFilter.getName().toLowerCase();
+				if(lngFilter.getEquityStakes()!=0)
+				{
+					ownershipMap.put(EQUITYPARTNER,lngFilter.getEquityPartners());
+					ownershipMap.put(EQUITYSTAKE,String.valueOf(lngFilter.getEquityStakes()));//String.valueOf(companyStakes.get(key))
+					ownershipList.add(ownershipMap);
+				}
+				
 		}
 		
 		return ownershipList;
@@ -491,6 +565,19 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		if(distributionType.length()>0)
 		removeCommaAtEnd(distributionType);
 		return distributionType;
+	}
+	private StringBuffer getOtherStatusDetails(List<Lng> dataList)
+	{
+		StringBuffer otherStatusDetails=new StringBuffer();		
+		for(Lng lng:dataList)
+		{
+			if(null!=lng.getOtherStatusDetails() && !BLANK.equalsIgnoreCase(lng.getOtherStatusDetails()))
+				otherStatusDetails.append(lng.getOtherStatusDetails()).append(COMMA);
+							
+		}
+		if(otherStatusDetails.length()>0)
+		removeCommaAtEnd(otherStatusDetails);
+		return otherStatusDetails;
 	}
 	private StringBuffer getSourceFields(List<Lng> dataList)
 	{

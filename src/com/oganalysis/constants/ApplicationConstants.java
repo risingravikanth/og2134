@@ -13,7 +13,7 @@ public interface ApplicationConstants {
 	public static final String RECORDNAME="recordName";
 	public static final String REGION="region";
 	public static final String UNDERSCORE="_";
-	
+	public static final String NA="NA";
 	
 	//LNG Constants
 	public static final String LNG_REGASIFICATION="Regasification";
@@ -264,9 +264,15 @@ public interface ApplicationConstants {
 	public static final String YEAR2016="2016";
 	public static final String YEAR2017="2017";
 	
+	//Excel
 	public static final String EXCEL_LNG="LNG For ";
 	public static final String EXCEL_REFINERY="Refinery For ";
 	public static final String EXCEL_STORAGE="Storage For ";
+	public static final String EXCEL_ERROR="excelError";
+	public static final String EXCEL_CONTENT_TYPE="application/vnd.ms-excel";
+	public static final String EXCEL_CONTENT_DISPOSITION="Content-Disposition";
+	public static final String EXCEL_ATTACHMENT="attachment; filename=";
+	public static final String EXCEL_FILE_EXTENSION=".xlsx";
 	
 	//Exploration
 	public static final String OPTION_BASIN="basin";

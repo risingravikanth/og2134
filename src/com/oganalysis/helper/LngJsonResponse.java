@@ -241,51 +241,63 @@ public class LngJsonResponse {
 	{
 		JSONObject jsonTerminalData=new JSONObject();
 		Set<String> keys=terminalData.keySet();
-		for(String key:keys)
-		{
-			if(null!=key && key.equalsIgnoreCase(PROCESSINGCAPACITY))
-			{
-				
-				Map<Integer,Double> pcd=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject processingCapJson=createThroughOutPeriodData(pcd);
-				jsonTerminalData.put(key, processingCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(TRAINSORVAPORIZERS))
-			{
-				Map<Integer,Double> tov=(Map<Integer,Double>)terminalData.get(key);
-				JSONObject tovJson=createThroughOutPeriodData(tov);
-				jsonTerminalData.put(key,tovJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(STORAGECAPACITY))
-			{
-				Map<Integer,Double> sc=(Map<Integer,Double>)terminalData.get(key);
-				JSONObject scJson=createThroughOutPeriodData(sc);
-				jsonTerminalData.put(key,scJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(STORAGETANKS))
-			{
-				Map<Integer,Double> st=(Map<Integer,Double>)terminalData.get(key);
-				JSONObject stJson=createThroughOutPeriodData(st);
-				jsonTerminalData.put(key,stJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(OWNERSHIP))
-			{
-				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key, createOwnership(ownerShipList));
-			}
-			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONPERIOD))
-			{
-				List<Map<String,String>> constructionPeriodList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key,createConstructionPeriod(constructionPeriodList));
-			}
-			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
-			{
-				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
-			}
-			else
-				jsonTerminalData.put(key,terminalData.get(key));
-		}
+		jsonTerminalData.put(TERMINALNAME, terminalData.get(TERMINALNAME));
+		jsonTerminalData.put(REGION, terminalData.get(REGION));
+		jsonTerminalData.put(COUNTRY, terminalData.get(COUNTRY));
+		jsonTerminalData.put(LOCATION, terminalData.get(LOCATION));
+		jsonTerminalData.put(TYPE, terminalData.get(TYPE));
+		jsonTerminalData.put(ONSHORE_OR_OFFSHORE, terminalData.get(ONSHORE_OR_OFFSHORE));
+		jsonTerminalData.put(STATUS, terminalData.get(STATUS));
+		jsonTerminalData.put(OTHER_DETAILS, terminalData.get(OTHER_DETAILS));
+		jsonTerminalData.put(EXPECTEDSTARTUP, terminalData.get(EXPECTEDSTARTUP));
+		jsonTerminalData.put(OPERATOR, terminalData.get(OPERATOR));
+		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
+		jsonTerminalData.put(OWNERSHIP, createOwnership(ownerShipList));
+//		for(String key:keys)
+//		{
+////			if(null!=key && key.equalsIgnoreCase(PROCESSINGCAPACITY))
+////			{
+////				
+////				Map<Integer,Double> pcd=(Map<Integer,Double>)terminalData.get(key);	
+////				JSONObject processingCapJson=createThroughOutPeriodData(pcd);
+////				jsonTerminalData.put(key, processingCapJson);
+////			}
+////			else if(null!=key && key.equalsIgnoreCase(TRAINSORVAPORIZERS))
+////			{
+////				Map<Integer,Double> tov=(Map<Integer,Double>)terminalData.get(key);
+////				JSONObject tovJson=createThroughOutPeriodData(tov);
+////				jsonTerminalData.put(key,tovJson);
+////			}
+////			else if(null!=key && key.equalsIgnoreCase(STORAGECAPACITY))
+////			{
+////				Map<Integer,Double> sc=(Map<Integer,Double>)terminalData.get(key);
+////				JSONObject scJson=createThroughOutPeriodData(sc);
+////				jsonTerminalData.put(key,scJson);
+////			}
+////			else if(null!=key && key.equalsIgnoreCase(STORAGETANKS))
+////			{
+////				Map<Integer,Double> st=(Map<Integer,Double>)terminalData.get(key);
+////				JSONObject stJson=createThroughOutPeriodData(st);
+////				jsonTerminalData.put(key,stJson);
+////			}
+//			if(null!=key && key.equalsIgnoreCase(OWNERSHIP))
+//			{
+//				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
+//				jsonTerminalData.put(key, createOwnership(ownerShipList));
+//			}
+////			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONPERIOD))
+////			{
+////				List<Map<String,String>> constructionPeriodList=(List<Map<String,String>>)terminalData.get(key);
+////				jsonTerminalData.put(key,createConstructionPeriod(constructionPeriodList));
+////			}
+////			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
+////			{
+////				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
+////				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
+////			}
+//			else if(null!=key && !key.equalsIgnoreCase(PROCESSINGCAPACITY) && !key.equalsIgnoreCase(TRAINSORVAPORIZERS) && !key.equalsIgnoreCase(STORAGECAPACITY) && !key.equalsIgnoreCase(STORAGETANKS) && !key.equalsIgnoreCase(CONSTRUCTIONPERIOD) && !key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
+//				jsonTerminalData.put(key,terminalData.get(key));
+//		}
 		return jsonTerminalData;
 	}
 	private JSONObject createThroughOutPeriodData(Map<Integer,Double> throughtData)
@@ -303,7 +315,7 @@ public class LngJsonResponse {
 		JSONObject ownerShipJsonObj=null;
 		for(Map<String,String> ownership:ownerShipList)
 		{
-			ownerShipJsonObj=new JSONObject();
+			ownerShipJsonObj=new JSONObject();			
 			ownerShipJsonObj.put(EQUITYPARTNER,ownership.get(EQUITYPARTNER));
 			ownerShipJsonObj.put(EQUITYSTAKE,ownership.get(EQUITYSTAKE));
 			ownerShipArray.add(ownerShipJsonObj);

@@ -1,15 +1,22 @@
 package com.oganalysis.web;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oganalysis.service.LngDataService;
 import com.oganalysis.service.impl.LngDataServiceImpl;
 @Controller
+//@RequestMapping("/lng")
 public class LngDataDisplayController {
 	
 	@Autowired
@@ -26,6 +34,8 @@ public class LngDataDisplayController {
 	
 	@Autowired
 	private LngDataServiceImpl lngDataServiceImpl1;
+	@Autowired
+	private ServletContext servletContext;
 	
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
@@ -73,6 +83,36 @@ public class LngDataDisplayController {
 		}			
 		return response;
 	}
+	@RequestMapping("/download/terminaldetails")
+	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		 		
+	    String res=null;
+	    if(null!=request.getSession().getAttribute(EMAIL))
+	    {
+	    	 try
+	 	    {
+	 	    	String type=request.getParameter(TYPE);
+	 			String recordName=request.getParameter(RECORDNAME);	
+	            response.setContentType(EXCEL_CONTENT_TYPE);
+	            response.setHeader(EXCEL_CONTENT_DISPOSITION, EXCEL_ATTACHMENT+recordName+EXCEL_FILE_EXTENSION);
+	            InputStream is=servletContext.getResourceAsStream("/WEB-INF/oglogo.jpg");
+	            Workbook workbook = lngDataServiceImpl.getExcelTerminalData(recordName,type,is);
+	            workbook.write(response.getOutputStream());
+	 	    }
+	 	    catch(Exception e)
+	 	    {
+//	 	    	throw new ServletException("Exception in DownLoad Excel Servlet", e);
+	 	    	return EXCEL_ERROR;
+	 	    }
+	    }
+	    else
+	    {
+	    	return "redirect:/";
+	    }
+	   
+	   return res;
+	}	
+ 
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();
@@ -126,22 +166,5 @@ public class LngDataDisplayController {
 									
 		return optionsMap;
 	}
-	private boolean validateUser(HttpServletRequest req)
-	{
-		HttpSession session=req.getSession();
-		String email=(String)session.getAttribute("email");
-		if(email!=null)
-			return true;
-		else
-			return false;
-	}
-	
-//	public LngDataService getLngDataServiceImpl() {
-//		return lngDataServiceImpl;
-//	}
-//	
-//	public void setLngDataServiceImpl(LngDataService lngDataServiceImpl) {
-//		this.lngDataServiceImpl = lngDataServiceImpl;
-//	}
 	
 }
