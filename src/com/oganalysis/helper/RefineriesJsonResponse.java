@@ -124,152 +124,166 @@ public class RefineriesJsonResponse {
 	{
 		JSONObject jsonTerminalData=new JSONObject();
 		Set<String> keys=terminalData.keySet();
-		for(String key:keys)
-		{
-			if(null!=key && key.equalsIgnoreCase(CDUCAPACITY))
-			{
-				
-				Map<Integer,Double> cdu=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject cduCapJson=createCapacityDetails(cdu);
-				jsonTerminalData.put(key, cduCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(VDUCAPACITY))
-			{
-				Map<Integer,Double> vdu=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject vduCapJson=createCapacityDetails(vdu);
-				jsonTerminalData.put(key, vduCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(COKINGCAPACITY))
-			{
-				Map<Integer,Double> coking=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject cokingCapJson=createCapacityDetails(coking);
-				jsonTerminalData.put(key, cokingCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(FCCCAPACITY))
-			{
-				Map<Integer,Double> fcc=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject fccCapJson=createCapacityDetails(fcc);
-				jsonTerminalData.put(key, fccCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(HYDROCRACKINGCAPACITY))
-			{
-				Map<Integer,Double> hydroCracking=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject hydroCrackingCapJson=createCapacityDetails(hydroCracking);
-				jsonTerminalData.put(key, hydroCrackingCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(CRUDESTORAGEORTANK))
-			{
-				Map<Integer,Double> crudeStorageOrTank=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject crudeStorageOrTankCapJson=createCapacityDetails(crudeStorageOrTank);
-				jsonTerminalData.put(key, crudeStorageOrTankCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(CRUDESTORAGECAPACITY))
-			{
-				Map<Integer,Double> crudeStorage=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject crudeStorageCapJson=createCapacityDetails(crudeStorage);
-				jsonTerminalData.put(key, crudeStorageCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(VISBREAKINGCAPACITY))
-			{
-				Map<Integer,Double> visbreaking=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject visbreakingCapJson=createCapacityDetails(visbreaking);
-				jsonTerminalData.put(key, visbreakingCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(REFORMERCAPACITY))
-			{
-				Map<Integer,Double> reformer=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject reformerCapJson=createCapacityDetails(reformer);
-				jsonTerminalData.put(key, reformerCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(HYDROTREATINGCAPACITY))
-			{
-				Map<Integer,Double> hydroTreating=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject hydroTreatingCapJson=createCapacityDetails(hydroTreating);
-				jsonTerminalData.put(key, hydroTreatingCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(ALKYLATIONCAPACITY))
-			{
-				Map<Integer,Double> alkylation=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject alkylationCapJson=createCapacityDetails(alkylation);
-				jsonTerminalData.put(key, alkylationCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(AROMACTICSCAPACITY))
-			{
-				Map<Integer,Double> aromactics=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject aromacticsCapJson=createCapacityDetails(aromactics);
-				jsonTerminalData.put(key, aromacticsCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(ISOMERIZATIONCAPACITY))
-			{
-				Map<Integer,Double> isomerization=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject isomerizationCapJson=createCapacityDetails(isomerization);
-				jsonTerminalData.put(key, isomerizationCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(POLYMERIZATIONCAPACITY))
-			{
-				Map<Integer,Double> polymerization=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject polymerizationCapJson=createCapacityDetails(polymerization);
-				jsonTerminalData.put(key, polymerizationCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(LUBESCAPACITY))
-			{
-				Map<Integer,Double> lubes=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject lubesCapJson=createCapacityDetails(lubes);
-				jsonTerminalData.put(key, lubesCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(OXYGENATESCAPACITY))
-			{
-				Map<Integer,Double> oxygenates=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject oxygenatesCapJson=createCapacityDetails(oxygenates);
-				jsonTerminalData.put(key, oxygenatesCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(COKECAPACITY))
-			{
-				Map<Integer,Double> coke=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject cokeCapJson=createCapacityDetails(coke);
-				jsonTerminalData.put(key, cokeCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(SULPHURCAPACITY))
-			{
-				Map<Integer,Double> sulphur=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject sulphurCapJson=createCapacityDetails(sulphur);
-				jsonTerminalData.put(key, sulphurCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(HYDROGENCAPACITY))
-			{
-				Map<Integer,Double> hydrogen=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject hydrogenCapJson=createCapacityDetails(hydrogen);
-				jsonTerminalData.put(key, hydrogenCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(ASPHALTCAPACITY))
-			{
-				Map<Integer,Double> asphalt=(Map<Integer,Double>)terminalData.get(key);	
-				JSONObject asphaltCapJson=createCapacityDetails(asphalt);
-				jsonTerminalData.put(key, asphaltCapJson);
-			}
-			else if(null!=key && key.equalsIgnoreCase(OWNERSHIP))
-			{
-				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key, createOwnership(ownerShipList));
-			}
-			else if(null!=key && key.equalsIgnoreCase(HISTORICOWNERSHIP))
-			{
-				List<Map<String,String>> historicOwnerShipList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key, createHistoricOwnership(historicOwnerShipList));
-			}
-			else if(null!=key && key.equalsIgnoreCase(MAINTENANCEDETAILS))
-			{
-				List<Map<String,String>> maintenanceDetailsList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key,createMaintenanceDetails(maintenanceDetailsList));
-			}
-			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
-			{
-				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
-				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
-			}
-			else
-				jsonTerminalData.put(key,terminalData.get(key));
-		}
+		
+		terminalData.put(TERMINALNAME, terminalData.get(TERMINALNAME));
+		//General Info
+		terminalData.put(REGION, terminalData.get(REGION));
+		terminalData.put(COUNTRY,terminalData.get(COUNTRY));
+		terminalData.put(LOCATION,terminalData.get(LOCATION));
+		terminalData.put(TYPE,terminalData.get(TYPE));
+		terminalData.put(STATUS,terminalData.get(STATUS));
+		terminalData.put(CAPACITY,terminalData.get(CAPACITY));
+		terminalData.put(RECENTDEVELOPMENTS,terminalData.get(RECENTDEVELOPMENTS));		
+		terminalData.put(STARTUP,terminalData.get(STARTUP));
+		terminalData.put(OPERATOR,terminalData.get(OPERATOR));
+		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
+		jsonTerminalData.put(OWNERSHIP, createOwnership(ownerShipList));
+//		for(String key:keys)
+//		{
+//			if(null!=key && key.equalsIgnoreCase(CDUCAPACITY))
+//			{
+//				
+//				Map<Integer,Double> cdu=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject cduCapJson=createCapacityDetails(cdu);
+//				jsonTerminalData.put(key, cduCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(VDUCAPACITY))
+//			{
+//				Map<Integer,Double> vdu=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject vduCapJson=createCapacityDetails(vdu);
+//				jsonTerminalData.put(key, vduCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(COKINGCAPACITY))
+//			{
+//				Map<Integer,Double> coking=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject cokingCapJson=createCapacityDetails(coking);
+//				jsonTerminalData.put(key, cokingCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(FCCCAPACITY))
+//			{
+//				Map<Integer,Double> fcc=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject fccCapJson=createCapacityDetails(fcc);
+//				jsonTerminalData.put(key, fccCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(HYDROCRACKINGCAPACITY))
+//			{
+//				Map<Integer,Double> hydroCracking=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject hydroCrackingCapJson=createCapacityDetails(hydroCracking);
+//				jsonTerminalData.put(key, hydroCrackingCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(CRUDESTORAGEORTANK))
+//			{
+//				Map<Integer,Double> crudeStorageOrTank=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject crudeStorageOrTankCapJson=createCapacityDetails(crudeStorageOrTank);
+//				jsonTerminalData.put(key, crudeStorageOrTankCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(CRUDESTORAGECAPACITY))
+//			{
+//				Map<Integer,Double> crudeStorage=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject crudeStorageCapJson=createCapacityDetails(crudeStorage);
+//				jsonTerminalData.put(key, crudeStorageCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(VISBREAKINGCAPACITY))
+//			{
+//				Map<Integer,Double> visbreaking=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject visbreakingCapJson=createCapacityDetails(visbreaking);
+//				jsonTerminalData.put(key, visbreakingCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(REFORMERCAPACITY))
+//			{
+//				Map<Integer,Double> reformer=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject reformerCapJson=createCapacityDetails(reformer);
+//				jsonTerminalData.put(key, reformerCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(HYDROTREATINGCAPACITY))
+//			{
+//				Map<Integer,Double> hydroTreating=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject hydroTreatingCapJson=createCapacityDetails(hydroTreating);
+//				jsonTerminalData.put(key, hydroTreatingCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(ALKYLATIONCAPACITY))
+//			{
+//				Map<Integer,Double> alkylation=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject alkylationCapJson=createCapacityDetails(alkylation);
+//				jsonTerminalData.put(key, alkylationCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(AROMACTICSCAPACITY))
+//			{
+//				Map<Integer,Double> aromactics=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject aromacticsCapJson=createCapacityDetails(aromactics);
+//				jsonTerminalData.put(key, aromacticsCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(ISOMERIZATIONCAPACITY))
+//			{
+//				Map<Integer,Double> isomerization=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject isomerizationCapJson=createCapacityDetails(isomerization);
+//				jsonTerminalData.put(key, isomerizationCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(POLYMERIZATIONCAPACITY))
+//			{
+//				Map<Integer,Double> polymerization=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject polymerizationCapJson=createCapacityDetails(polymerization);
+//				jsonTerminalData.put(key, polymerizationCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(LUBESCAPACITY))
+//			{
+//				Map<Integer,Double> lubes=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject lubesCapJson=createCapacityDetails(lubes);
+//				jsonTerminalData.put(key, lubesCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(OXYGENATESCAPACITY))
+//			{
+//				Map<Integer,Double> oxygenates=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject oxygenatesCapJson=createCapacityDetails(oxygenates);
+//				jsonTerminalData.put(key, oxygenatesCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(COKECAPACITY))
+//			{
+//				Map<Integer,Double> coke=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject cokeCapJson=createCapacityDetails(coke);
+//				jsonTerminalData.put(key, cokeCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(SULPHURCAPACITY))
+//			{
+//				Map<Integer,Double> sulphur=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject sulphurCapJson=createCapacityDetails(sulphur);
+//				jsonTerminalData.put(key, sulphurCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(HYDROGENCAPACITY))
+//			{
+//				Map<Integer,Double> hydrogen=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject hydrogenCapJson=createCapacityDetails(hydrogen);
+//				jsonTerminalData.put(key, hydrogenCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(ASPHALTCAPACITY))
+//			{
+//				Map<Integer,Double> asphalt=(Map<Integer,Double>)terminalData.get(key);	
+//				JSONObject asphaltCapJson=createCapacityDetails(asphalt);
+//				jsonTerminalData.put(key, asphaltCapJson);
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(OWNERSHIP))
+//			{
+//				List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(key);
+//				jsonTerminalData.put(key, createOwnership(ownerShipList));
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(HISTORICOWNERSHIP))
+//			{
+//				List<Map<String,String>> historicOwnerShipList=(List<Map<String,String>>)terminalData.get(key);
+//				jsonTerminalData.put(key, createHistoricOwnership(historicOwnerShipList));
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(MAINTENANCEDETAILS))
+//			{
+//				List<Map<String,String>> maintenanceDetailsList=(List<Map<String,String>>)terminalData.get(key);
+//				jsonTerminalData.put(key,createMaintenanceDetails(maintenanceDetailsList));
+//			}
+//			else if(null!=key && key.equalsIgnoreCase(CONSTRUCTIONDETAILS))
+//			{
+//				List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(key);
+//				jsonTerminalData.put(key,createConstructionDetails(constructionDetailsList));
+//			}
+//			else
+//				jsonTerminalData.put(key,terminalData.get(key));
+//		}
 		return jsonTerminalData.toJSONString();
 	}
 	private JSONArray createMaintenanceDetails(List<Map<String,String>> maintenanceDetailsList)

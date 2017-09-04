@@ -3,14 +3,20 @@ package com.oganalysis.web;
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +31,8 @@ public class RefineriesController {
 	
 	@Autowired
 	private RefineriesService refineriesServiceImpl;
-	
+	@Autowired
+	private ServletContext servletContext;
 	
 	@ResponseBody
 	@RequestMapping(value="/capacity",method={RequestMethod.GET})
@@ -73,6 +80,43 @@ public class RefineriesController {
 		}					
 		return response;
 	}
+	@RequestMapping("/download/terminaldetails")
+	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response)  {
+		 		
+	    String res=null;
+	    Workbook workbook=null;
+	    InputStream is=null;
+	    if(null!=request.getSession().getAttribute(EMAIL))
+	    {
+	    	try {
+	    		String recordName=request.getParameter(RECORDNAME);	
+	            response.setContentType(EXCEL_CONTENT_TYPE);
+	            response.setHeader(EXCEL_CONTENT_DISPOSITION, EXCEL_ATTACHMENT+recordName+EXCEL_FILE_EXTENSION);
+	            is=servletContext.getResourceAsStream("/WEB-INF/oglogo.jpg");
+	            workbook = refineriesServiceImpl.getExcelTerminalData(recordName,is);
+	            workbook.write(response.getOutputStream());
+	        } catch (Exception e) {
+	            return EXCEL_ERROR;
+	        }
+	    	finally
+	    	{
+	    		try
+	    		{
+	    			workbook.close();
+		    		is.close();
+	    		}
+	    		catch(Exception e)
+	    		{
+	    			return res;
+	    		}
+	    	}
+	    }	
+	    else
+	    {
+	    	return "redirect:/";
+	    }
+	   return res;
+	}  
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

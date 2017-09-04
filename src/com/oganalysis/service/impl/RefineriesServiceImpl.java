@@ -4,12 +4,16 @@ import static com.oganalysis.constants.ApplicationConstants.COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
 import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
 import com.oganalysis.business.RefineriesCapacityBusinessService;
 import com.oganalysis.business.RefineriesInfraBusinessService;
+import com.oganalysis.excel.RefineriesExcel;
 import com.oganalysis.helper.RefineriesJsonResponse;
 import com.oganalysis.service.RefineriesService;
 
@@ -17,6 +21,7 @@ public class RefineriesServiceImpl implements RefineriesService {
 	
 	private RefineriesCapacityBusinessService refineriesCapacityBusinessServiceImpl;
 	private RefineriesInfraBusinessService refineriesInfraBusinessServiceImpl;
+	private RefineriesExcel refineriesExcel;
 	@Override
 	public String getRefineriesData(Map<String, List<String>> selectedOptions,
 			String startDate, String endDate, String displayType) {
@@ -71,6 +76,13 @@ public class RefineriesServiceImpl implements RefineriesService {
 		return modalCapacityDataRes;
 	}
 	@Override
+	public Workbook getExcelTerminalData(String recordName,InputStream is) {
+		// TODO Auto-generated method stub
+		Map terminalData=refineriesCapacityBusinessServiceImpl.getTerminalData(recordName);
+		Workbook wb=refineriesExcel.getExcelTerminalData(terminalData,is);
+		return wb;
+	}	
+	@Override
 	public String getInfrastructureData(
 			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
@@ -93,6 +105,9 @@ public class RefineriesServiceImpl implements RefineriesService {
 	public void setRefineriesInfraBusinessServiceImpl(
 			RefineriesInfraBusinessService refineriesInfraBusinessServiceImpl) {
 		this.refineriesInfraBusinessServiceImpl = refineriesInfraBusinessServiceImpl;
-	}			
+	}
+	public void setRefineriesExcel(RefineriesExcel refineriesExcel) {
+		this.refineriesExcel = refineriesExcel;
+	}		
 	
 }

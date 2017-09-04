@@ -151,8 +151,8 @@ public interface ApplicationConstants {
 	public static final String HISTORICOPERATOR="historicOperator";
 	public static final String CURRENTEQUITYPARTNER="currentEquityPartners";
 	public static final String CURRENTEQUITYSTAKE="currentEquityStake";
-	public static final String COMMENCEMENT="commencement";
-	public static final String STATUSDETAILS="statusDetails";
+	public static final String RECENTDEVELOPMENTS="recentdevelopments";
+	public static final String STARTUP="startUp";
 	public static final String DECOMISSIONEDYEAR="decomissionedYear";
 	public static final String HISTORICEQUITYPARTNER="historicEquityPartner";
 	public static final String HISTORICEQUITYSTAKE="historicEquityStake";
@@ -273,6 +273,27 @@ public interface ApplicationConstants {
 	public static final String EXCEL_CONTENT_DISPOSITION="Content-Disposition";
 	public static final String EXCEL_ATTACHMENT="attachment; filename=";
 	public static final String EXCEL_FILE_EXTENSION=".xlsx";
+	public static final String GENERAL_INFO="General Information";
+	public static final String COMPANY_INFO="Company Information";
+	public static final String INVESTMENT_INFO="Investment Information";
+	public static final String CAPACITY_FORECASTS="Capacity Forecasts";
+	
+	public static final String EXCEL_TERMINAL="Terminal";
+	public static final String GENERAL_INFO_REGION="Region";
+	public static final String GENERAL_INFO_COUNTRY="Country";
+	public static final String GENERAL_INFO_LOCATION="Location";
+	public static final String GENERAL_INFO_TYPE="Type";
+	public static final String GENERAL_INFO_STATUS="Status";
+	public static final String GENERAL_INFO_REFINERINGCAPACITY="Refining Capacity (Kb/d)";
+	public static final String GENERAL_INFO_RECENT_DEV="Recent Developments";
+	public static final String GENERAL_INFO_STARTUP="Start Up";
+	
+	public static final String COMPANY_INFO_OPERATOR="Operator";
+	public static final String COMPANY_INFO_EQUITYHOLDERS="Equity Holders";
+	public static final String COMPANY_INFO_STAKE="Stake(%)";
+	
+	public static final String INVESTMENT_INFO_CAPEX="Capex($)";
+	public static final String CAPACITY_FORECASTS_NAME="Name";
 	
 	//Exploration
 	public static final String OPTION_BASIN="basin";

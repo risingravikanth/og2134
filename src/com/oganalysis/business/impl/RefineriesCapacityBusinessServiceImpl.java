@@ -2,6 +2,7 @@ package com.oganalysis.business.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +17,10 @@ import com.oganalysis.entities.Refinery;
 public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacityBusinessService {
 
 	private RefineriesDao refineriesDao;
-	private static final int STARTYEAR=2000;
-	private static final int ENDYEAR=2020;
+	private static final int STARTYEAR=2005;
+	private static final int ENDYEAR=2022;
 	private RefineriesCache refineriesCache;
+	private SimpleDateFormat sd=new SimpleDateFormat("yyyy");
 
 	@Override
 	public Map<String, Map<Integer, Double>> getCapacityByCompany(
@@ -200,55 +202,84 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		// TODO Auto-generated method stub
 		Map terminalData=new HashMap();
 		List<Refinery> refineryList=refineriesDao.getTerminalData(terminalName);
-		Refinery refinery=refineryList.get(0);
+		Refinery refinery=refineryList.get(0);		
 		terminalData.put(TERMINALNAME, refinery.getName());
-		terminalData.put(LOCATION,refinery.getLocation());
+		//General Info
+		terminalData.put(REGION, refinery.getRegion());
 		terminalData.put(COUNTRY,refinery.getCountry());
-		terminalData.put(STATUS,refinery.getStatus());
+		terminalData.put(LOCATION,refinery.getLocation());
 		terminalData.put(TYPE,getType(refineryList));
-		terminalData.put(COMMENCEMENT,getStartYear(refineryList));
-		terminalData.put(DECOMISSIONEDYEAR, getDecomissionedYear(refineryList));
-		terminalData.put(CAPEX,getCapex(refineryList));
+		terminalData.put(STATUS,refinery.getStatus());
+		terminalData.put(CAPACITY, refinery.getRefiningCapacity());
+		terminalData.put(RECENTDEVELOPMENTS,getStatusDetails(refineryList));		
+		terminalData.put(STARTUP,getStartYear(refineryList));
+		
+		//Company Info
 		terminalData.put(OPERATOR, getOperator(refineryList));
 		terminalData.put(OWNERSHIP, getOwnership(terminalName));
-		terminalData.put(HISTORICOPERATOR, getHistoricOperator(refineryList));
-		terminalData.put(HISTORICOWNERSHIP, getHistoricOwnership(terminalName));
+		//Investment Info
+		terminalData.put(CAPEX,getCapex(refineryList));
+		terminalData.put(CONSTRUCTIONDETAILS, getConstructionDetails(refineryList));
+		
+		//Capaciity Forecasts
 		terminalData.put(CDUCAPACITY,getCduCapacity(refineryList));
 		terminalData.put(VDUCAPACITY,getVduCapacity(refineryList));
 		terminalData.put(COKINGCAPACITY,getCokingCapacity(refineryList));
 		terminalData.put(FCCCAPACITY, getFccCapacity(refineryList));
 		terminalData.put(HYDROCRACKINGCAPACITY, getHydroCrackingCapacity(refineryList));
-		terminalData.put(CRUDESTORAGEORTANK,getCrudeStorageOrTankCapacity(refineryList));
-		terminalData.put(CRUDESTORAGECAPACITY,getCrudeStorageCapacity(refineryList));
-		terminalData.put(VISBREAKINGCAPACITY, getVisbreakingCapacity(refineryList));
-		terminalData.put(REFORMERCAPACITY, getReformerCapacity(refineryList));
-		terminalData.put(HYDROTREATINGCAPACITY,getHydroTreatingCapacity(refineryList));
-		terminalData.put(ALKYLATIONCAPACITY,getAlkylationCapacity(refineryList));
-		terminalData.put(AROMACTICSCAPACITY,getAromaticsCapacity(refineryList));
-		terminalData.put(ISOMERIZATIONCAPACITY,getIsomerizationCapacity(refineryList));
-		terminalData.put(POLYMERIZATIONCAPACITY, getPolymerizationCapacity(refineryList));
-		terminalData.put(LUBESCAPACITY,getLubesCapacity(refineryList));
-		terminalData.put(OXYGENATESCAPACITY, getOxygenatesCapacity(refineryList));
-		terminalData.put(COKECAPACITY,getCokeCapacity(refineryList));
-		terminalData.put(SULPHURCAPACITY,getSulphurCapacity(refineryList));
-		terminalData.put(HYDROGENCAPACITY,getHydrogenCapacity(refineryList));
-		terminalData.put(ASPHALTCAPACITY,getAsphaltCapacity(refineryList));
-		terminalData.put(GASOLINE, getGasoline(refineryList));
-		terminalData.put(LPG,getLpg(refineryList));
-		terminalData.put(KEROSINE,getKerosine(refineryList));
-		terminalData.put(JETFUEL, getJetFuel(refineryList));
-		terminalData.put(DIESEL, getDiesel(refineryList));
-		terminalData.put(PROPYLENE, getPropylene(refineryList));
-		terminalData.put(LIGHTNAPHTHA, getLightNaphtha(refineryList));
-		terminalData.put(HEAVYNAPHTHA,getHeavyNaphtha(refineryList));
-		terminalData.put(KEROJET,getKerojet(refineryList));
-		terminalData.put(CONSTRUCTIONDETAILS, getConstructionDetails(refineryList));
-		terminalData.put(MAINTENANCEDETAILS, getMaintenanceDetails(refineryList));
-		terminalData.put(MAINTENANCENOTE, getMaintenanceNote(refineryList));
-		terminalData.put(NELSONCOMPLEXINDEX, getNelsonComplexIndex(refineryList));
-		terminalData.put(REFINERYUTILIZATIONRATE, getRefineryUtilizationRate(refineryList));
-		terminalData.put(OTHERSNAMESOFREFINERY, getOtherNamesOfRefinery(refineryList));
+		
+//		terminalData.put(DECOMISSIONEDYEAR, getDecomissionedYear(refineryList));
+//		
+//		
+//		
+//		terminalData.put(HISTORICOPERATOR, getHistoricOperator(refineryList));
+//		terminalData.put(HISTORICOWNERSHIP, getHistoricOwnership(terminalName));
+//		
+//		
+//		
+//		terminalData.put(CRUDESTORAGEORTANK,getCrudeStorageOrTankCapacity(refineryList));
+//		terminalData.put(CRUDESTORAGECAPACITY,getCrudeStorageCapacity(refineryList));
+//		terminalData.put(VISBREAKINGCAPACITY, getVisbreakingCapacity(refineryList));
+//		terminalData.put(REFORMERCAPACITY, getReformerCapacity(refineryList));
+//		terminalData.put(HYDROTREATINGCAPACITY,getHydroTreatingCapacity(refineryList));
+//		terminalData.put(ALKYLATIONCAPACITY,getAlkylationCapacity(refineryList));
+//		terminalData.put(AROMACTICSCAPACITY,getAromaticsCapacity(refineryList));
+//		terminalData.put(ISOMERIZATIONCAPACITY,getIsomerizationCapacity(refineryList));
+//		terminalData.put(POLYMERIZATIONCAPACITY, getPolymerizationCapacity(refineryList));
+//		terminalData.put(LUBESCAPACITY,getLubesCapacity(refineryList));
+//		terminalData.put(OXYGENATESCAPACITY, getOxygenatesCapacity(refineryList));
+//		terminalData.put(COKECAPACITY,getCokeCapacity(refineryList));
+//		terminalData.put(SULPHURCAPACITY,getSulphurCapacity(refineryList));
+//		terminalData.put(HYDROGENCAPACITY,getHydrogenCapacity(refineryList));
+//		terminalData.put(ASPHALTCAPACITY,getAsphaltCapacity(refineryList));
+//		terminalData.put(GASOLINE, getGasoline(refineryList));
+//		terminalData.put(LPG,getLpg(refineryList));
+//		terminalData.put(KEROSINE,getKerosine(refineryList));
+//		terminalData.put(JETFUEL, getJetFuel(refineryList));
+//		terminalData.put(DIESEL, getDiesel(refineryList));
+//		terminalData.put(PROPYLENE, getPropylene(refineryList));
+//		terminalData.put(LIGHTNAPHTHA, getLightNaphtha(refineryList));
+//		terminalData.put(HEAVYNAPHTHA,getHeavyNaphtha(refineryList));
+//		terminalData.put(KEROJET,getKerojet(refineryList));
+//		
+//		terminalData.put(MAINTENANCEDETAILS, getMaintenanceDetails(refineryList));
+//		terminalData.put(MAINTENANCENOTE, getMaintenanceNote(refineryList));
+//		terminalData.put(NELSONCOMPLEXINDEX, getNelsonComplexIndex(refineryList));
+//		terminalData.put(REFINERYUTILIZATIONRATE, getRefineryUtilizationRate(refineryList));
+//		terminalData.put(OTHERSNAMESOFREFINERY, getOtherNamesOfRefinery(refineryList));
 		return terminalData;		
+	}
+	private String getStatusDetails(List<Refinery> refineryList)
+	{
+		StringBuffer statusDetails=new StringBuffer();
+		
+		for(Refinery refinery:refineryList)
+		{
+			if(null!=refinery && !(BLANK).equalsIgnoreCase(refinery.getStatusDetails()))
+				statusDetails.append(refinery.getStatusDetails()).append(COMMA);								
+		}
+		removeCommaAtEnd(statusDetails);
+		return statusDetails.toString();
 	}
 	private String getOtherNamesOfRefinery(List<Refinery> refineryList)
 	{
@@ -846,8 +877,9 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		for(Refinery refinery:refineryList)
 		{
 			if(null!=refinery && null!=refinery.getStartYear())
-				sb.append(refinery.getStartYear()).append(COMMA);
+				sb.append(sd.format(refinery.getStartYear())).append(COMMA);
 		}
+		removeCommaAtEnd(sb);
 		return sb.toString();
 	}
 	private String getDecomissionedYear(List<Refinery> refineryList)
@@ -860,7 +892,12 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		}
 		return sb.toString();
 	}
-	private String getCapex(List<Refinery> refineryList)
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{		
+		if(inputString.length()>0)
+		inputString.deleteCharAt(inputString.length()-1);
+	}
+	private double getCapex(List<Refinery> refineryList)
 	{
 		double capex=0;
 		for(Refinery refinery:refineryList)
@@ -868,7 +905,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 			if(null!=refinery)
 				capex=capex+refinery.getCapex();
 		}
-		return String.valueOf(capex);
+		return capex;
 	}
 	private double round(double value, int places) {	    
 
