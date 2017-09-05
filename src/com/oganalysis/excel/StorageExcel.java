@@ -1,7 +1,42 @@
 package com.oganalysis.excel;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.BLANK;
+import static com.oganalysis.constants.ApplicationConstants.CAPACITY;
+import static com.oganalysis.constants.ApplicationConstants.CAPACITY_FORECASTS;
+import static com.oganalysis.constants.ApplicationConstants.CAPACITY_FORECASTS_NAME;
+import static com.oganalysis.constants.ApplicationConstants.CAPEX;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY_INFO;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY_INFO_EQUITYHOLDERS;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY_INFO_OPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY_INFO_STAKE;
+import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.CURRENTOWNERS;
+import static com.oganalysis.constants.ApplicationConstants.CURRENTOWNERSHIP;
+import static com.oganalysis.constants.ApplicationConstants.EXCEL_STORAGE;
+import static com.oganalysis.constants.ApplicationConstants.EXCEL_TERMINAL;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_LOCATION;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_REGION;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_STARTUP;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_STATUS;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_TANKS;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_TANKS_RANGE_MAX;
+import static com.oganalysis.constants.ApplicationConstants.GENERAL_INFO_TANKS_RANGE_MIN;
+import static com.oganalysis.constants.ApplicationConstants.INVESTMENT_INFO;
+import static com.oganalysis.constants.ApplicationConstants.INVESTMENT_INFO_CAPEX;
+import static com.oganalysis.constants.ApplicationConstants.LOCATION;
+import static com.oganalysis.constants.ApplicationConstants.OPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.OWNERSHIP;
+import static com.oganalysis.constants.ApplicationConstants.REGION;
+import static com.oganalysis.constants.ApplicationConstants.STARTUP;
+import static com.oganalysis.constants.ApplicationConstants.STATUS;
+import static com.oganalysis.constants.ApplicationConstants.TANKS;
+import static com.oganalysis.constants.ApplicationConstants.TANKSIZERANGE_MAX;
+import static com.oganalysis.constants.ApplicationConstants.TANKSIZERANGE_MIN;
+import static com.oganalysis.constants.ApplicationConstants.TERMINALNAME;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -12,23 +47,26 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class StorageExcel {
-	public Workbook getExcelTerminalData(Map terminalData)
+	public Workbook getExcelTerminalData(Map terminalData,InputStream is)
 	{
 		Workbook wb=new XSSFWorkbook();
 		Sheet refinerySheet=wb.createSheet(EXCEL_STORAGE+(String)terminalData.get(TERMINALNAME));
-		
-		Row row=refinerySheet.createRow(0);
+		ExcelFileHelper.createFileHeader(wb, "Storage Terminal Details",is);
+		int currentRow=6;
+		Row row=refinerySheet.createRow(currentRow);
 		Cell terminalName=row.createCell(1);
 		terminalName.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		terminalName.setCellValue("Terminal");		
+		terminalName.setCellValue(EXCEL_TERMINAL);		
 		Cell terminalNameValue=row.createCell(2);
 		terminalNameValue.setCellStyle(ExcelFileHelper.getFieldValueCellStyle(wb));
 		terminalNameValue.setCellValue((String)terminalData.get(TERMINALNAME));
+		currentRow++;		
 		
-		createGeneralInformationSection(terminalData,wb,2);
-		createCompanyInformationSection(terminalData, wb, 12);
-		createInvestmentInfoSection(terminalData,wb,17); //still pending
-		createCapaciityForecastsSection(terminalData, wb, 22);
+		
+		currentRow=createGeneralInformationSection(terminalData,wb,currentRow);
+		currentRow=createCompanyInformationSection(terminalData, wb,currentRow);
+		currentRow=createInvestmentInfoSection(terminalData,wb,currentRow); //still pending
+		currentRow=createCapaciityForecastsSection(terminalData, wb,currentRow);
 
 		refinerySheet.autoSizeColumn(1);
 //		lngSheet.autoSizeColumn(2);
@@ -36,19 +74,19 @@ public class StorageExcel {
 		
 		return wb;
 	}
-	private void createCapaciityForecastsSection(Map terminalData,Workbook wb,int rowStart)
+	private int createCapaciityForecastsSection(Map terminalData,Workbook wb,int rowStart)
 	{
 		Sheet refineriesSheet=wb.getSheetAt(0);
 		Row capacityForeCastsSecRow=refineriesSheet.createRow(rowStart);
 		Cell capacityForeCastsSecCell=capacityForeCastsSecRow.createCell(1);
 		capacityForeCastsSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		capacityForeCastsSecCell.setCellValue("Capacity Forecasts");
+		capacityForeCastsSecCell.setCellValue(CAPACITY_FORECASTS);
 		rowStart++;
 		
 		Row nameFieldRow=refineriesSheet.createRow(rowStart);
 		Cell nameFieldCell=nameFieldRow.createCell(1);
 		nameFieldCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		nameFieldCell.setCellValue("Name");
+		nameFieldCell.setCellValue(CAPACITY_FORECASTS_NAME);
 		rowStart++;
 		
 		Map<Integer,Double> storageCapacity=(Map<Integer,Double>)terminalData.get(CAPACITY);
@@ -56,7 +94,7 @@ public class StorageExcel {
 		Cell storageCapacityFieldCell=storageCapacityFieldRow.createCell(1);
 		storageCapacityFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
 		storageCapacityFieldCell.setCellValue("Storage Capacity (m3)");
-		
+		rowStart++;
 		int column=2;
 		for(int i=2005;i<=2022;i++)
 		{
@@ -65,44 +103,50 @@ public class StorageExcel {
 			nameFieldValCell.setCellValue(i);
 			
 			Cell storageCapacityFieldValCell=storageCapacityFieldRow.createCell(column);
-			if(null!=storageCapacity.get(i))
+			if(null!=storageCapacity.get(i) && 0!=(Double)storageCapacity.get(i))
 				storageCapacityFieldValCell.setCellValue((Double)storageCapacity.get(i));
 			else
-				storageCapacityFieldValCell.setCellValue(0);										
+				storageCapacityFieldValCell.setCellValue(BLANK);										
 			column++;
 		}
+		return rowStart;
 	}	
-	private void createInvestmentInfoSection(Map terminalData,Workbook wb,int rowStart)
+	private int createInvestmentInfoSection(Map terminalData,Workbook wb,int rowStart)
 	{
 		Sheet storageSheet=wb.getSheetAt(0);
 		Row investInfoSecRow=storageSheet.createRow(rowStart);
 		Cell investInfoSecCell=investInfoSecRow.createCell(1);
 		investInfoSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		investInfoSecCell.setCellValue("Investment Information");
+		investInfoSecCell.setCellValue(INVESTMENT_INFO);
 		rowStart++;
 			
 		Row capexFieldRow=storageSheet.createRow(rowStart);
 		Cell capexFieldCell=capexFieldRow.createCell(1);
 		capexFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		capexFieldCell.setCellValue("Capex($)");
+		capexFieldCell.setCellValue(INVESTMENT_INFO_CAPEX);
 		
 		Cell capexFieldValCell=capexFieldRow.createCell(2);
-		capexFieldValCell.setCellValue((String)terminalData.get(CAPEX));		
+		if(null!=terminalData.get(CAPEX) && 0!=(Double)terminalData.get(CAPEX))
+			capexFieldValCell.setCellValue((Double)terminalData.get(CAPEX));	
+		else
+			capexFieldValCell.setCellValue(BLANK);
 		rowStart++;
+		return rowStart;
 	}
-	private void createCompanyInformationSection(Map terminalData,Workbook wb,int rowStart)
+	private int createCompanyInformationSection(Map terminalData,Workbook wb,int rowStart)
 	{
+		rowStart++;
 		Sheet storageSheet=wb.getSheetAt(0);
 		Row compInfoSecRow=storageSheet.createRow(rowStart);
 		Cell compInfoSecCell=compInfoSecRow.createCell(1);
 		compInfoSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		compInfoSecCell.setCellValue("Company Information");
+		compInfoSecCell.setCellValue(COMPANY_INFO);
 		rowStart++;
 			
 		Row operatorFieldRow=storageSheet.createRow(rowStart);
 		Cell operatorFieldCell=operatorFieldRow.createCell(1);
 		operatorFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		operatorFieldCell.setCellValue("Operator");
+		operatorFieldCell.setCellValue(COMPANY_INFO_OPERATOR);
 		
 		Cell operatorFieldValCell=operatorFieldRow.createCell(2);
 		operatorFieldValCell.setCellValue((String)terminalData.get(OPERATOR));		
@@ -112,12 +156,12 @@ public class StorageExcel {
 		Row equityHoldersFieldRow=storageSheet.createRow(rowStart);
 		Cell equityHoldersFieldCell=equityHoldersFieldRow.createCell(1);
 		equityHoldersFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		equityHoldersFieldCell.setCellValue("Equity Holders");
+		equityHoldersFieldCell.setCellValue(COMPANY_INFO_EQUITYHOLDERS);
 		rowStart++;
 		Row stakeFieldRow=storageSheet.createRow(rowStart);
 		Cell stakeFieldCell=stakeFieldRow.createCell(1);
 		stakeFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		stakeFieldCell.setCellValue("Stake(%)");
+		stakeFieldCell.setCellValue(COMPANY_INFO_STAKE);
 		rowStart++;
 		int column=2;
 		for(Map<String,String> ownership:ownerShipList)
@@ -136,20 +180,22 @@ public class StorageExcel {
 				stakeFieldValCell.setCellValue(BLANK);
 			column++;
 		}
+		return rowStart;
 	}
-	private void createGeneralInformationSection(Map terminalData,Workbook wb,int rowStart)
+	private int createGeneralInformationSection(Map terminalData,Workbook wb,int rowStart)
 	{
+		rowStart++;
 		Sheet storageSheet=wb.getSheetAt(0);
 		Row generalInfoSecRow=storageSheet.createRow(rowStart);
 		Cell generalInfoSecCell=generalInfoSecRow.createCell(1);
 		generalInfoSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		generalInfoSecCell.setCellValue("General Information");
+		generalInfoSecCell.setCellValue(GENERAL_INFO);
 		rowStart++;
 			
 		Row regionFieldRow=storageSheet.createRow(rowStart);
 		Cell regionFieldCell=regionFieldRow.createCell(1);
 		regionFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		regionFieldCell.setCellValue("Region");
+		regionFieldCell.setCellValue(GENERAL_INFO_REGION);
 		
 		Cell regionFieldValCell=regionFieldRow.createCell(2);
 		regionFieldValCell.setCellValue((String)terminalData.get(REGION));
@@ -158,7 +204,7 @@ public class StorageExcel {
 		Row countryFieldRow=storageSheet.createRow(rowStart);
 		Cell countryFieldCell=countryFieldRow.createCell(1);
 		countryFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		countryFieldCell.setCellValue("Country");
+		countryFieldCell.setCellValue(GENERAL_INFO_COUNTRY);
 		
 		Cell countryFieldValCell=countryFieldRow.createCell(2);
 		countryFieldValCell.setCellValue((String)terminalData.get(COUNTRY));
@@ -167,7 +213,7 @@ public class StorageExcel {
 		Row locationFieldRow=storageSheet.createRow(rowStart);
 		Cell locationFieldCell=locationFieldRow.createCell(1);
 		locationFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		locationFieldCell.setCellValue("Location");
+		locationFieldCell.setCellValue(GENERAL_INFO_LOCATION);
 		
 		Cell locationFieldValCell=locationFieldRow.createCell(2);
 		locationFieldValCell.setCellValue((String)terminalData.get(LOCATION));
@@ -176,7 +222,7 @@ public class StorageExcel {
 		Row statusFieldRow=storageSheet.createRow(rowStart);
 		Cell statusFieldCell=statusFieldRow.createCell(1);
 		statusFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		statusFieldCell.setCellValue("Status");
+		statusFieldCell.setCellValue(GENERAL_INFO_STATUS);
 		
 		Cell statusFieldValCell=statusFieldRow.createCell(2);
 		statusFieldValCell.setCellValue((String)terminalData.get(STATUS));
@@ -185,36 +231,48 @@ public class StorageExcel {
 		Row commencementFieldRow=storageSheet.createRow(rowStart);
 		Cell commencementFieldCell=commencementFieldRow.createCell(1);
 		commencementFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		commencementFieldCell.setCellValue("Start Up");
+		commencementFieldCell.setCellValue(GENERAL_INFO_STARTUP);
 		
 		Cell commencementFieldValCell=commencementFieldRow.createCell(2);
-		commencementFieldValCell.setCellValue((String)terminalData.get(COMMENCEMENT));
+		commencementFieldValCell.setCellValue((String)terminalData.get(STARTUP));
 		rowStart++;
 		
 		Row tanksFieldRow=storageSheet.createRow(rowStart);
 		Cell tanksFieldCell=tanksFieldRow.createCell(1);
 		tanksFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		tanksFieldCell.setCellValue("Tanks(#)");
+		tanksFieldCell.setCellValue(GENERAL_INFO_TANKS);
 		
 		Cell tanksFieldValCell=tanksFieldRow.createCell(2);
-		tanksFieldValCell.setCellValue((Double)terminalData.get(TANKS));
+		if(null!=terminalData.get(TANKS) && 0!=(Double)terminalData.get(TANKS))
+			tanksFieldValCell.setCellValue((Double)terminalData.get(TANKS));
+		else
+			tanksFieldValCell.setCellValue(BLANK);
 		rowStart++;
 		
 		Row tanksSizeRangeMinFieldRow=storageSheet.createRow(rowStart);
 		Cell tanksSizeRangeMinFieldCell=tanksSizeRangeMinFieldRow.createCell(1);
 		tanksSizeRangeMinFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		tanksSizeRangeMinFieldCell.setCellValue("Tank Size Range - Min (m3)");
+		tanksSizeRangeMinFieldCell.setCellValue(GENERAL_INFO_TANKS_RANGE_MIN);
 		
 		Cell tanksSizeRangeMinFieldValCell=tanksSizeRangeMinFieldRow.createCell(2);
-		tanksSizeRangeMinFieldValCell.setCellValue((Double)terminalData.get(TANKSIZERANGE_MIN));
+		if(null!=terminalData.get(TANKSIZERANGE_MIN) && 0!=(Double)terminalData.get(TANKSIZERANGE_MIN))
+			tanksSizeRangeMinFieldValCell.setCellValue((Double)terminalData.get(TANKSIZERANGE_MIN));
+		else
+			tanksSizeRangeMinFieldValCell.setCellValue(BLANK);
 		rowStart++;
 		
 		Row tanksSizeRangeMaxFieldRow=storageSheet.createRow(rowStart);
 		Cell tanksSizeRangeMaxFieldCell=tanksSizeRangeMaxFieldRow.createCell(1);
 		tanksSizeRangeMaxFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		tanksSizeRangeMaxFieldCell.setCellValue("Tank Size Range - Max (m3)");
+		tanksSizeRangeMaxFieldCell.setCellValue(GENERAL_INFO_TANKS_RANGE_MAX);
 		
 		Cell tanksSizeRangeMaxFieldValCell=tanksSizeRangeMaxFieldRow.createCell(2);
-		tanksSizeRangeMaxFieldValCell.setCellValue((Double)terminalData.get(TANKSIZERANGE_MAX));		
+		if(null!=terminalData.get(TANKSIZERANGE_MAX) && 0!=(Double)terminalData.get(TANKSIZERANGE_MAX))
+			tanksSizeRangeMaxFieldValCell.setCellValue((Double)terminalData.get(TANKSIZERANGE_MAX));
+		else
+			tanksSizeRangeMinFieldValCell.setCellValue(BLANK);
+		rowStart++;
+		
+		return rowStart;
 	}
 }

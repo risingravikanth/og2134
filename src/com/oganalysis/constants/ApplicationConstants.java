@@ -273,6 +273,7 @@ public interface ApplicationConstants {
 	public static final String EXCEL_CONTENT_DISPOSITION="Content-Disposition";
 	public static final String EXCEL_ATTACHMENT="attachment; filename=";
 	public static final String EXCEL_FILE_EXTENSION=".xlsx";
+	public static final String EXCEL_REDIRECT="redirect:/";
 	public static final String GENERAL_INFO="General Information";
 	public static final String COMPANY_INFO="Company Information";
 	public static final String INVESTMENT_INFO="Investment Information";
@@ -287,6 +288,9 @@ public interface ApplicationConstants {
 	public static final String GENERAL_INFO_REFINERINGCAPACITY="Refining Capacity (Kb/d)";
 	public static final String GENERAL_INFO_RECENT_DEV="Recent Developments";
 	public static final String GENERAL_INFO_STARTUP="Start Up";
+	public static final String GENERAL_INFO_TANKS="Tanks(#)";
+	public static final String GENERAL_INFO_TANKS_RANGE_MIN="Tank Size Range - Min (m3)";
+	public static final String GENERAL_INFO_TANKS_RANGE_MAX="Tank Size Range - Max (m3)";
 	
 	public static final String COMPANY_INFO_OPERATOR="Operator";
 	public static final String COMPANY_INFO_EQUITYHOLDERS="Equity Holders";

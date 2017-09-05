@@ -9,5 +9,6 @@ public interface StorageCapacityBusinessService {
 	public Map<String,Map<Integer,Double>> getCapacityByTerminal(Map<String,List<String>> selectedOptions,int startYear,int endYear);
 	
 	public Map<String,Map<Integer,Double>> getModalCapacityForRecord(Map<String,List<String>>selectedOptions,int startYear,int endYear,String displayType,String recordName);
-//	public Map getTerminalData(String recordName);
+	public Map getTerminalData(String recordName);
+	
 }

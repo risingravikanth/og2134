@@ -16,6 +16,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.StorageDao;
+import com.oganalysis.entities.RefineriesFilter;
 import com.oganalysis.entities.Refinery;
 import com.oganalysis.entities.Storage;
 import com.oganalysis.entities.StorageFilter;
@@ -433,6 +434,29 @@ public class StorageDaoImpl implements StorageDao{
 		}				
 		return storage;
 	}	
+	@Override
+	public List<StorageFilter> getTerminalCompanies(String terminalName) {
+		// TODO Auto-generated method stub
+		List<StorageFilter> terminalCompanies=null;
+		Session session=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			terminalCompanies=new ArrayList<StorageFilter>();
+			tx.begin();
+			Query query=session.createQuery("from StorageFilter where tankFarm=:name and currentOwners!=' '");
+			query.setParameter("name",terminalName);
+			terminalCompanies=(List<StorageFilter>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}	
+		return terminalCompanies;
+	}
 	@Override
 	public List<String> getSelectedTerminals(
 			Map<String, List<String>> selectedOptions) {

@@ -66,7 +66,7 @@
 	<bean id="storageServiceImpl" class="com.oganalysis.service.impl.StorageServiceImpl">
 		<property name="storageCapacityBusinessServiceImpl" ref="storageCapacityBusinessServiceImpl"/>
 		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>	
-		<!-- <property name="storageExcel" ref="storageExcel"/> -->			
+		<property name="storageExcel" ref="storageExcel"/>			
 	</bean>
 	<bean id="productionServiceImpl" class="com.oganalysis.service.impl.ProductionServiceImpl">
 		<property name="productionBusinessServiceImpl" ref="productionBusinessServiceImpl"/>				
@@ -166,7 +166,7 @@
 	
 	<bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
 	<bean id="refineriesExcel" class="com.oganalysis.excel.RefineriesExcel"/>
-	<!-- <bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/> -->
+	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/>
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
 	<context:property-placeholder properties-ref="applicationProps" />
