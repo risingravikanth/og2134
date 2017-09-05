@@ -12,20 +12,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	
-	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
-		<property name="dataServiceImpl" ref="dataServiceImpl"/>
-	</bean>-->
-	
-	<!--  ServiceImpl -->
-	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
-		
-		
-		
-		
-		<property name="refineryDao" ref="refineryDao"/>
-		
-	</bean>
 			
 	<!-- Service Layer -->
 	<bean id="loginServiceImpl" class="com.oganalysis.service.impl.LoginServiceImpl">
