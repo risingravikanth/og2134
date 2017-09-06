@@ -524,7 +524,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 				expectedStartUpYear.append(sd.format(lng.getExpectedStartYear())).append(COMMA);
 			}
 		}
-		if(expectedStartUpYear.length()>0)
+		
 			removeCommaAtEnd(expectedStartUpYear);
 		return expectedStartUpYear;
 	}
@@ -562,7 +562,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			if(null!=lng.getDisttributionOrOutputName() && !BLANK.equalsIgnoreCase(lng.getDisttributionOrOutputName()))
 				distributionType.append(lng.getDisttributionOrOutputName()).append(COMMA);
 		}
-		if(distributionType.length()>0)
+		
 		removeCommaAtEnd(distributionType);
 		return distributionType;
 	}
@@ -575,7 +575,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 				otherStatusDetails.append(lng.getOtherStatusDetails()).append(COMMA);
 							
 		}
-		if(otherStatusDetails.length()>0)
+		
 		removeCommaAtEnd(otherStatusDetails);
 		return otherStatusDetails;
 	}
@@ -589,12 +589,13 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 				sourceFields.append(lng.getFeedOrInputName()).append(COMMA);				
 							
 		}
-		if(sourceFields.length()>0)
+		
 		removeCommaAtEnd(sourceFields);
 		return sourceFields;
 	}
 	private void removeCommaAtEnd(StringBuffer inputString)
 	{
+		if(inputString.length()>0)
 		inputString.deleteCharAt(inputString.length()-1);
 	}
 	private StringBuffer getOperator(List<Lng> dataList)
@@ -606,7 +607,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			if(null!=lng.getOperator() && !BLANK.equalsIgnoreCase(lng.getOperator()))				
 				operators.append(lng.getOperator()).append(COMMA);											
 		}
-		if(operators.length()>0)
+		
 		removeCommaAtEnd(operators);
 		return operators;
 	}
@@ -720,7 +721,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			if(null!=lng.getTechnologyDetails() && !BLANK.equalsIgnoreCase(lng.getTechnologyDetails()))
 			technology.append(lng.getTechnologyDetails()).append(COMMA);
 		}	
-		if(technology.length()>0)
+		
 		removeCommaAtEnd(technology);
 		return technology;
 	}

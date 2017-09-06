@@ -171,7 +171,7 @@ public class RefineriesExcel {
 		operatorFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
 		operatorFieldCell.setCellValue(COMPANY_INFO_OPERATOR);
 		
-		Cell operatorFieldValCell=operatorFieldRow.createCell(2);
+		Cell operatorFieldValCell=operatorFieldRow.createCell(2);		
 		operatorFieldValCell.setCellValue((String)terminalData.get(OPERATOR));
 		rowStart++;
 		
@@ -193,12 +193,10 @@ public class RefineriesExcel {
 			Cell equityHoldersFieldValCell=equityHoldersFieldRow.createCell(column);
 			if(null!=ownership.get(CURRENTEQUITYPARTNER))
 				equityHoldersFieldValCell.setCellValue(ownership.get(CURRENTEQUITYPARTNER));
-			else
-				equityHoldersFieldValCell.setCellValue(BLANK);
-										
+													
 			Cell stakeFieldValCell=stakeFieldRow.createCell(column);
 			if(null!=ownership.get(CURRENTEQUITYSTAKE))
-				stakeFieldValCell.setCellValue(Double.valueOf(ownership.get(CURRENTEQUITYSTAKE))!=0?ownership.get(CURRENTEQUITYSTAKE):BLANK);			
+				stakeFieldValCell.setCellValue(ownership.get(CURRENTEQUITYSTAKE));			
 				
 			column++;
 		}
