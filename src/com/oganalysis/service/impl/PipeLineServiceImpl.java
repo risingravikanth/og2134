@@ -43,7 +43,7 @@ public class PipeLineServiceImpl implements PipeLineService {
 	{
 		Map<String,List<Map>> pipeLineData=pipeLineBusinessServiceImpl.getDomesticPipeLines(selectedOptions);
 		PipeLineJsonResponse pipeLineJson=new PipeLineJsonResponse();
-		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData);
+		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData,DOMESTIC);
 		return pipelineRes;
 	}
 	@Override
@@ -78,7 +78,7 @@ public class PipeLineServiceImpl implements PipeLineService {
 	{
 		Map<String,List<Map>> pipeLineData=pipeLineBusinessServiceImpl.getTransNationalPipeLines(selectedOptions);
 		PipeLineJsonResponse pipeLineJson=new PipeLineJsonResponse();
-		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData);
+		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData,TRANSNATIONAL);
 		return pipelineRes;
 	}
 	public void setPipeLineBusinessServiceImpl(

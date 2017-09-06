@@ -4,19 +4,23 @@ import static com.oganalysis.constants.ApplicationConstants.COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
 import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
 import com.oganalysis.business.StorageCapacityBusinessService;
 import com.oganalysis.business.StorageInfraBusinessService;
-import com.oganalysis.helper.RefineriesJsonResponse;
+import com.oganalysis.excel.StorageExcel;
 import com.oganalysis.helper.StorageJsonResponse;
 import com.oganalysis.service.StorageService;
 
 public class StorageServiceImpl implements StorageService {
 	private StorageCapacityBusinessService storageCapacityBusinessServiceImpl;
 	private StorageInfraBusinessService storageInfraBusinessServiceImpl;
+	private StorageExcel storageExcel;
 	@Override
 	public String getStorageData(Map<String, List<String>> selectedOptions,
 			String startYear, String endYear, String displayType) {
@@ -65,11 +69,11 @@ public class StorageServiceImpl implements StorageService {
 			modalCapacityDataRes=jsonRes.createCapacityByTerminal(modalCapacityData, startDateVal, endDateVal);
 		}			
 		// Modal is different for Terminal displayType because of which below condition is required 
-//		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
-//		{
-//			Map modalTerminal=refineriesCapacityBusinessServiceImpl.getTerminalData(recordName);
-//			modalCapacityDataRes=jsonRes.createTerminalData(modalTerminal);
-//		}
+		else if(null!=displayType && displayType.equalsIgnoreCase(TERMINAL))
+		{
+			Map modalTerminal=storageCapacityBusinessServiceImpl.getTerminalData(recordName);
+			modalCapacityDataRes=jsonRes.createTerminalData(modalTerminal);
+		}
 								
 		return modalCapacityDataRes;
 	}
@@ -83,6 +87,13 @@ public class StorageServiceImpl implements StorageService {
 		infrastructureDataRes=jsonResponse.createInfrastructureRes(storageInfra);
 		return infrastructureDataRes;
 	}
+	@Override
+	public Workbook getExcelTerminalData(String recordName,InputStream is) {
+		// TODO Auto-generated method stub
+		Map<String,String> terminalData=storageCapacityBusinessServiceImpl.getTerminalData(recordName);		
+		Workbook wb=storageExcel.getExcelTerminalData(terminalData,is);
+		return wb;
+	}
 	public void setStorageCapacityBusinessServiceImpl(
 			StorageCapacityBusinessService storageCapacityBusinessServiceImpl) {
 		this.storageCapacityBusinessServiceImpl = storageCapacityBusinessServiceImpl;
@@ -91,8 +102,9 @@ public class StorageServiceImpl implements StorageService {
 			StorageInfraBusinessService storageInfraBusinessServiceImpl) {
 		this.storageInfraBusinessServiceImpl = storageInfraBusinessServiceImpl;
 	}
-	
+	public void setStorageExcel(StorageExcel storageExcel) {
+		this.storageExcel = storageExcel;
+	}
 		
-	
 	
 }

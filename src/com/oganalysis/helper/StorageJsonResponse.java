@@ -68,7 +68,7 @@ public class StorageJsonResponse {
 				
 		return capacityByCompany.toJSONString();
 			
-	}
+	}	
 	private JSONArray getAllYearsCapacity(Map<String,Map<Integer,Double>> capacityData,int startYear,int endYear)
 	{
 		JSONArray allYearsCapacityArray=new JSONArray();
@@ -116,6 +116,37 @@ public class StorageJsonResponse {
 		}
 		return totalCapacityJsonObj;
 	}	
+	public String createTerminalData(Map terminalData)
+	{
+		JSONObject jsonTerminalData=new JSONObject();
+		jsonTerminalData.put(TERMINALNAME,terminalData.get(TERMINALNAME));		
+		jsonTerminalData.put(REGION, terminalData.get(REGION));
+		jsonTerminalData.put(COUNTRY,terminalData.get(COUNTRY));
+		jsonTerminalData.put(LOCATION,terminalData.get(LOCATION));		
+		jsonTerminalData.put(STATUS,terminalData.get(STATUS));
+		jsonTerminalData.put(STARTUP,terminalData.get(STARTUP));
+		jsonTerminalData.put(TANKS, terminalData.get(TANKS));
+		jsonTerminalData.put(TANKSIZERANGE_MIN,  terminalData.get(TANKSIZERANGE_MIN));
+		jsonTerminalData.put(TANKSIZERANGE_MAX,  terminalData.get(TANKSIZERANGE_MAX));
+		jsonTerminalData.put(OPERATOR, terminalData.get(OPERATOR));
+		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
+		jsonTerminalData.put(OWNERSHIP, createOwnership(ownerShipList));
+		
+		return jsonTerminalData.toJSONString();
+	}
+	private JSONArray createOwnership(List<Map<String,String>> ownerShipList)
+	{
+		JSONArray ownerShipArray=new JSONArray();
+		JSONObject ownerShipJsonObj=null;
+		for(Map<String,String> ownership:ownerShipList)
+		{
+			ownerShipJsonObj=new JSONObject();
+			ownerShipJsonObj.put(CURRENTOWNERS,ownership.get(CURRENTOWNERS));
+			ownerShipJsonObj.put(CURRENTOWNERSHIP,ownership.get(CURRENTOWNERSHIP));
+			ownerShipArray.add(ownerShipJsonObj);
+		}
+		return ownerShipArray;
+	}
 	private double round(double value, int places) {	    
 
 	    long factor = (long) Math.pow(10, places);

@@ -1,5 +1,7 @@
 package com.oganalysis.business.impl;
 
+import static com.oganalysis.constants.ApplicationConstants.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +10,15 @@ import java.util.Map;
 import com.oganalysis.business.StorageCapacityBusinessService;
 import com.oganalysis.cache.StorageCache;
 import com.oganalysis.dao.StorageDao;
-
-import static com.oganalysis.constants.ApplicationConstants.*;
+import com.oganalysis.entities.RefineriesFilter;
+import com.oganalysis.entities.Refinery;
+import com.oganalysis.entities.Storage;
+import com.oganalysis.entities.StorageFilter;
 public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusinessService {
 	private StorageDao storageDao;
 	private StorageCache storageCache;
+	private static final int STARTYEAR=2000;
+	private static final int ENDYEAR=2022;
 	@Override
 	public Map<String, Map<Integer, Double>> getCapacityByCompany(
 			Map<String, List<String>> selectedOptions, int startYear,
@@ -180,6 +186,95 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		else if(null!=displayType && displayType.equalsIgnoreCase(COMPANY))
 			terminalCapacities=getTerminalsCapacityForCompany(recordName,selectedOptions,startYear,endYear);
 		return terminalCapacities;
+	}	
+	@Override
+	public Map getTerminalData(String terminalName) {
+		// TODO Auto-generated method stub
+		Map terminalData=new HashMap();
+		List<Storage> storageList=storageDao.getTerminalData(terminalName);
+		Storage storage=storageList.get(0);
+		terminalData.put(TERMINALNAME, storage.getTankFarm());
+		terminalData.put(REGION,storage.getRegion());
+		terminalData.put(COUNTRY,storage.getCountry());
+		terminalData.put(LOCATION,storage.getLocation());		
+		terminalData.put(STATUS,storage.getStatus());
+		terminalData.put(STARTUP, getCommencementDate(storageList));
+		terminalData.put(TANKS, storage.getTanks());
+		terminalData.put(TANKSIZERANGE_MIN, storage.getTankSizeRange_min_m3());
+		terminalData.put(TANKSIZERANGE_MAX, storage.getTankSizeRange_max_m3());
+		terminalData.put(OPERATOR,getOperator(storageList));
+		terminalData.put(OWNERSHIP, getOwnership(terminalName));
+		terminalData.put(CAPEX, getCapex(storageList));
+		terminalData.put(CAPACITY,getStorageCapacity(storageList));
+		return terminalData;
+	}
+	private double getCapex(List<Storage> storageList)
+	{
+		double capex=0;
+		for(Storage storage:storageList)
+		{
+			if(null!=storage)
+				capex=capex+storage.getCapitalInvestment();
+		}
+		return capex;
+	}
+	private Map<Integer,Double> getStorageCapacity(List<Storage> storageList)
+	{
+		Map<Integer,Double> storageCapacity=new HashMap<Integer,Double>();
+		List<Integer> years=getSelectedYears(STARTYEAR,ENDYEAR);
+		for(Integer i:years)
+		{
+			for(Storage storage:storageList)
+			{
+				if(i!=0 && storage.getCapacityYear()==i)
+				{
+					storageCapacity.put(i, storage.getCapacityM3());
+					
+				}
+			}
+		}
+		return storageCapacity;
+	}
+	private List<Map<String,String>> getOwnership(String terminalName)
+	{
+			
+		List<Map<String,String>> ownershipList=new ArrayList<Map<String,String>>();
+		List<StorageFilter> storageFilterList=storageDao.getTerminalCompanies(terminalName);		
+		Map<String,String> ownershipMap=null;new HashMap<String, String>();
+		for(StorageFilter storageFilter:storageFilterList)
+		{				
+				ownershipMap=new HashMap<String, String>();
+//				String key=refineriesFilter.getCurrentEquityPartners()+UNDERSCORE+refineriesFilter.getName();			
+				ownershipMap.put(CURRENTOWNERS,storageFilter.getCurrentOwners());
+				ownershipMap.put(CURRENTOWNERSHIP,String.valueOf(storageFilter.getCurrentOwnership()));
+				ownershipList.add(ownershipMap);
+		}
+		
+		return ownershipList;
+	}
+	private String getOperator(List<Storage> storageList)
+	{
+		StringBuffer operator=new StringBuffer();
+		for(Storage storage:storageList)
+		{
+			if(null!=storage && null!=storage.getCurrentOperator() && !(BLANK).equalsIgnoreCase(storage.getCurrentOperator()))
+				operator.append(storage.getCurrentOperator()).append(COMMA);
+		}
+		if(operator.length()>0)
+			removeCommaAtEnd(operator);
+		return operator.toString();
+	}
+	private String getCommencementDate(List<Storage> storageList)
+	{
+		StringBuffer commencement=new StringBuffer();
+		for(Storage storage:storageList)
+		{
+			if(null!=storage && null!=storage.getCommencementDate())
+				commencement.append(storage.getCommencementDate()).append(COMMA);
+		}
+		if(commencement.length()>0)
+			removeCommaAtEnd(commencement);
+		return commencement.toString();
 	}
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startYear,int endYear)
 	{
@@ -242,6 +337,10 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 			years.add(i);
 		return years;
 	}	
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{
+		inputString.deleteCharAt(inputString.length()-1);
+	}
 	private double round(double value, int places) {	    
 
 	    long factor = (long) Math.pow(10, places);
@@ -252,8 +351,5 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	public void setStorageDao(StorageDao storageDao) {
 		this.storageDao = storageDao;
 	}
-
-	
-
 	
 }

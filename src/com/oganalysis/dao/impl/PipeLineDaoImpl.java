@@ -183,17 +183,17 @@ public class PipeLineDaoImpl implements PipeLineDao {
 		}
 		if(commodities!=null && commodities.size()>0)
 		{
-			Criterion commoditiesCriterion=Restrictions.in(RESTRICTION_PROPERTY_COMMODITY,statuses);
+			Criterion commoditiesCriterion=Restrictions.in(RESTRICTION_PROPERTY_COMMODITY,commodities);
 			criteria.add(commoditiesCriterion);
 		}
 		if(startpoints!=null && startpoints.size()>0)
 		{
-			Criterion startPointsCriterion=Restrictions.in(RESTRICTION_PROPERTY_STARTPOINT,statuses);
+			Criterion startPointsCriterion=Restrictions.in(RESTRICTION_PROPERTY_STARTPOINT,startpoints);
 			criteria.add(startPointsCriterion);
 		}
 		if(endpoints!=null && endpoints.size()>0)
 		{
-			Criterion endPointsCriterion=Restrictions.in(RESTRICTION_PROPERTY_ENDPOINT,statuses);
+			Criterion endPointsCriterion=Restrictions.in(RESTRICTION_PROPERTY_ENDPOINT,endpoints);
 			criteria.add(endPointsCriterion);
 		}
 		

@@ -30,7 +30,7 @@
 	
 	 <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">  
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdevdb -->
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lnganalysis"/><!-- ogdevdb in client machine -->
 		<property name="user" value="root"/>
 		<property name="password" value="root"/><!-- mysqlroot123-->
 		
@@ -75,7 +75,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop>-->
 				<!-- <prop key="hibernate.generate_statistics">true</prop>-->				
 				 <prop key="hibernate.cache.use_second_level_cache">true</prop>
@@ -103,9 +103,6 @@
 	</bean>	
 	
 	<bean id="pipelineDao" class="com.oganalysis.dao.impl.PipeLineDaoImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	<bean id="refineryDao" class="com.oganalysis.dao.impl.RefineryDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 	
@@ -143,21 +140,5 @@
 	<bean id="companyOilGasDao" class="com.oganalysis.dao.impl.CompanyOilGasDaoImpl">
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
-		
-	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
-		<property name="dataServiceImpl" ref="dataServiceImpl"/>
-	</bean>-->
 	
-	<!-- <bean id="explorationDao" class="com.oganalysis.dao.impl.ExplorationDaoImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	
-	<bean id="refineryDao" class="com.oganalysis.dao.impl.RefineryDaoImpl">
-		<property name="sessionFactory" ref="mySessionFactory"/>
-	</bean>
-	
-	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
-		<property name="explorationDao" ref="explorationDao"/>
-		<property name="refineryDao" ref="refineryDao"/>
-	</bean>-->
 </beans>

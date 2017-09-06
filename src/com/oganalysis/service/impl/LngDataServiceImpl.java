@@ -6,14 +6,17 @@ import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
 import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
 import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.simple.JSONObject;
 
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.business.LngInfraBusinessService;
+import com.oganalysis.excel.LngExcel;
 import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.service.LngDataService;
 
@@ -22,6 +25,7 @@ public class LngDataServiceImpl implements LngDataService{
 	
 	private LngCapacityBusinessService lngCapacityBusinessServiceImpl;
 	private LngInfraBusinessService lngInfraBusinessServiceImpl;
+	private LngExcel lngExcel;
 	
 	
 	@Override
@@ -120,6 +124,13 @@ public class LngDataServiceImpl implements LngDataService{
 		return capacityDataByCountryRes;
 	}
 	@Override
+	public Workbook getExcelTerminalData(String recordName, String type,InputStream is) {
+		// TODO Auto-generated method stub
+		Map<String,String> terminalData=lngCapacityBusinessServiceImpl.getTerminalData(recordName, type);		
+		Workbook wb=lngExcel.getExcelTerminalData(terminalData,is);
+		return wb;
+	}
+	@Override
 	public String getInfrastructureData(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String infrastructureDataRes=null;;
@@ -147,6 +158,10 @@ public class LngDataServiceImpl implements LngDataService{
 			LngInfraBusinessService lngInfraBusinessServiceImpl) {
 		this.lngInfraBusinessServiceImpl = lngInfraBusinessServiceImpl;
 	}
+	public void setLngExcel(LngExcel lngExcel) {
+		this.lngExcel = lngExcel;
+	}
+	
 	
 	
 	

@@ -27,7 +27,7 @@ public class ContractsController {
 	
 	@ResponseBody
 	@RequestMapping(value="/quantity",method={RequestMethod.GET})
-	public String getSupplyDemand(HttpServletRequest req)
+	public String getContractsQuantity(HttpServletRequest req)
 	{
 		String response=LOGIN;
 		if(null!=req.getSession().getAttribute(EMAIL))

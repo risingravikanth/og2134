@@ -13,7 +13,7 @@ public interface ApplicationConstants {
 	public static final String RECORDNAME="recordName";
 	public static final String REGION="region";
 	public static final String UNDERSCORE="_";
-	
+	public static final String NA="NA";
 	
 	//LNG Constants
 	public static final String LNG_REGASIFICATION="Regasification";
@@ -151,8 +151,8 @@ public interface ApplicationConstants {
 	public static final String HISTORICOPERATOR="historicOperator";
 	public static final String CURRENTEQUITYPARTNER="currentEquityPartners";
 	public static final String CURRENTEQUITYSTAKE="currentEquityStake";
-	public static final String COMMENCEMENT="commencement";
-	public static final String STATUSDETAILS="statusDetails";
+	public static final String RECENTDEVELOPMENTS="recentdevelopments";
+	public static final String STARTUP="startUp";
 	public static final String DECOMISSIONEDYEAR="decomissionedYear";
 	public static final String HISTORICEQUITYPARTNER="historicEquityPartner";
 	public static final String HISTORICEQUITYSTAKE="historicEquityStake";
@@ -245,7 +245,10 @@ public interface ApplicationConstants {
 	public static final String DIAMETER="diameter";
 	public static final String STARTPOINT=OPTION_STARTPOINT;
 	public static final String ENDPOINT=OPTION_ENDPOINT;
+	public static final String STARTCOUNTRY="startCountry";
+	public static final String ENDCOUNTRY="endCountry";
 	public static final String RELATION="relation";
+	
 	
 	public static final String YEAR2005="2005";
 	public static final String YEAR2006="2006";
@@ -261,9 +264,40 @@ public interface ApplicationConstants {
 	public static final String YEAR2016="2016";
 	public static final String YEAR2017="2017";
 	
+	//Excel
 	public static final String EXCEL_LNG="LNG For ";
 	public static final String EXCEL_REFINERY="Refinery For ";
 	public static final String EXCEL_STORAGE="Storage For ";
+	public static final String EXCEL_ERROR="excelError";
+	public static final String EXCEL_CONTENT_TYPE="application/vnd.ms-excel";
+	public static final String EXCEL_CONTENT_DISPOSITION="Content-Disposition";
+	public static final String EXCEL_ATTACHMENT="attachment; filename=";
+	public static final String EXCEL_FILE_EXTENSION=".xlsx";
+	public static final String EXCEL_REDIRECT="redirect:/";
+	public static final String GENERAL_INFO="General Information";
+	public static final String COMPANY_INFO="Company Information";
+	public static final String INVESTMENT_INFO="Investment Information";
+	public static final String CAPACITY_FORECASTS="Capacity Forecasts";
+	
+	public static final String EXCEL_TERMINAL="Terminal";
+	public static final String GENERAL_INFO_REGION="Region";
+	public static final String GENERAL_INFO_COUNTRY="Country";
+	public static final String GENERAL_INFO_LOCATION="Location";
+	public static final String GENERAL_INFO_TYPE="Type";
+	public static final String GENERAL_INFO_STATUS="Status";
+	public static final String GENERAL_INFO_REFINERINGCAPACITY="Refining Capacity (Kb/d)";
+	public static final String GENERAL_INFO_RECENT_DEV="Recent Developments";
+	public static final String GENERAL_INFO_STARTUP="Start Up";
+	public static final String GENERAL_INFO_TANKS="Tanks(#)";
+	public static final String GENERAL_INFO_TANKS_RANGE_MIN="Tank Size Range - Min (m3)";
+	public static final String GENERAL_INFO_TANKS_RANGE_MAX="Tank Size Range - Max (m3)";
+	
+	public static final String COMPANY_INFO_OPERATOR="Operator";
+	public static final String COMPANY_INFO_EQUITYHOLDERS="Equity Holders";
+	public static final String COMPANY_INFO_STAKE="Stake(%)";
+	
+	public static final String INVESTMENT_INFO_CAPEX="Capex($)";
+	public static final String CAPACITY_FORECASTS_NAME="Name";
 	
 	//Exploration
 	public static final String OPTION_BASIN="basin";

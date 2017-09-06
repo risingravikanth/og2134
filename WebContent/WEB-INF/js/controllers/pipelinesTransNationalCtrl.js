@@ -569,6 +569,8 @@
 								$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
 								$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
 								$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+								$scope.columns.push({title: "Start Country"  ,data: "startCountry"});
+								$scope.columns.push({title: "End Country"  ,data: "endCountry"});
 								$scope.columns.push({title: "Length"  ,data: "length"});
 								$scope.columns.push({title: "Diameter"  ,data: "diameter"});
 								$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
@@ -582,12 +584,16 @@
 		 	});
  	 };
 	
-	$scope.generateFormData = function(ary,key){
+ 	$scope.generateFormData = function(ary,key){
 		for(var i=0;i< ary.length; i++){
 			var fromkey = key+i
-			if(key == 'singleSelection'){
-				 fromkey = key;
+			if(key.index('_') != -1){
+				var tempKey = key.split('_');
+			 	if(tempKey[1] == 'singleSelection'){
+					 fromkey = tempKey[0];
+				}
 			}
+			
 	 		$rootScope.capacityFilterJSON[fromkey] = ary[i].id;
  		}
 	}
@@ -646,11 +652,11 @@
  		}
  		
  		if($rootScope.filterObj.pdStartPointField == true){
- 			$scope.generateFormData($rootScope.pdStartPointModel,'startpoint');
+ 			$scope.generateFormData($rootScope.pdStartPointModel,'startPoint');
  		} 
  		
  		if($rootScope.filterObj.pdEndPointField == true){
- 			$scope.generateFormData($rootScope.pdEndPointModel,'endpoint');
+ 			$scope.generateFormData($rootScope.pdEndPointModel,'endPoint');
  		} 
  	 	
   		for(var key in $rootScope.searchFilterObj){
@@ -684,6 +690,8 @@
 						$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
 						$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
 						$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+						$scope.columns.push({title: "Start Country"  ,data: "startCountry"});
+						$scope.columns.push({title: "End Country"  ,data: "endCountry"});
 						$scope.columns.push({title: "Length"  ,data: "length"});
 						$scope.columns.push({title: "Diameter"  ,data: "diameter"});
 						$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
@@ -858,6 +866,8 @@
 							$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
 							$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
 							$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+							$scope.columns.push({title: "Start Country"  ,data: "startCountry"});
+							$scope.columns.push({title: "End Country"  ,data: "endCountry"});
 							$scope.columns.push({title: "Length"  ,data: "length"});
 							$scope.columns.push({title: "Diameter"  ,data: "diameter"});
 							$scope.columns.push({title: "Capacity"  ,data: "Capacity"});
@@ -993,6 +1003,8 @@
 							$scope.columns.push({title: "Sub-pipeline"  ,data: "subpipeline"});
 							$scope.columns.push({title: "Start Point"  ,data: "startPoint"});
 							$scope.columns.push({title: "End Point"  ,data: "endPoint"});
+							$scope.columns.push({title: "Start Country"  ,data: "startCountry"});
+							$scope.columns.push({title: "End Country"  ,data: "endCountry"});
 							$scope.columns.push({title: "Length"  ,data: "length"});
 							$scope.columns.push({title: "Diameter"  ,data: "diameter"});
 							$scope.columns.push({title: "Capacity"  ,data: "Capacity"});

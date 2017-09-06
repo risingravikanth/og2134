@@ -16,7 +16,7 @@ public interface LngCapacityBusinessService {
 	public Map<String,Map<Integer,Double>> getLiqueModalCapacityForRecord(Map<String,List<String>> selectedOptions,String startDate, String endDate, String displayType,String recordName);
 	public Map<String,Map<Integer,Double>> getRegasModalCapacityForRecord(Map<String,List<String>> selectedOptions,String startDate, String endDate, String displayType,String recordName);
 	
-	public Map<String,String> getTerminalData(String recordName,String type);
+	public Map getTerminalData(String recordName,String type);
 	
 
 }

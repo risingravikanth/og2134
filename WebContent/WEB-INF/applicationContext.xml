@@ -12,20 +12,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	
-	<!-- <bean id="dataDisplayController" class="com.oganalysis.web.DataDisplayController">
-		<property name="dataServiceImpl" ref="dataServiceImpl"/>
-	</bean>-->
-	
-	<!--  ServiceImpl -->
-	<bean id="dataServiceImpl" class="com.oganalysis.service.impl.DataServiceImpl">
-		
-		
-		
-		
-		<property name="refineryDao" ref="refineryDao"/>
-		
-	</bean>
 			
 	<!-- Service Layer -->
 	<bean id="loginServiceImpl" class="com.oganalysis.service.impl.LoginServiceImpl">
@@ -42,7 +28,7 @@
 	<bean id="lngDataServiceImpl" class="com.oganalysis.service.impl.LngDataServiceImpl">
 		<property name="lngCapacityBusinessServiceImpl" ref="lngCapacityBusinessServiceImpl"/>
 		<property name="lngInfraBusinessServiceImpl" ref="lngInfraBusinessServiceImpl"/>
-		<!-- <property name="lngExcel" ref="lngExcel"/>	 -->	
+		<property name="lngExcel" ref="lngExcel"/>	
 	</bean>
 	
 	<bean id="pdfReportsServiceImpl" class="com.oganalysis.service.impl.PdfReportsServiceImpl">
@@ -60,13 +46,13 @@
 	<bean id="refineriesServiceImpl" class="com.oganalysis.service.impl.RefineriesServiceImpl">
 		<property name="refineriesCapacityBusinessServiceImpl" ref="refineriesCapacityBusinessServiceImpl"/>
 		<property name="refineriesInfraBusinessServiceImpl" ref="refineriesInfraBusinessServiceImpl"/>
-		<!-- <property name="refineriesExcel" ref="refineriesExcel"/> -->			
+		<property name="refineriesExcel" ref="refineriesExcel"/>			
 	</bean>
 	
 	<bean id="storageServiceImpl" class="com.oganalysis.service.impl.StorageServiceImpl">
 		<property name="storageCapacityBusinessServiceImpl" ref="storageCapacityBusinessServiceImpl"/>
 		<property name="storageInfraBusinessServiceImpl" ref="storageInfraBusinessServiceImpl"/>	
-		<!-- <property name="storageExcel" ref="storageExcel"/> -->			
+		<property name="storageExcel" ref="storageExcel"/>			
 	</bean>
 	<bean id="productionServiceImpl" class="com.oganalysis.service.impl.ProductionServiceImpl">
 		<property name="productionBusinessServiceImpl" ref="productionBusinessServiceImpl"/>				
@@ -164,9 +150,9 @@
 		<property name="endYear" value="#{applicationProps['ENDYEAR']}"/>	
 	</bean>
 	
-	<!-- <bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
+	<bean id="lngExcel" class="com.oganalysis.excel.LngExcel"/>
 	<bean id="refineriesExcel" class="com.oganalysis.excel.RefineriesExcel"/>
-	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/> -->
+	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/>
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
 	<context:property-placeholder properties-ref="applicationProps" />

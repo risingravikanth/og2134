@@ -68,9 +68,9 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 					pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
 					pipelineDataMap.put(STARTPOINT, pipeLineObj.getStartPoint());
 					pipelineDataMap.put(ENDPOINT, pipeLineObj.getEndPoint());
-					pipelineDataMap.put(LENGTH, pipeLineObj.getLength());
-					pipelineDataMap.put(DIAMETER, pipeLineObj.getDiameter());
-					pipelineDataMap.put(CAPACITY, pipeLineObj.getCapacity());
+					pipelineDataMap.put(LENGTH, round(pipeLineObj.getLength(),2));
+					pipelineDataMap.put(DIAMETER, round(pipeLineObj.getDiameter(),2));
+					pipelineDataMap.put(CAPACITY, round(pipeLineObj.getCapacity(),2));
 					pipelinesList.add(0,pipelineDataMap);
 					for(PipeLine pipelineChildObj:childSelectedPipelines)
 					{
@@ -82,9 +82,9 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 							pipelineChildDataMap.put(SUBPIPELINE, pipelineChildObj.getSubPipelines());
 							pipelineChildDataMap.put(STARTPOINT, pipelineChildObj.getStartPoint());
 							pipelineChildDataMap.put(ENDPOINT, pipelineChildObj.getEndPoint());
-							pipelineChildDataMap.put(LENGTH, pipelineChildObj.getLength());
-							pipelineChildDataMap.put(DIAMETER, pipelineChildObj.getDiameter());
-							pipelineChildDataMap.put(CAPACITY, pipelineChildObj.getCapacity());
+							pipelineChildDataMap.put(LENGTH, round(pipelineChildObj.getLength(),2));
+							pipelineChildDataMap.put(DIAMETER,round(pipelineChildObj.getDiameter(),2));
+							pipelineChildDataMap.put(CAPACITY, round(pipelineChildObj.getCapacity(),2));
 							pipelinesList.add(sortKey,pipelineChildDataMap);
 							sortKey++;
 						}
@@ -93,48 +93,7 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 				}	
 			}
 			pipelinesMap.put(pipelineStr,pipelinesList);
-		}
-		
-		
-//		for(String pipelineStr:pipeLinesSelected)
-//		{
-//			List<Map> pipelinesList=new ArrayList<Map>();
-//			for(PipeLine pipeLineObj:selectedPipelines)
-//			{
-//				Map pipelineDataMap=new HashMap();
-//				int sortKey=0;				
-//				if(pipelineStr.equals(pipeLineObj.getPipeline()))
-//				{					
-//					if(!pipeLineObj.getParentChildRelation().equals(PARENT))
-//					{	
-//						pipelineDataMap.put(PIPELINE, BLANK);
-//						pipelineDataMap.put(RELATION,CHILD);
-//						sortKey++;
-//					}	
-//					else
-//					{							
-//						pipelineDataMap.put(PIPELINE, pipeLineObj.getPipeline());
-//						pipelineDataMap.put(RELATION,PARENT);
-//					}	
-//					if(null==pipeLineObj.getSubPipelines() && BLANK.equals(pipeLineObj.getSubPipelines()))
-//						pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
-//					else
-//						pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
-//					pipelineDataMap.put(STARTPOINT, pipeLineObj.getStartPoint());
-//					pipelineDataMap.put(ENDPOINT, pipeLineObj.getEndPoint());
-//					pipelineDataMap.put(LENGTH, pipeLineObj.getLength());
-//					pipelineDataMap.put(DIAMETER, pipeLineObj.getDiameter());
-//					pipelineDataMap.put(CAPACITY, pipeLineObj.getCapacity());
-//					
-//					if(pipelineDataMap.get(RELATION).equals(PARENT))
-//						pipelinesList.add(0,pipelineDataMap);
-//					else
-//						pipelinesList.add(sortKey,pipelineDataMap);
-//				}				
-//				
-//			}
-//			pipelinesMap.put(pipelineStr,pipelinesList);
-//		}
+		}			
 		return pipelinesMap;
 	}
 	@Override
@@ -193,6 +152,8 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 					pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
 					pipelineDataMap.put(STARTPOINT, pipeLineObj.getStartPoint());
 					pipelineDataMap.put(ENDPOINT, pipeLineObj.getEndPoint());
+					pipelineDataMap.put(STARTCOUNTRY,pipeLineObj.getStartCountry());
+					pipelineDataMap.put(ENDCOUNTRY,pipeLineObj.getEndCountry());
 					pipelineDataMap.put(LENGTH, pipeLineObj.getLength());
 					pipelineDataMap.put(DIAMETER, pipeLineObj.getDiameter());
 					pipelineDataMap.put(CAPACITY, pipeLineObj.getCapacity());
@@ -207,6 +168,8 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 							pipelineChildDataMap.put(SUBPIPELINE, pipelineChildObj.getSubPipelines());
 							pipelineChildDataMap.put(STARTPOINT, pipelineChildObj.getStartPoint());
 							pipelineChildDataMap.put(ENDPOINT, pipelineChildObj.getEndPoint());
+							pipelineDataMap.put(STARTCOUNTRY,pipelineChildObj.getStartCountry());
+							pipelineDataMap.put(ENDCOUNTRY,pipelineChildObj.getEndCountry());
 							pipelineChildDataMap.put(LENGTH, pipelineChildObj.getLength());
 							pipelineChildDataMap.put(DIAMETER, pipelineChildObj.getDiameter());
 							pipelineChildDataMap.put(CAPACITY, pipelineChildObj.getCapacity());
@@ -219,47 +182,6 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 			}
 			pipelinesMap.put(pipelineStr,pipelinesList);
 		}
-		
-		
-//		for(String pipelineStr:pipeLinesSelected)
-//		{
-//			List<Map> pipelinesList=new ArrayList<Map>();
-//			for(PipeLine pipeLineObj:selectedPipelines)
-//			{
-//				Map pipelineDataMap=new HashMap();
-//				int sortKey=0;				
-//				if(pipelineStr.equals(pipeLineObj.getPipeline()))
-//				{					
-//					if(!pipeLineObj.getParentChildRelation().equals(PARENT))
-//					{	
-//						pipelineDataMap.put(PIPELINE, BLANK);
-//						pipelineDataMap.put(RELATION,CHILD);
-//						sortKey++;
-//					}	
-//					else
-//					{							
-//						pipelineDataMap.put(PIPELINE, pipeLineObj.getPipeline());
-//						pipelineDataMap.put(RELATION,PARENT);
-//					}	
-//					if(null==pipeLineObj.getSubPipelines() && BLANK.equals(pipeLineObj.getSubPipelines()))
-//						pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
-//					else
-//						pipelineDataMap.put(SUBPIPELINE, pipeLineObj.getSubPipelines());
-//					pipelineDataMap.put(STARTPOINT, pipeLineObj.getStartPoint());
-//					pipelineDataMap.put(ENDPOINT, pipeLineObj.getEndPoint());
-//					pipelineDataMap.put(LENGTH, pipeLineObj.getLength());
-//					pipelineDataMap.put(DIAMETER, pipeLineObj.getDiameter());
-//					pipelineDataMap.put(CAPACITY, pipeLineObj.getCapacity());
-//					
-//					if(pipelineDataMap.get(RELATION).equals(PARENT))
-//						pipelinesList.add(0,pipelineDataMap);
-//					else
-//						pipelinesList.add(sortKey,pipelineDataMap);
-//				}				
-//				
-//			}
-//			pipelinesMap.put(pipelineStr,pipelinesList);
-//		}
 		return pipelinesMap;
 	}
 	private List<String> getSelectedPipelines(List<PipeLine> selectedPipeLines)
@@ -285,7 +207,7 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 				if(null!=pipeline && pipeline.getEquityPartners().equalsIgnoreCase(company))
 					tol=tol+pipeline.getLength();
 			}
-			lengthByCountries.put(company, tol);
+			lengthByCountries.put(company, round(tol,2));
 		}
 		
 		return lengthByCountries;
@@ -303,12 +225,18 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 				if(null!=pipeline && pipeline.getCountry().equalsIgnoreCase(country))
 					tol=tol+pipeline.getLength();
 			}
-			lengthByCountries.put(country, tol);
+			lengthByCountries.put(country, round(tol,2));
 		}
 		
 		return lengthByCountries;
 	}
-	
+	private double round(double value, int places) {	    
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
 	private List<String> getSelectedCountries(List<PipeLine> selectedPipeLines){
 		List<String> countries=new ArrayList<String>();
 		for(PipeLine pipeline:selectedPipeLines)

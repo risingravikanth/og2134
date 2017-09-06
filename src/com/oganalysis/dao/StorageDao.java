@@ -14,16 +14,16 @@ public interface StorageDao {
 	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions,int startYear,int endYear);
 //	
 	public List<String> getTerminals(int startYear,int endYear);
-//		
-//	// Below method is for to get the companyStakes
+	
+	// Below method is for to get the companyStakes
 	public List<StorageFilter> getStorageFilter();
-//	
+	
 //	//Below is for Terminal Modal Data
 	public List<Storage> getTerminalData(String terminalName);
-//	public List<RefineriesFilter> getTerminalCompanies(String terminalName);
-//	public List<RefineriesFilter> getTerminalHistoricCompanies(String terminalName);
-//	
-//	// Below is for cache
+	public List<StorageFilter> getTerminalCompanies(String terminalName);
+	
+	
+//	 Below is for cache
 	public List<Storage> getStorage(int year);
 	public List<String> getCompanies();
 	public List<String> getCountries();	

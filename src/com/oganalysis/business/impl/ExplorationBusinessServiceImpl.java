@@ -82,7 +82,7 @@ public class ExplorationBusinessServiceImpl implements
 	private String getDateAwarded(String blockNo,List<Exploration> explorationList)
 	{
 		StringBuffer sb=new StringBuffer();
-		SimpleDateFormat sd=new SimpleDateFormat("YYYY");
+		SimpleDateFormat sd=new SimpleDateFormat("yyyy");
 		for(Exploration e:explorationList)
 		{
 			if(null!=e && null!=e.getStartDate() && blockNo.equals(e.getBlockNo()) && !BLANK.equals(e.getStartDate()))
@@ -102,9 +102,10 @@ public class ExplorationBusinessServiceImpl implements
 		removeCommaAtEnd(sb);
 		return sb.toString();
 	}
-	private void removeCommaAtEnd(StringBuffer inputString)
-	{
-		inputString.deleteCharAt(inputString.length()-1);
+	private void removeCommaAtEnd(StringBuffer sb)
+	{		
+		if(sb.length()>0)
+		sb.deleteCharAt(sb.length()-1);
 	}
 	public void setExplorationDao(ExplorationDao explorationDao) {
 		this.explorationDao = explorationDao;
