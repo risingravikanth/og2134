@@ -48,6 +48,14 @@
 	 	];
 	};
 	
+	$scope.downloadReport = function(){
+ 		
+ 		  
+		HttpService.get("/lng/download/terminaldetails",$scope.currentDownloadReq ).then(function(resp) {
+			
+		});
+ 	}
+	
 	openModel = function(inputName,type,event){
 		
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
@@ -64,6 +72,9 @@
 		modalReq['recordName']= inputName;
 		modalReq['type']= type;
  	 	modalReq['displayType']= "terminal";
+ 	 	
+ 	 	$scope.currentDownloadReq = angular.copy(modalReq);
+		 
 	 	
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];

@@ -19,6 +19,11 @@
 			};
  	} ;
 	
+ 	$scope.downloadReport = function(){
+ 	 	HttpService.get("/refineries/download/terminaldetails",$scope.currentDownloadReq).then(function(resp) {
+			
+		});
+ 	}
  	
  	$scope.getBreakString= function(value){
  		var result = "";
@@ -63,6 +68,8 @@
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
 		 
+		$scope.currentDownloadReq = angular.copy(modalReq);
+		
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			

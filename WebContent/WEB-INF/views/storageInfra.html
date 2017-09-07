@@ -108,161 +108,85 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Basic Info</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-5">
-									<dl class="dl-horizontal">
-										<dt>Refinery</dt>
-										<dd>{{ gridDataList.terminalName }} </dd>
-										<dt>Location</dt>
-										<dd>{{ gridDataList.location }}</dd>
-										<dt>Country</dt>
-										<dd>{{ gridDataList.country }}</dd>
-										<dt>Status</dt>
-										<dd>{{ gridDataList.status }}</dd>
-									</dl>
+							 
+							 
+						 	
+								 
+								 <div class="box-header with-border">
+									<h3 class="box-title">General Information</h3>
 								</div>
-								<div class="col-sm-5">
-									<dl class="dl-horizontal">
-										<dt>Type</dt>
-										<dd>{{ gridDataList.type }}</dd>
-										<dt>Commencement</dt>
-										<dd>{{ gridDataList.commencement }}</dd>
-										<dt>Decomissioned Year</dt>
-										<dd>{{ gridDataList.decomissionedYear }}</dd>
-									</dl>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title"> Company Details(Operator Name : {{ gridDataList.operator }} )</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-5" ng-repeat="ownershipDetail in gridDataList.ownership" ng-If="ownershipDetail.currentEquityStake != '' || ownershipDetail.currentEquityPartners != ''"   >
-									<dl class="dl-horizontal">
-										<dt ng-If="ownershipDetail.currentEquityStake != ''" >{{ constructionDetail.currentEquityStake }}</dt>
-										<dd ng-If="ownershipDetail.currentEquityPartners != ''" >{{ constructionDetail.currentEquityPartners }}</dd>
-									</dl>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Historic Ownership Details</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<dl class="dl-horizontal">
-										<dt>Historic Operator</dt>
-										<dd>{{ gridDataList.operator }}</dd>
-									</dl>
-									<div class="col-sm-5" ng-repeat="historicOwnership in gridDataList.historicOwnership"  ng-If="historicOwnership.historicEquityStake != '' || historicOwnership.historicEquityPartners != ''" >
+								<div class="row">
+									<div class="col-sm-5">
 										<dl class="dl-horizontal">
-											<dt ng-If="historicOwnership.historicEquityStake != ''" >{{ historicOwnership.historicEquityStake }}</dt>
-											<dd ng-If="historicOwnership.historicEquityPartners != ''" >{{ historicOwnership.historicEquityPartners }}</dd>
+											 
+											<dt ng-if="gridDataList.region != 'na'|| gridDataList.region != 'NA'">Region</dt>
+											<dd ng-if="gridDataList.region != 'na'|| gridDataList.region != 'NA'">{{ gridDataList.region }} </dd>
+											
+											<dt ng-if="gridDataList.country != 'na'|| gridDataList.country != 'NA'">Country</dt>
+											<dd ng-if="gridDataList.country != 'na'|| gridDataList.country != 'NA'">{{ gridDataList.country }}</dd>
+											
+											<dt ng-if="gridDataList.location != 'na'|| gridDataList.location != 'NA'">Location</dt>
+											<dd ng-if="gridDataList.location != 'na'|| gridDataList.location != 'NA'">{{ gridDataList.location }}</dd>
+											
+											<dt ng-if="gridDataList.type != 'na'|| gridDataList.type != 'NA'">Type</dt>
+											<dd ng-if="gridDataList.type != 'na'|| gridDataList.type != 'NA'">{{ gridDataList.type }}</dd>
+											
+											<dt ng-if="gridDataList.onshoreoroffshore != 'na'|| gridDataList.onshoreoroffshore != 'NA'">Offshore/ Onshore</dt>
+											<dd ng-if="gridDataList.onshoreoroffshore != 'na'|| gridDataList.onshoreoroffshore != 'NA'">{{ gridDataList.onshoreoroffshore }}</dd>
+											
+											<dt ng-if="gridDataList.status != 'na'|| gridDataList.status != 'NA'">Status</dt>
+											<dd ng-if="gridDataList.status != 'na'|| gridDataList.status != 'NA'">{{ gridDataList.status }}</dd>
+											
+											<dt ng-if="gridDataList.sourceFields != 'na'|| gridDataList.sourceFields != 'NA'">Recent Developments</dt>
+											<dd ng-if="gridDataList.sourceFields != 'na'|| gridDataList.sourceFields != 'NA'">{{ gridDataList.sourceFields }}</dd>
+											
+											<dt ng-if="gridDataList.expectedStartUp != 'na'|| gridDataList.expectedStartUp != 'NA'">Expected Start Up</dt>
+											<dd ng-if="gridDataList.expectedStartUp != 'na'|| gridDataList.expectedStartUp != 'NA'">{{ gridDataList.expectedStartUp }}</dd>
+											
+											<dt ng-if="gridDataList.operator != 'na'|| gridDataList.operator != 'NA'">Operator</dt>
+											<dd ng-if="gridDataList.operator != 'na'|| gridDataList.operator != 'NA'">{{ gridDataList.operator }}</dd>
+											
+										</dl>
+									</div>
+									<div class="col-sm-5">
+										<!-- <dl class="dl-horizontal">
+											<dt>Onshore/offshore</dt>
+											<dd>{{ gridDataList.onshoreoroffshore}}</dd>
+											<dt>Expected startup</dt>
+											<dd>{{ gridDataList.expectedStartUp }}</dd>
+											<dt>Sheduled startup</dt>
+											<dd>{{ gridDataList.scheduledStartUp}}</dd>
+											<dt>Operator</dt>
+											<dd>{{ gridDataList.operator }}</dd>
+											<dt>Capex($ million)</dt>
+											<dd>{{ gridDataList.capex }}</dd>
+										</dl> -->
+									</div>
+								</div>
+								 
+								<div class="box-header with-border">
+									<h3 class="box-title"> Owner Ship (Owner Name :: Stake %)</h3>
+								</div>
+								<div class="row">
+									<div class="col-sm-12" ng-repeat="owner in gridDataList.ownership">
+										<dl class="dl-horizontal dl-ownership">
+											<dt>{{ owner.equityPartner }}</dt>
+											<dd >{{ owner.equityStake }}</dd>
 										</dl>
 									</div>
 								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Production Details</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<dl class="dl-horizontal">
-										<dt ng-If="gridDataList.gasoline != ''">Gasoline (kb/d)</dt>
-										<dd ng-If="gridDataList.gasoline != ''">
-											<pre>{{ getBreakString(gridDataList.gasoline) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.lpg != ''">LPG (kb/d)</dt>
-										<dd ng-If="gridDataList.lpg != ''">
-											<pre>{{ getBreakString(gridDataList.lpg) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.kerosine != ''">Kerosene (kb/d)</dt>
-										<dd ng-If="gridDataList.kerosine != ''">
-											<pre>{{ getBreakString(gridDataList.kerosine) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.jetFuel != ''">Jet Fuel (kb/d)</dt>
-										<dd ng-If="gridDataList.jetFuel != ''">
-											<pre>{{ getBreakString(gridDataList.jetFuel) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.kerojet != ''">Kerojet (Kb/d)</dt>
-										<dd ng-If="gridDataList.kerojet != ''">
-											<pre>{{ getBreakString(gridDataList.kerojet) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.diesel != ''">Diesel (kb/d)</dt>
-										<dd  ng-If="gridDataList.diesel != ''">
-											<pre>{{ getBreakString(gridDataList.diesel) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.propylene != ''">Propylene (kb/d)</dt>
-										<dd ng-If="gridDataList.propylene != ''">
-											<pre>{{ getBreakString(gridDataList.propylene) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.lightNaphtha != ''">Light Naphtha (Kb/d)</dt>
-										<dd ng-If="gridDataList.lightNaphtha != ''">
-											<pre>{{ getBreakString(gridDataList.lightNaphtha) }}</pre>
-										</dd>
-										<dt ng-If="gridDataList.heavyNaphtha != ''">Heavy Naphtha (Kb/d)</dt>
-										<dd ng-If="gridDataList.heavyNaphtha != ''">
-											<pre>{{ getBreakString(gridDataList.heavyNaphtha) }}</pre>
-										</dd>
-									</dl>
+								 
+								 <div class="row" style="display:none;">
+									<div class="col-sm-12">
+										<table id="terminalDatatable" class="table table-bordered table-striped"></table>
+									</div>
+								</div>  
+								<div class="box-header  text-center">
+									 
+									<button type="button" class="btn btn-primary " ng-click="downloadReport()">More Information</button>
 								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Construction Details</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-5">
-									<dl class="dl-horizontal">
-										<dt>Capex (USD)</dt>
-										<dd>{{ gridDataList.capex }} </dd>
-									</dl>
-								</div>
-								<div class="col-sm-5" ng-repeat="constructionDetail in gridDataList.constructionDetails" ng-If="constructionDetail.constructionCompanyName != '' || constructionDetail.constructionContractDetails != '' ">
-									<dl class="dl-horizontal" >
-										<dt ng-If="constructionDetail.constructionCompanyName != ''" >{{ constructionDetail.constructionCompanyName }}</dt>
-										<dd ng-If="constructionDetail.constructionContractDetails != ''" >{{ constructionDetail.constructionContractDetails }}</dd>
-									</dl>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Maintenance Details</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-5" ng-repeat="maintenanceDetail in gridDataList.maintenanceDetails" ng-If="(maintenanceDetail.maintenanceStartDate != '' && maintenanceDetail.maintenanceStartDate != 0) || (maintenanceDetail.maintenanceEndDate != '' && maintenanceDetail.maintenanceEndDate != 0)">
-									<dl class="dl-horizontal">
-										<dt ng-If="maintenanceDetail.maintenanceStartDate != '' && maintenanceDetail.maintenanceStartDate != 0" >{{ maintenanceDetail.maintenanceStartDate }}</dt>
-										<dd ng-If="maintenanceDetail.maintenanceEndDate != '' && maintenanceDetail.maintenanceEndDate != 0" >{{ maintenanceDetail.maintenanceEndDate }}</dd>
-									</dl>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Others</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-5">
-									<dl class="dl-horizontal">
-										<dt  ng-If="gridDataList.nelsonComplexIndex != ''">Nelson Complexity Index</dt>
-										<dd ng-If="gridDataList.nelsonComplexIndex != ''">{{ gridDataList.nelsonComplexIndex }} </dd>
-										<dt ng-If="gridDataList.otherNamesOfRefinery != ''">Other Names of Refinery</dt>
-										<dd ng-If="gridDataList.otherNamesOfRefinery != ''">{{ gridDataList.otherNamesOfRefinery }}</dd>
-									</dl>
-								</div>
-								<div class="col-sm-5">
-									<dl class="dl-horizontal">
-										<dt ng-If="gridDataList.refineryUtilizationRate != ''">Refinery Utilization Rate</dt>
-										<dd ng-If="gridDataList.refineryUtilizationRate != ''">{{ gridDataList.refineryUtilizationRate }}</dd>
-									</dl>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">Capacity Details</h3>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<table id="terminalDatatable" class="table table-bordered table-striped"></table>
-								</div>
-							</div>
+			 				 
+		 				 
 						</div>
 					</div>
 				</div>

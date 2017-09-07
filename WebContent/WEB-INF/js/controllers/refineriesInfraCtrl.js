@@ -60,6 +60,12 @@
 	 	];
 	};
 	
+	$scope.downloadReport = function(){
+ 	 	HttpService.get("/refineries/download/terminaldetails",$scope.currentDownloadReq).then(function(resp) {
+			
+		});
+ 	}
+	
 	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
  			$rootScope.table.liquefactionInst.destroy();
@@ -105,6 +111,8 @@
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
+		
+		$scope.currentDownloadReq = angular.copy(modalReq);
 		 
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
