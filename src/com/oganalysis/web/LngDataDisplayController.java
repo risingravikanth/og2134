@@ -4,6 +4,7 @@ import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -86,7 +87,10 @@ public class LngDataDisplayController {
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 		
-	    String res=null;
+		String res=null;
+	    Workbook workbook=null;
+	    InputStream is=null;
+	    OutputStream os=null;
 	    if(null!=request.getSession().getAttribute(EMAIL))
 	    {
 	    	 try
@@ -95,19 +99,32 @@ public class LngDataDisplayController {
 	 			String recordName=request.getParameter(RECORDNAME);	
 	            response.setContentType(EXCEL_CONTENT_TYPE);
 	            response.setHeader(EXCEL_CONTENT_DISPOSITION, EXCEL_ATTACHMENT+recordName+EXCEL_FILE_EXTENSION);
-	            InputStream is=servletContext.getResourceAsStream("/WEB-INF/oglogo.jpg");
-	            Workbook workbook = lngDataServiceImpl.getExcelTerminalData(recordName,type,is);
-	            workbook.write(response.getOutputStream());
+	            os=response.getOutputStream();
+	            is=servletContext.getResourceAsStream(EXCEL_LOGO);
+	            workbook = lngDataServiceImpl.getExcelTerminalData(recordName,type,is);
+	            workbook.write(os);
 	 	    }
 	 	    catch(Exception e)
-	 	    {
-//	 	    	throw new ServletException("Exception in DownLoad Excel Servlet", e);
+	 	    {	 	    	
 	 	    	return EXCEL_ERROR;
 	 	    }
+	    	finally
+	    	{
+	    		try
+	    		{
+	    			is.close();
+	    			os.close();
+	    			workbook.close();	    				    			
+	    		}
+	    		catch(Exception e)
+	    		{
+	    			return res;
+	    		}
+	    	}
 	    }
 	    else
 	    {
-	    	return "redirect:/";
+	    	return EXCEL_REDIRECT;
 	    }
 	   
 	   return res;

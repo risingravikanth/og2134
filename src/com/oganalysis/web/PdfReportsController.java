@@ -1,8 +1,10 @@
 package com.oganalysis.web;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import static com.oganalysis.constants.ApplicationConstants.*;
+
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -21,20 +23,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
-
 import com.oganalysis.service.PdfReportsService;
 
 @Controller
 public class PdfReportsController {
-	
+	@Autowired
 	private PdfReportsService pdfReportsServiceImpl;
-	
+	@Autowired
+	private ServletContext servletContext;
 	@ResponseBody
 	@RequestMapping("/pdfReports")
 	public String pdfReportsFileList(HttpServletRequest request)
 	{
 		String response=LOGIN;
+		System.out.println("Jeevan");
 		if(null!=request.getSession().getAttribute(EMAIL))
 		{
 			Map<String,List> selectedOptions=getSelectedOptionsData(request);
@@ -45,33 +47,41 @@ public class PdfReportsController {
 	}
 
 	@RequestMapping("/pdf/reports/{fileName}")
-	public String downloadPDF(HttpServletRequest request, HttpServletResponse response,@PathVariable String fileName) throws IOException, ServletException {
-		 		
-		final ServletContext servletContext = request.getSession().getServletContext();
-	    final String directory = (String) servletContext.getRealPath("/WEB-INF/pdf/");
-	    File tempDirectory=new File(directory);
-	    final String temperotyFilePath = tempDirectory.getAbsolutePath();
+	public String downloadPDF(HttpServletRequest request, HttpServletResponse response,@PathVariable("fileName") String fileName) throws IOException, ServletException {
+		 				
 	    String actualFileName=fileName+".pdf";
 	    String res=null;
+	    InputStream is=null;
+	    OutputStream os=null;	    
 	    if(null!=request.getSession().getAttribute(EMAIL))
 	    {
 	    	response.setContentType("application/pdf");
-	    	response.setHeader("Content-disposition", "attachment; filename="+ actualFileName);	   
-	    	 try {
-	  	        
-	 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	 	        baos = pdfReportsServiceImpl.convertPDFToByteArrayOutputStream(temperotyFilePath+"/"+actualFileName);
-	 	        OutputStream os = response.getOutputStream();
-	 	        baos.writeTo(os);
-	 	        os.flush();
+	    	response.setHeader(EXCEL_CONTENT_DISPOSITION, PDF_ATTACHMENT+ actualFileName);	   
+	    	 try {	    		 
+	  	        is=servletContext.getResourceAsStream("/WEB-INF/pdf/"+actualFileName);	  	        
+	  	        int read=0;
+	  	        byte[] bytes=new byte[1024];
+	  	       os= response.getOutputStream();
+	  	       while ((read = is.read(bytes)) != -1) {
+	  	    	   os.write(bytes, 0, read);
+	  	       }
 	 	    } catch (Exception e) {
-	 	        System.out.println("Exception in  pdfReportsController - downloadPDF()"+e);
-	 	       
+	 	        return ERROR_MSG;	 	       
 	 	    }
+	    	 finally
+	    	 {
+	    		 try {
+	    			os.flush();
+	  	  	       	is.close();
+	  	  	       	os.close();
+				} catch (Exception e2) {
+					return res;
+				}
+	    	 }
 	    }
 	    else
 	    {
-	    	return "redirect:/";
+	    	return PDF_REDIRECT;
 	    }
 	   return res;
 	}
@@ -110,11 +120,5 @@ public class PdfReportsController {
 		return optionsMap;
 	}
 	
-	public PdfReportsService getPdfReportsServiceImpl() {
-		return pdfReportsServiceImpl;
-	}
-	@Autowired
-	public void setPdfReportsServiceImpl(PdfReportsService pdfReportsServiceImpl) {
-		this.pdfReportsServiceImpl = pdfReportsServiceImpl;
-	}
+	
 }
