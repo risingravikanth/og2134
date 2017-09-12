@@ -512,11 +512,11 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 		String unit=null;
 		if(null!=units && units.size()>0)
 			unit=units.get(0);
-		if(null!=unit && unit.equalsIgnoreCase(MTOE))
+		if(null!=unit && MTOE.equalsIgnoreCase(unit))
 			unitVal=GAS_MTOE;
-		else if(null!=unit && unit.equalsIgnoreCase(MBOE))
+		else if(null!=unit && MBOE.equalsIgnoreCase(unit))
 			unitVal=GAS_MBOE;
-		else if(null!=unit && unit.equalsIgnoreCase(BCMNG))
+		else if(null!=unit && BCMNG.equalsIgnoreCase(unit))
 			unitVal=GAS_BCMNG;
 		return unitVal;
 	}
@@ -527,11 +527,11 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 		String unit=null;
 		if(null!=units && units.size()>0)
 			unit=units.get(0);
-		if(null!=unit && unit.equalsIgnoreCase(MTOE))
+		if(null!=unit && MTOE.equalsIgnoreCase(unit))
 			unitVal=OIL_MTOE;
-		else if(null!=unit && unit.equalsIgnoreCase(MBOE))
+		else if(null!=unit && MBOE.equalsIgnoreCase(unit))
 			unitVal=OIL_MBOE;
-		else if(null!=unit && unit.equalsIgnoreCase(BCMNG))
+		else if(null!=unit && BCMNG.equalsIgnoreCase(unit))
 			unitVal=OIL_BCMNG;
 		return unitVal;
 	}
