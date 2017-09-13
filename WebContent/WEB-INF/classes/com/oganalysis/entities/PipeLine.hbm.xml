@@ -33,7 +33,7 @@
 		<property name="companySource" type="string"/>
 		<property name="companyNotes" type="string"/>
 		<property name="length" type="double"/>
-		<property name="diameter" type="string"/>
+		<property name="diameter" type="double"/>
 		<property name="capacity" type="double"/>
 		<property name="capex" type="double"/>
 		<property name="parameterSource" type="string"/>

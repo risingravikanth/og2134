@@ -69,6 +69,12 @@
  		return value
  	}
  	
+ 	$scope.downloadReport = function(){
+ 	 	HttpService.get("/storage/download/terminaldetails",$scope.currentDownloadReq).then(function(resp) {
+			
+		});
+ 	}
+ 	
  	openModel = function(inputName,type,event){
 		 
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
@@ -90,6 +96,8 @@
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
+		
+		$scope.currentDownloadReq = angular.copy(modalReq);
 		 
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);

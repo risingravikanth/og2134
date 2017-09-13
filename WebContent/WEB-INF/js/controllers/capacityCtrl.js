@@ -18,6 +18,14 @@
 				typeField :true
 			};
  	};
+ 	
+ 	
+ 	$scope.downloadReport = function(){
+  	 
+		HttpService.get("/lng/download/terminaldetails",$scope.currentDownloadReq).then(function(resp) {
+			
+		});
+ 	}
 	
 	$scope.setDisplayPeriod = function(){
 		for(var i = URL.displayFrom;i <= URL.displayTo ;i++){
@@ -45,6 +53,8 @@
 		var modalReq = angular.copy($rootScope.searchFilterObj);
 		modalReq['recordName']= inputName;
 		modalReq['type']= type;
+		 
+		$scope.currentDownloadReq = angular.copy(modalReq);
 		
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
