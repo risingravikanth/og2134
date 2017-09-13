@@ -3,7 +3,7 @@
  	console.log($state);
  	
  	$scope.setConfigurations = function(){
- 		$scope.url = "/infrastructure";
+ 		$scope.url = "/lng/infrastructure";
  		$rootScope.loadLngFilter();
 		$rootScope.filterObj = {
 			regionField :true,
@@ -80,7 +80,7 @@
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
   		}
 		
-		HttpService.get("/modalcapacity",modalReq).then(function(resp) {
+		HttpService.get("/lng/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
 			
 			if(resp != "" && resp != undefined ){
