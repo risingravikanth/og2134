@@ -268,12 +268,13 @@ public interface ApplicationConstants {
 	public static final String EXCEL_LNG="LNG For ";
 	public static final String EXCEL_REFINERY="Refinery For ";
 	public static final String EXCEL_STORAGE="Storage For ";
-	public static final String EXCEL_ERROR="excelError";
+	public static final String EXCEL_ERROR=ERROR_MSG;
 	public static final String EXCEL_CONTENT_TYPE="application/vnd.ms-excel";
 	public static final String EXCEL_CONTENT_DISPOSITION="Content-Disposition";
 	public static final String EXCEL_ATTACHMENT="attachment; filename=";
 	public static final String EXCEL_FILE_EXTENSION=".xlsx";
 	public static final String EXCEL_REDIRECT="redirect:/";
+	public static final String EXCEL_LOGO="/WEB-INF/oglogo.jpg";
 	public static final String GENERAL_INFO="General Information";
 	public static final String COMPANY_INFO="Company Information";
 	public static final String INVESTMENT_INFO="Investment Information";
@@ -313,4 +314,6 @@ public interface ApplicationConstants {
 	public static final String AREA=RESTRICTION_PROPERTY_AREA;
 	public static final String OWNERS=OPTION_OWNER;
 	
+	public static final String PDF_REDIRECT=EXCEL_REDIRECT;
+	public static final String PDF_ATTACHMENT=EXCEL_ATTACHMENT;
 }

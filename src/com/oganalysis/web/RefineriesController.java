@@ -2,9 +2,9 @@ package com.oganalysis.web;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -83,18 +83,20 @@ public class RefineriesController {
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response)  {
 		 		
-	    String res=null;
-	    Workbook workbook=null;
-	    InputStream is=null;
+		 String res=null;
+		 Workbook workbook=null;
+		 InputStream is=null;
+		 OutputStream os=null;
 	    if(null!=request.getSession().getAttribute(EMAIL))
 	    {
 	    	try {
 	    		String recordName=request.getParameter(RECORDNAME);	
 	            response.setContentType(EXCEL_CONTENT_TYPE);
 	            response.setHeader(EXCEL_CONTENT_DISPOSITION, EXCEL_ATTACHMENT+recordName+EXCEL_FILE_EXTENSION);
-	            is=servletContext.getResourceAsStream("/WEB-INF/oglogo.jpg");
+	            is=servletContext.getResourceAsStream(EXCEL_LOGO);
+	            os=response.getOutputStream();
 	            workbook = refineriesServiceImpl.getExcelTerminalData(recordName,is);
-	            workbook.write(response.getOutputStream());
+	            workbook.write(os);
 	        } catch (Exception e) {
 	            return EXCEL_ERROR;
 	        }
@@ -102,8 +104,9 @@ public class RefineriesController {
 	    	{
 	    		try
 	    		{
-	    			workbook.close();
-		    		is.close();
+	    			is.close();
+	    			os.close();
+	    			workbook.close();	
 	    		}
 	    		catch(Exception e)
 	    		{

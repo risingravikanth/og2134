@@ -170,14 +170,10 @@ public class StorageExcel {
 			Cell equityHoldersFieldValCell=equityHoldersFieldRow.createCell(column);
 			if(null!=ownership.get(CURRENTOWNERS))
 				equityHoldersFieldValCell.setCellValue(ownership.get(CURRENTOWNERS));
-			else
-				equityHoldersFieldValCell.setCellValue(BLANK);
-										
+													
 			Cell stakeFieldValCell=stakeFieldRow.createCell(column);
 			if(null!=ownership.get(CURRENTOWNERSHIP))
 				stakeFieldValCell.setCellValue(ownership.get(CURRENTOWNERSHIP));
-			else
-				stakeFieldValCell.setCellValue(BLANK);
 			column++;
 		}
 		return rowStart;

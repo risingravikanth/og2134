@@ -205,20 +205,24 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		Refinery refinery=refineryList.get(0);		
 		terminalData.put(TERMINALNAME, refinery.getName());
 		//General Info
-		terminalData.put(REGION, refinery.getRegion());
-		terminalData.put(COUNTRY,refinery.getCountry());
-		terminalData.put(LOCATION,refinery.getLocation());
-		terminalData.put(TYPE,getType(refineryList));
-		terminalData.put(STATUS,refinery.getStatus());
+		terminalData.put(REGION, (null!=refinery.getRegion() && !refinery.getRegion().equals(BLANK))?refinery.getRegion():NA);
+		terminalData.put(COUNTRY,(null!=refinery.getCountry() && !refinery.getCountry().equals(BLANK))?refinery.getCountry():NA);
+		terminalData.put(LOCATION,(null!=refinery.getLocation() && !refinery.getLocation().equals(BLANK))?refinery.getLocation():NA);
+		String type=getType(refineryList);
+		terminalData.put(TYPE,(null!=type && !type.equals(BLANK))?type:NA);
+		terminalData.put(STATUS,(null!=refinery.getStatus() && !refinery.getStatus().equals(BLANK))?refinery.getStatus():NA);
 		terminalData.put(CAPACITY, refinery.getRefiningCapacity());
-		terminalData.put(RECENTDEVELOPMENTS,getStatusDetails(refineryList));		
-		terminalData.put(STARTUP,getStartYear(refineryList));
+		String statusDetails=getStatusDetails(refineryList);
+		terminalData.put(RECENTDEVELOPMENTS,(null!=statusDetails && !statusDetails.equals(BLANK)?statusDetails:NA));
+		String startYear=getStartYear(refineryList);
+		terminalData.put(STARTUP,(null!=startYear && !startYear.equals(BLANK))?startYear:NA);
 		
 		//Company Info
-		terminalData.put(OPERATOR, getOperator(refineryList));
+		String operator=getOperator(refineryList);
+		terminalData.put(OPERATOR,(null!=operator && !operator.equals(BLANK)?operator:NA));
 		terminalData.put(OWNERSHIP, getOwnership(terminalName));
 		//Investment Info
-		terminalData.put(CAPEX,getCapex(refineryList));
+		terminalData.put(CAPEX,round(getCapex(refineryList),2));
 		terminalData.put(CONSTRUCTIONDETAILS, getConstructionDetails(refineryList));
 		
 		//Capaciity Forecasts
@@ -817,10 +821,14 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		for(RefineriesFilter refineriesFilter:refineriesFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-//				String key=refineriesFilter.getCurrentEquityPartners()+UNDERSCORE+refineriesFilter.getName();			
-				ownershipMap.put(CURRENTEQUITYPARTNER,refineriesFilter.getCurrentEquityPartners());
-				ownershipMap.put(CURRENTEQUITYSTAKE,String.valueOf(refineriesFilter.getCurrentEquityStakes()));
-				ownershipList.add(ownershipMap);
+//				String key=refineriesFilter.getCurrentEquityPartners()+UNDERSCORE+refineriesFilter.getName();	
+				if(refineriesFilter.getCurrentEquityStakes()!=0)
+				{
+					ownershipMap.put(CURRENTEQUITYPARTNER,refineriesFilter.getCurrentEquityPartners());
+					ownershipMap.put(CURRENTEQUITYSTAKE,String.valueOf(refineriesFilter.getCurrentEquityStakes()));
+					ownershipList.add(ownershipMap);
+				}
+				
 		}
 		
 		return ownershipList;
@@ -869,6 +877,7 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 			if(null!=refinery && null!=refinery.getType() && !(BLANK).equalsIgnoreCase(refinery.getType()))
 				sb.append(refinery.getType()).append(COMMA);
 		}
+		removeCommaAtEnd(sb);
 		return sb.toString();
 	}
 	private String getStartYear(List<Refinery> refineryList)

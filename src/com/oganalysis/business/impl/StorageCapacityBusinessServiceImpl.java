@@ -194,17 +194,23 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		List<Storage> storageList=storageDao.getTerminalData(terminalName);
 		Storage storage=storageList.get(0);
 		terminalData.put(TERMINALNAME, storage.getTankFarm());
-		terminalData.put(REGION,storage.getRegion());
-		terminalData.put(COUNTRY,storage.getCountry());
-		terminalData.put(LOCATION,storage.getLocation());		
-		terminalData.put(STATUS,storage.getStatus());
-		terminalData.put(STARTUP, getCommencementDate(storageList));
+		//General Info
+		terminalData.put(REGION,(null!=storage.getRegion() && !storage.getRegion().equals(BLANK))?storage.getRegion():NA);
+		terminalData.put(COUNTRY,(null!=storage.getCountry() && !storage.getCountry().equals(BLANK))?storage.getCountry():NA);
+		terminalData.put(LOCATION,(null!=storage.getLocation() && !storage.getLocation().equals(BLANK))?storage.getLocation():NA);		
+		terminalData.put(STATUS,(null!=storage.getStatus() && !storage.getStatus().equals(BLANK))?storage.getStatus():NA);
+		String commencementDate=getCommencementDate(storageList);
+		terminalData.put(STARTUP, (null!=commencementDate && !commencementDate.equals(BLANK))?commencementDate:NA);
 		terminalData.put(TANKS, storage.getTanks());
 		terminalData.put(TANKSIZERANGE_MIN, storage.getTankSizeRange_min_m3());
 		terminalData.put(TANKSIZERANGE_MAX, storage.getTankSizeRange_max_m3());
-		terminalData.put(OPERATOR,getOperator(storageList));
+		//Company Info
+		String operator=getOperator(storageList);
+		terminalData.put(OPERATOR,(null!=operator && !operator.equals(BLANK))?operator:NA);
 		terminalData.put(OWNERSHIP, getOwnership(terminalName));
-		terminalData.put(CAPEX, getCapex(storageList));
+		//Investment Info
+		terminalData.put(CAPEX, round(getCapex(storageList),2));
+		//Capacity Forecasts
 		terminalData.put(CAPACITY,getStorageCapacity(storageList));
 		return terminalData;
 	}
@@ -244,10 +250,14 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		for(StorageFilter storageFilter:storageFilterList)
 		{				
 				ownershipMap=new HashMap<String, String>();
-//				String key=refineriesFilter.getCurrentEquityPartners()+UNDERSCORE+refineriesFilter.getName();			
-				ownershipMap.put(CURRENTOWNERS,storageFilter.getCurrentOwners());
-				ownershipMap.put(CURRENTOWNERSHIP,String.valueOf(storageFilter.getCurrentOwnership()));
-				ownershipList.add(ownershipMap);
+//				String key=refineriesFilter.getCurrentEquityPartners()+UNDERSCORE+refineriesFilter.getName();	
+				if(storageFilter.getCurrentOwnership()!=0)
+				{
+					ownershipMap.put(CURRENTOWNERS,storageFilter.getCurrentOwners());
+					ownershipMap.put(CURRENTOWNERSHIP,String.valueOf(storageFilter.getCurrentOwnership()));
+					ownershipList.add(ownershipMap);
+				}
+				
 		}
 		
 		return ownershipList;
@@ -260,8 +270,8 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 			if(null!=storage && null!=storage.getCurrentOperator() && !(BLANK).equalsIgnoreCase(storage.getCurrentOperator()))
 				operator.append(storage.getCurrentOperator()).append(COMMA);
 		}
-		if(operator.length()>0)
-			removeCommaAtEnd(operator);
+		
+		removeCommaAtEnd(operator);
 		return operator.toString();
 	}
 	private String getCommencementDate(List<Storage> storageList)
@@ -271,9 +281,8 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		{
 			if(null!=storage && null!=storage.getCommencementDate())
 				commencement.append(storage.getCommencementDate()).append(COMMA);
-		}
-		if(commencement.length()>0)
-			removeCommaAtEnd(commencement);
+		}		
+		removeCommaAtEnd(commencement);
 		return commencement.toString();
 	}
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCountry(String countryName,Map<String,List<String>> selectedOptions,int startYear,int endYear)
@@ -339,6 +348,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	}	
 	private void removeCommaAtEnd(StringBuffer inputString)
 	{
+		if(inputString.length()>0)
 		inputString.deleteCharAt(inputString.length()-1);
 	}
 	private double round(double value, int places) {	    

@@ -25,7 +25,7 @@ public class LngExcel {
 		Row row=lngSheet.createRow(currentRow);
 		Cell terminalName=row.createCell(1);
 		terminalName.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		terminalName.setCellValue("Terminal");		
+		terminalName.setCellValue(EXCEL_TERMINAL);		
 		Cell terminalNameValue=row.createCell(2);
 		terminalNameValue.setCellStyle(ExcelFileHelper.getFieldValueCellStyle(wb));
 		terminalNameValue.setCellValue((String)terminalData.get(TERMINALNAME));
@@ -52,13 +52,13 @@ public class LngExcel {
 		Row capacityForeCastsSecRow=lngSheet.createRow(rowStart);
 		Cell capacityForeCastsSecCell=capacityForeCastsSecRow.createCell(1);
 		capacityForeCastsSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		capacityForeCastsSecCell.setCellValue("Capacity Forecasts");
+		capacityForeCastsSecCell.setCellValue(CAPACITY_FORECASTS);
 		rowStart++;
 		
 		Row nameFieldRow=lngSheet.createRow(rowStart);
 		Cell nameFieldCell=nameFieldRow.createCell(1);
 		nameFieldCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		nameFieldCell.setCellValue("Name");
+		nameFieldCell.setCellValue(CAPACITY_FORECASTS_NAME);
 		rowStart++;
 		
 		Map<Integer,Double> processingCapacity=(Map<Integer,Double>)terminalData.get(PROCESSINGCAPACITY);
@@ -97,28 +97,28 @@ public class LngExcel {
 			nameFieldValCell.setCellValue(i);
 			
 			Cell processingCapacityFieldValCell=processingCapacityFieldRow.createCell(column);
-			if(null!=processingCapacity.get(i))
+			if(null!=processingCapacity.get(i) && 0!=processingCapacity.get(i))
 				processingCapacityFieldValCell.setCellValue((Double)processingCapacity.get(i));
 			else
-				processingCapacityFieldValCell.setCellValue(0);	
+				processingCapacityFieldValCell.setCellValue(BLANK);	
 			
 			Cell trainsOrVaporizersFieldValCell=trainsOrVaporizersFieldRow.createCell(column);
-			if(null!=trainsOrVaporizers.get(i))
+			if(null!=trainsOrVaporizers.get(i) && 0!=trainsOrVaporizers.get(i))
 				trainsOrVaporizersFieldValCell.setCellValue((Double)trainsOrVaporizers.get(i));
 			else
-				trainsOrVaporizersFieldValCell.setCellValue(0);
+				trainsOrVaporizersFieldValCell.setCellValue(BLANK);
 			
 			Cell storageCapacityFieldValCell=storageCapacityFieldRow.createCell(column);
-			if(null!=storageCapacity.get(i))
+			if(null!=storageCapacity.get(i) && 0!=storageCapacity.get(i))
 				storageCapacityFieldValCell.setCellValue((Double)storageCapacity.get(i));
 			else
-				storageCapacityFieldValCell.setCellValue(0);
+				storageCapacityFieldValCell.setCellValue(BLANK);
 			
 			Cell storageTanksFieldValCell=storageTanksFieldRow.createCell(column);
-			if(null!=storageCapacity.get(i))
+			if(null!=storageTanks.get(i) && 0!=storageTanks.get(i))
 				storageTanksFieldValCell.setCellValue((Double)storageTanks.get(i));
 			else
-				storageTanksFieldValCell.setCellValue(0);
+				storageTanksFieldValCell.setCellValue(BLANK);
 			
 			column++;
 		}
@@ -149,13 +149,13 @@ public class LngExcel {
 		Row compInfoSecRow=lngSheet.createRow(rowStart);
 		Cell compInfoSecCell=compInfoSecRow.createCell(1);
 		compInfoSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		compInfoSecCell.setCellValue("Company Information");
+		compInfoSecCell.setCellValue(COMPANY_INFO);
 		rowStart++;
 		
 		Row operatorFieldRow=lngSheet.createRow(rowStart);
 		Cell operatorFieldCell=operatorFieldRow.createCell(1);
 		operatorFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		operatorFieldCell.setCellValue("Operator");
+		operatorFieldCell.setCellValue(COMPANY_INFO_OPERATOR);
 		
 		Cell operatorFieldValCell=operatorFieldRow.createCell(2);
 		operatorFieldValCell.setCellValue((String)terminalData.get(OPERATOR));
@@ -165,13 +165,13 @@ public class LngExcel {
 		Row equityHoldersFieldRow=lngSheet.createRow(rowStart);
 		Cell equityHoldersFieldCell=equityHoldersFieldRow.createCell(1);
 		equityHoldersFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		equityHoldersFieldCell.setCellValue("Equity Holders");
+		equityHoldersFieldCell.setCellValue(COMPANY_INFO_EQUITYHOLDERS);
 		rowStart++;
 		
 		Row stakeFieldRow=lngSheet.createRow(rowStart);
 		Cell stakeFieldCell=stakeFieldRow.createCell(1);
 		stakeFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		stakeFieldCell.setCellValue("Stake(%)");
+		stakeFieldCell.setCellValue(COMPANY_INFO_STAKE);
 		rowStart++;
 		int column=2;
 		for(Map<String,String> ownership:ownerShipList)
@@ -180,14 +180,11 @@ public class LngExcel {
 			Cell equityHoldersFieldValCell=equityHoldersFieldRow.createCell(column);
 			if(null!=ownership.get(EQUITYPARTNER))
 				equityHoldersFieldValCell.setCellValue(ownership.get(EQUITYPARTNER));
-			else
-				equityHoldersFieldValCell.setCellValue(BLANK);
-										
+													
 			Cell stakeFieldValCell=stakeFieldRow.createCell(column);
 			if(null!=ownership.get(EQUITYSTAKE))
 				stakeFieldValCell.setCellValue(ownership.get(EQUITYSTAKE));
-			else
-				stakeFieldValCell.setCellValue(BLANK);
+			
 			column++;
 		}
 		return rowStart;
@@ -215,10 +212,13 @@ public class LngExcel {
 		Row capexFieldRow=lngSheet.createRow(rowStart);
 		Cell capexFieldCell=capexFieldRow.createCell(1);
 		capexFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		capexFieldCell.setCellValue("Capex($)");
+		capexFieldCell.setCellValue(INVESTMENT_INFO_CAPEX);
 		
 		Cell capexFieldValCell=capexFieldRow.createCell(2);
-		capexFieldValCell.setCellValue(String.valueOf(terminalData.get(CAPEX)));
+		if(null!=terminalData.get(CAPEX) && 0!=(Double)terminalData.get(CAPEX))
+			capexFieldValCell.setCellValue((Double)terminalData.get(CAPEX));
+		else
+			capexFieldValCell.setCellValue((Double)terminalData.get(BLANK));
 		rowStart++;
 		
 		List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(CONSTRUCTIONDETAILS);
@@ -238,13 +238,13 @@ public class LngExcel {
 		{			
 			
 			Cell constructionCompanyFieldValCell=constructioncompanyNameFieldRow.createCell(column);
-			if(null!=construction.get(CONSTRUCTIONCOMPANYNAME))
+			if(null!=construction.get(CONSTRUCTIONCOMPANYNAME) && BLANK!=construction.get(CONSTRUCTIONCOMPANYNAME))
 				constructionCompanyFieldValCell.setCellValue(construction.get(CONSTRUCTIONCOMPANYNAME));
 			else
 				constructionCompanyFieldValCell.setCellValue(BLANK);
 										
 			Cell constructionContractValCell=constructionContractFieldRow.createCell(column);
-			if(null!=construction.get(CONSTRUCTIONCONTRACTDETAILS))
+			if(null!=construction.get(CONSTRUCTIONCONTRACTDETAILS) && BLANK!=construction.get(CONSTRUCTIONCONTRACTDETAILS))
 				constructionContractValCell.setCellValue(construction.get(CONSTRUCTIONCONTRACTDETAILS));
 			else
 				constructionContractValCell.setCellValue(BLANK);
@@ -268,7 +268,10 @@ public class LngExcel {
 		capacityFieldCell.setCellValue(CAPACITY);
 				
 		Cell capacityFieldValCell=capacityFieldRow.createCell(2);
-		capacityFieldValCell.setCellValue((Double)terminalData.get(CAPACITY));
+		if(null!=terminalData.get(CAPACITY) && 0!=(Double)terminalData.get(CAPACITY))
+			capacityFieldValCell.setCellValue((Double)terminalData.get(CAPACITY));
+		else
+			capacityFieldValCell.setCellValue(BLANK);
 		rowStart++;
 		return rowStart;
 	}
@@ -279,13 +282,13 @@ public class LngExcel {
 		Row generalInfoSecRow=lngSheet.createRow(rowStart);
 		Cell generalInfoSecCell=generalInfoSecRow.createCell(1);
 		generalInfoSecCell.setCellStyle(ExcelFileHelper.getHeaderCellStyle(wb));
-		generalInfoSecCell.setCellValue("General Information");
+		generalInfoSecCell.setCellValue(GENERAL_INFO);
 		rowStart++;
 		
 		Row regionFieldRow=lngSheet.createRow(rowStart);
 		Cell regionFieldCell=regionFieldRow.createCell(1);
 		regionFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		regionFieldCell.setCellValue("Region");
+		regionFieldCell.setCellValue(GENERAL_INFO_REGION);
 		
 		Cell regionFieldValCell=regionFieldRow.createCell(2);
 		regionFieldValCell.setCellValue((String)terminalData.get(REGION));
@@ -294,7 +297,7 @@ public class LngExcel {
 		Row countryFieldRow=lngSheet.createRow(rowStart);
 		Cell countryFieldCell=countryFieldRow.createCell(1);
 		countryFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		countryFieldCell.setCellValue("Country");
+		countryFieldCell.setCellValue(GENERAL_INFO_COUNTRY);
 		
 		Cell countryFieldValCell=countryFieldRow.createCell(2);
 		countryFieldValCell.setCellValue((String)terminalData.get(COUNTRY));
@@ -303,7 +306,7 @@ public class LngExcel {
 		Row locationFieldRow=lngSheet.createRow(rowStart);
 		Cell locationFieldCell=locationFieldRow.createCell(1);
 		locationFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		locationFieldCell.setCellValue("Location");
+		locationFieldCell.setCellValue(GENERAL_INFO_LOCATION);
 		
 		Cell locationFieldValCell=locationFieldRow.createCell(2);
 		locationFieldValCell.setCellValue((String)terminalData.get(LOCATION));
@@ -312,7 +315,7 @@ public class LngExcel {
 		Row typeFieldRow=lngSheet.createRow(rowStart);
 		Cell typeFieldCell=typeFieldRow.createCell(1);
 		typeFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		typeFieldCell.setCellValue("Type");
+		typeFieldCell.setCellValue(GENERAL_INFO_TYPE);
 		
 		Cell typeFieldValCell=typeFieldRow.createCell(2);
 		typeFieldValCell.setCellValue((String)terminalData.get(TYPE));
@@ -330,7 +333,7 @@ public class LngExcel {
 		Row statusFieldRow=lngSheet.createRow(rowStart);
 		Cell statusFieldCell=statusFieldRow.createCell(1);
 		statusFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		statusFieldCell.setCellValue("Status");
+		statusFieldCell.setCellValue(GENERAL_INFO_STATUS);
 		
 		Cell statusValCell=statusFieldRow.createCell(2);
 		statusValCell.setCellValue((String)terminalData.get(STATUS));
@@ -339,7 +342,7 @@ public class LngExcel {
 		Row otherStatusDetailsFieldRow=lngSheet.createRow(rowStart);
 		Cell otherStatusDetailsFieldCell=otherStatusDetailsFieldRow.createCell(1);
 		otherStatusDetailsFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		otherStatusDetailsFieldCell.setCellValue("Recent Developments");
+		otherStatusDetailsFieldCell.setCellValue(GENERAL_INFO_RECENT_DEV);
 		
 		Cell otherStatusDetailsValCell=otherStatusDetailsFieldRow.createCell(2);
 		otherStatusDetailsValCell.setCellStyle(ExcelFileHelper.getFieldValueWrapCellStyle(wb));
@@ -349,7 +352,7 @@ public class LngExcel {
 		Row expectedStartUpFieldRow=lngSheet.createRow(rowStart);
 		Cell expectedStartUpFieldCell=expectedStartUpFieldRow.createCell(1);
 		expectedStartUpFieldCell.setCellStyle(ExcelFileHelper.getFieldCellStyle(wb));
-		expectedStartUpFieldCell.setCellValue("Expected Start Up");
+		expectedStartUpFieldCell.setCellValue(GENERAL_INFO_STARTUP);
 		
 		Cell expectedStartUpValCell=expectedStartUpFieldRow.createCell(2);
 		expectedStartUpValCell.setCellValue((String)terminalData.get(EXPECTEDSTARTUP));	
