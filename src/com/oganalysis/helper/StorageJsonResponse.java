@@ -141,8 +141,8 @@ public class StorageJsonResponse {
 		for(Map<String,String> ownership:ownerShipList)
 		{
 			ownerShipJsonObj=new JSONObject();
-			ownerShipJsonObj.put(CURRENTOWNERS,ownership.get(CURRENTOWNERS));
-			ownerShipJsonObj.put(CURRENTOWNERSHIP,ownership.get(CURRENTOWNERSHIP));
+			ownerShipJsonObj.put(EQUITYPARTNER,ownership.get(CURRENTOWNERS));
+			ownerShipJsonObj.put(EQUITYSTAKE,ownership.get(CURRENTOWNERSHIP));
 			ownerShipArray.add(ownerShipJsonObj);
 		}
 		return ownerShipArray;

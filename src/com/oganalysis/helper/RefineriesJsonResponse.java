@@ -125,17 +125,17 @@ public class RefineriesJsonResponse {
 		JSONObject jsonTerminalData=new JSONObject();
 		Set<String> keys=terminalData.keySet();
 		
-		terminalData.put(TERMINALNAME, terminalData.get(TERMINALNAME));
+		jsonTerminalData.put(TERMINALNAME, terminalData.get(TERMINALNAME));
 		//General Info
-		terminalData.put(REGION, terminalData.get(REGION));
-		terminalData.put(COUNTRY,terminalData.get(COUNTRY));
-		terminalData.put(LOCATION,terminalData.get(LOCATION));
-		terminalData.put(TYPE,terminalData.get(TYPE));
-		terminalData.put(STATUS,terminalData.get(STATUS));
-		terminalData.put(CAPACITY,terminalData.get(CAPACITY));
-		terminalData.put(RECENTDEVELOPMENTS,terminalData.get(RECENTDEVELOPMENTS));		
-		terminalData.put(STARTUP,terminalData.get(STARTUP));
-		terminalData.put(OPERATOR,terminalData.get(OPERATOR));
+		jsonTerminalData.put(REGION, terminalData.get(REGION));
+		jsonTerminalData.put(COUNTRY,terminalData.get(COUNTRY));
+		jsonTerminalData.put(LOCATION,terminalData.get(LOCATION));
+		jsonTerminalData.put(TYPE,terminalData.get(TYPE));
+		jsonTerminalData.put(STATUS,terminalData.get(STATUS));
+		jsonTerminalData.put(CAPACITY,terminalData.get(CAPACITY));
+		jsonTerminalData.put(RECENTDEVELOPMENTS,terminalData.get(RECENTDEVELOPMENTS));		
+		jsonTerminalData.put(STARTUP,terminalData.get(STARTUP));
+		jsonTerminalData.put(OPERATOR,terminalData.get(OPERATOR));
 		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
 		jsonTerminalData.put(OWNERSHIP, createOwnership(ownerShipList));
 //		for(String key:keys)
@@ -315,8 +315,8 @@ public class RefineriesJsonResponse {
 		for(Map<String,String> ownership:ownerShipList)
 		{
 			ownerShipJsonObj=new JSONObject();
-			ownerShipJsonObj.put(CURRENTEQUITYPARTNER,ownership.get(CURRENTEQUITYPARTNER));
-			ownerShipJsonObj.put(CURRENTEQUITYSTAKE,ownership.get(CURRENTEQUITYSTAKE));
+			ownerShipJsonObj.put(EQUITYPARTNER,ownership.get(CURRENTEQUITYPARTNER));
+			ownerShipJsonObj.put(EQUITYSTAKE,ownership.get(CURRENTEQUITYSTAKE));
 			ownerShipArray.add(ownerShipJsonObj);
 		}
 		return ownerShipArray;
