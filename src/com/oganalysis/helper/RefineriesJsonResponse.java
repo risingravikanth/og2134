@@ -134,7 +134,7 @@ public class RefineriesJsonResponse {
 		jsonTerminalData.put(STATUS,terminalData.get(STATUS));
 		jsonTerminalData.put(CAPACITY,terminalData.get(CAPACITY));
 		jsonTerminalData.put(RECENTDEVELOPMENTS,terminalData.get(RECENTDEVELOPMENTS));		
-		jsonTerminalData.put(STARTUP,terminalData.get(STARTUP));
+		jsonTerminalData.put(EXPECTEDSTARTUP,terminalData.get(STARTUP));
 		jsonTerminalData.put(OPERATOR,terminalData.get(OPERATOR));
 		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
 		jsonTerminalData.put(OWNERSHIP, createOwnership(ownerShipList));

@@ -2,6 +2,7 @@ package com.oganalysis.business.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	private StorageCache storageCache;
 	private static final int STARTYEAR=2000;
 	private static final int ENDYEAR=2022;
+	private SimpleDateFormat sd=new SimpleDateFormat("yyyy");
 	@Override
 	public Map<String, Map<Integer, Double>> getCapacityByCompany(
 			Map<String, List<String>> selectedOptions, int startYear,
@@ -280,7 +282,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		for(Storage storage:storageList)
 		{
 			if(null!=storage && null!=storage.getCommencementDate())
-				commencement.append(storage.getCommencementDate()).append(COMMA);
+				commencement.append(sd.format(storage.getCommencementDate())).append(COMMA);
 		}		
 		removeCommaAtEnd(commencement);
 		return commencement.toString();

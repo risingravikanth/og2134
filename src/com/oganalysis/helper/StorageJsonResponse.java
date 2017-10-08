@@ -124,7 +124,7 @@ public class StorageJsonResponse {
 		jsonTerminalData.put(COUNTRY,terminalData.get(COUNTRY));
 		jsonTerminalData.put(LOCATION,terminalData.get(LOCATION));		
 		jsonTerminalData.put(STATUS,terminalData.get(STATUS));
-		jsonTerminalData.put(STARTUP,terminalData.get(STARTUP));
+		jsonTerminalData.put(EXPECTEDSTARTUP,terminalData.get(STARTUP));
 		jsonTerminalData.put(TANKS, terminalData.get(TANKS));
 		jsonTerminalData.put(TANKSIZERANGE_MIN,  terminalData.get(TANKSIZERANGE_MIN));
 		jsonTerminalData.put(TANKSIZERANGE_MAX,  terminalData.get(TANKSIZERANGE_MAX));
