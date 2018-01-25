@@ -157,7 +157,10 @@
 	Offshore/Onshore
 	Type
 	*/
-	
+	$rootScope.onFilterSelect = function(item,filterType){
+ 		//console.log($scope.countryModel);
+ 		
+  	};
 	
 	$( ".right-filter" )
 	   .mouseleave(function() {
@@ -165,7 +168,8 @@
  	  });
 	
 	$scope.sortedOrder = function(array){
-		var updatedArray = array.sort(function(a, b){
+		var updatedArray = [];
+		updatedArray = array.sort(function(a, b){
 		    if(a.id < b.id) return -1;
 		    if(a.id > b.id) return 1;
 		    return 0;
@@ -284,7 +288,7 @@
 	/*units filter*/
 	$rootScope.unitsModel = [];
 	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
-	$scope.unitsSettings = {};
+	$scope.unitsSettings = {selectionLimit: 1};
 	
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];
@@ -427,7 +431,8 @@
 	});
 	 
 	HttpService.get('/type').then(function(resp) {
- 		for(var i=0;i< resp.length;i++){
+ 		 
+		for(var i=0;i< resp.length;i++){
 			var obj = {
 					id : resp[i].type ,
 					label : resp[i].type
@@ -533,7 +538,7 @@
     	$scope.locationData = [];
     	$scope.operatorData = [];
     	$scope.ownerData =[];
-    	
+     	
     	HttpService.get('/lng/locations').then(function(resp) {
     		for(var i=0;i< resp.length;i++){
     			var obj = {
@@ -1022,7 +1027,7 @@
  	};
  	
  	$rootScope.onFilterSelect = function(item,filterType){
- 		console.log($scope.countryModel);
+ 		//console.log($scope.countryModel);
  		
   	};
   	

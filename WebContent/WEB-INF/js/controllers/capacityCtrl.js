@@ -493,6 +493,8 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$rootScope.capacityFilterJSON ={};
+ 		$rootScope.exportedCountriesModel = [];
+ 		$rootScope.exportedCompaniesModel =[];
  		
  		if($scope.url != ''){
 			var resetReq = angular.copy($rootScope.searchFilterObj);
@@ -608,7 +610,8 @@
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
  		$rootScope.capacityFilterJSON ={};
- 		
+ 		$rootScope.exportedCountriesModel = [];
+ 		$rootScope.exportedCompaniesModel =[];
  		$scope.noDataAvailable = true;
 		
 		
