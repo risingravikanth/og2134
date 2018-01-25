@@ -85,21 +85,31 @@ public class ProductionJsonResponse {
 	{
 		JSONObject productionJsonObj=new JSONObject();		
  		JSONArray productionArray=new JSONArray();
+ 		String country=BLANK;
  		productionJsonObj.put(TYPE,type);
 		for(Map<String,String> productionMap:dataList)
 		{
 			JSONObject prodObj=new JSONObject();
-			prodObj.put(JSON_NAME, productionMap.get(COMPANY));
-			for(int i=startYear;i<=endYear;i++)
+			if(null!=productionMap.get(COUNTRY))
 			{
-				String year=String.valueOf(i);
-				if(null!=productionMap && null!=productionMap.get(year) && Double.parseDouble(productionMap.get(year))!=0)
-					prodObj.put(year,productionMap.get(year));
-				else
-					prodObj.put(year,BLANK);
+				country=productionMap.get(COUNTRY);
 			}
-			productionArray.add(prodObj);
+			else
+			{
+				prodObj.put(JSON_NAME, productionMap.get(COMPANY));
+				for(int i=startYear;i<=endYear;i++)
+				{
+					String year=String.valueOf(i);
+					if(null!=productionMap && null!=productionMap.get(year) && Double.parseDouble(productionMap.get(year))!=0)
+						prodObj.put(year,productionMap.get(year));
+					else
+						prodObj.put(year,BLANK);
+				}
+				productionArray.add(prodObj);
+			}
+			
 		}		
+		productionJsonObj.put(COUNTRY, country);
 		productionJsonObj.put(COMPANY,productionArray);
 //		if(type.equalsIgnoreCase(GAS))
 //			productionJsonObj.put(GAS,productionArray);

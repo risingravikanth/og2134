@@ -25,7 +25,7 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 	private double OIL_MTOE=0.04980;
 	private double OIL_MBOE=0.36500;
 	private double OIL_BCMNG=0.05475;
-	private String defaultCountry="Algeria";
+	private String defaultCountry;
 	@Override
 	public List<Map<String,String>> getNaturalGasCapacityByCountry(
 			Map<String, List<String>> selectedOptions) {
@@ -483,7 +483,13 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 		
 			companiesOilGasMapList.add(countryOilGasMap);
 		}
-		return companiesOilGasMapList;
+		if(null!=countryOilGasMap)
+		{
+			Map<String,String> selectedCountry=new HashMap<String, String>();
+			selectedCountry.put(COUNTRY, country);
+			companiesOilGasMapList.add(selectedCountry);
+		}		
+		return companiesOilGasMapList;		
 	}
 	private List<String> getNaturalGasDistinctCountries(List<NaturalGas> naturalGasList)
 	{
@@ -551,6 +557,12 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 	}
 	public void setCompanyOilGasDao(CompanyOilGasDao companyOilGasDao) {
 		this.companyOilGasDao = companyOilGasDao;
+	}
+	public String getDefaultCountry() {
+		return defaultCountry;
+	}
+	public void setDefaultCountry(String defaultCountry) {
+		this.defaultCountry = defaultCountry;
 	}	
 	
 }

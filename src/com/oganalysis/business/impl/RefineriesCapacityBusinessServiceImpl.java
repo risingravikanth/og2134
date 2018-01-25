@@ -194,8 +194,46 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	{				
 		List<String> selectedTerminals=refineriesDao.getSelectedTerminals(selectedOptions, startDate, endDate);
 		List<String> companyTerminals=getCompanyTerminals(companyName, selectedTerminals);		
-		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,startDate,endDate);				
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateTerminalsCapacityForCompany(companyName,companyTerminals,startDate,endDate);				
 		return companyterminalsCapacity;
+	}
+	private Map<String,Map<Integer,Double>> calculateTerminalsCapacityForCompany(String companyName,List<String> terminals,int startDate,int endDate)
+	{
+		List<Integer> years=getSelectedYears(startDate, endDate);
+		Map<String,Double> terminalsYearCapacity=null;
+		Map<Integer,Double> yearMap=null;
+		Map<String,Map<Integer,Double>> terminalsCapacity=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Double> companyStakes=null;
+		if(null==refineriesCache.getTerminalsYearCapacity())
+		{
+			terminalsYearCapacity=refineriesCache.createTerminalsYearCapacity();
+			refineriesCache.setTerminalsYearCapacity(terminalsYearCapacity);
+		}
+		else
+			terminalsYearCapacity=refineriesCache.getTerminalsYearCapacity();
+		
+		if(null==refineriesCache.getCompanyStakeForTerminal())
+		{
+			companyStakes=refineriesCache.createCompanyStakeForTerminal();
+			refineriesCache.setCompanyStakeForTerminal(companyStakes);
+		}
+		else
+			companyStakes=refineriesCache.getCompanyStakeForTerminal();
+		for(String terminal:terminals)
+		{
+				yearMap=new HashMap<Integer, Double>();
+				double stake=companyStakes.get(companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase())==null?0:companyStakes.get(companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase());
+				for(Integer year:years)
+				{				
+					double soc=0;
+					double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+					soc=soc+(capacity*(stake/100));				
+					soc=round(soc,2);
+					yearMap.put(year, soc);					
+				}
+				terminalsCapacity.put(terminal, yearMap);							
+		}
+		return terminalsCapacity;
 	}
 	@Override
 	public Map getTerminalData(String terminalName) {

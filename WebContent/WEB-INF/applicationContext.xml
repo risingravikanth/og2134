@@ -109,6 +109,7 @@
 		<property name="naturalGasDao" ref="naturalGasDao"/>
 		<property name="crudeOilDao" ref="crudeOilDao"/>
 		<property name="companyOilGasDao" ref="companyOilGasDao"/>
+		<property name="defaultCountry" value="#{applicationProps['PROD_COMPANY_DEFAULT_COUNTRY']}"/>
 		<!-- <property name="storageCache" ref="storageCache"/>-->
 	</bean>
 	<bean id="pipeLineBusinessServiceImpl" class="com.oganalysis.business.impl.PipeLineBusinessServiceImpl">

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oganalysis.service.LngDataService;
 import com.oganalysis.service.impl.LngDataServiceImpl;
 @Controller
-//@RequestMapping("/lng")
+@RequestMapping("/lng")
 public class LngDataDisplayController {
 	
 	@Autowired

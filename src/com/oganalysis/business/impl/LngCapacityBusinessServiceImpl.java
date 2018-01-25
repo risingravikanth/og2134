@@ -159,7 +159,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	private Map<String,Map<Integer,Double>> getTerminalsCapacityForCompany(String companyName,Map<String,List<String>> selectedOptions,int startDate,int endDate,String type)
 	{
 		List<String> selectedTerminals=lngDao.getSelectedTerminals(selectedOptions, startDate, endDate, type);			
-		List<String> companyTerminals=getCompanyTerminals(companyName,selectedTerminals,type);//lngDao.getCompanyTerminals(companyName,selectedTerminals,type);		
+		List<String> companyTerminals=getCompanyTerminals(companyName,selectedTerminals,type);//lngDao.getCompanyTerminals(companyName,selectedTerminals,type);
 		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateTerminalsCapacityForCompany(companyName,companyTerminals,selectedOptions,startDate,endDate,type);	
 					
 		return companyterminalsCapacity;
@@ -187,14 +187,24 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		{
 			yearMap=new HashMap<Integer, Double>();
 			String key=companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
-			double stake=companyStakeForTerminal.get(key);
+			double stake=companyStakeForTerminal.get(key)==null?0:companyStakeForTerminal.get(key);
 			for(Integer year:years)
 			{
-				double soc=0.0;
+				double soc=0;
 				double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
-				soc=soc+(round((capacity*(stake/100)),2));				
-				if(null!=unit && unit.equalsIgnoreCase(BCF))
-					soc=soc*BCF_UNIT;
+//				soc=soc+(round((capacity*(stake/100)),2));
+				soc=soc+(capacity*(stake/100));
+//				if(null!=unit && unit.equalsIgnoreCase(BCF))
+//					soc=soc*BCF_UNIT;
+				if(type.equals(LNG_REGASIFICATION) && null==unit && !BCF.equalsIgnoreCase(unit))
+				{
+					soc=soc/BCF_UNIT;
+				}
+				else if(type.equals(LNG_LIQUEFACTION) && null!=unit && BCF.equalsIgnoreCase(unit))
+				{
+//					if(null!=unit && unit.equalsIgnoreCase(BCF))
+						soc=soc*BCF_UNIT;
+				}
 				soc=round(soc,2);
 				yearMap.put(year,soc);
 			}
@@ -259,16 +269,25 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 					yearMap=new HashMap<Integer, Double>();
 					for(Integer year:years)
 					{				
-						double soc=0.0;
+						double soc=0;
 						for(String terminal:companyTerminals)
 						{			
 							String key=company.toLowerCase()+UNDERSCORE+terminal.toLowerCase();
-							double stake=companyStakeForTerminal.get(key);			
-							double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);																							
-							soc=soc+(round(capacity*(stake/100),2));							
+							double stake=companyStakeForTerminal.get(key)==null?0:companyStakeForTerminal.get(key);			
+							double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);							
+							soc=soc+(capacity*(stake/100));							
 						}			
-						if(null!=unit && unit.equalsIgnoreCase(BCF))
-							soc=soc*BCF_UNIT;
+//						if(null!=unit && unit.equalsIgnoreCase(BCF))
+//							soc=soc*BCF_UNIT;
+						if(type.equals(LNG_REGASIFICATION) && null==unit && !BCF.equalsIgnoreCase(unit))
+						{
+							soc=soc/BCF_UNIT;
+						}
+						else if(type.equals(LNG_LIQUEFACTION) && null!=unit && BCF.equalsIgnoreCase(unit))
+						{
+//							if(null!=unit && unit.equalsIgnoreCase(BCF))
+								soc=soc*BCF_UNIT;
+						}
 						soc=round(soc,2);						
 						yearMap.put(year,soc);//Double.valueOf(formatCapacity.format(soc))
 					}					
@@ -312,11 +331,20 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 			yearMap=new HashMap<Integer, Double>();
 			for(Integer year:years)
 			{
-				double soc=0.0;
+				double soc=0;
 				double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
 				soc=soc+capacity;				
-				if(null!=unit && unit.equalsIgnoreCase(BCF))
-					soc=soc*BCF_UNIT;
+//				if(null!=unit && unit.equalsIgnoreCase(BCF))
+//					soc=soc*BCF_UNIT;
+				if(type.equals(LNG_REGASIFICATION) && null==unit && !BCF.equalsIgnoreCase(unit))
+				{
+					soc=soc/BCF_UNIT;
+				}
+				else if(type.equals(LNG_LIQUEFACTION) && null!=unit && BCF.equalsIgnoreCase(unit))
+				{
+//					if(null!=unit && unit.equalsIgnoreCase(BCF))
+						soc=soc*BCF_UNIT;
+				}
 				soc=round(soc,2);
 				yearMap.put(year,soc);
 			}
@@ -370,8 +398,17 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 						soc=soc+capacity;
 						
 					}
-					if(null!=unit && unit.equalsIgnoreCase(BCF))
-						soc=soc*BCF_UNIT;
+					if(type.equals(LNG_REGASIFICATION) && null==unit && !BCF.equalsIgnoreCase(unit))
+					{
+						soc=soc/BCF_UNIT;
+					}
+					else if(type.equals(LNG_LIQUEFACTION) && null!=unit && BCF.equalsIgnoreCase(unit))
+					{
+//						if(null!=unit && unit.equalsIgnoreCase(BCF))
+							soc=soc*BCF_UNIT;
+					}
+						
+					
 					soc=round(soc,2);
 					yearMap.put(year,soc);
 				}

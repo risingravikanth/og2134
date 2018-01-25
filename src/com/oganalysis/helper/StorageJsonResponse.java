@@ -124,7 +124,7 @@ public class StorageJsonResponse {
 		jsonTerminalData.put(COUNTRY,terminalData.get(COUNTRY));
 		jsonTerminalData.put(LOCATION,terminalData.get(LOCATION));		
 		jsonTerminalData.put(STATUS,terminalData.get(STATUS));
-		jsonTerminalData.put(STARTUP,terminalData.get(STARTUP));
+		jsonTerminalData.put(EXPECTEDSTARTUP,terminalData.get(STARTUP));
 		jsonTerminalData.put(TANKS, terminalData.get(TANKS));
 		jsonTerminalData.put(TANKSIZERANGE_MIN,  terminalData.get(TANKSIZERANGE_MIN));
 		jsonTerminalData.put(TANKSIZERANGE_MAX,  terminalData.get(TANKSIZERANGE_MAX));
@@ -141,8 +141,8 @@ public class StorageJsonResponse {
 		for(Map<String,String> ownership:ownerShipList)
 		{
 			ownerShipJsonObj=new JSONObject();
-			ownerShipJsonObj.put(CURRENTOWNERS,ownership.get(CURRENTOWNERS));
-			ownerShipJsonObj.put(CURRENTOWNERSHIP,ownership.get(CURRENTOWNERSHIP));
+			ownerShipJsonObj.put(EQUITYPARTNER,ownership.get(CURRENTOWNERS));
+			ownerShipJsonObj.put(EQUITYSTAKE,ownership.get(CURRENTOWNERSHIP));
 			ownerShipArray.add(ownerShipJsonObj);
 		}
 		return ownerShipArray;

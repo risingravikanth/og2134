@@ -2,6 +2,7 @@ package com.oganalysis.business.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	private StorageCache storageCache;
 	private static final int STARTYEAR=2000;
 	private static final int ENDYEAR=2022;
+	private SimpleDateFormat sd=new SimpleDateFormat("yyyy");
 	@Override
 	public Map<String, Map<Integer, Double>> getCapacityByCompany(
 			Map<String, List<String>> selectedOptions, int startYear,
@@ -280,7 +282,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		for(Storage storage:storageList)
 		{
 			if(null!=storage && null!=storage.getCommencementDate())
-				commencement.append(storage.getCommencementDate()).append(COMMA);
+				commencement.append(sd.format(storage.getCommencementDate())).append(COMMA);
 		}		
 		removeCommaAtEnd(commencement);
 		return commencement.toString();
@@ -297,8 +299,47 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	{				
 		List<String> selectedTerminals=storageDao.getSelectedTerminals(selectedOptions, startYear, endYear);
 		List<String> companyTerminals=getCompanyTerminals(companyName, selectedTerminals);		
-		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateCapacitiesByTerminal(companyTerminals,startYear,endYear);				
+		Map<String,Map<Integer,Double>> companyterminalsCapacity=calculateTerminalsCapacityForCompany(companyName,companyTerminals,startYear,endYear);				
 		return companyterminalsCapacity;
+	}
+	private Map<String,Map<Integer,Double>> calculateTerminalsCapacityForCompany(String companyName,List<String> terminals,int startDate,int endDate)
+	{
+		List<Integer> years=getSelectedYears(startDate, endDate);
+		Map<String,Double> terminalsYearCapacity=null;
+		Map<Integer,Double> yearMap=null;
+		Map<String,Map<Integer,Double>> terminalsCapacity=new HashMap<String, Map<Integer,Double>>();
+		Map<String,Double> companyStakes=null;
+		if(null==storageCache.getTerminalsYearCapacity())
+		{
+			terminalsYearCapacity=storageCache.createTerminalsYearCapacity();
+			storageCache.setTerminalsYearCapacity(terminalsYearCapacity);
+		}
+		else
+			terminalsYearCapacity=storageCache.getTerminalsYearCapacity();
+		
+		if(null==storageCache.getCompanyStakeForTerminal())
+		{
+			companyStakes=storageCache.createCompanyStakeForTerminal();
+			storageCache.setCompanyStakeForTerminal(companyStakes);
+		}
+		else
+			companyStakes=storageCache.getCompanyStakeForTerminal();
+		
+		for(String terminal:terminals)
+		{
+				yearMap=new HashMap<Integer, Double>();
+				double stake=companyStakes.get(companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase())==null?0:companyStakes.get(companyName.toLowerCase()+UNDERSCORE+terminal.toLowerCase());
+				for(Integer year:years)
+				{				
+					double soc=0;
+					double capacity=terminalsYearCapacity.get(terminal.toLowerCase()+year)==null?0:terminalsYearCapacity.get(terminal.toLowerCase()+year);
+					soc=soc+(capacity*(stake/100));				
+					soc=round(soc,2);
+					yearMap.put(year, soc);					
+				}
+				terminalsCapacity.put(terminal, yearMap);							
+		}
+		return terminalsCapacity;
 	}
 	private List<String> getCompanyTerminals(String company,List<String> selectedTerminals)
 	{

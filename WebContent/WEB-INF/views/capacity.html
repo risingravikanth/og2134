@@ -164,6 +164,10 @@
 									<div class="col-sm-5">
 										<dl class="dl-horizontal">
 											 
+											 <dt ng-if="gridDataList.terminalName != 'na'|| gridDataList.terminalName != 'NA'">Terminal Name</dt>
+											<dd ng-if="gridDataList.terminalName != 'na'|| gridDataList.terminalName != 'NA'">{{ gridDataList.terminalName }} </dd>
+											
+											 
 											<dt ng-if="gridDataList.region != 'na'|| gridDataList.region != 'NA'">Region</dt>
 											<dd ng-if="gridDataList.region != 'na'|| gridDataList.region != 'NA'">{{ gridDataList.region }} </dd>
 											
@@ -228,7 +232,7 @@
 								</div>  
 								<div class="box-header  text-center">
 									 
-									<button type="button" class="btn btn-primary " ng-click="downloadReport()">More Information</button>
+									<a href="/lng/download/terminaldetails"><button type="button" class="btn btn-primary ">More Information</button></a>
 								</div>
 							</div>
 						</div>

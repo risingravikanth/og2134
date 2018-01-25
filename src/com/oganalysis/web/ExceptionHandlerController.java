@@ -12,6 +12,7 @@ public class ExceptionHandlerController {
 	@ResponseBody
 	public String exception(Exception e) {		
 		ExceptionJsonResponse expJson=new ExceptionJsonResponse();
+		System.out.println("Exception in Handler:"+e);
 		return expJson.createErrorMessage().toString();
 	}
 }
