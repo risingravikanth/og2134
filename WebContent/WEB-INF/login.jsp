@@ -88,7 +88,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-2">
-						<div id="fh5co-logo"><a href="index.html"><i class="icon-study"></i>OG Explorer<span>.</span></a></div>
+						<div id="fh5co-logo"><a href="javascript:void(0)"><i class="icon-study"></i>OG Explorer<span>.</span></a></div>
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
@@ -189,7 +189,7 @@
 								<div class="row form-group">
 									<div class="col-md-6">
 										<!-- <label for="fname">First Name</label> -->
-										<input type="text" id="mobile" class="form-control" ng-Model="contactUsObj.mobile" placeholder="Mobile Number">
+										<input type="text" id="mobile" class="form-control" ng-Model="contactUsObj.mobile" placeholder="Mobile Number" required>
 									</div>
 									<div class="col-md-6">
 										<!-- <label for="lname">Last Name</label>  -->
@@ -315,7 +315,7 @@
 							<i class="icon-og-lng"></i>
 						</span>
 						<div class="desc">
-							<h3><a href="#">Lng</a></h3>
+							<h3><a href="#">LNG</a></h3>
 							<!--<p><span class="redtextcolor">300</span>+ terminal details, <span class="redtextcolor">400</span>+ small and medium scale LNG terminals and <span class="redtextcolor">70</span>+ markets analysis, Capital Expenditure Forecasts, Supply Demand Balance Outlook.<!--, Trade, Prices and Market Value Datasets-></p>-->
 								<p>300+ Terminal Details</p>
 								<p>400+ Small and Medium Scale LNG Terminals</p>
@@ -796,7 +796,7 @@
 				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1 fh5co-widget">
 					<h3>Contact us</h3>
 					<ul class="fh5co-footer-links">
-						<li><a href="#">sales@oganalysis.com</a></li>
+						<li><a href="#">sales@ogexplorer.com</a></li>
 						<!--<li><a href="#">Visual Assistant</a></li>
 						<li><a href="#">System Analysis</a></li>
 						<li><a href="#">Advertise</a></li>-->
