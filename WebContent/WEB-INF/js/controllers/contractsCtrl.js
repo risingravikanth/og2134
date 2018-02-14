@@ -524,6 +524,12 @@
  		$rootScope.offshoreModel= [];
  		$rootScope.typeModel= [];
  		$rootScope.sectorModel =[];
+ 		
+ 		$rootScope.exportedCountriesModel =[];
+ 		$rootScope.importedCountriesModel =[];
+ 		$rootScope.exportedCompaniesModel =[];
+ 		$rootScope.importedCompaniesModel =[];
+ 		
  		$rootScope.capacityFilterJSON ={};
  		
  		$scope.noDataAvailable = true;

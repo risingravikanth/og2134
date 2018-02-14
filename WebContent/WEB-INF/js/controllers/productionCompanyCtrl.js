@@ -304,6 +304,7 @@
  		$rootScope.sectorModel =[];
  		$rootScope.assetTypeModel =[];
  		$rootScope.assetUnitModel =[];
+ 		$rootScope.assetCountryModel = [];
  		$rootScope.capacityFilterJSON ={};
  		$scope.CO_unit = "Kb/d";
  		$scope.NG_unit = "Mmcf/d";
@@ -427,6 +428,7 @@
  		$rootScope.sectorModel =[];
  		$rootScope.assetTypeModel =[];
  		$rootScope.assetUnitModel =[];
+ 		$rootScope.assetCountryModel = [];
  		$rootScope.capacityFilterJSON ={};
  		
  		$scope.CO_unit = "Kb/d";

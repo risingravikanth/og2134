@@ -484,7 +484,7 @@
 	}
 	 
 	$rootScope.loadImports = function(item,filterType){
- 		console.log("In filter CTRL",$rootScope.countryModel);
+ 		//console.log("In filter CTRL",$rootScope.countryModel);
  		$scope.importedCountriesData = [];
  		$scope.importedCompaniesData =[];
  		
@@ -519,7 +519,7 @@
    	};
    	
    	$rootScope.onFilterDeSelect = function(item,filterType){
- 		console.log("In filter CTRL",$rootScope.countryModel);
+ 		//console.log("In filter CTRL",$rootScope.countryModel);
  		$scope.generateFormData($rootScope.countryModel,'exportcompany');
  		HttpService.get("/contracts/importcompanies",$rootScope.capacityFilterJSON).then(function(resp) {
  			for(var i=0;i< resp.length;i++){
@@ -538,7 +538,10 @@
     	$scope.locationData = [];
     	$scope.operatorData = [];
     	$scope.ownerData =[];
-     	
+    	
+    	$scope.unitsData =[];
+    	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
+    	
     	HttpService.get('/lng/locations').then(function(resp) {
     		for(var i=0;i< resp.length;i++){
     			var obj = {
@@ -949,7 +952,7 @@
 	
 	
 	openModel = function(){
-		console.log("in model");
+		//console.log("in model");
 		$('#myModal').modal("show")
 		
 	};

@@ -587,7 +587,7 @@
  	$scope.generateFormData = function(ary,key){
 		for(var i=0;i< ary.length; i++){
 			var fromkey = key+i
-			if(key.index('_') != -1){
+			if(key.indexOf('_') != -1){
 				var tempKey = key.split('_');
 			 	if(tempKey[1] == 'singleSelection'){
 					 fromkey = tempKey[0];
