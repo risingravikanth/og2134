@@ -648,7 +648,7 @@
  	 		}else{
  				$rootScope.pdCommodityModel.length =0;
  			}
- 			$scope.generateFormData($rootScope.pdCommodityModel,'singleSelection');
+ 			$scope.generateFormData($rootScope.pdCommodityModel,'commodity_singleSelection');
  		}
  		
  		if($rootScope.filterObj.pdStartPointField == true){

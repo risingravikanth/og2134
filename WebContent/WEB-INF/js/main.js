@@ -144,7 +144,7 @@
   }]);
   
   
-  angular.module('OGAnalysis').controller('FilterCtrl', function($scope,$state,$rootScope,URL,HttpService) {
+  angular.module('OGAnalysis').controller('FilterCtrl', function($scope,$state,$rootScope,URL,HttpService,$location) {
 	console.log("In FilterCtrl ctrl");
 	/*	
 	Region
@@ -431,7 +431,10 @@
 	});
 	 
 	HttpService.get('/type').then(function(resp) {
- 		 
+ 	 	 
+ 		if($location.path() == "/exploration")
+ 			return;
+ 		
 		for(var i=0;i< resp.length;i++){
 			var obj = {
 					id : resp[i].type ,
@@ -538,7 +541,7 @@
     	$scope.locationData = [];
     	$scope.operatorData = [];
     	$scope.ownerData =[];
-    	
+    	$scope.typeData = [];
     	$scope.unitsData =[];
     	$scope.unitsData = [{id: 'BCF', label: "BCF"}];
     	
@@ -575,6 +578,21 @@
     		}
     		$scope.ownerData = $scope.sortedOrder($scope.ownerData);
     	});
+    	 
+    	HttpService.get('/type').then(function(resp) {
+      		
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].type ,
+    					label : resp[i].type
+    			}
+    			$scope.typeData.push(obj);
+    		}
+     		$scope.typeData = $scope.sortedOrder($scope.typeData);
+    	});
+    	
+    	
+    	
     	
     	
     };	
@@ -681,7 +699,7 @@
     	$scope.typeData = [];
     	/* KMs, Miles (Hardcode this values)
 		Type – Onshore, Offshore (Hardcode this values)*/
-    	
+    	//console.log("in /loadExplorationFilter")
     	 
     	$scope.unitsData = [{id: 'KMs', label: "KMs"},{id: 'Miles', label: "Miles"}];
     	$scope.typeData = [{id: 'Onshore', label: "Onshore"},{id: 'Offshore', label: "Offshore"}];
