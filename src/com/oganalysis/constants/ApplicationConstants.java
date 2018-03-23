@@ -249,6 +249,21 @@ public interface ApplicationConstants {
 	public static final String ENDCOUNTRY="endCountry";
 	public static final String RELATION="relation";
 	
+	// SmallScaleLng Tab
+	public static final String OPTION_COMPANY="company";
+	public static final String OPTION_TECHNOLOGYPROVIDER="technologyprovider";
+	public static final String OPTION_TECHNOLOGY="technology";
+	public static final String OPTION_SELECTED_COMPANIES="companies";
+	public static final String OPTION_SELECTED_TECHNOLOGYPROVIDERS="technologyproviders";
+	public static final String OPTION_SELECTED_TECHNOLOGIES="technologies";
+	
+	public static final String RESTRICTION_PROPERTY_COMPANY=OPTION_COMPANY;
+	public static final String RESTRICTION_PROPERTY_TECHNOLOGYPROVIDER="technologyProviderCompany";
+	public static final String RESTRICTION_PROPERTY_TECHNOLOGY=OPTION_TECHNOLOGY;
+	public static final String SMALLSCALELNG_LIQUEFACTION_CAPACITY="liquefactionCapacity";
+	public static final String SMALLSCALELNG_REGASIFICATION_CAPACITY="regasificationCapacity";
+	public static final String SMALLSCALELNG_STORAGE_CAPACITY="storageCapacity";
+	
 	
 	public static final String YEAR2005="2005";
 	public static final String YEAR2006="2006";

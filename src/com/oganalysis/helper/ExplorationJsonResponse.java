@@ -10,8 +10,7 @@ import static com.oganalysis.constants.ApplicationConstants.*;
 public class ExplorationJsonResponse {
 	public String createBlockWiseResponse(List<Map> explorationMapList)
 	{
-		JSONArray explorationArray=new JSONArray();
-		JSONObject expJson=new JSONObject();
+		JSONArray explorationArray=new JSONArray();		
 		for(Map map:explorationMapList)
 		{
 			JSONObject explorationJson=new JSONObject();

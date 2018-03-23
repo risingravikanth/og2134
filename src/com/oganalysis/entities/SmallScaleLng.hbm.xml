@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.oganalysis.entities">
+	<class name="SmallScaleLng" table="smallscalelng">
+		<id name="id">
+			<generator class="increment"/>
+		</id>	
+		<property name="status" type="string"/>
+		<property name="type" type="string"/>
+		<property name="country" type="string"/>
+		<property name="region" type="string"/>
+		<property name="location" type="string"/>
+		<property name="terminalName" type="string"/>
+		<property name="startDate" type="int"/>
+		<property name="company" type="string"/>
+		<property name="technologyProviderCompany" type="string"/>
+		<property name="technology" type="string"/>
+		<property name="liquefactionCapacity" type="double"/>
+		<property name="liquefactionCapcityUnit" type="string"/>
+		<property name="regasificationCapacity" type="double"/>
+		<property name="regasificationCapcityUnit" type="string"/>
+		<property name="bunkeringCapacity" type="double"/>
+		<property name="bunkeringCapacityUnit" type="string"/>
+		<property name="source" type="string"/>
+		<property name="storageCapacity" type="double"/>
+		<property name="epc" type="string"/>
+		<property name="capex" type="double"/>
+		<property name="distributionType" type="string"/>
+		<property name="otherDetails" type="string">
+			<column name="otherDetails" sql-type="longtext"/>
+		</property>
+		<property name="sources" type="string"/>
+		<property name="terminalOtherName" type="string"/>
+		<property name="contactOrEmailId" type="string"/>		
+	</class>
+	
+</hibernate-mapping>	

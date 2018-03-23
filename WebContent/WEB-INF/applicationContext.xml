@@ -65,6 +65,10 @@
 	<bean id="explorationServiceImpl" class="com.oganalysis.service.impl.ExplorationServiceImpl">
 		<property name="explorationBusinessServiceImpl" ref="explorationBusinessServiceImpl"/>				
 	</bean>
+	
+	<bean id="smallScaleLngServiceImpl" class="com.oganalysis.service.impl.SmallScaleLngServiceImpl">
+		<property name="smallScaleLngBusinessServiceImpl" ref="smallScaleLngBusinessServiceImpl"/>				
+	</bean>
 	<!-- Service Layer -->
 	
 	<!-- BusinessServiceImpl -->
@@ -118,6 +122,10 @@
 	
 	<bean id="explorationBusinessServiceImpl" class="com.oganalysis.business.impl.ExplorationBusinessServiceImpl">
 		<property name="explorationDao" ref="explorationDao"/>
+	</bean>
+	
+	<bean id="smallScaleLngBusinessServiceImpl" class="com.oganalysis.business.impl.SmallScaleLngBusinessServiceImpl">
+		<property name="smallScaleLngDao" ref="smallScaleLngDao"/>
 	</bean>
 	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">

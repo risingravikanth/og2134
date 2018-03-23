@@ -61,7 +61,7 @@ public class ExplorationController {
 		Map<String,List<String>> optionsMap=new HashMap<String,List<String>>();
 		List<String> selectedCountries=new ArrayList<String>();
 		List<String> selectedRegions=new ArrayList<String>();
-		List<String> selectedLocations=new ArrayList<String>();
+		List<String> selectedBasins=new ArrayList<String>();
 		List<String> selectedOperators=new ArrayList<String>();
 		List<String> selectedOwners=new ArrayList<String>();
 		List<String> selectedStatuses=new ArrayList<String>();		
@@ -77,7 +77,7 @@ public class ExplorationController {
 			else if(option.contains(OPTION_COUNTRY))			
 				selectedCountries.add(request.getParameter(option));
 			else if(option.contains(OPTION_BASIN))
-				selectedLocations.add(request.getParameter(option));
+				selectedBasins.add(request.getParameter(option));
 			else if(option.contains(OPTION_OPERATOR))
 				selectedOperators.add(request.getParameter(option));
 			else if(option.contains(OPTION_OWNER))
@@ -94,7 +94,7 @@ public class ExplorationController {
 			
 			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
 			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);			
-			optionsMap.put(OPTION_SELECTED_BASINS,selectedLocations);
+			optionsMap.put(OPTION_SELECTED_BASINS,selectedBasins);
 			optionsMap.put(OPTION_SELECTED_OPERATORS,selectedOperators);
 			optionsMap.put(OPTION_SELECTED_OWNERS,selectedOwners);
 			optionsMap.put(OPTION_SELECTED_STATUSES,selectedStatuses);
