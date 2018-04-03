@@ -88,6 +88,8 @@
 	<script src="./js/controllers/commonCtrl.js"></script>
 	<script src="./js/controllers/capacityCtrl.js"></script>
 	<script src="./js/controllers/contractsCtrl.js"></script>
+	<script src="./js/controllers/smallscaleCtrl.js"></script>
+	
 	<script src="./js/controllers/infrastructureCtrl.js"></script>
 	<script src="./js/controllers/supplyDemandCtrl.js"></script>
 	<script src="./js/controllers/refineriesCtrl.js"></script>
@@ -238,6 +240,8 @@
              <li><a class="side-item" href="#/lng/infrastructure"><i class="fa fa-circle-o"></i> Infrastructure</a></li>
               <li><a class="side-item" href="#/lng/supplydemand"><i class="fa fa-circle-o"></i> Supply & Demand</a></li>
                <li><a class="side-item" href="#/lng/contracts"><i class="fa fa-circle-o"></i> Contracts </a></li>
+               <li><a class="side-item" href="#/lng/smallscale"><i class="fa fa-circle-o"></i> Small Scale LNG </a></li>
+               
             </ul>
         </li>
 		
@@ -378,6 +382,30 @@
 				</label>
 				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetCountryData" selected-model="assetCountryModel"  extra-settings="assetCountrySettings" ></div>
 			</div>
+			
+			
+			<div class="form-group" ng-show="filterObj.companyField">
+				<label class="control-sidebar-subheading">
+						Company
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="companyData" selected-model="companyModel"  extra-settings="companySettings" ></div>
+			</div>	
+			
+			<div class="form-group" ng-show="filterObj.technologyProviderField">
+				<label class="control-sidebar-subheading">
+						Technology Provider
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyProviderData" selected-model="technologyProviderModel"  extra-settings="technologyProviderSettings" ></div>
+			</div>	
+			
+			<div class="form-group" ng-show="filterObj.technologyField">
+				<label class="control-sidebar-subheading">
+						Technology
+				</label>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyData" selected-model="technologyModel"  extra-settings="technologySettings" ></div>
+			</div>	
+			
+			
 			
 			<div class="form-group" ng-show="filterObj.basinField">
 				<label class="control-sidebar-subheading">

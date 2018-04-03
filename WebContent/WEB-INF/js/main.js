@@ -48,6 +48,11 @@
         templateUrl: 'views/supplydemand.html',
 		controller:"SupplyDemandCtrl"
 	  })
+	  .state('lng/smallscale', {
+        url:'/lng/smallscale',
+        templateUrl: 'views/smallscale.html',
+		controller:"SmallScaleCtrl"
+	  })
 	  
 	  
 	  
@@ -194,6 +199,34 @@
 	$scope.regionEvents = {
 		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'region') }
 	};
+	
+	/* company  filter */
+	$scope.companyData = [];
+	$rootScope.companyModel = [];
+	$scope.companySettings = {enableSearch: true,scrollable:true};
+	$scope.companyEvents = {
+		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'company') }
+	};
+	
+	/* technologyProvider   filter */
+	$scope.technologyProviderData = [];
+	$rootScope.technologyProviderModel = [];
+	$scope.technologyProviderSettings = {enableSearch: true,scrollable:true};
+	$scope.technologyProviderEvents = {
+		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'technologyProvider') }
+	};
+	
+	/* technologyField   filter */
+	$scope.technologyData = [];
+	$rootScope.technologyModel = [];
+	$scope.technologySettings = {enableSearch: true,scrollable:true};
+	$scope.technologyEvents = {
+		onItemSelect: function(item) { $rootScope.onFilterSelect(item,'technology') }
+	};
+	
+	 
+	
+	
 	
 	/* country filter */
 	$scope.countryData = [];
@@ -356,6 +389,9 @@
 		offshoreField : true,
 		typeField :true,
 		sectorField :true,
+		companyField : false,
+		technologyProviderField :false,
+		technologyField :false,
 		imports: false,
 		exports: false,
 		assetTypeField :false,
@@ -728,6 +764,109 @@
     	});
     }
     
+    
+    $rootScope.loadSmallScaleFilter = function(){
+    	
+    	 $scope.regionData =[];
+    	 $scope.countryData =[];
+    	 $scope.locationData =[];
+     	 $scope.statusData =[];
+    	 $scope.typeData = [];
+    	 
+    	
+    	HttpService.get('/smallscalelng/regions').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].region ,
+    					label : resp[i].region
+    			}
+    			$scope.regionData.push(obj);
+     		}
+    		$scope.regionData = $scope.sortedOrder($scope.regionData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/countries').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].country ,
+    					label : resp[i].country
+    			}
+    			$scope.countryData.push(obj);
+     		}
+    		$scope.countryData = $scope.sortedOrder($scope.countryData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/locations').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].location ,
+    					label : resp[i].location
+    			}
+    			$scope.locationData.push(obj);
+     		}
+    		$scope.locationData = $scope.sortedOrder($scope.locationData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/statuses').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].status ,
+    					label : resp[i].status
+    			}
+    			$scope.statusData.push(obj);
+     		}
+    		$scope.statusData = $scope.sortedOrder($scope.statusData);
+    	});
+    	
+    	
+    	HttpService.get('/smallscalelng/types').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].type ,
+    					label : resp[i].type
+    			}
+    			$scope.typeData.push(obj);
+     		}
+    		$scope.typeData = $scope.sortedOrder($scope.typeData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/companies').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].company ,
+    					label : resp[i].company
+    			}
+    			$scope.companyData.push(obj);
+     		}
+    		$scope.companyData = $scope.sortedOrder($scope.companyData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/technologyproviders').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].technologyprovider ,
+    					label : resp[i].technologyprovider
+    			}
+    			$scope.technologyProviderData.push(obj);
+     		}
+    		$scope.technologyProviderData = $scope.sortedOrder($scope.technologyProviderData);
+    	});
+    	
+    	HttpService.get('/smallscalelng/technologies').then(function(resp) {
+    		for(var i=0;i< resp.length;i++){
+    			var obj = {
+    					id : resp[i].technology ,
+    					label : resp[i].technology
+    			}
+    			$scope.technologyData.push(obj);
+     		}
+    		$scope.technologyData = $scope.sortedOrder($scope.technologyData);
+    	});
+    	
+    	 
+    	
+    	
+    };	
     
     
 
@@ -1102,6 +1241,11 @@
  		$rootScope.assetTypeModel =[];
  		$rootScope.assetUnitModel =[];
  		$scope.formDataJSON ={};
+ 		
+ 		
+ 		$rootScope.companyModel =[];
+ 		$rootScope.technologyProviderModel = [];
+ 		$rootScope.technologyModel =[];
  		
  		
  		if($scope.url != ''){
