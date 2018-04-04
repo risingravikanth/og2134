@@ -2,6 +2,7 @@ package com.oganalysis.business.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,9 +77,19 @@ public class RefineriesInfraBusinessServiceImpl implements
 		for(Refinery refinery:terminalData)
 		{
 			if(null!=refinery.getStartYear())
-				sb.append(refinery.getStartYear()).append(COMMA);
+				sb.append(getYearFromDate(refinery.getStartYear())).append(COMMA);
 		}
+		if(sb.length()>0)
+			removeCommaAtEnd(sb);
 		return new String(sb);
+	}
+	private String getYearFromDate(Date date)
+	{
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		int year=cal.get(Calendar.YEAR);
+		return String.valueOf(year);
+		
 	}
 	private String getOperator(List<Refinery> terminalData)
 	{
@@ -88,6 +99,8 @@ public class RefineriesInfraBusinessServiceImpl implements
 			if(null!=refinery.getCurrentOperator() && !(BLANK).equalsIgnoreCase(refinery.getCurrentOperator()))
 				sb.append(refinery.getCurrentOperator()).append(COMMA);
 		}
+		if(sb.length()>0)
+			removeCommaAtEnd(sb);
 		return new String(sb);
 	}
 	private void addTerminalCapacities(Map<String,String> terminalMap,List<Refinery> terminalData)
@@ -126,6 +139,10 @@ public class RefineriesInfraBusinessServiceImpl implements
 //		}
 //		return refineryData;
 //	}
+	private void removeCommaAtEnd(StringBuffer inputString)
+	{
+		inputString.deleteCharAt(inputString.length()-1);
+	}
 	private int getPreviousYear()
 	{
 		Calendar c=Calendar.getInstance();

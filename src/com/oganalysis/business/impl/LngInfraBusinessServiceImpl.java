@@ -23,6 +23,7 @@ import static com.oganalysis.constants.ApplicationConstants.UNDERCONSTRUCTION;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -148,7 +149,7 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 				
 				terminalMap.put(TERMINALNAME, lng.getName());
 				terminalMap.put(STATUS, lng.getStatus());
-				terminalMap.put(STARTYEAR, lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK); // This one need to check
+				terminalMap.put(STARTYEAR, getYearFromDate(lng.getExpectedStartYear()));//lng.getExpectedStartYear()!=null?lng.getExpectedStartYear().toString():BLANK); // This one need to check
 				terminalMap.put(LOCATION, lng.getArea());
 				terminalMap.put(TECHNOLOGY,getTechnologyDetails(terminalData).toString());// This one also check once;
 				terminalMap.put(TRAIN,String.valueOf(getNumberOfTrainsOrVaporizers(terminalData)));//This one also need to check;
@@ -160,6 +161,14 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 			
 		}					
 		return infrastructureTerminalMap;
+	}
+	private String getYearFromDate(Date date)
+	{
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		int year=cal.get(Calendar.YEAR);
+		return String.valueOf(year);
+		
 	}
 	private StringBuffer getOperator(String terminalName,String type)
 	{
