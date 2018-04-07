@@ -776,6 +776,7 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
+	
 	public LngDao getLngDao() {
 		return lngDao;
 	}
@@ -787,6 +788,41 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 	}
 	public void setLngCache(LngCache lngCache) {
 		this.lngCache = lngCache;
+	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return lngDao.getRegions();
+	}
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return lngDao.getCountries();
+	}
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		return lngDao.getStatus();
+	}
+	@Override
+	public List<String> getType() {
+		// TODO Auto-generated method stub
+		return lngDao.getType();
+	}
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		return lngDao.getLocations();
+	}
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		return lngDao.getOperators();
+	}
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		return lngDao.getOwners();
 	}
 	
 }

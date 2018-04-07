@@ -3,6 +3,10 @@ package com.oganalysis.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.LngFilter;
 
@@ -14,9 +18,15 @@ public interface LngDao {
 	List<Lng> getTerminalData(String terminalName,String type);
 	
 	//Below is for filters
+	
+	List<String> getRegions();
+	List<String> getCountries();
+	List<String> getStatus();
+	List<String> getType();	
 	List<String> getLocations();
 	List<String> getOperators();
 	List<String> getOwners();
+	
 				
 	List<String> getSelectedCompanies(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);
 	List<String> getSelectedCountries(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);

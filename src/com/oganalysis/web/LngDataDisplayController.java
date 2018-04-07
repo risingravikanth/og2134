@@ -84,6 +84,64 @@ public class LngDataDisplayController {
 		}			
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	public String getRegionsList()
+	{			
+		
+		String response=lngDataServiceImpl.getRegions();		
+		return response;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{			
+		
+		String response=lngDataServiceImpl.getCountries();		
+		return response;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/status",method={RequestMethod.GET})
+	public String getStatus()
+	{			
+		
+		String response=lngDataServiceImpl.getStatus();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/type",method={RequestMethod.GET})
+	public String getType()
+	{			
+		
+		String response=lngDataServiceImpl.getType();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/locations",method={RequestMethod.GET})
+	public String getLngLocations()
+	{			
+		
+		String response=lngDataServiceImpl.getLocations();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/operators",method={RequestMethod.GET})
+	public String getLngOperators()
+	{			
+		
+		String response=lngDataServiceImpl.getOperators();		
+		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/owners",method={RequestMethod.GET})
+	public String getLngOwners()
+	{			
+		
+		String response=lngDataServiceImpl.getOwners();		
+		return response;
+	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 		

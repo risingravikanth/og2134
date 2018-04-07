@@ -18,5 +18,15 @@ public interface LngCapacityBusinessService {
 	
 	public Map getTerminalData(String recordName,String type);
 	
+	//Below is for filters
+	
+		List<String> getRegions();
+		List<String> getCountries();
+		List<String> getStatus();
+		List<String> getType();	
+		List<String> getLocations();
+		List<String> getOperators();
+		List<String> getOwners();
+	
 
 }

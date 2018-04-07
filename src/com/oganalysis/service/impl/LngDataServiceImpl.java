@@ -16,7 +16,12 @@ import org.json.simple.JSONObject;
 
 import com.oganalysis.business.LngCapacityBusinessService;
 import com.oganalysis.business.LngInfraBusinessService;
+import com.oganalysis.entities.source.Countries;
+import com.oganalysis.entities.source.Region;
+import com.oganalysis.entities.source.Status;
+import com.oganalysis.entities.source.Type;
 import com.oganalysis.excel.LngExcel;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.LngJsonResponse;
 import com.oganalysis.service.LngDataService;
 
@@ -143,7 +148,69 @@ public class LngDataServiceImpl implements LngDataService{
 		infrastructureDataRes=lngJsonResponse.createInfrastructureRes(infrastructureMap);
 		return infrastructureDataRes;
 	}
-
+	@Override
+	public String getRegions() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<String> regionsList=lngCapacityBusinessServiceImpl.getRegions();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createRegionsResponse(regionsList);
+		return jsonRes;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createCountriesResponse(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getStatus() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<String> statusList=lngCapacityBusinessServiceImpl.getStatus();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createStatusResponse(statusList);
+		return jsonRes;
+	}
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Type> typeList=lngCapacityBusinessServiceImpl.getType();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createTypeResponse(typeList);
+		return jsonRes;
+	}
+	@Override
+	public String getLocations() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> locationsList=lngCapacityBusinessServiceImpl.getLocations();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createLocationsResponse(locationsList);
+		return jsonRes;
+	}
+	@Override
+	public String getOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorList=lngCapacityBusinessServiceImpl.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorList);
+		return jsonRes;
+	}
+	@Override
+	public String getOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=lngCapacityBusinessServiceImpl.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
+	}
 	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
 		return lngCapacityBusinessServiceImpl;
 	}
@@ -161,6 +228,7 @@ public class LngDataServiceImpl implements LngDataService{
 	public void setLngExcel(LngExcel lngExcel) {
 		this.lngExcel = lngExcel;
 	}
+	
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.oganalysis.dao.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,98 @@ public class LngDaoImpl implements LngDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {		
 		this.sessionFactory=sessionFactory;
 	}
-		
+	
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct region from Lng where region!=' ' order by region asc");
+			regions=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> countries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countries=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from Lng where country!=' ' order by country asc");
+			countries=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return countries;
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> statuses=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			statuses=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct status from Lng where status!=' ' order by status asc");
+			statuses=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return statuses;
+	}
+
+	@Override
+	public List<String> getType() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> types=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			types=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct type from Lng where type!=' ' order by type asc");
+			types=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return types;
+	}
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
 	public List<String> getLocations() {
@@ -41,7 +133,7 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			locations=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct area from Lng order by area asc");
+			Query query=session.createQuery("select distinct area from Lng where area!=' ' order by area asc");
 			locations=(List<String>)query.list();
 			tx.commit();
 		}
@@ -576,5 +668,6 @@ public class LngDaoImpl implements LngDao {
 		}			
 		return terminals;
 	}
+
 	
 }
