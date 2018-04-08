@@ -190,7 +190,7 @@ public class ContractsDaoImpl implements ContractsDao {
 			Transaction tx=session.beginTransaction();
 			importCountries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct importCountry from ContractsFilter where exportCountry in (:exportCountries)");
+			Query query=session.createQuery("select distinct importCountry from ContractsFilter where exportCountry in (:exportCountries) order by importCountry asc");
 			query.setParameterList(RESTRICTION_PROPERTY_EXPORTCOUNTRIES, exportCountries);
 			importCountries=query.list();
 			tx.commit();
@@ -213,7 +213,7 @@ public class ContractsDaoImpl implements ContractsDao {
 			Transaction tx=session.beginTransaction();
 			importCompanies=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct importCompany from ContractsFilter where exportCompany in (:exportCompanies)");
+			Query query=session.createQuery("select distinct importCompany from ContractsFilter where exportCompany in (:exportCompanies) order by importCompany asc");
 			query.setParameterList(RESTRICTION_PROPERTY_EXPORTCOMPANIES, exportCompanies);
 			importCompanies=query.list();
 			tx.commit();
@@ -236,7 +236,7 @@ public class ContractsDaoImpl implements ContractsDao {
 			Transaction tx=session.beginTransaction();
 			exportCompanies=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct exportCompany from ContractsFilter order by exportCompany asc");		
+			Query query=session.createQuery("select distinct exportCompany from ContractsFilter where exportCompany!=' ' order by exportCompany asc");		
 			exportCompanies=query.list();
 			tx.commit();
 		}
@@ -336,7 +336,7 @@ public class ContractsDaoImpl implements ContractsDao {
 			Transaction tx=session.beginTransaction();
 			exportCountries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct exportCountry from ContractsFilter order by exportCountry asc");		
+			Query query=session.createQuery("select distinct exportCountry from ContractsFilter where exportCountry!=' ' order by exportCountry asc");		
 			exportCountries=query.list();
 			tx.commit();
 		}

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.oganalysis.business.ContractsBusinessService;
 import com.oganalysis.helper.ContractsJsonResponse;
 import com.oganalysis.service.ContractsService;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class ContractsServiceImpl implements ContractsService {
@@ -94,6 +95,14 @@ public class ContractsServiceImpl implements ContractsService {
 		String importCompaniesRes=contractsJsonResponse.createExportCompanies(exportCompanies);
 		return importCompaniesRes;
 	}
+	@Override
+	public String getExportCountries() {
+		// TODO Auto-generated method stub
+		List<String> exportCountries=contractsBusinessServiceImpl.getExportCountries();
+		ContractsJsonResponse contractsJsonResponse=new ContractsJsonResponse();
+		String exportCountriesRes=contractsJsonResponse.createExportCountries(exportCountries);
+		return exportCountriesRes;
+	}
 	public ContractsBusinessService getContractsBusinessServiceImpl() {
 		return contractsBusinessServiceImpl;
 	}
@@ -101,11 +110,5 @@ public class ContractsServiceImpl implements ContractsService {
 			ContractsBusinessService contractsBusinessServiceImpl) {
 		this.contractsBusinessServiceImpl = contractsBusinessServiceImpl;
 	}
-
-	
-
-	
-
-	
 	
 }

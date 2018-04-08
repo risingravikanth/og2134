@@ -203,6 +203,11 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	{
 		return contractsDao.getExportCompanies();
 	}
+	@Override
+	public List<String> getExportCountries() {
+		// TODO Auto-generated method stub
+		return contractsDao.getExportCountries();
+	}
 	private List<Integer> getSelectedYears(int startDate,int endDate)
 	{
 		List<Integer> years=new ArrayList<Integer>();
@@ -287,9 +292,6 @@ public class ContractsBusinessServiceImpl implements ContractsBusinessService {
 	public void setContractsCache(ContractsCache contractsCache) {
 		this.contractsCache = contractsCache;
 	}
-	
-	
-
 	
 	
 }

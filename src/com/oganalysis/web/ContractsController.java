@@ -63,8 +63,7 @@ public class ContractsController {
 		String response=null;
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);				
 		List<String> exportCountries=selectedOptions.get(OPTION_SELECTED_EXPORT_COUNTRIES);			
-		response=contractsServiceImpl.getImportCountries(exportCountries);
-		
+		response=contractsServiceImpl.getImportCountries(exportCountries);		
 		return response;
 	}
 	@ResponseBody
@@ -81,11 +80,14 @@ public class ContractsController {
 	@ResponseBody
 	@RequestMapping(value="/exportcompanies",method={RequestMethod.GET})
 	public String getExportCompanies(HttpServletRequest req)
-	{
-		
-		String response=null;					
-		response=contractsServiceImpl.getExportCompanies();		
-		return response;
+	{				
+		return contractsServiceImpl.getExportCompanies();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/exportcountries",method={RequestMethod.GET})
+	public String getExportCountries(HttpServletRequest req)
+	{						
+		return contractsServiceImpl.getExportCountries();				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

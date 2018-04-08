@@ -13,6 +13,7 @@ public interface ContractsBusinessService {
 	public List<String> getImportCountries(List<String> exportCountries);
 	public List<String> getImportCompanies(List<String> exportCompanies);
 	public List<String> getExportCompanies();
+	public List<String> getExportCountries();
 	
 //	public Map<String,Map<Integer,Double>> getQuantitiesForRecord(Map<String,List<String>>selectedOptions,int startDate, int endDate,String displayType,String recordName);
 }

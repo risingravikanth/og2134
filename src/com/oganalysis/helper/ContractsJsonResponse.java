@@ -183,6 +183,31 @@ public class ContractsJsonResponse {
 			response=BLANK;
 		return response;
 	}
+	public String createExportCountries(List<String> exportCountries)
+	{
+		String response=null;
+		if(exportCountries.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String country:exportCountries)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();
+				 							
+				  				  			 
+				  jsonObj.put(COUNTRY,country);
+				  						      			      
+			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
 	private double round(double value, int places) {	    
 
 	    long factor = (long) Math.pow(10, places);
