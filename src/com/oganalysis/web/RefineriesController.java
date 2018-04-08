@@ -80,6 +80,43 @@ public class RefineriesController {
 		}					
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	public String getRegions()
+	{					
+		return refineriesServiceImpl.getRegions();				
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{					
+		return refineriesServiceImpl.getCountries();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/status",method={RequestMethod.GET})
+	public String getStatus()
+	{					
+		return refineriesServiceImpl.getStatus();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/locations",method={RequestMethod.GET})
+	public String getLocations()
+	{					
+		return refineriesServiceImpl.getLocations();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/operators",method={RequestMethod.GET})
+	public String getOperators()
+	{					
+		return refineriesServiceImpl.getOperators();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/owners",method={RequestMethod.GET})
+	public String getOwners()
+	{					
+		return refineriesServiceImpl.getOwners();				
+	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response)  {
 		 		

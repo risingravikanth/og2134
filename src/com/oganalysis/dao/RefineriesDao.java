@@ -33,9 +33,12 @@ public interface RefineriesDao {
 	//Infra
 	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions);
 	//filters
+	public List<String> getRegions();	
+	public List<String> getStatus();
 	public List<String> getLocations();
 	public List<String> getOperators();
 	public List<String> getOwners();
+	
 	
 			
 }

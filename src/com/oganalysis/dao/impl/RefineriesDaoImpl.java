@@ -398,7 +398,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from RefineriesFilter order by country asc");			
+			Query query=session.createQuery("select distinct country from RefineriesFilter where country!=' ' order by country asc");			
 			countries=(List<String>)query.list();
 			tx.commit();
 		}
@@ -527,6 +527,50 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		}			
 		return owners;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct region from Refinery where region!=' ' order by region asc");
+			regions=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> status=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			status=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct status from Refinery where status!=' ' order by status asc");
+			status=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return status;
+	}
 	private List<String> getEmptyList()
 	{
 		List<String> emptyList=new ArrayList<String>();
@@ -540,5 +584,6 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 								
 }

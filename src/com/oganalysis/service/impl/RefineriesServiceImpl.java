@@ -13,7 +13,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.oganalysis.business.RefineriesCapacityBusinessService;
 import com.oganalysis.business.RefineriesInfraBusinessService;
+import com.oganalysis.entities.source.Countries;
+import com.oganalysis.entities.source.Region;
+import com.oganalysis.entities.source.Status;
 import com.oganalysis.excel.RefineriesExcel;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.RefineriesJsonResponse;
 import com.oganalysis.service.RefineriesService;
 
@@ -92,6 +96,60 @@ public class RefineriesServiceImpl implements RefineriesService {
 		infrastructureDataRes=jsonResponse.createInfrastructureRes(refineriesInfra);
 		return infrastructureDataRes;
 	}
+	@Override
+	public String getRegions() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Region> regionsList=refineriesCapacityBusinessServiceImpl.getRegions();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createRegionsResponse(regionsList);
+		return jsonRes;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Countries> countriesList=refineriesCapacityBusinessServiceImpl.getCountries();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createCountriesResponse(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getStatus() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Status> statusList=refineriesCapacityBusinessServiceImpl.getStatus();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createStatusResponse(statusList);
+		return jsonRes;
+	}
+	@Override
+	public String getLocations() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> locationsList=refineriesCapacityBusinessServiceImpl.getLocations();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createLocationsResponse(locationsList);
+		return jsonRes;
+	}
+	@Override
+	public String getOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorList=refineriesCapacityBusinessServiceImpl.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorList);
+		return jsonRes;
+	}
+	@Override
+	public String getOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=refineriesCapacityBusinessServiceImpl.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
+	}		
 	public RefineriesCapacityBusinessService getRefineriesCapacityBusinessServiceImpl() {
 		return refineriesCapacityBusinessServiceImpl;
 	}
@@ -108,6 +166,6 @@ public class RefineriesServiceImpl implements RefineriesService {
 	}
 	public void setRefineriesExcel(RefineriesExcel refineriesExcel) {
 		this.refineriesExcel = refineriesExcel;
-	}		
-	
+	}
+		
 }

@@ -1005,6 +1005,41 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 		}
 		return countryTerminals;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getRegions();
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getCountries();
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getStatus();
+	}
+
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getLocations();
+	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getOperators();
+	}
+
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		return refineriesDao.getOwners();
+	}
 	public RefineriesDao getRefineriesDao() {
 		return refineriesDao;
 	}
@@ -1020,8 +1055,6 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	public void setRefineriesCache(RefineriesCache refineriesCache) {
 		this.refineriesCache = refineriesCache;
 	}
-
-	
 
 	
 	
