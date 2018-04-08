@@ -2,12 +2,12 @@ package com.oganalysis.dao.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -92,7 +92,51 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 		}
 		
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct region from SupplyDemand where region!=' ' order by region asc");
+			regions=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
 
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> countries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countries=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from SupplyDemand where country!=' ' order by country asc");
+			countries=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return countries;
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -100,5 +144,7 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	
 	
 }

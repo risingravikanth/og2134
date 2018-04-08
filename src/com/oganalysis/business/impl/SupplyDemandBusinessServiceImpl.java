@@ -8,6 +8,7 @@ import java.util.Map;
 import com.oganalysis.business.SupplyDemandBusinessService;
 import com.oganalysis.dao.SupplyDemandDao;
 import com.oganalysis.entities.SupplyDemand;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class SupplyDemandBusinessServiceImpl implements
@@ -61,11 +62,21 @@ public class SupplyDemandBusinessServiceImpl implements
 		}
 		return sdList;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return supplyDemandDao.getRegions();
+	}
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return supplyDemandDao.getCountries();
+	}
 	public SupplyDemandDao getSupplyDemandDao() {
 		return supplyDemandDao;
 	}
 	public void setSupplyDemandDao(SupplyDemandDao supplyDemandDao) {
 		this.supplyDemandDao = supplyDemandDao;
 	}
-	
+		
 }

@@ -13,18 +13,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 import com.oganalysis.service.SupplyDemandService;
 
 @Controller
+@RequestMapping("/supplyDemand")
 public class SupplyDemandController {
 	
 	@Autowired
 	private SupplyDemandService supplyDemandServiceImpl;
 	
 	@ResponseBody
-	@RequestMapping(value="/supplyDemand",method={RequestMethod.GET})
+	@RequestMapping(method={RequestMethod.GET})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
 		String response=LOGIN;
@@ -37,6 +39,18 @@ public class SupplyDemandController {
 			response=supplyDemandServiceImpl.getSupplyDemandData(selectedOptions, startDate, endDate, displayType);
 		}		
 		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	public String getRegions()
+	{					
+		return supplyDemandServiceImpl.getRegions();				
+	}	
+	@ResponseBody
+	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{					
+		return supplyDemandServiceImpl.getCountries();				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
