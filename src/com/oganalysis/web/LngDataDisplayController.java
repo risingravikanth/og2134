@@ -86,61 +86,45 @@ public class LngDataDisplayController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/regions",method={RequestMethod.GET})
-	public String getRegionsList()
-	{			
-		
-		String response=lngDataServiceImpl.getRegions();		
-		return response;
-	}
-	
+	public String getRegions()
+	{					
+		return lngDataServiceImpl.getRegions();				
+	}	
 	@ResponseBody
 	@RequestMapping(value="/countries",method={RequestMethod.GET})
 	public String getCountries()
-	{			
-		
-		String response=lngDataServiceImpl.getCountries();		
-		return response;
-	}
-	
+	{					
+		return lngDataServiceImpl.getCountries();				
+	}	
 	@ResponseBody
 	@RequestMapping(value="/status",method={RequestMethod.GET})
 	public String getStatus()
-	{			
-		
-		String response=lngDataServiceImpl.getStatus();		
-		return response;
+	{					
+		return lngDataServiceImpl.getStatus();				
 	}
 	@ResponseBody
 	@RequestMapping(value="/type",method={RequestMethod.GET})
 	public String getType()
-	{			
-		
-		String response=lngDataServiceImpl.getType();		
-		return response;
+	{					
+		return lngDataServiceImpl.getType();				
 	}
 	@ResponseBody
 	@RequestMapping(value="/locations",method={RequestMethod.GET})
 	public String getLngLocations()
-	{			
-		
-		String response=lngDataServiceImpl.getLocations();		
-		return response;
+	{					
+		return lngDataServiceImpl.getLocations();				
 	}
 	@ResponseBody
 	@RequestMapping(value="/operators",method={RequestMethod.GET})
 	public String getLngOperators()
-	{			
-		
-		String response=lngDataServiceImpl.getOperators();		
-		return response;
+	{					
+		return lngDataServiceImpl.getOperators();				
 	}
 	@ResponseBody
 	@RequestMapping(value="/owners",method={RequestMethod.GET})
 	public String getLngOwners()
-	{			
-		
-		String response=lngDataServiceImpl.getOwners();		
-		return response;
+	{					
+		return lngDataServiceImpl.getOwners();			
 	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
