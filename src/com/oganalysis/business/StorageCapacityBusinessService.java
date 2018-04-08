@@ -11,4 +11,11 @@ public interface StorageCapacityBusinessService {
 	public Map<String,Map<Integer,Double>> getModalCapacityForRecord(Map<String,List<String>>selectedOptions,int startYear,int endYear,String displayType,String recordName);
 	public Map getTerminalData(String recordName);
 	
+	public List<String> getRegions();
+	public List<String> getCountries();
+	public List<String> getStatus();	
+	public List<String> getLocations();	
+	public List<String> getOperators();	
+	public List<String> getOwners();
+	
 }

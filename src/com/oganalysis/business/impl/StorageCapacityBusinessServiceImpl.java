@@ -380,6 +380,41 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 		}
 		return countryTerminals;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return storageDao.getRegions();
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return storageDao.getCountries();
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		return storageDao.getStatus();
+	}
+
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		return storageDao.getLocations();
+	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		return storageDao.getOperators();
+	}
+
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		return storageDao.getOwners();
+	}
 	private List<Integer> getSelectedYears(int startYear,int endYear)
 	{
 		List<Integer> years=new ArrayList<Integer>();
@@ -402,5 +437,7 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	public void setStorageDao(StorageDao storageDao) {
 		this.storageDao = storageDao;
 	}
+
+	
 	
 }

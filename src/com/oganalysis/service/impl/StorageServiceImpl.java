@@ -13,7 +13,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.oganalysis.business.StorageCapacityBusinessService;
 import com.oganalysis.business.StorageInfraBusinessService;
+import com.oganalysis.entities.source.Countries;
+import com.oganalysis.entities.source.Region;
+import com.oganalysis.entities.source.Status;
 import com.oganalysis.excel.StorageExcel;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.StorageJsonResponse;
 import com.oganalysis.service.StorageService;
 
@@ -86,6 +90,60 @@ public class StorageServiceImpl implements StorageService {
 		StorageJsonResponse jsonResponse=new StorageJsonResponse();
 		infrastructureDataRes=jsonResponse.createInfrastructureRes(storageInfra);
 		return infrastructureDataRes;
+	}
+	@Override
+	public String getRegions() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Region> regionsList=storageCapacityBusinessServiceImpl.getRegions();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createRegionsResponse(regionsList);
+		return jsonRes;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Countries> countriesList=storageCapacityBusinessServiceImpl.getCountries();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createCountriesResponse(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getStatus() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Status> statusList=storageCapacityBusinessServiceImpl.getStatus();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createStatusResponse(statusList);
+		return jsonRes;
+	}
+	@Override
+	public String getLocations() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> locationsList=storageCapacityBusinessServiceImpl.getLocations();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createLocationsResponse(locationsList);
+		return jsonRes;
+	}
+	@Override
+	public String getOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorList=storageCapacityBusinessServiceImpl.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorList);
+		return jsonRes;
+	}
+	@Override
+	public String getOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=storageCapacityBusinessServiceImpl.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
 	}
 	@Override
 	public Workbook getExcelTerminalData(String recordName,InputStream is) {

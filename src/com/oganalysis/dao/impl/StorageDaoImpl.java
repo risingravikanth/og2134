@@ -98,7 +98,51 @@ public class StorageDaoImpl implements StorageDao{
 		}			
 		return owners;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct region from Storage where region!=' ' order by region asc");
+			regions=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
 
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> status=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			status=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct status from Storage where status!=' ' order by status asc");
+			status=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return status;
+	}
 	@Override
 	public List<String> getSelectedCompanies(
 			Map<String, List<String>> selectedOptions, int startYear,
@@ -355,7 +399,7 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from StorageFilter order by country asc");			
+			Query query=session.createQuery("select distinct country from StorageFilter where country!=' ' order by country asc");			
 			countries=(List<String>)query.list();
 			tx.commit();
 		}
