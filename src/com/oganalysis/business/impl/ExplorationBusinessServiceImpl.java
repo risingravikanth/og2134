@@ -46,6 +46,7 @@ public class ExplorationBusinessServiceImpl implements
 		
 		return expMapList;
 	}
+	
 	private List<String> getBlockNo(List<Exploration> explorationList)
 	{
 		List<String> blockNos=new ArrayList<String>();
@@ -109,6 +110,48 @@ public class ExplorationBusinessServiceImpl implements
 	}
 	public void setExplorationDao(ExplorationDao explorationDao) {
 		this.explorationDao = explorationDao;
+	}
+
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return explorationDao.getRegions();
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return explorationDao.getCountries();
+	}
+
+	@Override
+	public List<String> getBasins() {
+		// TODO Auto-generated method stub
+		return explorationDao.getBasins();
+	}
+
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		return explorationDao.getOwners();
+	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		return explorationDao.getOperators();
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		return explorationDao.getStatus();
+	}
+
+	@Override
+	public List<String> getType() {
+		// TODO Auto-generated method stub
+		return explorationDao.getType();
 	}
 		
 	

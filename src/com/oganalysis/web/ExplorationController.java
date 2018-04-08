@@ -55,6 +55,48 @@ public class ExplorationController {
 		}						
 		return response;
 	}
+	@ResponseBody
+	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	public String getRegions()
+	{			
+		return explorationServiceImpl.getRegions();		
+	}	
+	@ResponseBody
+	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{					
+		return explorationServiceImpl.getCountries();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/basins",method={RequestMethod.GET})
+	public String getBasins()
+	{					
+		return explorationServiceImpl.getBasins();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/owners",method={RequestMethod.GET})
+	public String getOwners()
+	{					
+		return explorationServiceImpl.getOwners();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/operators",method={RequestMethod.GET})
+	public String getOperators()
+	{					
+		return explorationServiceImpl.getOperators();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/status",method={RequestMethod.GET})
+	public String getStatus()
+	{					
+		return explorationServiceImpl.getStatus();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/type",method={RequestMethod.GET})
+	public String getType()
+	{				
+		return explorationServiceImpl.getType();				
+	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

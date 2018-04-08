@@ -179,5 +179,97 @@ public class ExplorationDaoImpl implements ExplorationDao {
 		}			
 		return operators;
 	}
+
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct region from Exploration where region!=' ' order by region asc");
+			regions=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> countries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countries=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from Exploration where country!=' ' order by country asc");
+			countries=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return countries;
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> status=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			status=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct status from Exploration where status!=' ' order by status asc");
+			status=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return status;
+	}
+
+	@Override
+	public List<String> getType() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> types=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			types=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct type from Exploration where type!=' ' order by type asc");
+			types=(List<String>)query.list();				
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return types;
+	}
 	
 }
