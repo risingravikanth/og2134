@@ -2,7 +2,6 @@ package com.oganalysis.web;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -49,6 +48,42 @@ public class PipeLineController {
 			response=pipeLineServiceImpl.getTransNationalData(selectedOptions,displayType);
 		}						
 		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	public String getRegions()
+	{					
+		return pipeLineServiceImpl.getRegions();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{					
+		return pipeLineServiceImpl.getCountries();				
+	}	
+	@ResponseBody
+	@RequestMapping(value="/status",method={RequestMethod.GET})
+	public String getStatus()
+	{					
+		return pipeLineServiceImpl.getStatus();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/commodities",method={RequestMethod.GET})
+	public String getPipeLineCommodities()
+	{					
+		return pipeLineServiceImpl.getCommodities();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/startpoints",method={RequestMethod.GET})
+	public String getPipeLineStartPoints()
+	{					
+		return pipeLineServiceImpl.getStartPoints();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/endpoints",method={RequestMethod.GET})
+	public String getPipeLineEndPoints()
+	{					
+		return pipeLineServiceImpl.getEndPoints();				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

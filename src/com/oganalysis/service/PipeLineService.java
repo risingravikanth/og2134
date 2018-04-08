@@ -3,8 +3,20 @@ package com.oganalysis.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 public interface PipeLineService {
 	
 	public String getDomesticData(Map<String,List<String>> selectedOptions,String displayType);
 	public String getTransNationalData(Map<String,List<String>> selectedOptions,String displayType);
+	
+	
+	public String getRegions();	
+	public String getCountries();	
+	public String getCommodities();
+	public String getStartPoints();
+	public String getEndPoints();
+	public String getStatus();	
 }

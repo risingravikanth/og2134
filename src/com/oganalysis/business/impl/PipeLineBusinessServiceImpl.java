@@ -184,6 +184,41 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 		}
 		return pipelinesMap;
 	}
+	@Override
+	public List<String> getRegions() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getRegions();
+	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getCountries();
+	}
+
+	@Override
+	public List<String> getCommodities() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getCommodities();
+	}
+
+	@Override
+	public List<String> getStartPoints() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getStartPoints();
+	}
+
+	@Override
+	public List<String> getEndPoints() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getEndPoints();
+	}
+
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		return pipelineDao.getStatus();
+	}
 	private List<String> getSelectedPipelines(List<PipeLine> selectedPipeLines)
 	{
 		List<String> pipelines=new ArrayList<String>();
@@ -258,7 +293,6 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 	public void setPipelineDao(PipeLineDao pipelineDao) {
 		this.pipelineDao = pipelineDao;
 	}
-
 	
 		
 }

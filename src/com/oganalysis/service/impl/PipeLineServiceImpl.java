@@ -2,11 +2,14 @@ package com.oganalysis.service.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.util.List;
 import java.util.Map;
 
 import com.oganalysis.business.PipeLineBusinessService;
+import com.oganalysis.entities.source.Countries;
+import com.oganalysis.entities.source.Region;
+import com.oganalysis.entities.source.Status;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.PipeLineJsonResponse;
 import com.oganalysis.service.PipeLineService;
 
@@ -81,9 +84,64 @@ public class PipeLineServiceImpl implements PipeLineService {
 		String pipelineRes=pipeLineJson.createPipelineData(pipeLineData,TRANSNATIONAL);
 		return pipelineRes;
 	}
+	
 	public void setPipeLineBusinessServiceImpl(
 			PipeLineBusinessService pipeLineBusinessServiceImpl) {
 		this.pipeLineBusinessServiceImpl = pipeLineBusinessServiceImpl;
+	}
+	@Override
+	public String getRegions() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Region> regionsList=pipeLineBusinessServiceImpl.getRegions();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createRegionsResponse(regionsList);
+		return jsonRes;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Countries> countriesList=pipeLineBusinessServiceImpl.getCountries();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createCountriesResponse(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getCommodities() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> commodityList=pipeLineBusinessServiceImpl.getCommodities();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCommoditiesResponse(commodityList);
+		return jsonRes;		
+	}
+	@Override
+	public String getStartPoints() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> startPointList=pipeLineBusinessServiceImpl.getStartPoints();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStartPointResponse(startPointList);
+		return jsonRes;	
+	}
+	@Override
+	public String getEndPoints() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> endPointList=pipeLineBusinessServiceImpl.getEndPoints();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createEndPointResponse(endPointList);
+		return jsonRes;	
+	}
+	@Override
+	public String getStatus() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+//		List<Status> statusList=pipeLineBusinessServiceImpl.getStatus();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createStatusResponse(statusList);
+		return jsonRes;
 	}	
 	
 
