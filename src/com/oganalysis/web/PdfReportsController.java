@@ -2,7 +2,6 @@ package com.oganalysis.web;
 
 import static com.oganalysis.constants.ApplicationConstants.*;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oganalysis.service.PdfReportsService;
@@ -86,7 +86,24 @@ public class PdfReportsController {
 	   return res;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value="/pdfreport/regions",method={RequestMethod.GET})
+	public String getRegions()
+	{					
+		return pdfReportsServiceImpl.getRegions();				
+	}	
+	@ResponseBody
+	@RequestMapping(value="/pdfreport/countries",method={RequestMethod.GET})
+	public String getCountries()
+	{			
+		return pdfReportsServiceImpl.getCountries();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/pdfreport/sectors",method={RequestMethod.GET})
+	public String getSectors()
+	{			
+		return pdfReportsServiceImpl.getSectors();			
+	}
 	private Map<String,List> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

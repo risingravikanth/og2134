@@ -55,11 +55,27 @@ public class PdfReportsServiceImpl implements PdfReportsService {
 		}
 		return baos;
 	}
+	@Override
+	public String getRegions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getSectors() {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 	public PdfReportsDao getPdfReportsDao() {
 		return pdfReportsDao;
 	}
 	public void setPdfReportsDao(PdfReportsDao pdfReportsDao) {
 		this.pdfReportsDao = pdfReportsDao;
 	}
+	
 	
 }
