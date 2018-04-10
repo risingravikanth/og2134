@@ -325,7 +325,7 @@
 	
  	/*offshore filter*/
 	$rootScope.offshoreModel = [];
-	$scope.offshoreData = [{id: 'Not_Decided', label: "Not Decided"}, {id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];
+	$scope.offshoreData = [{id: 'Offshore', label: "Offshore"}, {id: 'Onshore', label: "Onshore"}];//Timebeing Removed as client don't want{id: 'Not_Decided', label: "Not Decided"},
 	$scope.offshoreData = $scope.sortedOrder($scope.offshoreData);
 	
 	/*type filter*/
