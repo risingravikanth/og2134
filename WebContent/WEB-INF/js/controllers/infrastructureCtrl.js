@@ -17,7 +17,7 @@
 			typeField :true
 		};
 		
-		$scope.columns = [
+		$scope.columnsLiquefaction = [
 			{ title: "Terminal Name",
 				  data: "terminalName"
 			},
@@ -46,6 +46,35 @@
 			  data: "tanks"
 			}
 	 	];
+		$scope.columnsRegasification = [
+		                  			{ title: "Terminal Name",
+		                  				  data: "terminalName"
+		                  			},
+		                   	 		{ title: "Status",
+		                  			  data: "status"
+		                  			},
+		                  			{ title: "Start Year",
+		                  				  data: "startYear"
+		                  			},
+		                  			{ title: "Location",
+		                  				  data: "location"
+		                  			},
+		                  			{ title: "Technology",
+		                  			  data: "technology"
+		                  			},
+		                  			{ title: "#Vaporizers",
+		                  				  data: "train"
+		                  			},
+		                  			{ title: "Operator",
+		                  				  data: "operator"
+		                  			},
+		                  	 		{ title: "Storage Capacity",
+		                  			  data: "storageCapacity"
+		                  			},
+		                  	 		{ title: "#Tanks",
+		                  			  data: "tanks"
+		                  			}
+		                  	 	];
 	};
 	
 	$scope.downloadReport = function(){
@@ -287,7 +316,7 @@
  							}
  							],
  							 
- 							columns: $scope.columns,
+ 							columns: $scope.columnsLiquefaction,
  							data : $scope.liquefactionData
  				});
  			
@@ -316,7 +345,7 @@
 	 							}
 	 							],
 	 							 
-	 							columns: $scope.columns,
+	 							columns: $scope.columnsRegasification,
 	 							data : $scope.regasificationData
 	 				 });
 	 			$rootScope.table.regasificationInst = regasificationInst;
