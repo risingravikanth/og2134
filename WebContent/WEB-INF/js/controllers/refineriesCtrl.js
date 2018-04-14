@@ -25,6 +25,12 @@
 		});
  	}
  	
+ 	$scope.generateUrl = function(url,data){
+		$scope.moreDetailsHrefUrl = url+data.recordName;
+		 
+	}
+ 	
+ 	
  	$scope.getBreakString= function(value){
  		var result = "";
  		var stringCount = 50;
@@ -72,7 +78,7 @@
 		
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			
+			$scope.generateUrl('/refineries/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{

@@ -49,6 +49,12 @@
 			
 		});
  	}
+	
+	$scope.generateUrl = function(url,data){
+		$scope.moreDetailsHrefUrl = url+data.recordName;
+		 
+	}
+ 	
  	
  	
 	openModel = function(inputName,type,event){
@@ -74,7 +80,7 @@
 		 
 		HttpService.get("/storage/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			
+			$scope.generateUrl('/storage/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{
@@ -870,6 +876,7 @@
 	$scope.init = function(){
 		$scope.title = $state.current.name;
 		$scope.title = "Capacity";
+		$scope.moreDetailsHrefUrl = "";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];

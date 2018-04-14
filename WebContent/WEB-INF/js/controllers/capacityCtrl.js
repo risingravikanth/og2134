@@ -37,6 +37,11 @@
 		}
 		
 	};
+	
+	$scope.generateUrl = function(url,data){
+		$scope.moreDetailsHrefUrl = url+data.recordName+"&type="+data.type;
+		 
+	}
  	
 	openModel = function(inputName,type,event){
 		
@@ -54,7 +59,7 @@
 		modalReq['recordName']= inputName;
 		modalReq['type']= type;
 		 
-		$scope.currentDownloadReq = angular.copy(modalReq);
+		 
 		
 		for(var key in $rootScope.capacityFilterJSON){
 			modalReq[key] = $rootScope.capacityFilterJSON[key];
@@ -62,7 +67,8 @@
 		
 		HttpService.get("/lng/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			
+			$scope.currentDownloadReq = angular.copy(modalReq);
+			$scope.generateUrl('/lng/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{
@@ -580,6 +586,7 @@
 	
 	$scope.init = function(){
 		$scope.title = $state.current.name;
+		$scope.moreDetailsHrefUrl = "";
 		$scope.gridDataList = [];
 		$scope.liquefactionData = [];
 		$scope.regasificationData = [];

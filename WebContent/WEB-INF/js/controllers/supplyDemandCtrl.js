@@ -5,6 +5,8 @@
 	
  	$scope.setConfigurations = function(){
 	 		$scope.url = "/supplyDemand";
+	 		$rootScope.loadSupplyDemandFilter();
+
 			$rootScope.filterObj = {
 				regionField :true,
 				countryField :true,
