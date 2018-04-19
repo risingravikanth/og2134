@@ -152,36 +152,36 @@ public class LngDataServiceImpl implements LngDataService{
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<String> regionsList=lngCapacityBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=lngCapacityBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
 	public String getStatus() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<String> statusList=lngCapacityBusinessServiceImpl.getStatus();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createStatusResponse(statusList);
+		List<String> statusList=lngCapacityBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Type> typeList=lngCapacityBusinessServiceImpl.getType();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createTypeResponse(typeList);
+		List<String> typeList=lngCapacityBusinessServiceImpl.getType();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createType(typeList);
 		return jsonRes;
 	}
 	@Override

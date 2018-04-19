@@ -4,7 +4,6 @@ import static com.oganalysis.constants.ApplicationConstants.*;
 
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -206,7 +205,7 @@ public class LngExcel {
 		technologyFieldCell.setCellValue("Technology");
 		
 		Cell technologyFieldValCell=technologyFieldRow.createCell(2);
-		technologyFieldValCell.setCellValue((String)terminalData.get(TECHNOLOGY));
+		technologyFieldValCell.setCellValue(!((String)terminalData.get(TECHNOLOGY)).equals("NA")?(String)terminalData.get(TECHNOLOGY):BLANK);
 		rowStart++;
 		
 		Row capexFieldRow=lngSheet.createRow(rowStart);

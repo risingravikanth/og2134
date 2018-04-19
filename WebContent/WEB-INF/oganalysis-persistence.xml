@@ -59,6 +59,7 @@
 				<value>com/oganalysis/entities/Storage.hbm.xml</value>
 				<value>com/oganalysis/entities/StorageFilter.hbm.xml</value>
 				<value>com/oganalysis/entities/Report.hbm.xml</value>
+				<value>com/oganalysis/entities/SupplyDemand.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandExport.hbm.xml</value>
 				<value>com/oganalysis/entities/SupplyDemandImport.hbm.xml</value>
 				<value>com/oganalysis/entities/Contracts.hbm.xml</value>

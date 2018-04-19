@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.oganalysis.dao.PdfReportsDao;
 import com.oganalysis.entities.Report;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.ReportsJsonResponse;
 import com.oganalysis.service.PdfReportsService;
 
@@ -58,17 +59,23 @@ public class PdfReportsServiceImpl implements PdfReportsService {
 	@Override
 	public String getRegions() {
 		// TODO Auto-generated method stub
-		return null;
+		List<String> regions=pdfReportsDao.getRegions();
+		JsonResponse res=new JsonResponse();
+		return res.createRegions(regions);
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
-		return null;
+		List<String> countries=pdfReportsDao.getCountries();
+		JsonResponse res=new JsonResponse();
+		return res.createCountries(countries);
 	}
 	@Override
 	public String getSectors() {
 		// TODO Auto-generated method stub
-		return null;
+		List<String> sectors=pdfReportsDao.getSecotors();
+		JsonResponse res=new JsonResponse();
+		return res.createSectors(sectors);
 	}	
 	public PdfReportsDao getPdfReportsDao() {
 		return pdfReportsDao;

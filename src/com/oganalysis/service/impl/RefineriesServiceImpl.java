@@ -100,27 +100,27 @@ public class RefineriesServiceImpl implements RefineriesService {
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Region> regionsList=refineriesCapacityBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=refineriesCapacityBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Countries> countriesList=refineriesCapacityBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=refineriesCapacityBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
 	public String getStatus() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Status> statusList=refineriesCapacityBusinessServiceImpl.getStatus();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createStatusResponse(statusList);
+		List<String> statusList=refineriesCapacityBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override

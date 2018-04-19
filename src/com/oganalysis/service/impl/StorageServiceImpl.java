@@ -95,27 +95,27 @@ public class StorageServiceImpl implements StorageService {
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Region> regionsList=storageCapacityBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=storageCapacityBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Countries> countriesList=storageCapacityBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=storageCapacityBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
 	public String getStatus() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Status> statusList=storageCapacityBusinessServiceImpl.getStatus();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createStatusResponse(statusList);
+		List<String> statusList=storageCapacityBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override

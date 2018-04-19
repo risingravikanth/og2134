@@ -299,18 +299,40 @@ public class JsonResponse {
 			response="";
 		return response;
 	}
-	public String createRegionsResponse(List dataList)
+	public String createRegionsResponse(List<Region> dataList)
 	{
 		String response=null;
 		if(dataList.size()>0)
 		{
 			JSONArray array=new JSONArray();
 			
-			for(Object object:dataList)
+			for(Region region:dataList)
 			{
-				 Region region=(Region)object;
+				 
 				 JSONObject jsonObj=new JSONObject();				 											  				  		
 				  jsonObj.put(OPTION_REGION,region.getName());				  						      			     
+			      array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createRegions(List<String> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String region:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();				 											  				  		
+				  jsonObj.put(OPTION_REGION,region);				  						      			     
 			      array.add(jsonObj);
 			      
 			}
@@ -343,6 +365,50 @@ public class JsonResponse {
 			response=BLANK;
 		return response;
 	}
+	public String createCountries(List<String> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String countries:dataList)
+			{
+				 
+				JSONObject jsonObj=new JSONObject();				 											  				  			
+				jsonObj.put(OPTION_COUNTRY,countries);										      			     
+			    array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createSectors(List<String> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String sector:dataList)
+			{
+				 
+				JSONObject jsonObj=new JSONObject();				 											  				  			
+				jsonObj.put(OPTION_SECTOR,sector);										      			     
+			    array.add(jsonObj);
+			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
 	public String createStatusResponse(List<Status> dataList)
 	{
 		String response=null;
@@ -354,6 +420,26 @@ public class JsonResponse {
 			{				 
 				JSONObject jsonObj=new JSONObject();				 											 				  			
 				jsonObj.put(OPTION_STATUS,status.getName());				  						      			     
+			    array.add(jsonObj);			     
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
+	public String createStatus(List<String> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			JSONArray array=new JSONArray();
+			
+			for(String status:dataList)
+			{				 
+				JSONObject jsonObj=new JSONObject();				 											 				  			
+				jsonObj.put(OPTION_STATUS,status);				  						      			     
 			    array.add(jsonObj);			     
 			}
 			
@@ -384,7 +470,27 @@ public class JsonResponse {
 			response=BLANK;
 		return response;
 	}
-	
+	public String createType(List<String> dataList)
+	{
+		String response=null;
+		if(dataList.size()>0)
+		{
+			
+			JSONArray array=new JSONArray();
+			for(String type:dataList)
+			{
+				 
+				 JSONObject jsonObj=new JSONObject();				 											  			  		
+				  jsonObj.put(OPTION_TYPE,type);				  					      			     
+			      array.add(jsonObj);			      
+			}
+			
+			response=array.toString();		      
+		}
+		else
+			response=BLANK;
+		return response;
+	}
 	public String createLocationsResponse(List<String> locationsList)
 	{
 		String response=null;

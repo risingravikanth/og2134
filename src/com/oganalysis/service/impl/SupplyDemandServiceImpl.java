@@ -31,9 +31,9 @@ public class SupplyDemandServiceImpl implements SupplyDemandService {
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Region> regionsList=supplyDemandBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=supplyDemandBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 
@@ -41,9 +41,9 @@ public class SupplyDemandServiceImpl implements SupplyDemandService {
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Countries> countriesList=supplyDemandBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	public SupplyDemandBusinessService getSupplyDemandBusinessServiceImpl() {

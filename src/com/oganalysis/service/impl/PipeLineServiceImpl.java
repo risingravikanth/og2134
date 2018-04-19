@@ -93,18 +93,18 @@ public class PipeLineServiceImpl implements PipeLineService {
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Region> regionsList=pipeLineBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=pipeLineBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Countries> countriesList=pipeLineBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=pipeLineBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
@@ -138,9 +138,9 @@ public class PipeLineServiceImpl implements PipeLineService {
 	public String getStatus() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Status> statusList=pipeLineBusinessServiceImpl.getStatus();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createStatusResponse(statusList);
+		List<String> statusList=pipeLineBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}	
 	

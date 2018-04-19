@@ -37,18 +37,18 @@ public class ExplorationServiceImpl implements ExplorationService {
 	public String getRegions() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Region> regionsList=explorationBusinessServiceImpl.getRegions();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createRegionsResponse(regionsList);
+		List<String> regionsList=explorationBusinessServiceImpl.getRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
 	@Override
 	public String getCountries() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Countries> countriesList=explorationBusinessServiceImpl.getCountries();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createCountriesResponse(countriesList);
+		List<String> countriesList=explorationBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
@@ -82,18 +82,18 @@ public class ExplorationServiceImpl implements ExplorationService {
 	public String getStatus() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Status> statusList=explorationBusinessServiceImpl.getStatus();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createStatusResponse(statusList);
+		List<String> statusList=explorationBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-//		List<Type> typeList=explorationBusinessServiceImpl.getType();
-//		JsonResponse res=new JsonResponse();
-//		jsonRes=res.createTypeResponse(typeList);
+		List<String> typeList=explorationBusinessServiceImpl.getType();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createType(typeList);
 		return jsonRes;
 	}
 	public void setExplorationBusinessServiceImpl(

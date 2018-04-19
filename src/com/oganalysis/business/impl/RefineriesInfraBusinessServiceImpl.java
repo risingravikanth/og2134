@@ -85,10 +85,16 @@ public class RefineriesInfraBusinessServiceImpl implements
 	}
 	private String getYearFromDate(Date date)
 	{
-		Calendar cal=Calendar.getInstance();
-		cal.setTime(date);
-		int year=cal.get(Calendar.YEAR);
-		return String.valueOf(year);
+		if(null!=date)
+		{
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(date);
+			int year=cal.get(Calendar.YEAR);
+			return String.valueOf(year);
+		}
+		else
+			return BLANK;
+		
 		
 	}
 	private String getOperator(List<Refinery> terminalData)

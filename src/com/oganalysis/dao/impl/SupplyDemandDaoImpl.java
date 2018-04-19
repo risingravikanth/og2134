@@ -1,6 +1,9 @@
 package com.oganalysis.dao.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_REGION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.SupplyDemandDao;
-import com.oganalysis.entities.SupplyDemand;
 import com.oganalysis.entities.SupplyDemandExport;
 import com.oganalysis.entities.SupplyDemandImport;
 
@@ -23,16 +25,16 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 	
 	private SessionFactory sessionFactory;
 	@Override
-	public List<SupplyDemand> getSupplyDemandImport(
+	public List<SupplyDemandImport> getSupplyDemandImport(
 			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
-		List<SupplyDemand> supplyDemandImport=null;
+		List<SupplyDemandImport> supplyDemandImport=null;
 		try
 		{
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
-			supplyDemandImport=new ArrayList<SupplyDemand>();
+			supplyDemandImport=new ArrayList<SupplyDemandImport>();
 			tx.begin();
 //			Query query=session.createQuery("from SupplyDemandImport sdi where sdi.region in(:regions) and country in (:countries)");
 			Criteria criteria=session.createCriteria(SupplyDemandImport.class);
@@ -49,16 +51,16 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 	}
 
 	@Override
-	public List<SupplyDemand> getSupplyDemandExport(
+	public List<SupplyDemandExport> getSupplyDemandExport(
 			Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<SupplyDemand> supplyDemandExport=null;
+		List<SupplyDemandExport> supplyDemandExport=null;
 		Session session=null;
 		try
 		{
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
-			supplyDemandExport=new ArrayList<SupplyDemand>();
+			supplyDemandExport=new ArrayList<SupplyDemandExport>();
 			tx.begin();
 //			Query query=session.createQuery("from SupplyDemandExport sde where sde.region in(:regions) and sde.country in (:countries)");
 			Criteria criteria=session.createCriteria(SupplyDemandExport.class);
@@ -104,7 +106,7 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 			regions=new ArrayList<String>();
 			tx.begin();
 			Query query=session.createQuery("select distinct region from SupplyDemand where region!=' ' order by region asc");
-			regions=(List<String>)query.list();				
+			regions=(List<String>)query.list();
 			tx.commit();
 		}
 		finally
@@ -119,15 +121,15 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 	public List<String> getCountries() {
 		// TODO Auto-generated method stub
 		Session session=null;
-		List<String> countries=null;
+		List<String> regions=null;
 		try
 		{
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
-			countries=new ArrayList<String>();
+			regions=new ArrayList<String>();
 			tx.begin();
 			Query query=session.createQuery("select distinct country from SupplyDemand where country!=' ' order by country asc");
-			countries=(List<String>)query.list();				
+			regions=(List<String>)query.list();
 			tx.commit();
 		}
 		finally
@@ -135,7 +137,7 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 			if(null!=session)
 				session.close();
 		}			
-		return countries;
+		return regions;
 	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

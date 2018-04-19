@@ -164,10 +164,16 @@ public class LngInfraBusinessServiceImpl implements LngInfraBusinessService{
 	}
 	private String getYearFromDate(Date date)
 	{
-		Calendar cal=Calendar.getInstance();
-		cal.setTime(date);
-		int year=cal.get(Calendar.YEAR);
-		return String.valueOf(year);
+		if(null!=date)
+		{
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(date);
+			int year=cal.get(Calendar.YEAR);
+			return String.valueOf(year);
+		}
+		else
+			return BLANK;
+		
 		
 	}
 	private StringBuffer getOperator(String terminalName,String type)
