@@ -75,6 +75,10 @@
 		});
  	}
  	
+ 	$scope.generateUrl = function(url,data){
+		$scope.moreDetailsHrefUrl = url+data.recordName;
+		 
+	}
  	openModel = function(inputName,type,event){
 		 
 		if($rootScope.table.modelDatatableInst != undefined && $rootScope.table.modelDatatableInst != "" && $rootScope.searchFilterObj.displayType != "terminal" ){
@@ -101,7 +105,7 @@
 		 
 		HttpService.get("/storage/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			
+			$scope.generateUrl('storage/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{

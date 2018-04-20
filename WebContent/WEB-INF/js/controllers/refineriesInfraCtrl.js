@@ -65,6 +65,10 @@
 			
 		});
  	}
+	$scope.generateUrl = function(url,data){
+		$scope.moreDetailsHrefUrl = url+data.recordName;
+		 
+	}
 	
 	$scope.destroyTable = function(){
  		if($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "" ){
@@ -116,7 +120,7 @@
 		 
 		HttpService.get("/refineries/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			
+			$scope.generateUrl('refineries/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{

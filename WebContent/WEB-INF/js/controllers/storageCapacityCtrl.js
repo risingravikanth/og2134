@@ -80,7 +80,7 @@
 		 
 		HttpService.get("/storage/modalcapacity",modalReq).then(function(resp) {
 			$scope.gridDataList = angular.copy(resp);
-			$scope.generateUrl('/storage/download/terminaldetails?recordName=',$scope.currentDownloadReq);
+			$scope.generateUrl('storage/download/terminaldetails?recordName=',$scope.currentDownloadReq);
 			if(resp != "" && resp != undefined ){
 					resp = resp;
 				}else{

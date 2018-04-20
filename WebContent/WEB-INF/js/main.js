@@ -813,7 +813,7 @@
              $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/pdfreport/countries').then(function(resp) {
+         HttpService.get('/pdfreport/sectors').then(function(resp) {
              for (var i = 0; i < resp.length; i++) {
                  var obj = {
                      id: resp[i].sector,
@@ -824,7 +824,7 @@
              $scope.sectorData = $scope.sortedOrder($scope.sectorData);
          });
 
-         HttpService.get('/pdfreport/sectors').then(function(resp) {
+         HttpService.get('/pdfreport/countries').then(function(resp) {
              for (var i = 0; i < resp.length; i++) {
                  var obj = {
                      id: resp[i].country,
