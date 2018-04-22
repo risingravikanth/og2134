@@ -511,9 +511,9 @@
  					resp = [];
  				}
 	 			$scope.gridDataList = [];
+	 			$scope.loadTableData(resp);
 	 			if(resp != "" && resp != undefined){
-					$scope.gridDataList = angular.copy(resp);
-					$scope.loadTableData(resp);
+					$scope.gridDataList = angular.copy(resp);					
 	 		 		$rootScope.inItDataTable();
 	 			}
 	 		});
