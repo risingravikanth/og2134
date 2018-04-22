@@ -157,7 +157,7 @@ public class LngExcel {
 		operatorFieldCell.setCellValue(COMPANY_INFO_OPERATOR);
 		
 		Cell operatorFieldValCell=operatorFieldRow.createCell(2);
-		operatorFieldValCell.setCellValue((String)terminalData.get(OPERATOR));
+		operatorFieldValCell.setCellValue(!((String)terminalData.get(OPERATOR)).equals(NA)?(String)terminalData.get(OPERATOR):BLANK);
 		rowStart++;
 		
 		List<Map<String,String>> ownerShipList=(List<Map<String,String>>)terminalData.get(OWNERSHIP);
@@ -205,7 +205,7 @@ public class LngExcel {
 		technologyFieldCell.setCellValue("Technology");
 		
 		Cell technologyFieldValCell=technologyFieldRow.createCell(2);
-		technologyFieldValCell.setCellValue(!((String)terminalData.get(TECHNOLOGY)).equals("NA")?(String)terminalData.get(TECHNOLOGY):BLANK);
+		technologyFieldValCell.setCellValue(!((String)terminalData.get(TECHNOLOGY)).equals(NA)?(String)terminalData.get(TECHNOLOGY):BLANK);		
 		rowStart++;
 		
 		Row capexFieldRow=lngSheet.createRow(rowStart);
@@ -217,7 +217,7 @@ public class LngExcel {
 		if(null!=terminalData.get(CAPEX) && 0!=(Double)terminalData.get(CAPEX))
 			capexFieldValCell.setCellValue((Double)terminalData.get(CAPEX));
 		else
-			capexFieldValCell.setCellValue((Double)terminalData.get(BLANK));
+			capexFieldValCell.setCellValue(BLANK);
 		rowStart++;
 		
 		List<Map<String,String>> constructionDetailsList=(List<Map<String,String>>)terminalData.get(CONSTRUCTIONDETAILS);
@@ -290,7 +290,7 @@ public class LngExcel {
 		regionFieldCell.setCellValue(GENERAL_INFO_REGION);
 		
 		Cell regionFieldValCell=regionFieldRow.createCell(2);
-		regionFieldValCell.setCellValue((String)terminalData.get(REGION));
+		regionFieldValCell.setCellValue(!((String)terminalData.get(REGION)).equals(NA)?(String)terminalData.get(REGION):BLANK);
 		rowStart++;
 		
 		Row countryFieldRow=lngSheet.createRow(rowStart);
@@ -299,7 +299,7 @@ public class LngExcel {
 		countryFieldCell.setCellValue(GENERAL_INFO_COUNTRY);
 		
 		Cell countryFieldValCell=countryFieldRow.createCell(2);
-		countryFieldValCell.setCellValue((String)terminalData.get(COUNTRY));
+		countryFieldValCell.setCellValue(!((String)terminalData.get(COUNTRY)).equals(NA)?(String)terminalData.get(COUNTRY):BLANK);
 		rowStart++;
 		
 		Row locationFieldRow=lngSheet.createRow(rowStart);
@@ -308,7 +308,7 @@ public class LngExcel {
 		locationFieldCell.setCellValue(GENERAL_INFO_LOCATION);
 		
 		Cell locationFieldValCell=locationFieldRow.createCell(2);
-		locationFieldValCell.setCellValue((String)terminalData.get(LOCATION));
+		locationFieldValCell.setCellValue(!((String)terminalData.get(LOCATION)).equals(NA)?(String)terminalData.get(LOCATION):BLANK);
 		rowStart++;
 		
 		Row typeFieldRow=lngSheet.createRow(rowStart);
@@ -317,7 +317,7 @@ public class LngExcel {
 		typeFieldCell.setCellValue(GENERAL_INFO_TYPE);
 		
 		Cell typeFieldValCell=typeFieldRow.createCell(2);
-		typeFieldValCell.setCellValue((String)terminalData.get(TYPE));
+		typeFieldValCell.setCellValue(!((String)terminalData.get(TYPE)).equals(NA)?(String)terminalData.get(TYPE):BLANK);
 		rowStart++;
 		
 		Row offShoreOnShoreFieldRow=lngSheet.createRow(rowStart);
@@ -326,7 +326,7 @@ public class LngExcel {
 		offShoreOnShoreFieldCell.setCellValue("OffShore/OnShore");
 		
 		Cell offShoreOnShoreValCell=offShoreOnShoreFieldRow.createCell(2);
-		offShoreOnShoreValCell.setCellValue((String)terminalData.get(ONSHORE_OR_OFFSHORE));
+		offShoreOnShoreValCell.setCellValue(!((String)terminalData.get(ONSHORE_OR_OFFSHORE)).equals(NA)?(String)terminalData.get(ONSHORE_OR_OFFSHORE):BLANK);
 		rowStart++;
 		
 		Row statusFieldRow=lngSheet.createRow(rowStart);
@@ -335,7 +335,7 @@ public class LngExcel {
 		statusFieldCell.setCellValue(GENERAL_INFO_STATUS);
 		
 		Cell statusValCell=statusFieldRow.createCell(2);
-		statusValCell.setCellValue((String)terminalData.get(STATUS));
+		statusValCell.setCellValue(!((String)terminalData.get(STATUS)).equals(NA)?(String)terminalData.get(STATUS):BLANK);
 		rowStart++;
 		
 		Row otherStatusDetailsFieldRow=lngSheet.createRow(rowStart);
@@ -345,7 +345,7 @@ public class LngExcel {
 		
 		Cell otherStatusDetailsValCell=otherStatusDetailsFieldRow.createCell(2);
 		otherStatusDetailsValCell.setCellStyle(ExcelFileHelper.getFieldValueWrapCellStyle(wb));
-		otherStatusDetailsValCell.setCellValue((String)terminalData.get(OTHER_DETAILS));
+		otherStatusDetailsValCell.setCellValue(!((String)terminalData.get(OTHER_DETAILS)).equals(NA)?(String)terminalData.get(OTHER_DETAILS):NA);
 		rowStart++;
 		
 		Row expectedStartUpFieldRow=lngSheet.createRow(rowStart);
@@ -354,7 +354,7 @@ public class LngExcel {
 		expectedStartUpFieldCell.setCellValue(GENERAL_INFO_STARTUP);
 		
 		Cell expectedStartUpValCell=expectedStartUpFieldRow.createCell(2);
-		expectedStartUpValCell.setCellValue((String)terminalData.get(EXPECTEDSTARTUP));	
+		expectedStartUpValCell.setCellValue(!((String)terminalData.get(EXPECTEDSTARTUP)).equals(NA)?(String)terminalData.get(EXPECTEDSTARTUP):NA);	
 		rowStart++;
 		
 		return rowStart;
