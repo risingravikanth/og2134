@@ -1,5 +1,6 @@
 package com.oganalysis.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.oganalysis.dao.ExplorationDao;
@@ -14,6 +15,7 @@ import com.oganalysis.entities.source.Status;
 import com.oganalysis.entities.source.Type;
 import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.service.FilterDataService;
+import static com.oganalysis.constants.ApplicationConstants.BLANK;
 
 public class FilterDataServiceImpl implements FilterDataService {
 	private FilterDataDao filterDataDao;
@@ -61,29 +63,32 @@ public class FilterDataServiceImpl implements FilterDataService {
 	@Override
 	public String getLngLocations() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=lngDao.getLocations();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> locationsList=lngDao.getLocations(new HashMap<String,List<String>>());
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createLocationsResponse(locationsList);
+//		return jsonRes;
+		return BLANK;
 	}
 	@Override
 	public String getLngOperators() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=lngDao.getOperators();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> operatorList=lngDao.getOperators(new HashMap<String,List<String>>());
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOperatorResponse(operatorList);
+//		return jsonRes;
+		return BLANK;
 	}
 	@Override
 	public String getLngOwners() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=lngDao.getOwners();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> ownersList=lngDao.getOwners(new HashMap<String,List<String>>());
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOwnersResponse(ownersList);
+//		return jsonRes;
+		return BLANK;
 	}
 	@Override
 	public String getRefineryLocations() {

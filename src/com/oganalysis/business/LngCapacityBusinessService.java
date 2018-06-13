@@ -21,12 +21,12 @@ public interface LngCapacityBusinessService {
 	//Below is for filters
 	
 		List<String> getRegions();
-		List<String> getCountries();
-		List<String> getStatus();
-		List<String> getType();	
-		List<String> getLocations();
-		List<String> getOperators();
-		List<String> getOwners();
+		List<String> getCountries(Map<String,List<String>> selectedOptions); // selectedOptions has list of  selected Regions from filter.
+		List<String> getStatus(Map<String,List<String>> selectedOptions);
+		List<String> getType(Map<String,List<String>> selectedOptions);	
+		List<String> getLocations(Map<String,List<String>> selectedOptions);
+		List<String> getOperators(Map<String,List<String>> selectedOptions);
+		List<String> getOwners(Map<String,List<String>> selectedOptions);
 	
 
 }

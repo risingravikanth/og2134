@@ -1,6 +1,25 @@
 package com.oganalysis.dao.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.BLANK;
+import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
+import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OFFONSHORES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OPERATORS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_OWNERS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TYPES;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_AREA;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_EQUITYPARTNER;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_NAME;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_ONSHOREOROFFSHORE;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_OPERATOR;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_REGION;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_STATUS;
+import static com.oganalysis.constants.ApplicationConstants.RESTRICTION_PROPERTY_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +71,8 @@ public class LngDaoImpl implements LngDao {
 		}			
 		return regions;
 	}
-
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;
@@ -64,8 +82,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from Lng where country!=' ' order by country asc");
-			countries=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -76,8 +96,31 @@ public class LngDaoImpl implements LngDao {
 		return countries;
 	}
 
+//	@Override
+//	public List<String> getCountries() {
+//		// TODO Auto-generated method stub
+//		Session session=null;
+//		List<String> countries=null;
+//		try
+//		{
+//			session=sessionFactory.openSession();
+//			Transaction tx=session.beginTransaction();
+//			countries=new ArrayList<String>();
+//			tx.begin();
+//			Query query=session.createQuery("select distinct country from Lng where country!=' ' order by country asc");
+//			countries=(List<String>)query.list();
+//			tx.commit();
+//		}
+//		finally
+//		{
+//			if(null!=session)
+//				session.close();
+//		}			
+//		return countries;
+//	}
+
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> statuses=null;
@@ -87,8 +130,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			statuses=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct status from Lng where status!=' ' order by status asc");
-			statuses=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));
+			statuses=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -100,7 +145,7 @@ public class LngDaoImpl implements LngDao {
 	}
 
 	@Override
-	public List<String> getType() {
+	public List<String> getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> types=null;
@@ -110,8 +155,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			types=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct type from Lng where type!=' ' order by type asc");
-			types=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_TYPE)));
+			types=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -123,7 +170,7 @@ public class LngDaoImpl implements LngDao {
 	}
 	/* Method is to get the list of locations(i.e area) to display in filter*/
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> locations=null;
@@ -133,8 +180,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			locations=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct area from Lng where area!=' ' order by area asc");
-			locations=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_AREA)));
+			locations=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -146,7 +195,7 @@ public class LngDaoImpl implements LngDao {
 	}
 
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> operators=null;
@@ -156,8 +205,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			operators=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct operator from Lng where operator!=' ' order by operator asc");
-			operators=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_OPERATOR)));
+			operators=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -168,7 +219,7 @@ public class LngDaoImpl implements LngDao {
 		return operators;
 	}
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> owners=null;
 		Session session=null;
@@ -178,8 +229,10 @@ public class LngDaoImpl implements LngDao {
 			Transaction tx=session.beginTransaction();
 			owners=new ArrayList<String>();
 			tx.begin();		
-			Query query=session.createQuery("select distinct equityPartners from Lng where equityPartners!=' ' order by equityPartners asc");
-			owners=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Lng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_EQUITYPARTNER)));
+			owners=criteria.list();		
 			tx.commit();
 		}
 		finally
@@ -234,8 +287,8 @@ public class LngDaoImpl implements LngDao {
 		
 		if(countries!=null && countries.size()>0)
 		{
-			Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
-			criteria.add(counrtryCriterion);
+			Criterion countryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
+			criteria.add(countryCriterion);
 		}
 			
 		if(regions!=null && regions.size()>0)

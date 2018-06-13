@@ -795,34 +795,34 @@ public class LngCapacityBusinessServiceImpl implements LngCapacityBusinessServic
 		return lngDao.getRegions();
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getCountries();
+		return lngDao.getCountries(selectedOptions);
 	}
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getStatus();
+		return lngDao.getStatus(selectedOptions);
 	}
 	@Override
-	public List<String> getType() {
+	public List<String> getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getType();
+		return lngDao.getType(selectedOptions);
 	}
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getLocations();
+		return lngDao.getLocations(selectedOptions);
 	}
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getOperators();
+		return lngDao.getOperators(selectedOptions);
 	}
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return lngDao.getOwners();
+		return lngDao.getOwners(selectedOptions);
 	}
 	
 }

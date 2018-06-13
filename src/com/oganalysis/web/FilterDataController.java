@@ -1,12 +1,17 @@
 package com.oganalysis.web;
 
+import static com.oganalysis.constants.ApplicationConstants.BLANK;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import static com.oganalysis.constants.ApplicationConstants.BLANK;
 
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.service.FilterDataService;
 @Controller
 public class FilterDataController {
@@ -24,8 +29,13 @@ public class FilterDataController {
 	@ResponseBody
 	@RequestMapping(value="/countries",method={RequestMethod.GET})
 	public String getCountries()
-	{							
-		return BLANK;
+	{				
+		List<String> countries=new ArrayList<String>();
+		countries.add("Angola");
+		countries.add("Trinidad & Tobago");
+		JsonResponse res=new JsonResponse();
+		return res.createCountries(countries);
+//		return BLANK;
 	}
 	
 	@ResponseBody

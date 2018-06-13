@@ -39,7 +39,7 @@ public class LngDataDisplayController {
 	private ServletContext servletContext;
 	
 	@ResponseBody
-	@RequestMapping(value="/capacity",method={RequestMethod.GET})
+	@RequestMapping(value="/capacity",method={RequestMethod.POST})
 	public String getLngCapacityData(HttpServletRequest req)
 	{				
 		String response=LOGIN;		
@@ -54,7 +54,7 @@ public class LngDataDisplayController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/infrastructure",method={RequestMethod.GET})
+	@RequestMapping(value="/infrastructure",method={RequestMethod.POST})
 	public String getLngInfrastructureData(HttpServletRequest req)
 	{
 		
@@ -67,7 +67,7 @@ public class LngDataDisplayController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/modalcapacity",method={RequestMethod.GET})
+	@RequestMapping(value="/modalcapacity",method={RequestMethod.POST})
 	public String getLngCapacityModalData(HttpServletRequest req)
 	{
 		
@@ -85,46 +85,52 @@ public class LngDataDisplayController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
-	public String getRegions()
-	{					
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
+	public String getRegions(HttpServletRequest req)
+	{							
 		return lngDataServiceImpl.getRegions();				
 	}	
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);		
+		return lngDataServiceImpl.getCountries(selectedOptions);				
 	}	
 	@ResponseBody
-	@RequestMapping(value="/status",method={RequestMethod.GET})
-	public String getStatus()
+	@RequestMapping(value="/status",method={RequestMethod.POST})
+	public String getStatus(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getStatus();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return lngDataServiceImpl.getStatus(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/type",method={RequestMethod.GET})
-	public String getType()
+	@RequestMapping(value="/type",method={RequestMethod.POST})
+	public String getType(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getType();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return lngDataServiceImpl.getType(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/locations",method={RequestMethod.GET})
-	public String getLngLocations()
+	@RequestMapping(value="/locations",method={RequestMethod.POST})
+	public String getLngLocations(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getLocations();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return lngDataServiceImpl.getLocations(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/operators",method={RequestMethod.GET})
-	public String getLngOperators()
+	@RequestMapping(value="/operators",method={RequestMethod.POST})
+	public String getLngOperators(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getOperators();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return lngDataServiceImpl.getOperators(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/owners",method={RequestMethod.GET})
-	public String getLngOwners()
+	@RequestMapping(value="/owners",method={RequestMethod.POST})
+	public String getLngOwners(HttpServletRequest req)
 	{					
-		return lngDataServiceImpl.getOwners();			
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return lngDataServiceImpl.getOwners(selectedOptions);			
 	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
