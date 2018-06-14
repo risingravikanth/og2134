@@ -38,10 +38,10 @@ public class SupplyDemandServiceImpl implements SupplyDemandService {
 	}
 
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries();
+		List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCountries(countriesList);
 		return jsonRes;

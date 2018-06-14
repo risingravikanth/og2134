@@ -15,9 +15,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.SupplyDemandDao;
+import com.oganalysis.entities.SupplyDemand;
 import com.oganalysis.entities.SupplyDemandExport;
 import com.oganalysis.entities.SupplyDemandImport;
 
@@ -118,18 +120,20 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
-		List<String> regions=null;
+		List<String> countries=null;
 		try
 		{
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
-			regions=new ArrayList<String>();
+			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from SupplyDemand where country!=' ' order by country asc");
-			regions=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(SupplyDemand.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -137,7 +141,7 @@ public class SupplyDemandDaoImpl implements SupplyDemandDao {
 			if(null!=session)
 				session.close();
 		}			
-		return regions;
+		return countries;
 	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

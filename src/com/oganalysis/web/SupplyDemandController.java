@@ -26,7 +26,7 @@ public class SupplyDemandController {
 	private SupplyDemandService supplyDemandServiceImpl;
 	
 	@ResponseBody
-	@RequestMapping(method={RequestMethod.GET})
+	@RequestMapping(method={RequestMethod.POST})
 	public String getSupplyDemand(HttpServletRequest req)
 	{
 		String response=LOGIN;
@@ -41,16 +41,17 @@ public class SupplyDemandController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegions()
 	{					
 		return supplyDemandServiceImpl.getRegions();				
 	}	
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{					
-		return supplyDemandServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return supplyDemandServiceImpl.getCountries(selectedOptions);				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

@@ -113,9 +113,9 @@ public class SupplyDemandBusinessServiceImpl implements
 		return supplyDemandDao.getRegions();
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return supplyDemandDao.getCountries();
+		return supplyDemandDao.getCountries(selectedOptions);
 	}
 	public SupplyDemandDao getSupplyDemandDao() {
 		return supplyDemandDao;

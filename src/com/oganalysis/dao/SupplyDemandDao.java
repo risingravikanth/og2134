@@ -11,5 +11,5 @@ public interface SupplyDemandDao {
 	public List<SupplyDemandExport> getSupplyDemandExport(Map<String,List<String>> selectedOptions);
 	
 	public List<String> getRegions();	
-	public List<String> getCountries();
+	public List<String> getCountries(Map<String, List<String>> selectedOptions);
 }
