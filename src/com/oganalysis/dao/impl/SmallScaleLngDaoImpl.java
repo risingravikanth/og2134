@@ -27,9 +27,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.SmallScaleLngDao;
+import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.SmallScaleLng;
 import com.oganalysis.entities.source.Region;
 
@@ -144,7 +146,7 @@ private SessionFactory sessionFactory;
 		return regionsList;
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> countriesList=null;
 		Session session=null;
@@ -154,8 +156,10 @@ private SessionFactory sessionFactory;
 			Transaction tx=session.beginTransaction();
 			countriesList=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from SmallScaleLng where country!=' ' order by country asc");				
-			countriesList=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countriesList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -166,7 +170,7 @@ private SessionFactory sessionFactory;
 		return countriesList;
 	}
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> locationsList=null;
 		Session session=null;
@@ -175,9 +179,11 @@ private SessionFactory sessionFactory;
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			locationsList=new ArrayList<String>();
-			tx.begin();
-			Query query=session.createQuery("select distinct location from SmallScaleLng where location!=' ' order by location asc");				
-			locationsList=(List<String>)query.list();
+			tx.begin();			
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_LOCATION)));
+			locationsList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -188,7 +194,7 @@ private SessionFactory sessionFactory;
 		return locationsList;
 	}
 	@Override
-	public List<String> getCompanies() {
+	public List<String> getCompanies(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> companiesList=null;
 		Session session=null;
@@ -198,8 +204,10 @@ private SessionFactory sessionFactory;
 			Transaction tx=session.beginTransaction();
 			companiesList=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct company from SmallScaleLng where company!=' ' order by company asc");				
-			companiesList=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COMPANY)));
+			companiesList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -210,7 +218,7 @@ private SessionFactory sessionFactory;
 		return companiesList;
 	}
 	@Override
-	public List<String> getTechnologyProviders() {
+	public List<String> getTechnologyProviders(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> technologyProvidersList=null;
 		Session session=null;
@@ -219,9 +227,11 @@ private SessionFactory sessionFactory;
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			technologyProvidersList=new ArrayList<String>();
-			tx.begin();
-			Query query=session.createQuery("select distinct technologyProviderCompany from SmallScaleLng where technologyProviderCompany!=' ' order by technologyProviderCompany asc");				
-			technologyProvidersList=(List<String>)query.list();
+			tx.begin();			
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_TECHNOLOGYPROVIDER)));
+			technologyProvidersList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -232,7 +242,7 @@ private SessionFactory sessionFactory;
 		return technologyProvidersList;
 	}
 	@Override
-	public List<String> getTechnologies() {
+	public List<String> getTechnologies(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> technologyList=null;
 		Session session=null;
@@ -241,9 +251,11 @@ private SessionFactory sessionFactory;
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			technologyList=new ArrayList<String>();
-			tx.begin();
-			Query query=session.createQuery("select distinct technology from SmallScaleLng where technology!=' ' order by technology asc");				
-			technologyList=(List<String>)query.list();
+			tx.begin();			
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_TECHNOLOGY)));
+			technologyList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -254,7 +266,7 @@ private SessionFactory sessionFactory;
 		return technologyList;
 	}
 	@Override
-	public List<String> getStatuses() {
+	public List<String> getStatuses(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> statusList=null;
 		Session session=null;
@@ -263,9 +275,11 @@ private SessionFactory sessionFactory;
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			statusList=new ArrayList<String>();
-			tx.begin();
-			Query query=session.createQuery("select distinct status from SmallScaleLng where status!=' ' order by status asc");				
-			statusList=(List<String>)query.list();
+			tx.begin();			
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));
+			statusList=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -276,7 +290,7 @@ private SessionFactory sessionFactory;
 		return statusList;
 	}
 	@Override
-	public List<String> getTypes() {
+	public List<String> getTypes(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<String> typeList=null;
 		Session session=null;
@@ -285,9 +299,11 @@ private SessionFactory sessionFactory;
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			typeList=new ArrayList<String>();
-			tx.begin();
-			Query query=session.createQuery("select distinct type from SmallScaleLng where type!=' ' order by type asc");				
-			typeList=(List<String>)query.list();
+			tx.begin();			
+			Criteria criteria=session.createCriteria(SmallScaleLng.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_TYPE)));
+			typeList=criteria.list();
 			tx.commit();
 		}
 		finally

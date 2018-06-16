@@ -1,9 +1,7 @@
 package com.oganalysis.web;
 
-import static com.oganalysis.constants.ApplicationConstants.DISPLAYTYPE;
-import static com.oganalysis.constants.ApplicationConstants.EMAIL;
-import static com.oganalysis.constants.ApplicationConstants.ENDDATE;
 import static com.oganalysis.constants.ApplicationConstants.LOGIN;
+import static com.oganalysis.constants.ApplicationConstants.EMAIL;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_COUNTRY;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_LOCATION;
@@ -12,15 +10,14 @@ import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COMP
 import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_LOCATIONS;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_REGIONS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TECHNOLOGIES;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TECHNOLOGYPROVIDERS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TYPES;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_STATUS;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_TECHNOLOGY;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_TECHNOLOGYPROVIDER;
 import static com.oganalysis.constants.ApplicationConstants.OPTION_TYPE;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_TYPES;
-import static com.oganalysis.constants.ApplicationConstants.STARTDATE;
-import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_STATUSES;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -46,15 +43,15 @@ public class SmallScaleLngController {
 	private SmallScaleLngService smallScaleLngServiceImpl;
 	
 	@ResponseBody
-	@RequestMapping(value="/asset",method={RequestMethod.GET})
+	@RequestMapping(value="/asset",method={RequestMethod.POST})
 	public String getSmallScaleLngData(HttpServletRequest req)
 	{		
 		String response=LOGIN;		
-//		if(null!=req.getSession().getAttribute(EMAIL))
-//		{
+		if(null!=req.getSession().getAttribute(EMAIL))
+		{
 			Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);									
 			response=smallScaleLngServiceImpl.getSmallScaleLngData(selectedOptions);
-//		}						
+		}						
 		return response;
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
@@ -105,51 +102,58 @@ public class SmallScaleLngController {
 		return optionsMap;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegions()
 	{										
 			return smallScaleLngServiceImpl.getRegions();
 	}
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{										
-			return smallScaleLngServiceImpl.getCountries();
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return smallScaleLngServiceImpl.getCountries(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/locations",method={RequestMethod.GET})
-	public String getLocations()
+	@RequestMapping(value="/locations",method={RequestMethod.POST})
+	public String getLocations(HttpServletRequest req)
 	{										
-			return smallScaleLngServiceImpl.getLocations();
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return smallScaleLngServiceImpl.getLocations(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/companies",method={RequestMethod.GET})
-	public String getCompanies()
+	@RequestMapping(value="/companies",method={RequestMethod.POST})
+	public String getCompanies(HttpServletRequest req)
 	{										
-			return smallScaleLngServiceImpl.getCompanies();
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return smallScaleLngServiceImpl.getCompanies(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/technologyproviders",method={RequestMethod.GET})
-	public String getTechnologyProviders()
-	{										
-			return smallScaleLngServiceImpl.getTechnologyProviders();
+	@RequestMapping(value="/technologyproviders",method={RequestMethod.POST})
+	public String getTechnologyProviders(HttpServletRequest req)
+	{				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return smallScaleLngServiceImpl.getTechnologyProviders(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/technologies",method={RequestMethod.GET})
-	public String getTechnologies()
+	@RequestMapping(value="/technologies",method={RequestMethod.POST})
+	public String getTechnologies(HttpServletRequest req)
 	{										
-			return smallScaleLngServiceImpl.getTechnologies();
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			return smallScaleLngServiceImpl.getTechnologies(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/statuses",method={RequestMethod.GET})
-	public String getStatuses()
+	@RequestMapping(value="/statuses",method={RequestMethod.POST})
+	public String getStatuses(HttpServletRequest req)
 	{										
-			return smallScaleLngServiceImpl.getStatuses();
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			return smallScaleLngServiceImpl.getStatuses(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/types",method={RequestMethod.GET})
-	public String getTypes()
-	{										
-			return smallScaleLngServiceImpl.getTypes();
+	@RequestMapping(value="/types",method={RequestMethod.POST})
+	public String getTypes(HttpServletRequest req)
+	{									
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+			return smallScaleLngServiceImpl.getTypes(selectedOptions);
 	}
 }

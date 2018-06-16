@@ -15,6 +15,13 @@ import static com.oganalysis.constants.ApplicationConstants.SMALLSCALELNG_STORAG
 
 
 
+
+
+
+
+
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,39 +86,39 @@ public class SmallScaleLngBusinessServiceImpl implements
 		return smallScaleLngDao.getRegions();
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getCountries();
+		return smallScaleLngDao.getCountries(selectedOptions);
 	}
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getLocations();
+		return smallScaleLngDao.getLocations(selectedOptions);
 	}
 	@Override
-	public List<String> getCompanies() {
+	public List<String> getCompanies(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getCompanies();
+		return smallScaleLngDao.getCompanies(selectedOptions);
 	}
 	@Override
-	public List<String> getTechnologyProviders() {
+	public List<String> getTechnologyProviders(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getTechnologyProviders();
+		return smallScaleLngDao.getTechnologyProviders(selectedOptions);
 	}
 	@Override
-	public List<String> getTechnologies() {
+	public List<String> getTechnologies(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getTechnologies();
+		return smallScaleLngDao.getTechnologies(selectedOptions);
 	}
 	@Override
-	public List<String> getStatuses() {
+	public List<String> getStatuses(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getStatuses();
+		return smallScaleLngDao.getStatuses(selectedOptions);
 	}
 	@Override
-	public List<String> getTypes() {
+	public List<String> getTypes(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return smallScaleLngDao.getTypes();
+		return smallScaleLngDao.getTypes(selectedOptions);
 	}
 	
 	
