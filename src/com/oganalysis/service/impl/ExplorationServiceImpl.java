@@ -43,55 +43,55 @@ public class ExplorationServiceImpl implements ExplorationService {
 		return jsonRes;
 	}
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=explorationBusinessServiceImpl.getCountries();
+		List<String> countriesList=explorationBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
-	public String getBasins() {
+	public String getBasins(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> basinList=explorationBusinessServiceImpl.getBasins();
+		List<String> basinList=explorationBusinessServiceImpl.getBasins(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createBasinResponse(basinList);
 		return jsonRes;	
 	}
 	@Override
-	public String getOwners() {
+	public String getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> ownersList=explorationBusinessServiceImpl.getOwners();
+		List<String> ownersList=explorationBusinessServiceImpl.getOwners(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOwnersResponse(ownersList);
 		return jsonRes;
 	}
 	@Override
-	public String getOperators() {
+	public String getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> operatorsList=explorationBusinessServiceImpl.getOperators();
+		List<String> operatorsList=explorationBusinessServiceImpl.getOperators(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOperatorResponse(operatorsList);
 		return jsonRes;
 	}
 	@Override
-	public String getStatus() {
+	public String getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> statusList=explorationBusinessServiceImpl.getStatus();
+		List<String> statusList=explorationBusinessServiceImpl.getStatus(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override
-	public String getType() {
+	public String getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> typeList=explorationBusinessServiceImpl.getType();
+		List<String> typeList=explorationBusinessServiceImpl.getType(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createType(typeList);
 		return jsonRes;

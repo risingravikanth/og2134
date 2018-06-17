@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.ExplorationDao;
@@ -112,7 +113,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getBasins() {
+	public List<String> getBasins(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> basins=null;
@@ -122,8 +123,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			basins=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct basin from Exploration where basin!=' ' order by basin asc");
-			basins=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_BASIN)));
+			basins=criteria.list();				
 			tx.commit();
 		}
 		finally
@@ -135,7 +138,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> owners=null;
@@ -145,8 +148,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			owners=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct equityPartners from Exploration where equityPartners!=' ' order by equityPartners asc");
-			owners=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_EQUITYPARTNER)));
+			owners=criteria.list();			
 			tx.commit();
 		}
 		finally
@@ -158,7 +163,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> operators=null;
@@ -168,8 +173,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			operators=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct operator from Exploration where operator!=' ' order by operator asc");
-			operators=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_OPERATOR)));
+			operators=criteria.list();				
 			tx.commit();
 		}
 		finally
@@ -204,7 +211,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;
@@ -214,8 +221,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from Exploration where country!=' ' order by country asc");
-			countries=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=criteria.list();				
 			tx.commit();
 		}
 		finally
@@ -227,7 +236,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> status=null;
@@ -237,8 +246,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			status=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct status from Exploration where status!=' ' order by status asc");
-			status=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));
+			status=criteria.list();			
 			tx.commit();
 		}
 		finally
@@ -250,7 +261,7 @@ public class ExplorationDaoImpl implements ExplorationDao {
 	}
 
 	@Override
-	public List<String> getType() {
+	public List<String> getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> types=null;
@@ -260,8 +271,10 @@ public class ExplorationDaoImpl implements ExplorationDao {
 			Transaction tx=session.beginTransaction();
 			types=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct type from Exploration where type!=' ' order by type asc");
-			types=(List<String>)query.list();				
+			Criteria criteria=session.createCriteria(Exploration.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_TYPE)));
+			types=criteria.list();				
 			tx.commit();
 		}
 		finally

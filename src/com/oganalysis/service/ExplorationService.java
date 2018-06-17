@@ -6,10 +6,10 @@ import java.util.Map;
 public interface ExplorationService {
 	public String getExplorationData(Map<String,List<String>> selectedOptions,String displayType);
 	public String getRegions();
-	public String getCountries();	
-	public String getBasins();	
-	public String getOwners();	
-	public String getOperators();	
-	public String getStatus();	
-	public String getType();
+	public String getCountries(Map<String,List<String>> selectedOptions);	
+	public String getBasins(Map<String,List<String>> selectedOptions);	
+	public String getOwners(Map<String,List<String>> selectedOptions);	
+	public String getOperators(Map<String,List<String>> selectedOptions);	
+	public String getStatus(Map<String,List<String>> selectedOptions);	
+	public String getType(Map<String,List<String>> selectedOptions);
 }

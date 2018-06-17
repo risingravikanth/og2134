@@ -43,7 +43,7 @@ public class ExplorationController {
 	private ExplorationService explorationServiceImpl;
 //		
 	@ResponseBody
-	@RequestMapping(method={RequestMethod.GET})
+	@RequestMapping(method={RequestMethod.POST})
 	public String getExplorationData(HttpServletRequest req)
 	{				
 		String response=LOGIN;		
@@ -56,46 +56,52 @@ public class ExplorationController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegions()
 	{			
 		return explorationServiceImpl.getRegions();		
 	}	
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{					
-		return explorationServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getCountries(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/basins",method={RequestMethod.GET})
-	public String getBasins()
+	@RequestMapping(value="/basins",method={RequestMethod.POST})
+	public String getBasins(HttpServletRequest req)
 	{					
-		return explorationServiceImpl.getBasins();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getBasins(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/owners",method={RequestMethod.GET})
-	public String getOwners()
+	@RequestMapping(value="/owners",method={RequestMethod.POST})
+	public String getOwners(HttpServletRequest req)
 	{					
-		return explorationServiceImpl.getOwners();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getOwners(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/operators",method={RequestMethod.GET})
-	public String getOperators()
+	@RequestMapping(value="/operators",method={RequestMethod.POST})
+	public String getOperators(HttpServletRequest req)
 	{					
-		return explorationServiceImpl.getOperators();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getOperators(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/status",method={RequestMethod.GET})
-	public String getStatus()
+	@RequestMapping(value="/status",method={RequestMethod.POST})
+	public String getStatus(HttpServletRequest req)
 	{					
-		return explorationServiceImpl.getStatus();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getStatus(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/type",method={RequestMethod.GET})
-	public String getType()
+	@RequestMapping(value="/type",method={RequestMethod.POST})
+	public String getType(HttpServletRequest req)
 	{				
-		return explorationServiceImpl.getType();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return explorationServiceImpl.getType(selectedOptions);				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

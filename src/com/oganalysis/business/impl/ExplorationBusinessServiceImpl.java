@@ -119,39 +119,39 @@ public class ExplorationBusinessServiceImpl implements
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getCountries();
+		return explorationDao.getCountries(selectedOptions);
 	}
 
 	@Override
-	public List<String> getBasins() {
+	public List<String> getBasins(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getBasins();
+		return explorationDao.getBasins(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getOwners();
+		return explorationDao.getOwners(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getOperators();
+		return explorationDao.getOperators(selectedOptions);
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getStatus();
+		return explorationDao.getStatus(selectedOptions);
 	}
 
 	@Override
-	public List<String> getType() {
+	public List<String> getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return explorationDao.getType();
+		return explorationDao.getType(selectedOptions);
 	}
 		
 	
