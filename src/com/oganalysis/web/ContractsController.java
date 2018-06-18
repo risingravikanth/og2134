@@ -26,7 +26,7 @@ public class ContractsController {
 	private ContractsService contractsServiceImpl;
 	
 	@ResponseBody
-	@RequestMapping(value="/quantity",method={RequestMethod.GET})
+	@RequestMapping(value="/quantity",method={RequestMethod.POST})
 	public String getContractsQuantity(HttpServletRequest req)
 	{
 		String response=LOGIN;
@@ -41,7 +41,7 @@ public class ContractsController {
 		return response;
 	}
 //	@ResponseBody
-//	@RequestMapping(value="/modalquantity",method={RequestMethod.GET})
+//	@RequestMapping(value="/modalquantity",method={RequestMethod.POST})
 //	public String getQuantityModalData(HttpServletRequest req)
 //	{
 //		
@@ -56,7 +56,7 @@ public class ContractsController {
 //		return response;
 //	}
 	@ResponseBody
-	@RequestMapping(value="/importcountries",method={RequestMethod.GET})
+	@RequestMapping(value="/importcountries",method={RequestMethod.POST})
 	public String getImportCountries(HttpServletRequest req)
 	{
 		
@@ -67,7 +67,7 @@ public class ContractsController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/importcompanies",method={RequestMethod.GET})
+	@RequestMapping(value="/importcompanies",method={RequestMethod.POST})
 	public String getImportCompanies(HttpServletRequest req)
 	{
 		
@@ -78,13 +78,13 @@ public class ContractsController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/exportcompanies",method={RequestMethod.GET})
+	@RequestMapping(value="/exportcompanies",method={RequestMethod.POST})
 	public String getExportCompanies(HttpServletRequest req)
 	{				
 		return contractsServiceImpl.getExportCompanies();				
 	}
 	@ResponseBody
-	@RequestMapping(value="/exportcountries",method={RequestMethod.GET})
+	@RequestMapping(value="/exportcountries",method={RequestMethod.POST})
 	public String getExportCountries(HttpServletRequest req)
 	{						
 		return contractsServiceImpl.getExportCountries();				
