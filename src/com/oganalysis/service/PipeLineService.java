@@ -14,9 +14,9 @@ public interface PipeLineService {
 	
 	
 	public String getRegions();	
-	public String getCountries();	
-	public String getCommodities();
-	public String getStartPoints();
-	public String getEndPoints();
-	public String getStatus();	
+	public String getCountries(Map<String,List<String>> selectedOptions);	
+	public String getCommodities(Map<String,List<String>> selectedOptions);
+	public String getStartPoints(Map<String,List<String>> selectedOptions);
+	public String getEndPoints(Map<String,List<String>> selectedOptions);
+	public String getStatus(Map<String,List<String>> selectedOptions);	
 }

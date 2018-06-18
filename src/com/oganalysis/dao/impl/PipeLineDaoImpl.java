@@ -28,7 +28,7 @@ public class PipeLineDaoImpl implements PipeLineDao {
 
 
 	@Override
-	public List<String> getCommodities() {
+	public List<String> getCommodities(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> commodities=null;
@@ -38,8 +38,10 @@ public class PipeLineDaoImpl implements PipeLineDao {
 			Transaction tx=session.beginTransaction();
 			commodities=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct commodity from PipeLine where commodity!=' ' order by commodity asc");
-			commodities=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(PipeLine.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COMMODITY)));
+			commodities=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -52,7 +54,7 @@ public class PipeLineDaoImpl implements PipeLineDao {
 
 
 	@Override
-	public List<String> getStartPoints() {
+	public List<String> getStartPoints(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> startPoints=null;
@@ -62,8 +64,10 @@ public class PipeLineDaoImpl implements PipeLineDao {
 			Transaction tx=session.beginTransaction();
 			startPoints=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct startPoint from PipeLine where startPoint!=' ' order by startPoint asc");
-			startPoints=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(PipeLine.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STARTPOINT)));
+			startPoints=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -76,7 +80,7 @@ public class PipeLineDaoImpl implements PipeLineDao {
 
 
 	@Override
-	public List<String> getEndPoints() {
+	public List<String> getEndPoints(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> endPoints=null;
@@ -86,8 +90,10 @@ public class PipeLineDaoImpl implements PipeLineDao {
 			Transaction tx=session.beginTransaction();
 			endPoints=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct endPoint from PipeLine where endPoint!=' ' order by endPoint asc");
-			endPoints=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(PipeLine.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_ENDPOINT)));
+			endPoints=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -122,7 +128,7 @@ public class PipeLineDaoImpl implements PipeLineDao {
 
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;
@@ -132,8 +138,10 @@ public class PipeLineDaoImpl implements PipeLineDao {
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from PipeLine where country!=' ' order by country asc");
-			countries=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(PipeLine.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=criteria.list();
 			tx.commit();
 		}
 		finally
@@ -146,7 +154,7 @@ public class PipeLineDaoImpl implements PipeLineDao {
 
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> status=null;
@@ -156,8 +164,10 @@ public class PipeLineDaoImpl implements PipeLineDao {
 			Transaction tx=session.beginTransaction();
 			status=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct status from PipeLine where status!=' ' order by status asc");
-			status=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(PipeLine.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));
+			status=criteria.list();
 			tx.commit();
 		}
 		finally

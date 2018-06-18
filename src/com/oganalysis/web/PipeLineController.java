@@ -24,7 +24,7 @@ public class PipeLineController {
 	private PipeLineService pipeLineServiceImpl;
 		
 	@ResponseBody
-	@RequestMapping(value="/domestic/length",method={RequestMethod.GET})
+	@RequestMapping(value="/domestic/length",method={RequestMethod.POST})
 	public String getDomesticData(HttpServletRequest req)
 	{				
 		String response=LOGIN;		
@@ -37,7 +37,7 @@ public class PipeLineController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/transnational/length",method={RequestMethod.GET})
+	@RequestMapping(value="/transnational/length",method={RequestMethod.POST})
 	public String getTransNationalData(HttpServletRequest req)
 	{				
 		String response=LOGIN;		
@@ -50,40 +50,45 @@ public class PipeLineController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegions()
 	{					
 		return pipeLineServiceImpl.getRegions();				
 	}
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{					
-		return pipeLineServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return pipeLineServiceImpl.getCountries(selectedOptions);				
 	}	
 	@ResponseBody
-	@RequestMapping(value="/status",method={RequestMethod.GET})
-	public String getStatus()
+	@RequestMapping(value="/status",method={RequestMethod.POST})
+	public String getStatus(HttpServletRequest req)
 	{					
-		return pipeLineServiceImpl.getStatus();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return pipeLineServiceImpl.getStatus(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/commodities",method={RequestMethod.GET})
-	public String getPipeLineCommodities()
+	@RequestMapping(value="/commodities",method={RequestMethod.POST})
+	public String getPipeLineCommodities(HttpServletRequest req)
 	{					
-		return pipeLineServiceImpl.getCommodities();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return pipeLineServiceImpl.getCommodities(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/startpoints",method={RequestMethod.GET})
-	public String getPipeLineStartPoints()
+	@RequestMapping(value="/startpoints",method={RequestMethod.POST})
+	public String getPipeLineStartPoints(HttpServletRequest req)
 	{					
-		return pipeLineServiceImpl.getStartPoints();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return pipeLineServiceImpl.getStartPoints(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/endpoints",method={RequestMethod.GET})
-	public String getPipeLineEndPoints()
+	@RequestMapping(value="/endpoints",method={RequestMethod.POST})
+	public String getPipeLineEndPoints(HttpServletRequest req)
 	{					
-		return pipeLineServiceImpl.getEndPoints();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return pipeLineServiceImpl.getEndPoints(selectedOptions);				
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

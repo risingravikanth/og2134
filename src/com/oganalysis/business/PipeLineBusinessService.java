@@ -13,9 +13,9 @@ public interface PipeLineBusinessService {
 	public Map<String,List<Map>> getTransNationalPipeLines(Map<String,List<String>> selectedOptions);
 	
 	public List<String> getRegions();	
-	public List<String> getCountries();	
-	public List<String> getCommodities();
-	public List<String> getStartPoints();
-	public List<String> getEndPoints();
-	public List<String> getStatus();
+	public List<String> getCountries(Map<String,List<String>> selectedOptions);	
+	public List<String> getCommodities(Map<String,List<String>> selectedOptions);
+	public List<String> getStartPoints(Map<String,List<String>> selectedOptions);
+	public List<String> getEndPoints(Map<String,List<String>> selectedOptions);
+	public List<String> getStatus(Map<String,List<String>> selectedOptions);
 }

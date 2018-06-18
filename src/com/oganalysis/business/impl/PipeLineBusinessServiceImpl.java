@@ -191,33 +191,33 @@ public class PipeLineBusinessServiceImpl implements PipeLineBusinessService {
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return pipelineDao.getCountries();
+		return pipelineDao.getCountries(selectedOptions);
 	}
 
 	@Override
-	public List<String> getCommodities() {
+	public List<String> getCommodities(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return pipelineDao.getCommodities();
+		return pipelineDao.getCommodities(selectedOptions);
 	}
 
 	@Override
-	public List<String> getStartPoints() {
+	public List<String> getStartPoints(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return pipelineDao.getStartPoints();
+		return pipelineDao.getStartPoints(selectedOptions);
 	}
 
 	@Override
-	public List<String> getEndPoints() {
+	public List<String> getEndPoints(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return pipelineDao.getEndPoints();
+		return pipelineDao.getEndPoints(selectedOptions);
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return pipelineDao.getStatus();
+		return pipelineDao.getStatus(selectedOptions);
 	}
 	private List<String> getSelectedPipelines(List<PipeLine> selectedPipeLines)
 	{

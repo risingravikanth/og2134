@@ -99,46 +99,46 @@ public class PipeLineServiceImpl implements PipeLineService {
 		return jsonRes;
 	}
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=pipeLineBusinessServiceImpl.getCountries();
+		List<String> countriesList=pipeLineBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
-	public String getCommodities() {
+	public String getCommodities(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> commodityList=pipeLineBusinessServiceImpl.getCommodities();
+		List<String> commodityList=pipeLineBusinessServiceImpl.getCommodities(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCommoditiesResponse(commodityList);
 		return jsonRes;		
 	}
 	@Override
-	public String getStartPoints() {
+	public String getStartPoints(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> startPointList=pipeLineBusinessServiceImpl.getStartPoints();
+		List<String> startPointList=pipeLineBusinessServiceImpl.getStartPoints(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createStartPointResponse(startPointList);
 		return jsonRes;	
 	}
 	@Override
-	public String getEndPoints() {
+	public String getEndPoints(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> endPointList=pipeLineBusinessServiceImpl.getEndPoints();
+		List<String> endPointList=pipeLineBusinessServiceImpl.getEndPoints(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createEndPointResponse(endPointList);
 		return jsonRes;	
 	}
 	@Override
-	public String getStatus() {
+	public String getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> statusList=pipeLineBusinessServiceImpl.getStatus();
+		List<String> statusList=pipeLineBusinessServiceImpl.getStatus(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createStatus(statusList);
 		return jsonRes;
