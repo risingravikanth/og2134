@@ -32,14 +32,14 @@ public class PdfReportsController {
 	@Autowired
 	private ServletContext servletContext;
 	@ResponseBody
-	@RequestMapping("/pdfReports")
+	@RequestMapping(value="/pdfReports",method={RequestMethod.POST})
 	public String pdfReportsFileList(HttpServletRequest request)
 	{
 		String response=LOGIN;
 		System.out.println("Jeevan");
 		if(null!=request.getSession().getAttribute(EMAIL))
 		{
-			Map<String,List> selectedOptions=getSelectedOptionsData(request);
+			Map<String,List<String>> selectedOptions=getSelectedOptionsData(request);
 			response=pdfReportsServiceImpl.getReportsList(selectedOptions);
 			
 		}		
@@ -87,27 +87,29 @@ public class PdfReportsController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/pdfreport/regions",method={RequestMethod.GET})
-	public String getRegions()
-	{					
+	@RequestMapping(value="/pdfreport/regions",method={RequestMethod.POST})
+	public String getRegions(HttpServletRequest request)
+	{							
 		return pdfReportsServiceImpl.getRegions();				
 	}	
 	@ResponseBody
-	@RequestMapping(value="/pdfreport/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/pdfreport/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest request)
 	{			
-		return pdfReportsServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(request);
+		return pdfReportsServiceImpl.getCountries(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/pdfreport/sectors",method={RequestMethod.GET})
-	public String getSectors()
+	@RequestMapping(value="/pdfreport/sectors",method={RequestMethod.POST})
+	public String getSectors(HttpServletRequest request)
 	{			
-		return pdfReportsServiceImpl.getSectors();			
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(request);
+		return pdfReportsServiceImpl.getSectors(selectedOptions);			
 	}
-	private Map<String,List> getSelectedOptionsData(HttpServletRequest request)
+	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();
-		Map<String,List> optionsMap=new HashMap<String,List>();
+		Map<String,List<String>> optionsMap=new HashMap<String,List<String>>();
 		List<String> selectedCountries=new ArrayList<String>();
 		List<String> selectedRegions=new ArrayList<String>();
 		List<String> selectedSectors=new ArrayList<String>();

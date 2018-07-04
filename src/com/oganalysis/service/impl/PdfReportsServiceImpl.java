@@ -17,7 +17,7 @@ import com.oganalysis.service.PdfReportsService;
 public class PdfReportsServiceImpl implements PdfReportsService {
 	private PdfReportsDao pdfReportsDao;
 	@Override
-	public String getReportsList(Map<String, List> selectedOptions) {
+	public String getReportsList(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String response=null;
 		List<Report> reportsList=pdfReportsDao.getPdfReports(selectedOptions);
@@ -64,16 +64,16 @@ public class PdfReportsServiceImpl implements PdfReportsService {
 		return res.createRegions(regions);
 	}
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<String> countries=pdfReportsDao.getCountries();
+		List<String> countries=pdfReportsDao.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		return res.createCountries(countries);
 	}
 	@Override
-	public String getSectors() {
+	public String getSectors(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<String> sectors=pdfReportsDao.getSecotors();
+		List<String> sectors=pdfReportsDao.getSectors(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		return res.createSectors(sectors);
 	}	

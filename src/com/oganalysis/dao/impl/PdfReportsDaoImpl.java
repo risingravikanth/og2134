@@ -12,9 +12,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.PdfReportsDao;
+import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.Report;
 
 public class PdfReportsDaoImpl implements PdfReportsDao {	
@@ -26,7 +28,7 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 		this.sessionFactory=sessionFactory;
 	}
 	@Override
-	public List<Report> getPdfReports(Map<String, List> selectedOptions) {
+	public List<Report> getPdfReports(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		List<Report> reports=null;
 		Session session=null;
@@ -35,30 +37,8 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 			session=sessionFactory.openSession();
 			Transaction tx=session.beginTransaction();
 			tx.begin();
-			Criteria criteria=session.createCriteria(Report.class);
-			
-			List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
-			List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
-			List<String> sectors=selectedOptions.get(OPTION_SELECTED_SECTORS);
-			
-			if(countries!=null && countries.size()>0)
-			{
-				Criterion counrtryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY,countries);
-				criteria.add(counrtryCriterion);
-			}
-				
-			if(regions!=null && regions.size()>0)
-			{
-				Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION,regions);
-				criteria.add(regionCriterion);
-			}
-			
-			if(sectors!=null && sectors.size()>0)
-			{
-				Criterion sectorCriterion=Restrictions.in(RESTRICTION_PROPERTY_SECTOR,sectors);
-				criteria.add(sectorCriterion);
-			}
-			
+			Criteria criteria=session.createCriteria(Report.class);					
+			createFiltersCriteria(selectedOptions, criteria);			
 			reports=criteria.list();
 			tx.commit();
 		}
@@ -92,7 +72,7 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 		return regions;
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;
@@ -102,8 +82,10 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from Report where country!=' ' order by country asc");
-			countries=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Report.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -114,7 +96,7 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 		return countries;
 	}
 	@Override
-	public List<String> getSecotors() {
+	public List<String> getSectors(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> sectors=null;
@@ -124,8 +106,10 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 			Transaction tx=session.beginTransaction();
 			sectors=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct sector from Report where sector!=' ' order by sector asc");
-			sectors=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Report.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_SECTOR)));
+			sectors=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -134,6 +118,29 @@ public class PdfReportsDaoImpl implements PdfReportsDao {
 				session.close();
 		}			
 		return sectors;
+	}
+	private void createFiltersCriteria(Map<String,List<String>> selectedOptions,Criteria criteria)
+	{
+		List<String> countries=selectedOptions.get(OPTION_SELECTED_COUNTRIES);
+		List<String> regions=selectedOptions.get(OPTION_SELECTED_REGIONS);
+		List<String> sectors=selectedOptions.get(OPTION_SELECTED_SECTORS);;
+		
+		if(countries!=null && countries.size()>0)
+		{
+			Criterion countryCriterion=Restrictions.in(RESTRICTION_PROPERTY_COUNTRY, countries);
+			criteria.add(countryCriterion);
+		}
+			
+		if(regions!=null && regions.size()>0)
+		{
+			Criterion regionCriterion=Restrictions.in(RESTRICTION_PROPERTY_REGION, regions);
+			criteria.add(regionCriterion);
+		}
+		if(sectors!=null && sectors.size()>0)
+		{
+			Criterion sectorCriterion=Restrictions.in(RESTRICTION_PROPERTY_SECTOR,sectors);
+			criteria.add(sectorCriterion);
+		}			
 	}
 
 }
