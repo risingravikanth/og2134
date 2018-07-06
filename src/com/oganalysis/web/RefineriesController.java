@@ -35,7 +35,7 @@ public class RefineriesController {
 	private ServletContext servletContext;
 	
 	@ResponseBody
-	@RequestMapping(value="/capacity",method={RequestMethod.GET})
+	@RequestMapping(value="/capacity",method={RequestMethod.POST})
 	public String getRefineriesCapacityData(HttpServletRequest req)
 	{		
 		String response=LOGIN;
@@ -51,7 +51,7 @@ public class RefineriesController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/modalcapacity",method={RequestMethod.GET})
+	@RequestMapping(value="/modalcapacity",method={RequestMethod.POST})
 	public String getRefineriesCapacityModalData(HttpServletRequest req)
 	{
 		
@@ -68,7 +68,7 @@ public class RefineriesController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/infrastructure",method={RequestMethod.GET})
+	@RequestMapping(value="/infrastructure",method={RequestMethod.POST})
 	public String getRefineriesInfrastructureData(HttpServletRequest req)
 	{
 		
@@ -81,41 +81,46 @@ public class RefineriesController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegions()
 	{					
 		return refineriesServiceImpl.getRegions();				
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
-	public String getCountries()
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
+	public String getCountries(HttpServletRequest req)
 	{					
-		return refineriesServiceImpl.getCountries();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return refineriesServiceImpl.getCountries(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/status",method={RequestMethod.GET})
-	public String getStatus()
+	@RequestMapping(value="/status",method={RequestMethod.POST})
+	public String getStatus(HttpServletRequest req)
 	{					
-		return refineriesServiceImpl.getStatus();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return refineriesServiceImpl.getStatus(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/locations",method={RequestMethod.GET})
-	public String getLocations()
+	@RequestMapping(value="/locations",method={RequestMethod.POST})
+	public String getLocations(HttpServletRequest req)
 	{					
-		return refineriesServiceImpl.getLocations();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return refineriesServiceImpl.getLocations(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/operators",method={RequestMethod.GET})
-	public String getOperators()
+	@RequestMapping(value="/operators",method={RequestMethod.POST})
+	public String getOperators(HttpServletRequest req)
 	{					
-		return refineriesServiceImpl.getOperators();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return refineriesServiceImpl.getOperators(selectedOptions);				
 	}
 	@ResponseBody
-	@RequestMapping(value="/owners",method={RequestMethod.GET})
-	public String getOwners()
+	@RequestMapping(value="/owners",method={RequestMethod.POST})
+	public String getOwners(HttpServletRequest req)
 	{					
-		return refineriesServiceImpl.getOwners();				
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
+		return refineriesServiceImpl.getOwners(selectedOptions);				
 	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response)  {

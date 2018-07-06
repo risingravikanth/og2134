@@ -1012,33 +1012,33 @@ public class RefineriesCapacityBusinessServiceImpl implements RefineriesCapacity
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return refineriesDao.getCountries();
+		return refineriesDao.getCountries(selectedOptions);
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return refineriesDao.getStatus();
+		return refineriesDao.getStatus(selectedOptions);
 	}
 
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return refineriesDao.getLocations();
+		return refineriesDao.getLocations(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return refineriesDao.getOperators();
+		return refineriesDao.getOperators(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return refineriesDao.getOwners();
+		return refineriesDao.getOwners(selectedOptions);
 	}
 	public RefineriesDao getRefineriesDao() {
 		return refineriesDao;

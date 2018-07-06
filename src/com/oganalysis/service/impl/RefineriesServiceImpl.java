@@ -106,46 +106,46 @@ public class RefineriesServiceImpl implements RefineriesService {
 		return jsonRes;
 	}
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=refineriesCapacityBusinessServiceImpl.getCountries();
+		List<String> countriesList=refineriesCapacityBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
-	public String getStatus() {
+	public String getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> statusList=refineriesCapacityBusinessServiceImpl.getStatus();
+		List<String> statusList=refineriesCapacityBusinessServiceImpl.getStatus(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override
-	public String getLocations() {
+	public String getLocations(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> locationsList=refineriesCapacityBusinessServiceImpl.getLocations();
+		List<String> locationsList=refineriesCapacityBusinessServiceImpl.getLocations(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createLocationsResponse(locationsList);
 		return jsonRes;
 	}
 	@Override
-	public String getOperators() {
+	public String getOperators(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> operatorList=refineriesCapacityBusinessServiceImpl.getOperators();
+		List<String> operatorList=refineriesCapacityBusinessServiceImpl.getOperators(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOperatorResponse(operatorList);
 		return jsonRes;
 	}
 	@Override
-	public String getOwners() {
+	public String getOwners(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> ownersList=refineriesCapacityBusinessServiceImpl.getOwners();
+		List<String> ownersList=refineriesCapacityBusinessServiceImpl.getOwners(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOwnersResponse(ownersList);
 		return jsonRes;

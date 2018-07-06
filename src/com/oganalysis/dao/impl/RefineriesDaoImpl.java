@@ -16,6 +16,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.RefineriesDao;
+import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.RefineriesFilter;
 import com.oganalysis.entities.Refinery;
 
@@ -388,7 +389,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 	}
 	
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;
@@ -398,8 +399,10 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from RefineriesFilter where country!=' ' order by country asc");			
-			countries=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Refinery.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));			
+			countries=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -462,7 +465,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		return terminals;
 	}
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> locations=null;
@@ -472,8 +475,10 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			locations=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct location from Refinery where location!=' ' order by location asc");
-			locations=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Refinery.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_LOCATION)));
+			locations=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -484,7 +489,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		return locations;
 	}
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> operators=null;
@@ -494,8 +499,10 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			operators=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct currentOperator from Refinery where currentOperator!=' ' order by currentOperator asc");
-			operators=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Refinery.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTOPERATOR)));			
+			operators=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -506,7 +513,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		return operators;
 	}
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> owners=null;
@@ -516,8 +523,10 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			owners=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct currentEquityPartners from Refinery where currentEquityPartners!=' ' order by currentEquityPartners asc");
-			owners=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Refinery.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS)));			
+			owners=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally
@@ -550,7 +559,7 @@ public class RefineriesDaoImpl implements RefineriesDao{
 		return regions;
 	}
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> status=null;
@@ -560,8 +569,10 @@ public class RefineriesDaoImpl implements RefineriesDao{
 			Transaction tx=session.beginTransaction();
 			status=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct status from Refinery where status!=' ' order by status asc");
-			status=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Refinery.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));			
+			status=(List<String>)criteria.list();
 			tx.commit();
 		}
 		finally

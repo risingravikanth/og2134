@@ -60,7 +60,7 @@ public class RefineriesCache {
 	public Map<String,List<String>> createCountryTerminals()
 	{
 		Map<String,List<String>> countryTerminalsMap=new HashMap<String, List<String>>();
-		List<String> countries=refineriesDao.getCountries();
+		List<String> countries=refineriesDao.getCountries(new HashMap<String,List<String>>());
 		for(String country:countries)
 		{
 			List<String> terminals=refineriesDao.getCountryTerminals(country);
