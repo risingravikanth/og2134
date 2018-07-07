@@ -74,7 +74,7 @@ public class StorageCache {
 	public Map<String,List<String>> createCountryTerminals()
 	{
 		Map<String,List<String>> countryTerminalsMap=new HashMap<String, List<String>>();
-		List<String> countries=storageDao.getCountries();
+		List<String> countries=storageDao.getCountries(new HashMap<String,List<String>>());
 		for(String country:countries)
 		{
 			List<String> terminals=storageDao.getCountryTerminals(country);

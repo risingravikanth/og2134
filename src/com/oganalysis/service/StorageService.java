@@ -17,10 +17,10 @@ public interface StorageService {
 	
 	
 	public String getRegions();	
-	public String getCountries();	
-	public String getStatus();	
-	public String getLocations();	
-	public String getOperators();	
-	public String getOwners();
+	public String getCountries(Map<String,List<String>> selectedOptions);	
+	public String getStatus(Map<String,List<String>> selectedOptions);	
+	public String getLocations(Map<String,List<String>> selectedOptions);	
+	public String getOperators(Map<String,List<String>> selectedOptions);	
+	public String getOwners(Map<String,List<String>> selectedOptions);
 	
 }

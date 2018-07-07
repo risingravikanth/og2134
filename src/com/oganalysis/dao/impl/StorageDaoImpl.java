@@ -29,7 +29,7 @@ public class StorageDaoImpl implements StorageDao{
 		this.sessionFactory=sessionFactory;
 	}
 	
-	public List<String> getLocations()
+	public List<String> getLocations(Map<String, List<String>> selectedOptions)
 	{
 
 		// TODO Auto-generated method stub
@@ -54,7 +54,7 @@ public class StorageDaoImpl implements StorageDao{
 	
 	}
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> operators=null;
@@ -77,7 +77,7 @@ public class StorageDaoImpl implements StorageDao{
 	}
 
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> owners=null;
@@ -122,7 +122,7 @@ public class StorageDaoImpl implements StorageDao{
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> status=null;
@@ -389,7 +389,7 @@ public class StorageDaoImpl implements StorageDao{
 		return companyTerminals;
 	}
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
 		List<String> countries=null;

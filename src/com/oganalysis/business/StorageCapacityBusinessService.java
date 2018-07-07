@@ -12,10 +12,10 @@ public interface StorageCapacityBusinessService {
 	public Map getTerminalData(String recordName);
 	
 	public List<String> getRegions();
-	public List<String> getCountries();
-	public List<String> getStatus();	
-	public List<String> getLocations();	
-	public List<String> getOperators();	
-	public List<String> getOwners();
+	public List<String> getCountries(Map<String,List<String>> selectedOptions);
+	public List<String> getStatus(Map<String,List<String>> selectedOptions);	
+	public List<String> getLocations(Map<String,List<String>> selectedOptions);	
+	public List<String> getOperators(Map<String,List<String>> selectedOptions);	
+	public List<String> getOwners(Map<String,List<String>> selectedOptions);
 	
 }

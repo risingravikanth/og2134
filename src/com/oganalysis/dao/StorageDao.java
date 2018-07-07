@@ -26,7 +26,7 @@ public interface StorageDao {
 //	 Below is for cache
 	public List<Storage> getStorage(int year);
 	public List<String> getCompanies();
-	public List<String> getCountries();	
+	public List<String> getCountries(Map<String,List<String>> selectedOptions);	
 	public List<String> getCountryTerminals(String country);
 	public List<String> getCompanyTerminals(String company);
 	public List<String> getTerminals();
@@ -35,9 +35,9 @@ public interface StorageDao {
 	List<String> getSelectedTerminals(Map<String,List<String>> selectedOptions);
 	//filters
 	public List<String> getRegions();		
-	public List<String> getStatus();	
-	public List<String> getLocations();	
-	public List<String> getOperators();	
-	public List<String> getOwners();		
+	public List<String> getStatus(Map<String,List<String>> selectedOptions);	
+	public List<String> getLocations(Map<String,List<String>> selectedOptions);	
+	public List<String> getOperators(Map<String,List<String>> selectedOptions);	
+	public List<String> getOwners(Map<String,List<String>> selectedOptions);		
 
 }

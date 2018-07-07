@@ -101,46 +101,46 @@ public class StorageServiceImpl implements StorageService {
 		return jsonRes;
 	}
 	@Override
-	public String getCountries() {
+	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=storageCapacityBusinessServiceImpl.getCountries();
+		List<String> countriesList=storageCapacityBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createCountries(countriesList);
 		return jsonRes;
 	}
 	@Override
-	public String getStatus() {
+	public String getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> statusList=storageCapacityBusinessServiceImpl.getStatus();
+		List<String> statusList=storageCapacityBusinessServiceImpl.getStatus(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createStatus(statusList);
 		return jsonRes;
 	}
 	@Override
-	public String getLocations() {
+	public String getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> locationsList=storageCapacityBusinessServiceImpl.getLocations();
+		List<String> locationsList=storageCapacityBusinessServiceImpl.getLocations(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createLocationsResponse(locationsList);
 		return jsonRes;
 	}
 	@Override
-	public String getOperators() {
+	public String getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> operatorList=storageCapacityBusinessServiceImpl.getOperators();
+		List<String> operatorList=storageCapacityBusinessServiceImpl.getOperators(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOperatorResponse(operatorList);
 		return jsonRes;
 	}
 	@Override
-	public String getOwners() {
+	public String getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> ownersList=storageCapacityBusinessServiceImpl.getOwners();
+		List<String> ownersList=storageCapacityBusinessServiceImpl.getOwners(selectedOptions);
 		JsonResponse res=new JsonResponse();
 		jsonRes=res.createOwnersResponse(ownersList);
 		return jsonRes;

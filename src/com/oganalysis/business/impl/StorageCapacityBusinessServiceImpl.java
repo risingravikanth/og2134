@@ -387,33 +387,33 @@ public class StorageCapacityBusinessServiceImpl implements StorageCapacityBusine
 	}
 
 	@Override
-	public List<String> getCountries() {
+	public List<String> getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return storageDao.getCountries();
+		return storageDao.getCountries(selectedOptions);
 	}
 
 	@Override
-	public List<String> getStatus() {
+	public List<String> getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return storageDao.getStatus();
+		return storageDao.getStatus(selectedOptions);
 	}
 
 	@Override
-	public List<String> getLocations() {
+	public List<String> getLocations(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return storageDao.getLocations();
+		return storageDao.getLocations(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOperators() {
+	public List<String> getOperators(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return storageDao.getOperators();
+		return storageDao.getOperators(selectedOptions);
 	}
 
 	@Override
-	public List<String> getOwners() {
+	public List<String> getOwners(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		return storageDao.getOwners();
+		return storageDao.getOwners(selectedOptions);
 	}
 	private List<Integer> getSelectedYears(int startYear,int endYear)
 	{
