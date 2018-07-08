@@ -93,110 +93,101 @@ public class FilterDataServiceImpl implements FilterDataService {
 	@Override
 	public String getRefineryLocations() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=refineriesDao.getLocations();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> locationsList=refineriesDao.getLocations();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createLocationsResponse(locationsList);
+		return BLANK;
 	}
 	@Override
 	public String getRefineryOperators() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=refineriesDao.getOperators();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> operatorList=refineriesDao.getOperators();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOperatorResponse(operatorList);
+		return BLANK;
 	}
 	@Override
 	public String getRefineryOwners() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=refineriesDao.getOwners();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> ownersList=refineriesDao.getOwners();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOwnersResponse(ownersList);
+		return BLANK;
 	}
 	@Override
 	public String getStorageLocations() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=storageDao.getLocations();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> locationsList=storageDao.getLocations();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createLocationsResponse(locationsList);
+		return BLANK;
 	}
 	@Override
 	public String getStorageOwners() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=storageDao.getOwners();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> ownersList=storageDao.getOwners();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOwnersResponse(ownersList);
+		return BLANK;
 	}
 	@Override
 	public String getStorageOperators() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=storageDao.getOperators();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+//		String jsonRes=null;
+//		List<String> operatorList=storageDao.getOperators();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createOperatorResponse(operatorList);
+		return BLANK;
 	}
 	@Override
 	public String getPipeLineCommodities() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> commodityList=pipelineDao.getCommodities();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCommoditiesResponse(commodityList);
-		return jsonRes;		
+//		String jsonRes=null;
+//		List<String> commodityList=pipelineDao.getCommodities();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createCommoditiesResponse(commodityList);
+//		return jsonRes;		
+		return BLANK;
 	}
 	@Override
 	public String getPipeLineStartPoints() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> startPointList=pipelineDao.getStartPoints();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStartPointResponse(startPointList);
-		return jsonRes;	
+//		String jsonRes=null;
+//		List<String> startPointList=pipelineDao.getStartPoints();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createStartPointResponse(startPointList);
+//		return jsonRes;
+		return BLANK;
 	}
 	@Override
 	public String getPipeLineEndPoints() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> endPointList=pipelineDao.getEndPoints();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createEndPointResponse(endPointList);
-		return jsonRes;	
+//		String jsonRes=null;
+//		List<String> endPointList=pipelineDao.getEndPoints();
+//		JsonResponse res=new JsonResponse();
+//		jsonRes=res.createEndPointResponse(endPointList);
+//		return jsonRes;	
+		return BLANK;
 	}		
 	@Override
 	public String getExplorationBasins() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> basinList=explorationDao.getBasins();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createBasinResponse(basinList);
-		return jsonRes;	
+		return BLANK;
 	}
 	@Override
 	public String getExplorationOwners() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=explorationDao.getOwners();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;	
+		return BLANK;
 	}
 	@Override
 	public String getExplorationOperators() {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorsList=explorationDao.getOperators();
-		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorsList);
-		return jsonRes;
+		return BLANK;
 	}
 	
 	

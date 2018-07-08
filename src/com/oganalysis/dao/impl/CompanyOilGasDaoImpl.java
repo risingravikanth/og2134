@@ -42,5 +42,28 @@ public class CompanyOilGasDaoImpl implements CompanyOilGasDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> regions=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			regions=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from CompanyOilGas where country!=' ' order by country asc");
+			regions=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return regions;
+	}
 	
 }

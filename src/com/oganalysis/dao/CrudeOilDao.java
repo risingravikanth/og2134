@@ -7,4 +7,7 @@ import com.oganalysis.entities.CrudeOil;
 
 public interface CrudeOilDao {
 	List<CrudeOil> getCrudeOil(Map<String,List<String>> selectedOptions);
+	
+	public List<String> getRegions();
+	public List<String> getCountries(Map<String,List<String>> selectedOptions);
 }

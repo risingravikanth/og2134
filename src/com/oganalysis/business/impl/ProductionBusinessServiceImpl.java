@@ -1,11 +1,34 @@
 package com.oganalysis.business.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.*;
+import static com.oganalysis.constants.ApplicationConstants.BCMNG;
+import static com.oganalysis.constants.ApplicationConstants.COMPANY;
+import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
+import static com.oganalysis.constants.ApplicationConstants.FIELD;
+import static com.oganalysis.constants.ApplicationConstants.MBOE;
+import static com.oganalysis.constants.ApplicationConstants.MTOE;
+import static com.oganalysis.constants.ApplicationConstants.NATURALGAS;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_COUNTRIES;
+import static com.oganalysis.constants.ApplicationConstants.OPTION_SELECTED_UNITS;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2005;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2006;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2007;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2008;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2009;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2010;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2011;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2012;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2013;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2014;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2015;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2016;
+import static com.oganalysis.constants.ApplicationConstants.YEAR2017;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.oganalysis.business.ProductionBusinessService;
 import com.oganalysis.dao.CompanyOilGasDao;
@@ -563,6 +586,38 @@ public class ProductionBusinessServiceImpl implements ProductionBusinessService 
 	}
 	public void setDefaultCountry(String defaultCountry) {
 		this.defaultCountry = defaultCountry;
+	}
+	@Override
+	public List<String> getAssetRegions() {
+		// TODO Auto-generated method stub
+		List<String> gasRegions=naturalGasDao.getRegions();
+		List<String> oilRegions=crudeOilDao.getRegions();
+		Set<String> bothRegions=new TreeSet<String>();
+		bothRegions.addAll(gasRegions);
+		bothRegions.addAll(oilRegions);
+		List<String> assetRegions=new ArrayList<String>();
+		for(String region:bothRegions)
+			assetRegions.add(region);
+		return assetRegions;
+	}
+	@Override
+	public List<String> getAssetCountries(
+			Map<String, List<String>> selectedOptions) {
+		// TODO Auto-generated method stub
+		List<String> gasCountries=naturalGasDao.getCountries(selectedOptions);
+		List<String> oilCountries=crudeOilDao.getCountries(selectedOptions);
+		Set<String> bothCountries=new TreeSet<String>();
+		bothCountries.addAll(gasCountries);
+		bothCountries.addAll(oilCountries);
+		List<String> assetCountries=new ArrayList<String>();
+		for(String country:bothCountries)
+			assetCountries.add(country);
+		return assetCountries;
+	}
+	@Override
+	public List<String> getCompanyCountries() {
+		// TODO Auto-generated method stub
+		return companyOilGasDao.getCountries();
 	}	
 	
 }

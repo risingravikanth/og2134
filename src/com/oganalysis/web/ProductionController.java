@@ -26,7 +26,7 @@ public class ProductionController {
 	private ProductionService productionServiceImpl;
 	
 	@ResponseBody
-	@RequestMapping(value="/asset",method={RequestMethod.GET})
+	@RequestMapping(value="/asset",method={RequestMethod.POST})
 	public String getProductionAsset(HttpServletRequest req)
 	{
 		String response=LOGIN;
@@ -41,7 +41,7 @@ public class ProductionController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/company",method={RequestMethod.GET})
+	@RequestMapping(value="/company",method={RequestMethod.POST})
 	public String getProductionCompany(HttpServletRequest req)
 	{
 		String response=LOGIN;
@@ -53,6 +53,25 @@ public class ProductionController {
 			response=productionServiceImpl.getCompanyOilGasData(selectedOptions,startYear,endYear);
 		}		
 		return response;
+	}
+	@ResponseBody
+	@RequestMapping(value="/asset/regions",method={RequestMethod.GET})
+	public String getAssetRegions(HttpServletRequest req)
+	{				
+		return productionServiceImpl.getAssetRegions();
+	}
+	@ResponseBody
+	@RequestMapping(value="/asset/countries",method={RequestMethod.POST})
+	public String getAssetCountries(HttpServletRequest req)
+	{
+		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);		
+		return productionServiceImpl.getAssetCountries(selectedOptions);
+	}
+	@ResponseBody
+	@RequestMapping(value="/company/countries",method={RequestMethod.GET})
+	public String getCompanyCountries(HttpServletRequest req)
+	{			
+		return productionServiceImpl.getCompanyCountries();
 	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.hibernate.mapping.Array;
 
 import com.oganalysis.business.ProductionBusinessService;
+import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.ProductionJsonResponse;
 import com.oganalysis.service.ProductionService;
 
@@ -111,10 +112,37 @@ public class ProductionServiceImpl implements ProductionService {
 		return res;
 		
 	}
+	@Override
+	public String getAssetRegions() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> regionsList=productionBusinessServiceImpl.getAssetRegions();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createRegions(regionsList);
+		return jsonRes;
+	}
+	@Override
+	public String getAssetCountries(Map<String, List<String>> selectedOptions) {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> countriesList=productionBusinessServiceImpl.getAssetCountries(selectedOptions);
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getCompanyCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> countriesList=productionBusinessServiceImpl.getCompanyCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
+		return jsonRes;
+	}
 	public void setProductionBusinessServiceImpl(
 			ProductionBusinessService productionBusinessServiceImpl) {
 		this.productionBusinessServiceImpl = productionBusinessServiceImpl;
 	}
-	
+			
 	
 }
