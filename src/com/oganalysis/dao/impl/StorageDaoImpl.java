@@ -16,6 +16,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.oganalysis.dao.StorageDao;
+import com.oganalysis.entities.Lng;
 import com.oganalysis.entities.RefineriesFilter;
 import com.oganalysis.entities.Refinery;
 import com.oganalysis.entities.Storage;
@@ -41,8 +42,10 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			locations=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct location from Storage where location!=' ' order by location asc");
-			locations=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Storage.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_LOCATION)));
+			locations=criteria.list();			
 			tx.commit();
 		}
 		finally
@@ -64,8 +67,10 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			operators=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct currentOperator from Storage where currentOperator!=' ' order by currentOperator asc");
-			operators=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Storage.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTOPERATOR)));
+			operators=criteria.list();			
 			tx.commit();
 		}
 		finally
@@ -87,8 +92,10 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			owners=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct currentOwners from Storage where currentOwners!=' ' order by currentOwners asc");
-			owners=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Storage.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_CURRENTOWNERS)));
+			owners=criteria.list();				
 			tx.commit();
 		}
 		finally
@@ -132,8 +139,10 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			status=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct status from Storage where status!=' ' order by status asc");
-			status=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Storage.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_STATUS)));
+			status=criteria.list();			
 			tx.commit();
 		}
 		finally
@@ -399,8 +408,10 @@ public class StorageDaoImpl implements StorageDao{
 			Transaction tx=session.beginTransaction();
 			countries=new ArrayList<String>();
 			tx.begin();
-			Query query=session.createQuery("select distinct country from StorageFilter where country!=' ' order by country asc");			
-			countries=(List<String>)query.list();
+			Criteria criteria=session.createCriteria(Storage.class);
+			createFiltersCriteria(selectedOptions, criteria);
+			criteria.setProjection(Projections.distinct(Projections.property(RESTRICTION_PROPERTY_COUNTRY)));
+			countries=criteria.list();				
 			tx.commit();
 		}
 		finally
@@ -548,12 +559,12 @@ public class StorageDaoImpl implements StorageDao{
 //			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
 //			
 //		}
-		else if(owners!=null && owners.size()>0)
+		if(owners!=null && owners.size()>0)
 		{
 			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTOWNERS,owners);
 			criteria.add(ownersCriterion);
 		}
-		else if(operators!=null && operators.size()>0)
+		if(operators!=null && operators.size()>0)
 		{
 			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTOPERATOR,operators);
 			criteria.add(operatorCriterion);

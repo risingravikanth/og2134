@@ -96,17 +96,17 @@ private SessionFactory sessionFactory;
 		}
 		
 		
-		else if(companies!=null && companies.size()>0)
+		if(companies!=null && companies.size()>0)
 		{
 			Criterion companiesCriterion=Restrictions.in(RESTRICTION_PROPERTY_COMPANY,companies);
 			criteria.add(companiesCriterion);
 		}
-		else if(technologyProviders!=null && technologyProviders.size()>0)
+		if(technologyProviders!=null && technologyProviders.size()>0)
 		{
 			Criterion technologyProvidersCriterion=Restrictions.in(RESTRICTION_PROPERTY_TECHNOLOGYPROVIDER,technologyProviders);
 			criteria.add(technologyProvidersCriterion);
 		}
-		else if(technologies!=null && technologies.size()>0)
+		if(technologies!=null && technologies.size()>0)
 		{
 			Criterion technologyCriterion=Restrictions.in(RESTRICTION_PROPERTY_TECHNOLOGY,technologies);
 			criteria.add(technologyCriterion);

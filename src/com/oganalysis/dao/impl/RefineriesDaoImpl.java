@@ -230,12 +230,12 @@ public class RefineriesDaoImpl implements RefineriesDao{
 //			criteria.add(Restrictions.or(ownersCriterion, operatorCriterion));
 //			
 //		}
-		else if(owners!=null && owners.size()>0)
+		if(owners!=null && owners.size()>0)
 		{
 			Criterion ownersCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTEQUITYPARTNERS,owners);
 			criteria.add(ownersCriterion);
 		}
-		else if(operators!=null && operators.size()>0)
+		if(operators!=null && operators.size()>0)
 		{
 			Criterion operatorCriterion=Restrictions.in(RESTRICTION_PROPERTY_CURRENTOPERATOR,operators);
 			criteria.add(operatorCriterion);
