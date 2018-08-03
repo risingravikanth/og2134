@@ -55,7 +55,7 @@ public class ProductionController {
 		return response;
 	}
 	@ResponseBody
-	@RequestMapping(value="/asset/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/asset/regions",method={RequestMethod.POST})
 	public String getAssetRegions(HttpServletRequest req)
 	{				
 		return productionServiceImpl.getAssetRegions();
@@ -68,7 +68,7 @@ public class ProductionController {
 		return productionServiceImpl.getAssetCountries(selectedOptions);
 	}
 	@ResponseBody
-	@RequestMapping(value="/company/countries",method={RequestMethod.GET})
+	@RequestMapping(value="/company/countries",method={RequestMethod.POST})
 	public String getCompanyCountries(HttpServletRequest req)
 	{			
 		return productionServiceImpl.getCompanyCountries();

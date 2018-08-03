@@ -68,7 +68,7 @@ public class LoginController {
 		String msg=loginService.saveCustomer(custMap);
 		return msg;
 	}
-	@RequestMapping(value="/logout",method={RequestMethod.GET},produces="text/html")	
+	@RequestMapping(value="/logout",method={RequestMethod.POST},produces="text/html")	
 	@ResponseBody
 	public String onLogoutSubmit(HttpServletRequest request)
 	{

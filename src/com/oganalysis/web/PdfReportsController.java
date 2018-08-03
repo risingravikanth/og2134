@@ -129,12 +129,11 @@ public class PdfReportsController {
 				selectedSectors.add(request.getParameter(option));
 			}
 		}
-		if(selectedCountries.size()>0 || selectedRegions.size()>0 || selectedSectors.size()>0)
-		{	
+			
 			optionsMap.put(OPTION_SELECTED_COUNTRIES, selectedCountries);
 			optionsMap.put(OPTION_SELECTED_REGIONS,selectedRegions);
 			optionsMap.put(OPTION_SELECTED_SECTORS, selectedSectors);
-		}	
+			
 				
 		return optionsMap;
 	}
