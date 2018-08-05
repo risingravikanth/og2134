@@ -5,6 +5,7 @@ import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
 import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
 import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
 import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -157,55 +158,84 @@ public class LngDataServiceImpl implements LngDataService{
 	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		String jsonRes=null;
-		List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCountries(countriesList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())// country is dependent on region filters
+				return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries(selectedOptions);			
+			jsonRes=res.createCountries(countriesList);
+			return jsonRes;
+		}				
 	}
 	@Override
 	public String getStatus(Map<String,List<String>> selectedOptions) {
-		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> statusList=lngCapacityBusinessServiceImpl.getStatus(selectedOptions);
+		// TODO Auto-generated method stub		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStatus(statusList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OWNERS).isEmpty()) //status is dependent on owner filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> statusList=lngCapacityBusinessServiceImpl.getStatus(selectedOptions);
+			return res.createStatus(statusList);			
+		}
+		
 	}
 	@Override
 	public String getType(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> typeList=lngCapacityBusinessServiceImpl.getType(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createType(typeList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_STATUSES).isEmpty())//Type is dependent on status filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> typeList=lngCapacityBusinessServiceImpl.getType(selectedOptions);			
+			return res.createType(typeList);			
+		}
+		
 	}
 	@Override
 	public String getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=lngCapacityBusinessServiceImpl.getLocations(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_COUNTRIES).isEmpty())// location is dependent on countries filers
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> locationsList=lngCapacityBusinessServiceImpl.getLocations(selectedOptions);			
+			return res.createLocationsResponse(locationsList);			
+		}
+		
 	}
 	@Override
 	public String getOperators(Map<String,List<String>> selectedOptions) {
-		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=lngCapacityBusinessServiceImpl.getOperators(selectedOptions);
+		// TODO Auto-generated method stub		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_LOCATIONS).isEmpty())// operators is dependent on Locations filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> operatorList=lngCapacityBusinessServiceImpl.getOperators(selectedOptions);			
+			return res.createOperatorResponse(operatorList);
+			
+		}
 	}
+		
 	@Override
 	public String getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=lngCapacityBusinessServiceImpl.getOwners(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OPERATORS).isEmpty()) // owner is dependent on Operator filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> ownersList=lngCapacityBusinessServiceImpl.getOwners(selectedOptions);			
+			return res.createOwnersResponse(ownersList);			
+		}
+		
 	}
 	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
 		return lngCapacityBusinessServiceImpl;

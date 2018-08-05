@@ -2,7 +2,7 @@ package com.oganalysis.service.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -103,47 +103,73 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> countriesList=storageCapacityBusinessServiceImpl.getCountries(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCountries(countriesList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())//country is dependent on countries
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countriesList=storageCapacityBusinessServiceImpl.getCountries(selectedOptions);			
+			return res.createCountries(countriesList);
+			
+		}
+	
 	}
 	@Override
 	public String getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> statusList=storageCapacityBusinessServiceImpl.getStatus(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStatus(statusList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OWNERS).isEmpty())//status is dependent on owner filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> statusList=storageCapacityBusinessServiceImpl.getStatus(selectedOptions);			
+			return res.createStatus(statusList);		
+		}
+					
 	}
 	@Override
 	public String getLocations(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=storageCapacityBusinessServiceImpl.getLocations(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_COUNTRIES).isEmpty())//location is dependent on country filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> locationsList=storageCapacityBusinessServiceImpl.getLocations(selectedOptions);			
+			return res.createLocationsResponse(locationsList);			
+		}
+		
 	}
 	@Override
 	public String getOperators(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=storageCapacityBusinessServiceImpl.getOperators(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_LOCATIONS).isEmpty())//operator is dependent on location filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> operatorList=storageCapacityBusinessServiceImpl.getOperators(selectedOptions);			
+			return res.createOperatorResponse(operatorList);
+			
+		}
+		
 	}
 	@Override
 	public String getOwners(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=storageCapacityBusinessServiceImpl.getOwners(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OPERATORS).isEmpty())//owner is dependent on operatos filters 
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> ownersList=storageCapacityBusinessServiceImpl.getOwners(selectedOptions);			
+			return res.createOwnersResponse(ownersList);			
+		}
+		
 	}
 	@Override
 	public Workbook getExcelTerminalData(String recordName,InputStream is) {

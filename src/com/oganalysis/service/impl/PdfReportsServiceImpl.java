@@ -13,6 +13,7 @@ import com.oganalysis.entities.Report;
 import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.ReportsJsonResponse;
 import com.oganalysis.service.PdfReportsService;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class PdfReportsServiceImpl implements PdfReportsService {
 	private PdfReportsDao pdfReportsDao;
@@ -66,16 +67,28 @@ public class PdfReportsServiceImpl implements PdfReportsService {
 	@Override
 	public String getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<String> countries=pdfReportsDao.getCountries(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		return res.createCountries(countries);
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())//country is dependent on region filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countries=pdfReportsDao.getCountries(selectedOptions);			
+			return res.createCountries(countries);
+		}
+		
 	}
 	@Override
 	public String getSectors(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		List<String> sectors=pdfReportsDao.getSectors(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		return res.createSectors(sectors);
+		if(selectedOptions.get(OPTION_SELECTED_COUNTRIES).isEmpty())
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> sectors=pdfReportsDao.getSectors(selectedOptions);			
+			return res.createSectors(sectors);
+		}
+		
 	}	
 	public PdfReportsDao getPdfReportsDao() {
 		return pdfReportsDao;

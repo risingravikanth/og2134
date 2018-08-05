@@ -28,6 +28,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class SmallScaleLngJsonResponse {
+	private JSONArray emptyJsonArray=new JSONArray();
 	public String createSmallScaleLngResponse(List<Map> smallScaleLngMapList)
 	{
 		JSONArray smallScaleLngArray=new JSONArray();
@@ -224,5 +225,9 @@ public class SmallScaleLngJsonResponse {
 		else
 			response=BLANK;
 		return response;
+	}
+	public String createEmptyJsonArray()
+	{
+		return emptyJsonArray.toString();
 	}
 }

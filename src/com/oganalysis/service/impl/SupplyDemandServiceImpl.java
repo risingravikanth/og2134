@@ -11,6 +11,7 @@ import com.oganalysis.entities.source.Region;
 import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.SupplyDemandJsonResponse;
 import com.oganalysis.service.SupplyDemandService;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class SupplyDemandServiceImpl implements SupplyDemandService {
 
@@ -40,11 +41,16 @@ public class SupplyDemandServiceImpl implements SupplyDemandService {
 	@Override
 	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCountries(countriesList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())//country dependent on region filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries(selectedOptions);			
+			return res.createCountries(countriesList);			
+		}
+		
 	}
 	public SupplyDemandBusinessService getSupplyDemandBusinessServiceImpl() {
 		return supplyDemandBusinessServiceImpl;

@@ -20,6 +20,8 @@ import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class JsonResponse {
 	
+	private JSONArray emptyJsonArray=new JSONArray();
+	
 	public String createExplorationResponse(List dataList)
 	{
 		String response=null;
@@ -666,5 +668,9 @@ public class JsonResponse {
 		else
 			response=BLANK;
 		return response;
+	}
+	public String createEmptyJsonArray()
+	{
+		return emptyJsonArray.toString();
 	}
 }

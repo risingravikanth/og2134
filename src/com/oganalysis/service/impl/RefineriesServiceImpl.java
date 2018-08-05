@@ -2,7 +2,7 @@ package com.oganalysis.service.impl;
 
 import static com.oganalysis.constants.ApplicationConstants.COMPANY;
 import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
+import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -108,47 +108,71 @@ public class RefineriesServiceImpl implements RefineriesService {
 	@Override
 	public String getCountries(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> countriesList=refineriesCapacityBusinessServiceImpl.getCountries(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCountries(countriesList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())//country is dependent on region filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countriesList=refineriesCapacityBusinessServiceImpl.getCountries(selectedOptions);			
+			return res.createCountries(countriesList);
+			
+		}
+		
 	}
 	@Override
 	public String getStatus(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> statusList=refineriesCapacityBusinessServiceImpl.getStatus(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStatus(statusList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OWNERS).isEmpty())//status is dependent on owner filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> statusList=refineriesCapacityBusinessServiceImpl.getStatus(selectedOptions);			
+			return res.createStatus(statusList);			
+		}
+		
 	}
 	@Override
 	public String getLocations(Map<String, List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> locationsList=refineriesCapacityBusinessServiceImpl.getLocations(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createLocationsResponse(locationsList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_COUNTRIES).isEmpty())//location is dependent on country filters.
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> locationsList=refineriesCapacityBusinessServiceImpl.getLocations(selectedOptions);			
+			return res.createLocationsResponse(locationsList);			
+		}
+		
 	}
 	@Override
 	public String getOperators(Map<String, List<String>> selectedOptions) {
-		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> operatorList=refineriesCapacityBusinessServiceImpl.getOperators(selectedOptions);
+		// TODO Auto-generated method stub		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOperatorResponse(operatorList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_LOCATIONS).isEmpty())//operator is dependent on location filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> operatorList=refineriesCapacityBusinessServiceImpl.getOperators(selectedOptions);			
+			return res.createOperatorResponse(operatorList);			
+		}
+		
 	}
 	@Override
 	public String getOwners(Map<String, List<String>> selectedOptions) {
-		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> ownersList=refineriesCapacityBusinessServiceImpl.getOwners(selectedOptions);
+		// TODO Auto-generated method stub		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createOwnersResponse(ownersList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_OPERATORS).isEmpty())//owner is dependent on operator filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> ownersList=refineriesCapacityBusinessServiceImpl.getOwners(selectedOptions);			
+			return res.createOwnersResponse(ownersList);			
+		}
+		
 	}		
 	public RefineriesCapacityBusinessService getRefineriesCapacityBusinessServiceImpl() {
 		return refineriesCapacityBusinessServiceImpl;

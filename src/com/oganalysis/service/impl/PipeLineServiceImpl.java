@@ -101,47 +101,70 @@ public class PipeLineServiceImpl implements PipeLineService {
 	@Override
 	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> countriesList=pipeLineBusinessServiceImpl.getCountries(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCountries(countriesList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_REGIONS).isEmpty())//country is dependent on region filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> countriesList=pipeLineBusinessServiceImpl.getCountries(selectedOptions);			
+			return res.createCountries(countriesList);			
+		}
+		
 	}
 	@Override
 	public String getCommodities(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> commodityList=pipeLineBusinessServiceImpl.getCommodities(selectedOptions);
+		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createCommoditiesResponse(commodityList);
-		return jsonRes;		
+		if(selectedOptions.get(OPTION_SELECTED_COUNTRIES).isEmpty())//commodity is dependent on country filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> commodityList=pipeLineBusinessServiceImpl.getCommodities(selectedOptions);			
+			return res.createCommoditiesResponse(commodityList);		
+		}
+			
 	}
 	@Override
 	public String getStartPoints(Map<String,List<String>> selectedOptions) {
-		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> startPointList=pipeLineBusinessServiceImpl.getStartPoints(selectedOptions);
+		// TODO Auto-generated method stub		
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStartPointResponse(startPointList);
-		return jsonRes;	
+		if(selectedOptions.get(OPTION_SELECTED_COMMODITIES).isEmpty())//startPoint is dependent on commodity filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> startPointList=pipeLineBusinessServiceImpl.getStartPoints(selectedOptions);			
+			return res.createStartPointResponse(startPointList);			
+		}
+		
 	}
 	@Override
 	public String getEndPoints(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> endPointList=pipeLineBusinessServiceImpl.getEndPoints(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createEndPointResponse(endPointList);
-		return jsonRes;	
+		if(selectedOptions.get(OPTION_SELECTED_STARTPOINTS).isEmpty())//endpoint is dependent on startPoint filters
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> endPointList=pipeLineBusinessServiceImpl.getEndPoints(selectedOptions);			
+			return res.createEndPointResponse(endPointList);				
+		}
+		
 	}
 	@Override
 	public String getStatus(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
-		String jsonRes=null;
-		List<String> statusList=pipeLineBusinessServiceImpl.getStatus(selectedOptions);
 		JsonResponse res=new JsonResponse();
-		jsonRes=res.createStatus(statusList);
-		return jsonRes;
+		if(selectedOptions.get(OPTION_SELECTED_ENDPOINTS).isEmpty())//status is dependent on endPoint filter
+			return res.createEmptyJsonArray();
+		else
+		{
+			List<String> statusList=pipeLineBusinessServiceImpl.getStatus(selectedOptions);			
+			return res.createStatus(statusList);
+			
+		}
+		
 	}	
 	
 
