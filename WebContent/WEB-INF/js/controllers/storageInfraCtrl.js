@@ -30,7 +30,7 @@
 			};
 		
 		$scope.columns = [
-			{ title: "Refinery Name",
+			{ title: "Terminal Name",
 				  data: "terminalName"
 			},
 			{ title: "Location",

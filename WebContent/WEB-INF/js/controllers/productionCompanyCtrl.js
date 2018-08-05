@@ -21,7 +21,7 @@
 				assetUnitField :true,
 				assetCountryField :true
 			};
-			$rootScope.loadProductionCompanyFilter()
+			$rootScope.loadProductionCompanyFilter();
  	};
 	
 	$scope.setDisplayPeriod = function(){
