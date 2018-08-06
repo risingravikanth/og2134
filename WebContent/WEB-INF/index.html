@@ -357,7 +357,7 @@
 	Offshore/Onshore
 	Type -->
 
-  <aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" ng-init="initFilter()">
+<aside class="control-sidebar control-sidebar-dark" ng-controller="FilterCtrl" ng-init="initFilter()">
 		 
 		<div class="tab-content right-filter" id="right-filter" >
 			
@@ -366,7 +366,7 @@
 				<label class="control-sidebar-subheading">
 						Region
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel"  extra-settings="regionSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="regionData" selected-model="regionModel"  extra-settings="regionSettings"  events="regionEvents"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.countryField">
@@ -380,7 +380,7 @@
 				<label class="control-sidebar-subheading">
 						Country
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetCountryData" selected-model="assetCountryModel"  extra-settings="assetCountrySettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetCountryData" selected-model="assetCountryModel"  extra-settings="assetCountrySettings" events="assetCountryEvents"></div>
 			</div>
 			
 			
@@ -388,21 +388,21 @@
 				<label class="control-sidebar-subheading">
 						Company
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="companyData" selected-model="companyModel"  extra-settings="companySettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="companyData" selected-model="companyModel"  extra-settings="companySettings" events="companyEvents"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.technologyProviderField">
 				<label class="control-sidebar-subheading">
 						Technology Provider
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyProviderData" selected-model="technologyProviderModel"  extra-settings="technologyProviderSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyProviderData" selected-model="technologyProviderModel"  extra-settings="technologyProviderSettings" events="technologyProviderEvents"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.technologyField">
 				<label class="control-sidebar-subheading">
 						Technology
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyData" selected-model="technologyModel"  extra-settings="technologySettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="technologyData" selected-model="technologyModel"  extra-settings="technologySettings" events="technologyEvents"></div>
 			</div>	
 			
 			
@@ -411,7 +411,7 @@
 				<label class="control-sidebar-subheading">
 						Basin
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="basinData" selected-model="basinModel"  extra-settings="basinSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="basinData" selected-model="basinModel"  extra-settings="basinSettings" events="basinEvents"></div>
 			</div>
 			
 			
@@ -419,7 +419,7 @@
 				<label class="control-sidebar-subheading">
 						Export Countries
 				</label>
-				<div ng-dropdown-multiselect="" options="exportedCountriesData" class="form-control filter-control col-md-12" selected-model="exportedCountriesModel" extra-settings="exportedCountriesSettings" ></div>
+				<div ng-dropdown-multiselect="" options="exportedCountriesData" class="form-control filter-control col-md-12" selected-model="exportedCountriesModel" extra-settings="exportedCountriesSettings"></div>
 			</div>
 			
 	 		<div class="form-group" ng-show="filterObj.exports">
@@ -462,21 +462,21 @@
 				<label class="control-sidebar-subheading">
 						Locations
 				</label>
-				<div ng-dropdown-multiselect="" options="locationData" class="form-control filter-control col-md-12" selected-model="locationModel" extra-settings="locationSettings"></div>
+				<div ng-dropdown-multiselect="" options="locationData" class="form-control filter-control col-md-12" selected-model="locationModel" extra-settings="locationSettings" events="locationEvents"></div>
 			</div>	
 			
 			<div class="form-group" ng-show="filterObj.operatorField">
 				<label class="control-sidebar-subheading">
 						Operator
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="operatorData" selected-model="operatorModel" extra-settings="operatorSettings"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="operatorData" selected-model="operatorModel" extra-settings="operatorSettings" events="operatorEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.ownerField">
 				<label class="control-sidebar-subheading">
 						Owner
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel" extra-settings="ownerSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="ownerData" selected-model="ownerModel" extra-settings="ownerSettings" events="ownerEvents"></div>
 			</div>
 			
 			
@@ -484,70 +484,70 @@
 				<label class="control-sidebar-subheading">
 						Commodity
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdCommodityData" selected-model="pdCommodityModel"  extra-settings="pdCommoditySettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdCommodityData" selected-model="pdCommodityModel"  extra-settings="pdCommoditySettings" events="pdCommodityEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.pdStartPointField">
 				<label class="control-sidebar-subheading">
 						Start Point
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdStartPointData" selected-model="pdStartPointModel"  extra-settings="pdStartPointSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdStartPointData" selected-model="pdStartPointModel"  extra-settings="pdStartPointSettings" events="pdStartPointEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.pdEndPointField">
 				<label class="control-sidebar-subheading">
 						End Point
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdEndPointData" selected-model="pdEndPointModel"  extra-settings="pdEndPointSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="pdEndPointData" selected-model="pdEndPointModel"  extra-settings="pdEndPointSettings" events="pdEndPointEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.statusField">
 				<label class="control-sidebar-subheading">
 						Status
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="statusData" selected-model="statusModel" extra-settings="statusSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="statusData" selected-model="statusModel" extra-settings="statusSettings" events="statusEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.unitsField">
 				<label class="control-sidebar-subheading">
 						Units
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="unitsData" selected-model="unitsModel" extra-settings="unitsSettings"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="unitsData" selected-model="unitsModel" extra-settings="unitsSettings" events="unitEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.offshoreField">
 				<label class="control-sidebar-subheading">
 						Offshore/Onshore
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="offshoreData" selected-model="offshoreModel"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="offshoreData" selected-model="offshoreModel" events="offshoreEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.typeField">
 				<label class="control-sidebar-subheading">
 						Type
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="typeData" selected-model="typeModel" extra-settings="typeSettings"></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="typeData" selected-model="typeModel" extra-settings="typeSettings" events="typeEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.sectorField">
 				<label class="control-sidebar-subheading">
 						Sector
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="sectorData" selected-model="sectorModel" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="sectorData" selected-model="sectorModel" events="sectorEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.assetTypeField">
 				<label class="control-sidebar-subheading">
 						Type
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetTypeData" selected-model="assetTypeModel"  extra-settings="assetTypeSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetTypeData" selected-model="assetTypeModel"  extra-settings="assetTypeSettings" events="assetTypeEvents"></div>
 			</div>
 			
 			<div class="form-group" ng-show="filterObj.assetUnitField">
 				<label class="control-sidebar-subheading">
 						Unit
 				</label>
-				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" ></div>
+				<div ng-dropdown-multiselect="" class="form-control filter-control col-md-12" options="assetUnitData" selected-model="assetUnitModel"  extra-settings="assetUnitSettings" events="assetUnitEvents"></div>
 			</div>
 			
 			

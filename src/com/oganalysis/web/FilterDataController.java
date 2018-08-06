@@ -20,14 +20,14 @@ public class FilterDataController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="/regions",method={RequestMethod.GET})
+	@RequestMapping(value="/regions",method={RequestMethod.POST})
 	public String getRegionsList()
 	{						
 		return BLANK;
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/countries",method={RequestMethod.GET})
+	@RequestMapping(value="/countries",method={RequestMethod.POST})
 	public String getCountries()
 	{				
 		List<String> countries=new ArrayList<String>();
@@ -39,14 +39,14 @@ public class FilterDataController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/status",method={RequestMethod.GET})
+	@RequestMapping(value="/status",method={RequestMethod.POST})
 	public String getStatus()
 	{			
 		
 		return BLANK;
 	}
 	@ResponseBody
-	@RequestMapping(value="/type",method={RequestMethod.GET})
+	@RequestMapping(value="/type",method={RequestMethod.POST})
 	public String getType()
 	{					
 		return BLANK;
