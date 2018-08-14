@@ -76,6 +76,47 @@ public class LoginController {
 		request.getSession().removeAttribute(EMAIL);
 		return res;
 	}
+	@RequestMapping(value="/forgotpwd",method={RequestMethod.POST},produces="text/html")	
+	@ResponseBody
+	public String forgotPassword(HttpServletRequest request)
+	{
+		
+		String email=request.getParameter("email");
+		return loginService.forgotPassword(email);		
+	}
+	@RequestMapping(value="/resetpwd",method={RequestMethod.POST},produces="text/html")	
+	@ResponseBody
+	public String resetPassword(HttpServletRequest request)
+	{
+		
+		String email=request.getParameter("email");
+		String currPwd=request.getParameter("currpwd");
+		String newPwd=request.getParameter("newpwd");
+		String confirmPwd=request.getParameter("confirmpwd");
+		Map<String,String> pwds=new HashMap<String, String>();
+		pwds.put("email", email);
+		pwds.put("currPwd", currPwd);
+		pwds.put("newPwd", newPwd);
+		pwds.put("confirmPwd", confirmPwd);		
+		return loginService.updatePassword(pwds,"Y");
+		
+	}
+	@RequestMapping(value="/changepwd",method={RequestMethod.POST},produces="text/html")	
+	@ResponseBody
+	public String changePassword(HttpServletRequest request)
+	{
+		
+		String email=request.getParameter("email");
+		String currPwd=request.getParameter("currpwd");
+		String newPwd=request.getParameter("newpwd");
+		String confirmPwd=request.getParameter("confirmpwd");
+		Map<String,String> pwds=new HashMap<String, String>();
+		pwds.put("email", email);
+		pwds.put("currPwd", currPwd);
+		pwds.put("newPwd", newPwd);
+		pwds.put("confirmPwd", confirmPwd);		
+		return loginService.updatePassword(pwds,"N");		
+	}
 //	@RequestMapping({"/"})
 //	
 ////	@ResponseBody

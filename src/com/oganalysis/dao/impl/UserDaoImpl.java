@@ -32,11 +32,38 @@ public class UserDaoImpl implements UserDao {
 		}			
 		return user;
 	}
+	@Override
+	public boolean updateUser(User user) {
+		// TODO Auto-generated method stub
+		Session session=null;
+		boolean updateStatus=false;		
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();			
+			tx.begin();			
+			session.update(user);
+			updateStatus=true;
+			tx.commit();
+			
+		}
+		catch(Exception e)
+		{
+			updateStatus=false;
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return updateStatus;
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 }

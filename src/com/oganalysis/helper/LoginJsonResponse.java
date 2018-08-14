@@ -12,8 +12,17 @@ public class LoginJsonResponse {
 		JSONObject resObj=new JSONObject();
 		if(null!=user)
 		{
-			resObj.put(LOGIN_STATUS,CORRECT);
-			resObj.put(LOGIN_USER,user.getFirstName()+BLANK+user.getLastName());
+			if(user.getPasswordReset().equalsIgnoreCase("Y"))
+			{
+				resObj.put(LOGIN_STATUS,LOGIN_RESET);
+				resObj.put(LOGIN_USER,user.getFirstName()+BLANK+user.getLastName());
+			}
+			else
+			{
+				resObj.put(LOGIN_STATUS,CORRECT);
+				resObj.put(LOGIN_USER,user.getFirstName()+BLANK+user.getLastName());
+			}
+			
 		}
 		else
 		{

@@ -8,6 +8,7 @@ import com.oganalysis.business.impl.LoginBusinessServiceImpl;
 import com.oganalysis.entities.User;
 import com.oganalysis.helper.LoginJsonResponse;
 import com.oganalysis.service.LoginService;
+import static com.oganalysis.constants.ApplicationConstants.LOGIN_STATUS;
 
 public class LoginServiceImpl implements LoginService {
 	private LoginBusinessServiceImpl loginBusinessServiceImpl;
@@ -31,7 +32,23 @@ public class LoginServiceImpl implements LoginService {
 			LoginBusinessServiceImpl loginBusinessServiceImpl) {
 		this.loginBusinessServiceImpl = loginBusinessServiceImpl;
 	}
-
-	
+	@Override
+	public String forgotPassword(String email) {
+		// TODO Auto-generated method stub
+		JSONObject resObj=new JSONObject();
+		String status= loginBusinessServiceImpl.forgotPassword(email);
+		resObj.put(LOGIN_STATUS, status);
+		return resObj.toJSONString();
+		
+	}
+	@Override
+	public String updatePassword(Map<String, String> pwdMap,String reset) {		
+		// TODO Auto-generated method stub
+		JSONObject resObj=new JSONObject();
+		String status= loginBusinessServiceImpl.updatePassword(pwdMap,reset);
+		resObj.put(LOGIN_STATUS, status);
+		return resObj.toJSONString();
+	}
+		
 	
 }
