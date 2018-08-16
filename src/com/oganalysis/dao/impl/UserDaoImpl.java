@@ -1,5 +1,7 @@
 package com.oganalysis.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,12 +60,35 @@ public class UserDaoImpl implements UserDao {
 		}			
 		return updateStatus;
 	}
+	@Override
+	public List<User> getPasswords() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<User> users=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();			
+			tx.begin();
+			Query query=session.createQuery("from User where passwordReset=:passwordreset");
+			query.setParameter("passwordreset","Y");
+			users=(List<User>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return users;
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 	
 }

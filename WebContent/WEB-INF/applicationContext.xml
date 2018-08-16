@@ -130,7 +130,20 @@
 	
 	<bean id="loginBusinessServiceImpl" class="com.oganalysis.business.impl.LoginBusinessServiceImpl">
 		<property name="userDao" ref="userDao"/>
-		<property name="customerDao" ref="customerDao"/>		
+		<property name="customerDao" ref="customerDao"/>
+		<property name="alphaCaps" value="#{applicationProps['ALPHA_CAPS']}"/>
+		<property name="alpha" value="#{applicationProps['ALPHA']}"/>
+		<property name="numeric" value="#{applicationProps['NUMERIC']}"/>
+		<property name="specialChars" value="#{applicationProps['SPECIAL_CHARS']}"/>
+		<property name="passwordLen" value="#{applicationProps['PWD_LENGTH']}"/>
+		<property name="mailBody1" value="#{applicationProps['MAIL_TO_USER_BODY1']}"/>
+		<property name="mailBody2" value="#{applicationProps['MAIL_TO_USER_BODY2']}"/>
+		<property name="mailSubject" value="#{applicationProps['RESET_PWD']}"/>
+		<property name="mailFrom" value="#{applicationProps['MAIL_FROM']}"/>
+		<property name="adminEmail" value="#{applicationProps['ADMIN_MAIL_ID']}"/>
+		<property name="adminPwd" value="#{applicationProps['ADMIN_PWD']}"/>
+		<property name="mailHost" value="#{applicationProps['MAIL_HOST']}"/>
+		<property name="mailPort" value="#{applicationProps['MAIL_PORT']}"/>		
 	</bean>
 	<!-- BusinessServiceImpl -->
 	<!--  Cache Class -->
@@ -164,7 +177,7 @@
 	<bean id="storageExcel" class="com.oganalysis.excel.StorageExcel"/>
 	
 	<util:properties id="applicationProps" location="WEB-INF/application.properties"></util:properties>
-	<context:property-placeholder properties-ref="applicationProps" />
+	<context:property-placeholder properties-ref="applicationProps"/>
 	<!-- Schedular task  This is working as of now just commented
 	<task:annotation-driven />
     <util:properties id="applicationProps" location="classpath:/application.properties"></util:properties>

@@ -1,5 +1,7 @@
 package com.oganalysis.service.impl;
 
+import static com.oganalysis.constants.ApplicationConstants.LOGIN_STATUS;
+
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -8,7 +10,6 @@ import com.oganalysis.business.impl.LoginBusinessServiceImpl;
 import com.oganalysis.entities.User;
 import com.oganalysis.helper.LoginJsonResponse;
 import com.oganalysis.service.LoginService;
-import static com.oganalysis.constants.ApplicationConstants.LOGIN_STATUS;
 
 public class LoginServiceImpl implements LoginService {
 	private LoginBusinessServiceImpl loginBusinessServiceImpl;
