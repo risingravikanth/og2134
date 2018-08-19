@@ -121,7 +121,7 @@ public class LoginBusinessServiceImpl implements LoginBusinessService {
 		String status=FAIL;
 		User user=userDao.getUser(email);
 		
-		if(null!=user && email.equalsIgnoreCase(user.getEmail()))
+		if(null!=user && email.equals(user.getEmail()))
 		{
 			try{
 				int i=0;
