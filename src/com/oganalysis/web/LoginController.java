@@ -106,7 +106,7 @@ public class LoginController {
 	public String changePassword(HttpServletRequest request)
 	{
 		
-		String email=request.getParameter("username");
+		String email=(String)request.getSession().getAttribute(EMAIL);
 		String currPwd=request.getParameter("currpwd");
 		String newPwd=request.getParameter("newpwd");
 		String confirmPwd=request.getParameter("confirmpwd");

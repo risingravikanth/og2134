@@ -166,7 +166,7 @@ public class LoginBusinessServiceImpl implements LoginBusinessService {
 		String newPwd=pwdMap.get("newPwd");
 		String confirmPwd=pwdMap.get("confirmPwd");	
 		User user=userDao.getUser(email);
-		if(null!=user && currPwd.equalsIgnoreCase(user.getPassword()))
+		if(null!=user && currPwd.equals(user.getPassword()))
 		{
 			
 			if(reset.equals("Y"))
