@@ -237,6 +237,18 @@
  	};
 	
 	$rootScope.typeChangeFn = function(){
+		
+		if($rootScope.searchFilterObj.displayType == 'country')
+		{
+			$rootScope.tableHeaderObj.title="Country Wise";
+		}
+		else if($rootScope.searchFilterObj.displayType == 'company'){
+			$rootScope.tableHeaderObj.title="Company Wise";
+		}
+		else if($rootScope.searchFilterObj.displayType == 'terminal'){
+			$rootScope.tableHeaderObj.title="Terminal Wise";
+		}
+		
 		if(parseInt($rootScope.searchFilterObj.endDate) >= parseInt($rootScope.searchFilterObj.startDate)){
 			$scope.destroyTable();
 			
@@ -642,7 +654,11 @@
 				endDate:"2022",
 				displayType:"country"
  		};
-  
+		
+		$rootScope.tableHeaderObj = {
+				title:"Country Wise"
+ 		};
+				
 		if($scope.url != ''){
 			var initailReq = angular.copy($rootScope.searchFilterObj)
 	 		HttpService.getHttp($scope.url,initailReq).then(function(resp) {
