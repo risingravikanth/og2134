@@ -1720,7 +1720,7 @@ h1, h2, h3, h4, h5, h6, figure {
 .social-auth-links {
   margin: 10px 0;
 }
-.login-box, .register-box {
+.login-box, .register-box ,.forgotpwd-box, .resetpwd-box {
     width: 360px;
     margin: 7% auto;
     margin-right: 39%;

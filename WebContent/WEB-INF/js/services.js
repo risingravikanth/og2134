@@ -96,13 +96,14 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	url = this.getJsonURL(url);
 	 	
 	  	var request = {
-			method: 'GET',
+			method: 'POST',//GET
 		 	url: URL.contextPath + URL.apiversion + url,
 			headers: URL.headerRequest
 		};
  	  	if(formData != undefined){
  	  		//console.log(formData.get('region0'));
-	  		request.params = formData;
+//	  		request.params = formData; Commented by Jeevan to support POST method
+ 	  		request.data=$.param(formData);
 	  	}
 		
 		$http(request).success(function (resp){
@@ -123,13 +124,14 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	 	url = this.getJsonURL(url);
 
 	 	var request = {
-			method: 'GET',
+			method: 'POST',//GET			
 		 	url: URL.contextPath + URL.apiversion + url,
 			headers: URL.headerRequest
 		};
 	  	
  	  	if(formData != undefined){
- 	  	 	request.params = formData;
+// 	  	 	request.params = formData; Commented by Jeevan to support POST method
+ 	  	 	request.data = $.param(formData);
 	  	}
 		
 		$http(request).success(function (resp){
@@ -287,7 +289,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	"basin": "ILLIZI ",
 	"status": "Awarded",
 	"ThreeDSeismic": 0.0,
-	"blockNo": "IsarÃ¨ne Ouest (225b,227)",
+	"blockNo": "Isarène Ouest (225b,227)",
 	"moreInfo": "",
 	"onshoreoroffshore": "",
 	"operator": "",
@@ -344,7 +346,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	"region": "Africa",
 	"licenseEnddate": "",
 	"startDate": "2011-03-31",
-	"basin": "SbÃ¢a",
+	"basin": "Sbâa",
 	"status": "Awarded",
 	"ThreeDSeismic": 0.0,
 	"blockNo": "Belrhazi 354a",
@@ -539,7 +541,7 @@ angular.module('OGAnalysis').service("HttpService",  function($q, $http,$rootSco
 	"wellsDrilled": 0.0,
 	"TwoDSeismicCompleted": 0.0,
 	"notes": "",
-	"equityParterns": "Repsol (25.725%%) Enel SPA (13.47%),GdF-Suez (9.8%) and Sonatrach SPA(51%).Â "
+	"equityParterns": "Repsol (25.725%%) Enel SPA (13.47%),GdF-Suez (9.8%) and Sonatrach SPA(51%). "
 }, {
 	"region": "Africa",
 	"licenseEnddate": "",

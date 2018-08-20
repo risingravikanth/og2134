@@ -177,20 +177,445 @@
          });
          return updatedArray;
      }
+     //path constants
+     $scope.explorationPath='/exploration';
+     $scope.lngCapacityPath='/lng/capacity';
+     $scope.lngInfraPath='/lng/infrastructure';
+     $scope.lngSupplyDemandPath='/lng/supplydemand';
+     $scope.lngSmallScalePath='/lng/smallscale';
+     $scope.pipelineDomesticPath='/pipeline/domestic';
+     $scope.pipelineTransNationalPath='/pipeline/trans-national';
+     $scope.productionAssetPath='/production/asset';
+     $scope.productionCompanyPath='/production/company';
+     $scope.refineriesCapacityPath='/refineries/capacity';
+     $scope.refineriesInfraPath='/refineries/infrastructure';
+     $scope.storageCapacityPath='/storage/capacity';
+     $scope.storageInfraPath='/storage/infrastructure';
+     $scope.reportsPath='/reports';
+     
+     $scope.region='region';
+     $scope.country='country';
+     $scope.basin='basin';
+     $scope.operator='operator';
+     $scope.owner='owner';
+     $scope.status='status';
+     $scope.location='location';
+     $scope.companyData='company';
+     $scope.technologyProvider='technologyProvider';
+     $scope.technology='technology';
+     $scope.commodity='commodity';
+     $scope.startPoint='startPoint';
+     $scope.endPoint='endPoint';
 
      /* region filter */
      $scope.regionData = [];
-     $rootScope.regionModel = [];
+     $rootScope.regionModel = [];    
+     $scope.selectAllClicked=false;
+     $scope.selectAllCount=0;
      $scope.regionSettings = {
          enableSearch: true,
          scrollable: true
      };
      $scope.regionEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'region')
+         
+         onItemSelect: function(item) {     
+        	         	 
+        	 if($scope.selectAllClicked==false)
+        	 {
+        		 $scope.clearFilters($scope.region,$location.path());
+        		 $scope.loadFiltersForRegion($scope.region,$location.path());
+        		 console.log('Select:'+$scope.selectAllCount);
+        	 }	 
+        	 else if($scope.selectAllClicked==true)
+        	 {        		 
+        		 console.log('Select:'+$scope.selectAllCount); 
+        		 $scope.selectAllCount=$scope.selectAllCount+1;
+        	 }
+        	 if($scope.selectAllCount == $scope.regionData.length)
+        	 {
+        		 $scope.selectAllCount=0;
+        		 $scope.selectAllClicked=false;
+        		 $scope.clearFilters($scope.region,$location.path());
+        		 $scope.loadFiltersForRegion($scope.region,$location.path());
+        		 console.log('Select:'+$scope.selectAllCount);        		 
+        	 }       	
+             $rootScope.onFilterSelect(item, $scope.region);
+         },
+         onItemDeselect: function(item) {     
+        	 console.log('Deselect:'+$location.path());
+        	 $scope.clearFilters($scope.region,$location.path());
+    		 $scope.loadFiltersForRegion($scope.region,$location.path());
+        	 $rootScope.onFilterSelect(item, $scope.region);
+         },
+         onSelectAll: function(item) {     
+        	 console.log('onSelectAll:'+$location.path());
+        	 console.log('Select:'+$scope.selectAllCount);
+        	 $scope.selectAllCount=0;
+        	 $scope.selectAllClicked=true;        	         	
+             $rootScope.onFilterSelect(item, $scope.region);
+         },
+         onDeselectAll: function(item) {     
+        	 console.log('onDeselectAll:'+$location.path());        	 
+        	 if($scope.selectAllClicked!=true)
+        	 {
+        		 $rootScope.regionModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+        		 $scope.clearFilters($scope.region,$location.path());
+        		 $scope.loadFiltersForRegion($scope.region,$location.path());
+        	 }	         	 
+             $rootScope.onFilterSelect(item, $scope.region)
          }
      };
-
+     
+     /* country filter */
+     $scope.countryData = [];
+     $rootScope.countryModel = [];
+     $scope.countrySettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.countryEvents = {
+         onItemSelect: function(item) {        	 	
+        	 
+        	 if($scope.selectAllClicked==false)
+        	 {
+        		 $scope.clearFilters($scope.country,$location.path());
+        		 $scope.loadFiltersForCountry($scope.country,$location.path());
+        		 console.log('Select:'+$scope.selectAllCount);
+        	 }	 
+        	 else if($scope.selectAllClicked==true)
+        	 {        		 
+        		 console.log('Select:'+$scope.selectAllCount); 
+        		 $scope.selectAllCount=$scope.selectAllCount+1;
+        	 }
+        	 if($scope.selectAllCount == $scope.countryData.length)
+        	 {
+        		 $scope.selectAllCount=0;
+        		 $scope.selectAllClicked=false;
+        		 $scope.clearFilters($scope.country,$location.path());
+        		 $scope.loadFiltersForCountry($scope.country,$location.path());
+        		 console.log('Select:'+$scope.selectAllCount);        		 
+        	 } 
+             $rootScope.onFilterSelect(item,$scope.country);
+         },
+     onItemDeselect: function(item) {         	 
+    	 $scope.clearFilters($scope.country,$location.path());
+		 $scope.loadFiltersForCountry($scope.country,$location.path());
+    	 $rootScope.onFilterSelect(item, $scope.country);
+     },
+     onSelectAll: function(item) {     
+    	 
+    	 $scope.selectAllCount=0;
+    	 $scope.selectAllClicked=true;        
+         $rootScope.onFilterSelect(item, $scope.country);
+     },
+     onDeselectAll: function(item) {     
+    	 
+    	 if($scope.selectAllClicked!=true)
+    	 {
+    		 $rootScope.countryModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+    		 $scope.clearFilters($scope.country,$location.path());
+    		 $scope.loadFiltersForCountry($scope.country,$location.path());
+    	 }	  
+         $rootScope.onFilterSelect(item, $scope.country)
+     }
+     };
+     
+     /* basinField filter */
+     $scope.basinData = [];
+     $rootScope.basinModel = [];
+     $scope.basinSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.basinEvents = {
+         onItemSelect: function(item) {             
+             if($scope.selectAllClicked==false)
+             {
+            	 $scope.clearFilters($scope.basin,$location.path());
+            	 $scope.loadFiltersForBasin($scope.basin,$location.path());
+             }
+             else if($scope.selectAllClicked==true)
+             {
+            	 $scope.selectAllCount=$scope.selectAllCount+1; 
+             }
+             if($scope.selectAllCount == $scope.basinData.length)
+        	 {
+        		 $scope.selectAllCount=0;
+        		 $scope.selectAllClicked=false;
+        		 $scope.clearFilters($scope.basin,$location.path());
+        		 $scope.loadFiltersForBasin($scope.basin,$location.path());
+        		 console.log('Select:'+$scope.selectAllCount);        		 
+        	 }       	
+             $rootScope.onFilterSelect(item, $scope.basin)
+         },
+         onItemDeselect: function(item) {             	 
+        	 $scope.clearFilters($scope.basin,$location.path());
+    		 $scope.loadFiltersForBasin($scope.basin,$location.path());
+        	 $rootScope.onFilterSelect(item, $scope.basin);
+         },
+         onSelectAll: function(item) {             	         	
+        	 $scope.selectAllCount=0;
+        	 $scope.selectAllClicked=true;        	         	
+             $rootScope.onFilterSelect(item, $scope.basin);
+         },
+         onDeselectAll: function(item) {     
+        	 console.log('onDeselectAll:'+$location.path());        	 
+        	 if($scope.selectAllClicked!=true)
+        	 {
+        		 $rootScope.basinModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+        		 $scope.clearFilters($scope.basin,$location.path());
+        		 $scope.loadFiltersForBasin($scope.basin,$location.path());
+        	 }	         	 
+             $rootScope.onFilterSelect(item, $scope.basin)
+         }
+     };
+    
+     
+     /*operator*/
+     $scope.operatorData = [];
+     $rootScope.operatorModel = [];
+     $scope.operatorSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.operatorEvents={
+    		 onItemSelect: function(item) {
+    			 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.operator,$location.path());
+            		 $scope.loadFiltersForOperator($scope.operator,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+    			 else if($scope.selectAllClicked==true)
+    			 {
+    				 $scope.selectAllCount=$scope.selectAllCount+1;
+    			 }
+    			 if($scope.selectAllCount == $scope.operatorData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.operator,$location.path());
+            		 $scope.loadFiltersForOperator($scope.operator,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }
+    			 $rootScope.onFilterSelect(item, $scope.operator)
+    		 },
+    		 onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.operator,$location.path());
+        		 $scope.loadFiltersForOperator($scope.operator,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.operator);
+             },
+             onSelectAll: function(item) {                 	 
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.operator)
+             },
+             onDeselectAll: function(item) {                 	         	
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.operatorModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.operator,$location.path());
+            		 $scope.loadFiltersForOperator($scope.operator,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.operator);
+             }
+     };
+     /* owner*/
+     $scope.ownerData = [];
+     $rootScope.ownerModel = [];
+     $scope.ownerSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.ownerEvents ={
+    		 onItemSelect: function(item) {                 	 
+            	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.owner,$location.path());
+            		 $scope.loadFiltersForOwner($scope.owner,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		             		 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.ownerData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.owner,$location.path());
+            		 $scope.loadFiltersForOwner($scope.owner,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.owner);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.owner,$location.path());
+        		 $scope.loadFiltersForOwner($scope.owner,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.owner);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.owner);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.ownerModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.owner,$location.path());
+            		 $scope.loadFiltersForOwner($scope.owner,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.owner);
+             }
+     };
+     /* Status filter */
+     $scope.statusData = [];
+     $rootScope.statusModel = [];
+     $scope.statusSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.statusEvents={
+    		 onItemSelect: function(item) {     
+            	             	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.status,$location.path());
+            		 $scope.loadFiltersForStatus($scope.status,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		             		 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.statusData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.status,$location.path());
+            		 $scope.loadFiltersForStatus($scope.status,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.status);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.status,$location.path());
+        		 $scope.loadFiltersForStatus($scope.status,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.status);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.status);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.statusModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.status,$location.path());
+            		 $scope.loadFiltersForStatus($scope.status,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.status);
+             }
+     };
+     
+     /*units filter*/
+     $scope.unitsData=[];
+     $rootScope.unitsModel = [];
+//     $scope.unitsData = [{
+//         id: 'BCF',
+//         label: "BCF"
+//     }];
+     $scope.unitsSettings = {
+         selectionLimit: 1
+     };
+     
+     /*type filter*/
+     $rootScope.typeModel = [];
+     $scope.typeData = [];
+     $scope.typeSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     
+     /*location */
+     $scope.locationData = [];
+     $rootScope.locationModel = [];
+     $scope.locationSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.locationEvents= {
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.location,$location.path());
+            		 $scope.loadFiltersForLocation($scope.location,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.locationData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.location,$location.path());
+            		 $scope.loadFiltersForLocation($scope.location,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.location);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.location,$location.path());
+        		 $scope.loadFiltersForLocation($scope.location,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.location);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.location);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.locationModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.location,$location.path());
+            		 $scope.loadFiltersForLocation($scope.location,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.region)
+             }
+     }
+     /*offshore filter*/
+     $rootScope.offshoreModel = [];
+//     $scope.offshoreData = [{
+//         id: 'Offshore',
+//         label: "Offshore"
+//     }, {
+//         id: 'Onshore',
+//         label: "Onshore"
+//     }]; //Timebeing Removed as client don't want{id: 'Not_Decided', label: "Not Decided"},
+//     $scope.offshoreData = $scope.sortedOrder($scope.offshoreData);
+     
      /* company  filter */
      $scope.companyData = [];
      $rootScope.companyModel = [];
@@ -199,11 +624,54 @@
          scrollable: true
      };
      $scope.companyEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'company')
-         }
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.company,$location.path());
+            		 $scope.loadFiltersForCompany($scope.company,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.companyData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.company,$location.path());
+            		 $scope.loadFiltersForCompany($scope.company,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.company);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.company,$location.path());
+        		 $scope.loadFiltersForCompany($scope.company,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.company);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.company);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.companyModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.company,$location.path());
+            		 $scope.loadFiltersForCompany($scope.company,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.company)
+             }
      };
-
+     
      /* technologyProvider   filter */
      $scope.technologyProviderData = [];
      $rootScope.technologyProviderModel = [];
@@ -212,9 +680,52 @@
          scrollable: true
      };
      $scope.technologyProviderEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'technologyProvider')
-         }
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.technologyProvider,$location.path());
+            		 $scope.loadFiltersForTechnologyProvider($scope.technologyProvider,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.technologyProviderData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.technologyProvider,$location.path());
+            		 $scope.loadFiltersForTechnologyProvider($scope.technologyProvider,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.technologyProvider);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.technologyProvider,$location.path());
+        		 $scope.loadFiltersForTechnologyProvider($scope.technologyProvider,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.technologyProvider);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.technologyProvider);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.technologyProviderModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.technologyProvider,$location.path());
+            		 $scope.loadFiltersForTechnologyProvider($scope.technologyProvider,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.technologyProvider)
+             }
      };
 
      /* technologyField   filter */
@@ -225,42 +736,1426 @@
          scrollable: true
      };
      $scope.technologyEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'technology')
-         }
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.technology,$location.path());
+            		 $scope.loadFiltersForTechnology($scope.technology,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.technologyData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.technology,$location.path());
+            		 $scope.loadFiltersForTechnology($scope.technology,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.technology);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.technology,$location.path());
+        		 $scope.loadFiltersForTechnology($scope.technology,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.technology);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.Technology);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.technologyModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.technology,$location.path());
+            		 $scope.loadFiltersForTechnology($scope.technology,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.region)
+             }
      };
-
-
-
-
-     /* country filter */
-     $scope.countryData = [];
-     $rootScope.countryModel = [];
-     $scope.countrySettings = {
+     
+     /*pipeline commodity field */
+     $scope.pdCommodityData = [];
+     $rootScope.pdCommodityModel = [];
+     $scope.pdCommoditySettings = {
+         selectionLimit: 1,
          enableSearch: true,
          scrollable: true
      };
-     $scope.countryEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'country')
-         }
+     $scope.pdCommodityEvents ={
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.commodity,$location.path());
+            		 $scope.loadFiltersForCommodity($scope.commodity,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.pdCommodityData.length)//For commodity we made only single Selection from dropdown.so this condition is required but i kept it intentionally
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.commodity,$location.path());
+            		 $scope.loadFiltersForCommodity($scope.commodity,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.commodity);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.commodity,$location.path());
+        		 $scope.loadFiltersForCommodity($scope.commodity,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.commodity);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.commodity);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.pdCommodityModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.commodity,$location.path());
+            		 $scope.loadFiltersForCommodity($scope.commodity,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.commodity)
+             }
      };
 
 
-     /* basinField filter */
-     $scope.basinData = [];
-     $rootScope.basinModel = [];
-     $scope.basinSettings = {
+     /*pipeline statpoint field */
+     $scope.pdStartPointData = [];
+     $rootScope.pdStartPointModel = [];
+     $scope.pdStartPointSettings = {
          enableSearch: true,
          scrollable: true
      };
-     $scope.basinEvents = {
+     $scope.pdStartPointEvents ={
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.startPoint,$location.path());
+            		 $scope.loadFiltersForStartPoint($scope.startPoint,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.pdStartPointData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.startPoint,$location.path());
+            		 $scope.loadFiltersForStartPoint($scope.startPoint,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.startPoint);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.startPoint,$location.path());
+        		 $scope.loadFiltersForStartPoint($scope.startPoint,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.startPoint);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.startPoint);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.pdStartPointModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.startPoint,$location.path());
+            		 $scope.loadFiltersForStartPoint($scope.startPoint,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.startPoint);
+             }
+     };
+     /*pipeline endpoint field */
+     $scope.pdEndPointData = [];
+     $rootScope.pdEndPointModel = [];
+     $scope.pdEndPointSettings = {
+         enableSearch: true,
+         scrollable: true
+     };
+     $scope.pdEndPointEvents ={
+    		 onItemSelect: function(item) {     
+	         	 
+            	 if($scope.selectAllClicked==false)
+            	 {
+            		 $scope.clearFilters($scope.endPoint,$location.path());
+            		 $scope.loadFiltersForEndPoint($scope.endPoint,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);
+            	 }	 
+            	 else if($scope.selectAllClicked==true)
+            	 {        		 
+            		 console.log('Select:'+$scope.selectAllCount); 
+            		 $scope.selectAllCount=$scope.selectAllCount+1;
+            	 }
+            	 if($scope.selectAllCount == $scope.pdEndPointData.length)
+            	 {
+            		 $scope.selectAllCount=0;
+            		 $scope.selectAllClicked=false;
+            		 $scope.clearFilters($scope.endPoint,$location.path());
+            		 $scope.loadFiltersForEndPoint($scope.endPoint,$location.path());
+            		 console.log('Select:'+$scope.selectAllCount);        		 
+            	 }       	
+                 $rootScope.onFilterSelect(item, $scope.endPoint);
+             },
+             onItemDeselect: function(item) {     
+            	 console.log('Deselect:'+$location.path());
+            	 $scope.clearFilters($scope.endPoint,$location.path());
+        		 $scope.loadFiltersForEndPoint($scope.endPoint,$location.path());
+            	 $rootScope.onFilterSelect(item, $scope.endPoint);
+             },
+             onSelectAll: function(item) {     
+            	 console.log('onSelectAll:'+$location.path());
+            	 console.log('Select:'+$scope.selectAllCount);
+            	 $scope.selectAllCount=0;
+            	 $scope.selectAllClicked=true;        	         	
+                 $rootScope.onFilterSelect(item, $scope.endPoint);
+             },
+             onDeselectAll: function(item) {     
+            	 console.log('onDeselectAll:'+$location.path());        	 
+            	 if($scope.selectAllClicked!=true)
+            	 {
+            		 $rootScope.pdEndPointModel=[];//when we deselectAll the model is not becoming empty.So doing it here.
+            		 $scope.clearFilters($scope.endPoint,$location.path());
+            		 $scope.loadFiltersForEndPoint($scope.endPoint,$location.path());
+            	 }	         	 
+                 $rootScope.onFilterSelect(item, $scope.endPoint);
+             }
+     };
+     $rootScope.assetTypeModel = [];
+     $scope.assetTypeData = [{
+         id: 'both',
+         label: "Both"
+     }, {
+         id: 'gas',
+         label: "Gas"
+     }, {
+         id: 'oil',
+         label: "Oil"
+     }];
+     $scope.assetTypeSettings = {
+         selectionLimit: 1,
+         enableSearch: true,
+         scrollable: true
+     };
+
+     /*sector filter*/
+     $rootScope.assetUnitModel = [];
+     $scope.assetUnitData = [{
+         id: 'MToe',
+         label: "MToe"
+     }, {
+         id: 'MBoE',
+         label: "MBoE"
+     }, {
+         id: 'BcMNG',
+         label: "BcMNG"
+     }];
+     $scope.assetUnitSettings = {
+         selectionLimit: 1,
+         enableSearch: true,
+         scrollable: true
+     };
+
+     /*asset counry field */
+     $scope.assetCountryData = [];
+     $rootScope.assetCountryModel = [];
+     $scope.assetCountrySettings = {
+         selectionLimit: 1,
+         enableSearch: true,
+         scrollable: true
+     };  
+     
+     /*sector filter*/
+     $scope.sectorData=[];
+     $rootScope.sectorModel = [];
+//     $scope.sectorData = [{
+//         id: 'Exploration',
+//         label: "Exploration"
+//     }, {
+//         id: 'LNG',
+//         label: "LNG"
+//     }, {
+//         id: 'Pipeline',
+//         label: "Pipe line"
+//     }, {
+//         id: 'Refinery',
+//         label: "Refinery"
+//     }, {
+//         id: 'Storage',
+//         label: "Storage"
+//     }];
+     $scope.sectorSettings = {
+         selectionLimit: 1
+     };
+//     $scope.sectorData = $scope.sortedOrder($scope.sectorData);
+     $scope.sectorEvents = {
          onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'basin')
+             $rootScope.onFilterSelect(item, 'sector')
          }
      };
 
+    $rootScope.resetFilters = function(filter,path){
+    	$scope.clearFilters(filter, path);
+    } 
+    $scope.clearFilters = function(filter,path)
+    {
+    	if(path==$scope.explorationPath)
+    	{
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];
+        		$scope.basinData = [];
+           	    $rootScope.basinModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}	
+    		else if(filter==$scope.country)
+    		{
+    			$scope.basinData = [];
+           	    $rootScope.basinModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.basin)
+    		{
+    			$scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.operator)
+    		{    			
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.owner)
+    		{    			           	    
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.status)
+    		{
+    			$scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+       	    
+    	}    	
+    	if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+    	{
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];        		
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.country)
+    		{    			       	
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.location)
+    		{    			       	        		
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.operator)
+    		{    			       	        		           	   
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.owner)
+    		{    			       	        		           	              	   
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.status)
+    		{    			       	        		           	              	           	 
+        	    $scope.typeData=[];
+        	    $rootScope.typeModel=[];
+    		}	
+    	}
+    	if(path==$scope.lngSupplyDemandPath)
+    	{
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];        		        		
+    		}	
+    	}
+    	if(path==$scope.lngSmallScalePath)
+    	{
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];
+        		$scope.companyData = [];
+        		$rootScope.companyModel=[]; 
+        		$scope.technologyProviderData = [];
+        		$rootScope.technologyProviderModel=[];
+        		$scope.technologyData = [];
+        		$rootScope.technologyModel=[];
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+        		
+    		}	
+    		else if(filter==$scope.country)
+    		{
+    			$scope.companyData = [];
+        		$rootScope.companyModel=[]; 
+        		$scope.technologyProviderData = [];
+        		$rootScope.technologyProviderModel=[];
+        		$scope.technologyData = [];
+        		$rootScope.technologyModel=[];
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.company)
+    		{
+    			$scope.technologyProviderData = [];
+        		$rootScope.technologyProviderModel=[];
+        		$scope.technologyData = [];
+        		$rootScope.technologyModel=[];
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.technologyProvider){
+    			$scope.technologyData = [];
+        		$rootScope.technologyModel=[];
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.technology){
+    			$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.location){
+    			$scope.statusData =[];
+           	    $rootScope.statusModel =[];
+           	    $scope.typeData=[];
+           	    $rootScope.typeModel=[];
+    		}
+    		else if(filter==$scope.status){
+    			 $scope.typeData=[];
+            	 $rootScope.typeModel=[];
+    		}
+    	}
+    	if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath)
+    	{
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];
+        		$scope.pdCommodityData = [];
+        		$rootScope.pdCommodityModel=[]; 
+        		$scope.pdStartPointData = [];
+        		$rootScope.pdStartPointModel=[];
+        		$scope.pdEndPointData = [];
+        		$rootScope.pdEndPointModel=[]; 
+        		$scope.statusData = [];
+        		$rootScope.statusModel=[];        		
+        		
+    		}
+    		else if(filter==$scope.country){
+    			$scope.pdCommodityData = [];
+        		$rootScope.pdCommodityModel=[]; 
+        		$scope.pdStartPointData = [];
+        		$rootScope.pdStartPointModel=[];
+        		$scope.pdEndPointData = [];
+        		$rootScope.pdEndPointModel=[]; 
+        		$scope.statusData = [];
+        		$rootScope.statusModel=[];
+    		}
+    		else if(filter==$scope.commodity){
+    			$scope.pdStartPointData = [];
+        		$rootScope.pdStartPointModel=[];
+        		$scope.pdEndPointData = [];
+        		$rootScope.pdEndPointModel=[]; 
+        		$scope.statusData = [];
+        		$rootScope.statusModel=[];
+    		}
+    		else if(filter==$scope.startPoint){
+    			$scope.pdEndPointData = [];
+        		$rootScope.pdEndPointModel=[]; 
+        		$scope.statusData = [];
+        		$rootScope.statusModel=[];
+    		}
+    		else if(filter==$scope.endPoint){
+    			$scope.statusData = [];
+        		$rootScope.statusModel=[];
+    		}
+    	}
+    	if(path==$scope.productionAssetPath){
+    		if(filter==$scope.region)
+    		{
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];
+        		   		        		
+    		}
+    	}
+    	if(path==$scope.refineriesCapacityPath || path==$scope.refineriesInfraPath)
+    	{
+    		if(filter==$scope.region){
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];        		
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];        	   
+    		}
+    		else if(filter==$scope.country){
+    			$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.location)
+    		{
+    			$scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.operator){
+    			$scope.ownerData =[];
+         	    $rootScope.ownerModel=[];
+         	    $scope.statusData =[];
+         	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.owner){
+    			$scope.statusData =[];
+         	    $rootScope.statusModel =[];
+    		}
+    	}
+    	if(path==$scope.storageCapacityPath || path==$scope.storageInfraPath)
+    	{
+    		if(filter==$scope.region){
+    			$scope.countryData = [];
+        		$rootScope.countryModel=[];        		
+        		$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];        	   
+    		}
+    		else if(filter==$scope.country){
+    			$scope.locationData = [];
+           	    $rootScope.locationModel = [];
+           	    $scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.location)
+    		{
+    			$scope.operatorData =[];
+           	    $rootScope.operatorModel=[];
+           	    $scope.ownerData =[];
+        	    $rootScope.ownerModel=[];
+        	    $scope.statusData =[];
+        	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.operator){
+    			$scope.ownerData =[];
+         	    $rootScope.ownerModel=[];
+         	    $scope.statusData =[];
+         	    $rootScope.statusModel =[];
+    		}
+    		else if(filter==$scope.owner){
+    			$scope.statusData =[];
+         	    $rootScope.statusModel =[];
+    		}
+    	}
+        if(path==$scope.reportsPath)
+    	{
+        	if(filter==$scope.region)
+        	{
+        		$scope.countryData = [];
+            	$rootScope.countryModel=[];
+        		$scope.sectorData=[];
+        	    $rootScope.sectorModel = [];
+        	}
+        	else if(filter==$scope.country)
+        	{
+        		$scope.sectorData=[];
+        	    $rootScope.sectorModel = [];
+        	}
+        	
+    	}
+    };
+     $scope.loadFiltersForRegion = function(filter,path){
+    	     	 
+    	 $rootScope.capacityFilterJSON = {};
+    	 if($rootScope.filterObj.regionField == true){
+ 			$scope.generateFormData($rootScope.regionModel,'region');
+  		}
+    	 if(path==$scope.explorationPath)
+    	 {
+    		 HttpService.get('/exploration/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+  	           for (var i = 0; i < resp.length; i++) {
+  	               var obj = {
+  	                   id: resp[i].country,
+  	                   label: resp[i].country
+  	               }
+  	               $scope.countryData.push(obj);                   
+  	           }
+  	           $scope.countryData = $scope.sortedOrder($scope.countryData);  	           
+  	       });
+    	 }	
+    	 else if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+    	 {
+    		 HttpService.get('/lng/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+    	           for (var i = 0; i < resp.length; i++) {
+    	               var obj = {
+    	                   id: resp[i].country,
+    	                   label: resp[i].country
+    	               }
+    	               $scope.countryData.push(obj);                   
+    	           }
+    	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+    	           
+    	       });
+    	 } 
+    	 else if(path==$scope.lngSupplyDemandPath)
+    	 {
+    		 HttpService.get('/supplyDemand/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+    	           for (var i = 0; i < resp.length; i++) {
+    	               var obj = {
+    	                   id: resp[i].country,
+    	                   label: resp[i].country
+    	               }
+    	               $scope.countryData.push(obj);                   
+    	           }
+    	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+    	           
+    	       });
+    	 }
+    	 else if(path==$scope.lngSmallScalePath){
+    		 HttpService.get('/smallscalelng/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].country,
+                       label: resp[i].country
+                   }
+                   $scope.countryData.push(obj);
+               }
+               $scope.countryData = $scope.sortedOrder($scope.countryData);
+           });
+    	 }
+    	 else if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath){
+    		 HttpService.get('/pipeline/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+  	           for (var i = 0; i < resp.length; i++) {
+  	               var obj = {
+  	                   id: resp[i].country,
+  	                   label: resp[i].country
+  	               }
+  	               $scope.countryData.push(obj);                   
+  	           }
+  	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+  	           
+  	       });
+    	 }
+    	 else if(path==$scope.productionAssetPath){
+    		 HttpService.get('/production/asset/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+    	           for (var i = 0; i < resp.length; i++) {
+    	               var obj = {
+    	                   id: resp[i].country,
+    	                   label: resp[i].country
+    	               }
+    	               $scope.countryData.push(obj);                   
+    	           }
+    	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+    	           
+    	       });
+    	 }
+    	 else if(path==$scope.refineriesCapacityPath || path ==$scope.refineriesInfraPath){
+    		 
+    		 HttpService.get('/refineries/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+  	           for (var i = 0; i < resp.length; i++) {
+  	               var obj = {
+  	                   id: resp[i].country,
+  	                   label: resp[i].country
+  	               }
+  	               $scope.countryData.push(obj);                   
+  	           }
+  	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+  	           
+  	       });
+    	 }
+    	 else if(path==$scope.storageCapacityPath || path==$scope.storageInfraPath){
+    		 HttpService.get('/storage/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+    	           for (var i = 0; i < resp.length; i++) {
+    	               var obj = {
+    	                   id: resp[i].country,
+    	                   label: resp[i].country
+    	               }
+    	               $scope.countryData.push(obj);                   
+    	           }
+    	           $scope.countryData = $scope.sortedOrder($scope.countryData);
+    	           
+    	       });
+    	 }
+    	 else if(path==$scope.reportsPath)
+    	 {
+    		 HttpService.get('/pdfreport/countries',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].country,
+                       label: resp[i].country
+                   }
+                   $scope.countryData.push(obj);
+               }
+               $scope.countryData = $scope.sortedOrder($scope.countryData);
+           });
+    	 }
+    	 
+     };
+     
+     $scope.loadFiltersForCountry = function(filter,path){
+     	 
+    	$rootScope.capacityFilterJSON = {};
+    	if($rootScope.filterObj.regionField == true){
+ 			$scope.generateFormData($rootScope.regionModel,'region');
+  		}    	 
+    	if($rootScope.filterObj.countryField == true){
+   			$scope.generateFormData($rootScope.countryModel,'country');
+    	}
+    	
+    	if(path==$scope.explorationPath)
+   	 	{
+    		HttpService.get('/exploration/basins',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].basin,
+                      label: resp[i].basin
+                  }
+                  $scope.basinData.push(obj);
+ 
+              }
+              $scope.basinData = $scope.sortedOrder($scope.basinData);
+          });
+   	 	}	 
+    	 else if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+    	 {
+    		 HttpService.get('/lng/locations',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].location,
+                       label: resp[i].location
+                   }
+                   $scope.locationData.push(obj);
+               }
+               $scope.locationData = $scope.sortedOrder($scope.locationData);
+           });
+    	 } 
+    	 else if(path==$scope.lngSmallScalePath)
+    	 {
+    		 HttpService.get('/smallscalelng/companies',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].company,
+                       label: resp[i].company
+                   }
+                   $scope.companyData.push(obj);
+               }
+               $scope.companyData = $scope.sortedOrder($scope.companyData);
+           });
+    		 
+    	 }
+    	 else if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath)
+    	 {
+    		 HttpService.get('/pipeline/commodities',$rootScope.capacityFilterJSON).then(function(resp) {
+                 for (var i = 0; i < resp.length; i++) {
+                     var obj = {
+                         id: resp[i].commodity,
+                         label: resp[i].commodity
+                     }
+                     $scope.pdCommodityData.push(obj);
+                 }
+                 $scope.pdCommodityData = $scope.sortedOrder($scope.pdCommodityData);
+             });
+    		 
+    	 }
+    	 else if(path==$scope.refineriesCapacityPath || path==$scope.refineriesInfraPath){
+    		 HttpService.get('/refineries/locations',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].location,
+                       label: resp[i].location
+                   }
+                   $scope.locationData.push(obj);
+               }
+               $scope.locationData = $scope.sortedOrder($scope.locationData);
+           });
+    	 }
+    	 else if(path == $scope.storageCapacityPath || path==$scope.storageInfraPath){
+    		 HttpService.get('/storage/locations',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].location,
+                       label: resp[i].location
+                   }
+                   $scope.locationData.push(obj);
+               }
+               $scope.locationData = $scope.sortedOrder($scope.locationData);
+           });
+    	 }
+    	 else if(path==$scope.reportsPath)
+    	 {
+    		 HttpService.get('/pdfreport/sectors',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].sector,
+                       label: resp[i].sector
+                   }
+                   $scope.sectorData.push(obj);
+               }
+               $scope.sectorData = $scope.sortedOrder($scope.sectorData);
+           });
+    	 }
+    	 
+     };
+     
+     
 
+     $scope.loadFiltersForBasin = function(filter,path){
+    	 
+    	$rootScope.capacityFilterJSON = {};
+    	if($rootScope.filterObj.regionField == true){
+ 			$scope.generateFormData($rootScope.regionModel,'region');
+  		}
+    	if($rootScope.filterObj.countryField == true){
+  			$scope.generateFormData($rootScope.countryModel,'country');
+   		}
+    	if($rootScope.filterObj.basinField == true){
+			$scope.generateFormData($rootScope.basinModel,'basin');
+ 		}
+    	 if($scope.explorationPath==path)
+    	 {
+    		 HttpService.get('/exploration/operators',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].operator,
+                       label: resp[i].operator
+                   }
+                   $scope.operatorData.push(obj);
+               }
+               $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+           });
+    	 }	 
+    		 
+    	 
+     };
+     $scope.loadFiltersForOperator =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+     	if($rootScope.filterObj.regionField == true){
+  			$scope.generateFormData($rootScope.regionModel,'region');
+   		}
+     	if($rootScope.filterObj.countryField == true){
+   			$scope.generateFormData($rootScope.countryModel,'country');
+    		}
+     	if($rootScope.filterObj.basinField == true){
+ 			$scope.generateFormData($rootScope.basinModel,'basin');
+  		}
+     	if($rootScope.filterObj.locationField == true){
+			$scope.generateFormData($rootScope.locationModel,'location');
+ 		}
+     	if($rootScope.filterObj.operatorField == true){
+			$scope.generateFormData($rootScope.operatorModel,'operator');
+ 		}
+     	
+     	if($scope.explorationPath==path)
+     	{
+     		HttpService.get('/exploration/owners',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].owner,
+                      label: resp[i].owner
+                  }
+                  $scope.ownerData.push(obj);
+ 
+              }
+              $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+          });
+     	}
+     	else if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+     	{
+     		 HttpService.get('/lng/owners',$rootScope.capacityFilterJSON).then(function(resp) {
+               for (var i = 0; i < resp.length; i++) {
+                   var obj = {
+                       id: resp[i].owner,
+                       label: resp[i].owner
+                   }
+                   $scope.ownerData.push(obj);
+  
+               }
+               $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+           });
+     		
+     	}
+     	else if(path==$scope.refineriesCapacityPath || path==$scope.refineriesInfraPath){
+     		HttpService.get('/refineries/owners',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].owner,
+                      label: resp[i].owner
+                  }
+                  $scope.ownerData.push(obj);
+ 
+              }
+              $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+          });
+     	}
+     	else if(path == $scope.storageCapacityPath || path==$scope.storageInfraPath){
+     		HttpService.get('/storage/owners',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].owner,
+                      label: resp[i].owner
+                  }
+                  $scope.ownerData.push(obj);
+ 
+              }
+              $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+          });
+     	}
+     };
+     $scope.loadFiltersForOwner = function(filter,path)
+     {
+    	 $rootScope.capacityFilterJSON = {};
+      	if($rootScope.filterObj.regionField == true){
+   			$scope.generateFormData($rootScope.regionModel,'region');
+    		}
+      	if($rootScope.filterObj.countryField == true){
+    			$scope.generateFormData($rootScope.countryModel,'country');
+     		}
+      	if($rootScope.filterObj.basinField == true){
+  			$scope.generateFormData($rootScope.basinModel,'basin');
+   		}
+      	if($rootScope.filterObj.locationField == true){
+			$scope.generateFormData($rootScope.locationModel,'location');
+ 		}
+      	if($rootScope.filterObj.operatorField == true){
+ 			$scope.generateFormData($rootScope.operatorModel,'operator');
+  		}
+      	if($rootScope.filterObj.ownerField == true){
+ 			$scope.generateFormData($rootScope.ownerModel,'owner');
+ 		}
+      	if($scope.explorationPath==path)
+     	{
+      		HttpService.get('/exploration/status',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].status,
+                      label: resp[i].status
+                  }
+                  $scope.statusData.push(obj);
+              }
+              $scope.statusData = $scope.sortedOrder($scope.statusData);
+          });
+     	}	 
+      	else if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+      	{
+      		HttpService.get('/lng/status',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].status,
+                      label: resp[i].status
+                  }
+                  $scope.statusData.push(obj);
+              }
+              $scope.statusData = $scope.sortedOrder($scope.statusData);
+          });
+      	}
+      	else if(path==$scope.refineriesCapacityPath || path==$scope.refineriesInfraPath){
+      		HttpService.get('/refineries/status',$rootScope.capacityFilterJSON).then(function(resp) {
+                for (var i = 0; i < resp.length; i++) {
+                    var obj = {
+                        id: resp[i].status,
+                        label: resp[i].status
+                    }
+                    $scope.statusData.push(obj);
+                }
+                $scope.statusData = $scope.sortedOrder($scope.statusData);
+            });
+      	}
+      	else if(path ==$scope.storageCapacityPath || path==$scope.storageInfraPath){
+      		HttpService.get('/storage/status',$rootScope.capacityFilterJSON).then(function(resp) {
+                for (var i = 0; i < resp.length; i++) {
+                    var obj = {
+                        id: resp[i].status,
+                        label: resp[i].status
+                    }
+                    $scope.statusData.push(obj);
+                }
+                $scope.statusData = $scope.sortedOrder($scope.statusData);
+            });
+      	}
+     };
+     
+     $scope.loadFiltersForStatus = function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+       	if($rootScope.filterObj.regionField == true){
+    			$scope.generateFormData($rootScope.regionModel,'region');
+     		}
+       	if($rootScope.filterObj.countryField == true){
+     			$scope.generateFormData($rootScope.countryModel,'country');
+      		}
+       	if($rootScope.filterObj.basinField == true){
+   			$scope.generateFormData($rootScope.basinModel,'basin');
+    	}
+       	if($rootScope.filterObj.locationField == true){
+			$scope.generateFormData($rootScope.locationModel,'location');
+ 		}
+       	if($rootScope.filterObj.operatorField == true){
+  			$scope.generateFormData($rootScope.operatorModel,'operator');
+   		}
+       	if($rootScope.filterObj.ownerField == true){
+  			$scope.generateFormData($rootScope.ownerModel,'owner');
+  		}
+       	if($rootScope.filterObj.statusField == true){
+ 			$scope.generateFormData($rootScope.statusModel,'status');
+ 		}
+       	if($rootScope.filterObj.companyField == true){
+ 			$scope.generateFormData($rootScope.companyModel,'company');
+ 		}
+       	if($rootScope.filterObj.technologyProviderField == true){
+ 			$scope.generateFormData($rootScope.technologyProviderModel,'technologyprovider');
+ 		}
+       	if($rootScope.filterObj.technologyField == true){
+ 			$scope.generateFormData($rootScope.technologyModel,'technology');
+ 		}
+       	
+       	if($scope.explorationPath==path)
+     	{
+       		HttpService.get('/exploration/type',$rootScope.capacityFilterJSON).then(function(resp) {            	            	                  
+            	         for (var i = 0; i < resp.length; i++) {
+            	             var obj = {
+            	                 id: resp[i].type,
+            	                 label: resp[i].type
+            	             }
+            	             $scope.typeData.push(obj);
+            	         }
+            	         $scope.typeData = $scope.sortedOrder($scope.typeData);
+            	     });
+     	}	 
+       	else if(path== $scope.lngCapacityPath || path==$scope.lngInfraPath)
+     	{
+       		HttpService.get('/lng/type',$rootScope.capacityFilterJSON).then(function(resp) {            	            	                  
+            	         for (var i = 0; i < resp.length; i++) {
+            	             var obj = {
+            	                 id: resp[i].type,
+            	                 label: resp[i].type
+            	             }
+            	             $scope.typeData.push(obj);
+            	         }
+            	         $scope.typeData = $scope.sortedOrder($scope.typeData);
+            	     });
+     	}
+       	else if(path==$scope.lngSmallScalePath)
+       	{
+       		HttpService.get('/smallscalelng/types',$rootScope.capacityFilterJSON).then(function(resp) {
+          	 for (var i = 0; i < resp.length; i++) {
+              	 var obj = {
+                  	 id: resp[i].type,
+                   	label: resp[i].type
+               	}
+               	$scope.typeData.push(obj);
+           	}
+          	 $scope.typeData = $scope.sortedOrder($scope.typeData);
+       		});
+       	}
+     };
+     $scope.loadFiltersForLocation = function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+        	if($rootScope.filterObj.regionField == true){
+     			$scope.generateFormData($rootScope.regionModel,'region');
+      		}
+        	if($rootScope.filterObj.countryField == true){
+      			$scope.generateFormData($rootScope.countryModel,'country');
+       		}
+        	if($rootScope.filterObj.companyField == true){
+     			$scope.generateFormData($rootScope.companyModel,'company');
+     		}
+    		
+    		if($rootScope.filterObj.technologyProviderField == true){
+     			$scope.generateFormData($rootScope.technologyProviderModel,'technologyprovider');
+     		}
+    		if($rootScope.filterObj.technologyField == true){
+     			$scope.generateFormData($rootScope.technologyModel,'technology');
+     		}
+        	if($rootScope.filterObj.locationField == true){
+    			$scope.generateFormData($rootScope.locationModel,'location');
+     		}
+        	
+        	
+        	if(path==$scope.lngCapacityPath || path==$scope.lngInfraPath)
+        	{
+        		 HttpService.get('/lng/operators',$rootScope.capacityFilterJSON).then(function(resp) {
+                   for (var i = 0; i < resp.length; i++) {
+                       var obj = {
+                           id: resp[i].operator,
+                           label: resp[i].operator
+                       }
+                       $scope.operatorData.push(obj);
+                   }
+                   $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+               });
+        	}
+        	else if(path==$scope.lngSmallScalePath)
+        	{
+        		HttpService.get('/smallscalelng/statuses',$rootScope.capacityFilterJSON).then(function(resp) {
+                  for (var i = 0; i < resp.length; i++) {
+                      var obj = {
+                          id: resp[i].status,
+                          label: resp[i].status
+                      }
+                      $scope.statusData.push(obj);
+                  }
+                  $scope.statusData = $scope.sortedOrder($scope.statusData);
+              });
+        	}
+        	else if(path==$scope.refineriesCapacityPath || path==$scope.refineriesInfraPath){
+        		 HttpService.get('/refineries/operators',$rootScope.capacityFilterJSON).then(function(resp) {
+                   for (var i = 0; i < resp.length; i++) {
+                       var obj = {
+                           id: resp[i].operator,
+                           label: resp[i].operator
+                       }
+                       $scope.operatorData.push(obj);
+                   }
+                   $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+               });
+        	}
+        	else if(path==$scope.storageCapacityPath || path==$scope.storageInfraPath){
+        		 HttpService.get('/storage/operators',$rootScope.capacityFilterJSON).then(function(resp) {
+                   for (var i = 0; i < resp.length; i++) {
+                       var obj = {
+                           id: resp[i].operator,
+                           label: resp[i].operator
+                       }
+                       $scope.operatorData.push(obj);
+                   }
+                   $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+               });
+        	}
+        	
+     };
+     $scope.loadFiltersForCompany =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+     	if($rootScope.filterObj.regionField == true){
+  			$scope.generateFormData($rootScope.regionModel,'region');
+   		}
+     	if($rootScope.filterObj.countryField == true){
+   			$scope.generateFormData($rootScope.countryModel,'country');
+    		}
+     	if($rootScope.filterObj.companyField == true){
+ 			$scope.generateFormData($rootScope.companyModel,'company');
+ 		}
+     	
+     	if(path==$scope.lngSmallScalePath)
+    	{
+     		HttpService.get('/smallscalelng/technologyproviders',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].technologyprovider,
+                      label: resp[i].technologyprovider
+                  }
+                  $scope.technologyProviderData.push(obj);
+              }
+              $scope.technologyProviderData = $scope.sortedOrder($scope.technologyProviderData);
+          });
+    	}
+     	
+     };
+     $scope.loadFiltersForTechnologyProvider =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+      	if($rootScope.filterObj.regionField == true){
+   			$scope.generateFormData($rootScope.regionModel,'region');
+    		}
+      	if($rootScope.filterObj.countryField == true){
+    			$scope.generateFormData($rootScope.countryModel,'country');
+     	}
+      	if($rootScope.filterObj.companyField == true){
+  			$scope.generateFormData($rootScope.companyModel,'company');
+  		}
+      	if($rootScope.filterObj.technologyProviderField == true){
+ 			$scope.generateFormData($rootScope.technologyProviderModel,'technologyprovider');
+ 		}
+      	if(path==$scope.lngSmallScalePath)
+    	{
+      		HttpService.get('/smallscalelng/technologies',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].technology,
+                      label: resp[i].technology
+                  }
+                  $scope.technologyData.push(obj);
+              }
+              $scope.technologyData = $scope.sortedOrder($scope.technologyData);
+          });
+    	}
+     };
+     $scope.loadFiltersForTechnology =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+       	if($rootScope.filterObj.regionField == true){
+    			$scope.generateFormData($rootScope.regionModel,'region');
+     		}
+       	if($rootScope.filterObj.countryField == true){
+     			$scope.generateFormData($rootScope.countryModel,'country');
+      	}
+       	if($rootScope.filterObj.companyField == true){
+   			$scope.generateFormData($rootScope.companyModel,'company');
+   		}
+       	if($rootScope.filterObj.technologyProviderField == true){
+  			$scope.generateFormData($rootScope.technologyProviderModel,'technologyprovider');
+  		}
+       	if($rootScope.filterObj.technologyField == true){
+ 			$scope.generateFormData($rootScope.technologyModel,'technology');
+ 		}
+       	if(path==$scope.lngSmallScalePath)
+    	{
+       		HttpService.get('/smallscalelng/locations',$rootScope.capacityFilterJSON).then(function(resp) {
+              for (var i = 0; i < resp.length; i++) {
+                  var obj = {
+                      id: resp[i].location,
+                      label: resp[i].location
+                  }
+                  $scope.locationData.push(obj);
+              }
+              $scope.locationData = $scope.sortedOrder($scope.locationData);
+          });
+    	}
+       	
+     };
+     $scope.loadFiltersForCommodity =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+        	if($rootScope.filterObj.regionField == true){
+     			$scope.generateFormData($rootScope.regionModel,'region');
+      		}
+        	if($rootScope.filterObj.countryField == true){
+      			$scope.generateFormData($rootScope.countryModel,'country');
+        	}
+        	if($rootScope.filterObj.pdCommodityField == true){
+     		 	if($rootScope.pdCommodityModel.id != undefined){
+     		 		$rootScope.pdCommodityModel.length =0;
+     				$rootScope.pdCommodityModel.push({id:$rootScope.pdCommodityModel.id});
+     			}else if ($rootScope.pdCommodityModel.length >0){
+     				if($rootScope.pdCommodityModel.id == undefined)
+    						$rootScope.pdCommodityModel.length =0
+     	 		}else{
+     				$rootScope.pdCommodityModel.length =0;
+     			}
+     			$scope.generateFormData($rootScope.pdCommodityModel,'commodity');
+     		}
+        	if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath){
+        		HttpService.get('/pipeline/startpoints',$rootScope.capacityFilterJSON).then(function(resp) {
+                    for (var i = 0; i < resp.length; i++) {
+                        var obj = {
+                            id: resp[i].startPoint,
+                            label: resp[i].startPoint
+                        }
+                        $scope.pdStartPointData.push(obj);
+                    }
+                    $scope.pdStartPointData = $scope.sortedOrder($scope.pdStartPointData);
+                });
+        	}
+     };
+     $scope.loadFiltersForStartPoint=function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+     	if($rootScope.filterObj.regionField == true){
+  			$scope.generateFormData($rootScope.regionModel,'region');
+   		}
+     	if($rootScope.filterObj.countryField == true){
+   			$scope.generateFormData($rootScope.countryModel,'country');
+     	}
+     	if($rootScope.filterObj.pdCommodityField == true){
+  		 	if($rootScope.pdCommodityModel.id != undefined){
+  		 		$rootScope.pdCommodityModel.length =0;
+  				$rootScope.pdCommodityModel.push({id:$rootScope.pdCommodityModel.id});
+  			}else if ($rootScope.pdCommodityModel.length >0){
+  				if($rootScope.pdCommodityModel.id == undefined)
+ 						$rootScope.pdCommodityModel.length =0
+  	 		}else{
+  				$rootScope.pdCommodityModel.length =0;
+  			}
+  			$scope.generateFormData($rootScope.pdCommodityModel,'commodity');
+  		}
+     	if($rootScope.filterObj.pdStartPointField == true){
+ 			$scope.generateFormData($rootScope.pdStartPointModel,'startPoint');
+ 		} 
+     	
+     	if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath){
+     		HttpService.get('/pipeline/endpoints',$rootScope.capacityFilterJSON).then(function(resp) {
+                for (var i = 0; i < resp.length; i++) {
+                    var obj = {
+                        id: resp[i].endPoint,
+                        label: resp[i].endPoint
+                    }
+                    $scope.pdEndPointData.push(obj);
+                }
+                $scope.pdEndPointData = $scope.sortedOrder($scope.pdEndPointData);
+            });
+    	}
+     };
+     $scope.loadFiltersForEndPoint =function(filter,path){
+    	 $rootScope.capacityFilterJSON = {};
+      	if($rootScope.filterObj.regionField == true){
+   			$scope.generateFormData($rootScope.regionModel,'region');
+    		}
+      	if($rootScope.filterObj.countryField == true){
+    			$scope.generateFormData($rootScope.countryModel,'country');
+      	}
+      	if($rootScope.filterObj.pdCommodityField == true){
+   		 	if($rootScope.pdCommodityModel.id != undefined){
+   		 		$rootScope.pdCommodityModel.length =0;
+   				$rootScope.pdCommodityModel.push({id:$rootScope.pdCommodityModel.id});
+   			}else if ($rootScope.pdCommodityModel.length >0){
+   				if($rootScope.pdCommodityModel.id == undefined)
+  						$rootScope.pdCommodityModel.length =0
+   	 		}else{
+   				$rootScope.pdCommodityModel.length =0;
+   			}
+   			$scope.generateFormData($rootScope.pdCommodityModel,'commodity');
+   		}
+      	if($rootScope.filterObj.pdStartPointField == true){
+  			$scope.generateFormData($rootScope.pdStartPointModel,'startPoint');
+  		} 
+      	if($rootScope.filterObj.pdEndPointField == true){
+ 			$scope.generateFormData($rootScope.pdEndPointModel,'endPoint');
+ 		} 
+      	
+      	if(path==$scope.pipelineDomesticPath || path==$scope.pipelineTransNationalPath){
+      		HttpService.get('/pipeline/status',$rootScope.capacityFilterJSON).then(function(resp) {
+                for (var i = 0; i < resp.length; i++) {
+                    var obj = {
+                        id: resp[i].status,
+                        label: resp[i].status
+                    }
+                    $scope.statusData.push(obj);
+                }
+                $scope.statusData = $scope.sortedOrder($scope.statusData);
+            });
+    	}
+      	
+     };
      /* exportedCountries filter */
      $scope.exportedCountriesData = [];
      $rootScope.exportedCountriesModel = [];
@@ -323,173 +2218,7 @@
          }
 
      };
-
-
-     /*location */
-     $scope.locationData = [];
-     $rootScope.locationModel = [];
-     $scope.locationSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-     /*operator*/
-     $scope.operatorData = [];
-     $rootScope.operatorModel = [];
-     $scope.operatorSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-
-     /* owner*/
-     $scope.ownerData = [];
-     $rootScope.ownerModel = [];
-     $scope.ownerSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-     /* Status filter */
-     $scope.statusData = [];
-     $rootScope.statusModel = [];
-     $scope.statusSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-     /*units filter*/
-     $rootScope.unitsModel = [];
-     $scope.unitsData = [{
-         id: 'BCF',
-         label: "BCF"
-     }];
-     $scope.unitsSettings = {
-         selectionLimit: 1
-     };
-
-     /*offshore filter*/
-     $rootScope.offshoreModel = [];
-     $scope.offshoreData = [{
-         id: 'Offshore',
-         label: "Offshore"
-     }, {
-         id: 'Onshore',
-         label: "Onshore"
-     }]; //Timebeing Removed as client don't want{id: 'Not_Decided', label: "Not Decided"},
-     $scope.offshoreData = $scope.sortedOrder($scope.offshoreData);
-
-     /*type filter*/
-     $rootScope.typeModel = [];
-     $scope.typeData = [];
-     $scope.typeSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-
-     /*sector filter*/
-     $rootScope.sectorModel = [];
-     $scope.sectorData = [{
-         id: 'Exploration',
-         label: "Exploration"
-     }, {
-         id: 'LNG',
-         label: "LNG"
-     }, {
-         id: 'Pipeline',
-         label: "Pipe line"
-     }, {
-         id: 'Refinery',
-         label: "Refinery"
-     }, {
-         id: 'Storage',
-         label: "Storage"
-     }];
-     $scope.sectorSettings = {
-         selectionLimit: 1
-     };
-     $scope.sectorData = $scope.sortedOrder($scope.sectorData);
-     $scope.sectorEvents = {
-         onItemSelect: function(item) {
-             $rootScope.onFilterSelect(item, 'sector')
-         }
-     };
-
-     /*sector filter*/
-     $rootScope.assetTypeModel = [];
-     $scope.assetTypeData = [{
-         id: 'both',
-         label: "Both"
-     }, {
-         id: 'gas',
-         label: "Gas"
-     }, {
-         id: 'oil',
-         label: "Oil"
-     }];
-     $scope.assetTypeSettings = {
-         selectionLimit: 1,
-         enableSearch: true,
-         scrollable: true
-     };
-
-     /*sector filter*/
-     $rootScope.assetUnitModel = [];
-     $scope.assetUnitData = [{
-         id: 'MToe',
-         label: "MToe"
-     }, {
-         id: 'MBoE',
-         label: "MBoE"
-     }, {
-         id: 'BcMNG',
-         label: "BcMNG"
-     }];
-     $scope.assetUnitSettings = {
-         selectionLimit: 1,
-         enableSearch: true,
-         scrollable: true
-     };
-
-     /*asset counry field */
-     $scope.assetCountryData = [];
-     $rootScope.assetCountryModel = [];
-     $scope.assetCountrySettings = {
-         selectionLimit: 1,
-         enableSearch: true,
-         scrollable: true
-     };
-
-
-     /*pipeline commodity field */
-     $scope.pdCommodityData = [];
-     $rootScope.pdCommodityModel = [];
-     $scope.pdCommoditySettings = {
-         selectionLimit: 1,
-         enableSearch: true,
-         scrollable: true
-     };
-
-
-     /*pipeline statpoint field */
-     $scope.pdStartPointData = [];
-     $rootScope.pdStartPointModel = [];
-     $scope.pdStartPointSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-     /*pipeline endpoint field */
-     $scope.pdEndPointData = [];
-     $rootScope.pdEndPointModel = [];
-     $scope.pdEndPointSettings = {
-         enableSearch: true,
-         scrollable: true
-     };
-
-
-
-
+        
      $rootScope.filterObj = {
          regionField: true,
          countryField: true,
@@ -515,30 +2244,30 @@
          BasinField: false
      };
 
-     HttpService.get('/regions').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].region,
-                 label: resp[i].region
-             }
-             $scope.regionData.push(obj);
-         }
-         $scope.regionData = $scope.sortedOrder($scope.regionData);
-     });
+//     HttpService.get('/regions').then(function(resp) {
+//         for (var i = 0; i < resp.length; i++) {
+//             var obj = {
+//                 id: resp[i].region,
+//                 label: resp[i].region
+//             }
+//             $scope.regionData.push(obj);
+//         }
+//         $scope.regionData = $scope.sortedOrder($scope.regionData);
+//     });
 
 
 
-     HttpService.get('/countries').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].country,
-                 label: resp[i].country
-             }
-             $scope.countryData.push(obj);
-             $scope.assetCountryData.push(obj);
-         }
-         $scope.countryData = $scope.sortedOrder($scope.countryData);
-     });
+//     HttpService.get('/countries').then(function(resp) {
+//         for (var i = 0; i < resp.length; i++) {
+//             var obj = {
+//                 id: resp[i].country,
+//                 label: resp[i].country
+//             }
+//             $scope.countryData.push(obj);
+//             $scope.assetCountryData.push(obj);
+//         }
+//         $scope.countryData = $scope.sortedOrder($scope.countryData);
+//     });
 
      HttpService.get('/contracts/exportcountries').then(function(resp) {
          for (var i = 0; i < resp.length; i++) {
@@ -551,21 +2280,7 @@
          }
          $scope.exportedCountriesData = $scope.sortedOrder($scope.exportedCountriesData);
      });
-
-     HttpService.get('/exploration/basins').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].basin,
-                 label: resp[i].basin
-             }
-             $scope.basinData.push(obj);
-
-         }
-         $scope.basinData = $scope.sortedOrder($scope.basinData);
-     });
-
-
-
+    
 
      HttpService.get('/contracts/exportcompanies').then(function(resp) {
          for (var i = 0; i < resp.length; i++) {
@@ -578,65 +2293,26 @@
          $scope.exportedCompaniesData = $scope.sortedOrder($scope.exportedCompaniesData);
      });
 
-     HttpService.get('/status').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].status,
-                 label: resp[i].status
-             }
-             $scope.statusData.push(obj);
-         }
-         $scope.statusData = $scope.sortedOrder($scope.statusData);
-     });
+     
 
-     HttpService.get('/type').then(function(resp) {
+//     HttpService.get('/type').then(function(resp) {
+//
+//         if ($location.path() == "/exploration")
+//             return;
+//
+//         for (var i = 0; i < resp.length; i++) {
+//             var obj = {
+//                 id: resp[i].type,
+//                 label: resp[i].type
+//             }
+//             $scope.typeData.push(obj);
+//         }
+//         $scope.typeData = $scope.sortedOrder($scope.typeData);
+//     });
 
-         if ($location.path() == "/exploration")
-             return;
+    
 
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].type,
-                 label: resp[i].type
-             }
-             $scope.typeData.push(obj);
-         }
-         $scope.typeData = $scope.sortedOrder($scope.typeData);
-     });
-
-     HttpService.get('/pipeline/commodities').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].commodity,
-                 label: resp[i].commodity
-             }
-             $scope.pdCommodityData.push(obj);
-         }
-         $scope.pdCommodityData = $scope.sortedOrder($scope.pdCommodityData);
-     });
-
-
-     HttpService.get('/pipeline/startpoints').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].startPoint,
-                 label: resp[i].startPoint
-             }
-             $scope.pdStartPointData.push(obj);
-         }
-         $scope.pdStartPointData = $scope.sortedOrder($scope.pdStartPointData);
-     });
-
-     HttpService.get('/pipeline/endpoints').then(function(resp) {
-         for (var i = 0; i < resp.length; i++) {
-             var obj = {
-                 id: resp[i].endPoint,
-                 label: resp[i].endPoint
-             }
-             $scope.pdEndPointData.push(obj);
-         }
-         $scope.pdEndPointData = $scope.sortedOrder($scope.pdEndPointData);
-     });
+     
 
      $scope.generateFormData = function(ary, key) {
          for (var i = 0; i < ary.length; i++) {
@@ -697,18 +2373,33 @@
 
 
      $rootScope.loadLngFilter = function() {
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
          $scope.locationData = [];
-         $scope.operatorData = [];
+         $scope.operatorData = [];         
          $scope.ownerData = [];
-         $scope.typeData = [];
+         $scope.statusData = [];
          $scope.unitsData = [];
+         $rootScope.offshoreModel = [];
+         $scope.typeData = [];
+                  
+         
+         $scope.offshoreData = [{
+             id: 'Offshore',
+             label: "Offshore"
+         }, {
+             id: 'Onshore',
+             label: "Onshore"
+         }]; //Timebeing Removed as client don't want{id: 'Not_Decided', label: "Not Decided"},
+         $scope.offshoreData = $scope.sortedOrder($scope.offshoreData);
+         
          $scope.unitsData = [{
              id: 'BCF',
              label: "BCF"
          }];
-         $scope.regionData = [];
-         $scope.countryData = [];
-         $scope.statusData = [];
+         
+         
+         
 
 
          HttpService.get('/lng/regions').then(function(resp) {
@@ -722,74 +2413,74 @@
              $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/lng/countries').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].country,
-                     label: resp[i].country
-                 }
-                 $scope.countryData.push(obj);
-             }
-             $scope.countryData = $scope.sortedOrder($scope.countryData);
-         });
-
-
-         HttpService.get('/lng/status').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].status,
-                     label: resp[i].status
-                 }
-                 $scope.statusData.push(obj);
-             }
-             $scope.statusData = $scope.sortedOrder($scope.statusData);
-         });
-
-         HttpService.get('/lng/locations').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].location,
-                     label: resp[i].location
-                 }
-                 $scope.locationData.push(obj);
-             }
-             $scope.locationData = $scope.sortedOrder($scope.locationData);
-         });
-
-         HttpService.get('/lng/operators').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].operator,
-                     label: resp[i].operator
-                 }
-                 $scope.operatorData.push(obj);
-             }
-             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
-         });
-
-         HttpService.get('/lng/owners').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].owner,
-                     label: resp[i].owner
-                 }
-                 $scope.ownerData.push(obj);
-
-             }
-             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
-         });
-
-         HttpService.get('/lng/type').then(function(resp) {
-
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].type,
-                     label: resp[i].type
-                 }
-                 $scope.typeData.push(obj);
-             }
-             $scope.typeData = $scope.sortedOrder($scope.typeData);
-         });
+//         HttpService.get('/lng/countries').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].country,
+//                     label: resp[i].country
+//                 }
+//                 $scope.countryData.push(obj);
+//             }
+//             $scope.countryData = $scope.sortedOrder($scope.countryData);
+//         });
+//
+//
+//         HttpService.get('/lng/status').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].status,
+//                     label: resp[i].status
+//                 }
+//                 $scope.statusData.push(obj);
+//             }
+//             $scope.statusData = $scope.sortedOrder($scope.statusData);
+//         });
+//
+//         HttpService.get('/lng/locations').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].location,
+//                     label: resp[i].location
+//                 }
+//                 $scope.locationData.push(obj);
+//             }
+//             $scope.locationData = $scope.sortedOrder($scope.locationData);
+//         });
+//
+//         HttpService.get('/lng/operators').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].operator,
+//                     label: resp[i].operator
+//                 }
+//                 $scope.operatorData.push(obj);
+//             }
+//             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+//         });
+//
+//         HttpService.get('/lng/owners').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].owner,
+//                     label: resp[i].owner
+//                 }
+//                 $scope.ownerData.push(obj);
+//
+//             }
+//             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+//         });
+//
+//         HttpService.get('/lng/type').then(function(resp) {
+//
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].type,
+//                     label: resp[i].type
+//                 }
+//                 $scope.typeData.push(obj);
+//             }
+//             $scope.typeData = $scope.sortedOrder($scope.typeData);
+//         });
 
 
 
@@ -813,27 +2504,27 @@
              $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/pdfreport/sectors').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].sector,
-                     label: resp[i].sector
-                 }
-                 $scope.sectorData.push(obj);
-             }
-             $scope.sectorData = $scope.sortedOrder($scope.sectorData);
-         });
-
-         HttpService.get('/pdfreport/countries').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].country,
-                     label: resp[i].country
-                 }
-                 $scope.countryData.push(obj);
-             }
-             $scope.countryData = $scope.sortedOrder($scope.countryData);
-         });
+//         HttpService.get('/pdfreport/sectors').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].sector,
+//                     label: resp[i].sector
+//                 }
+//                 $scope.sectorData.push(obj);
+//             }
+//             $scope.sectorData = $scope.sortedOrder($scope.sectorData);
+//         });
+//
+//         HttpService.get('/pdfreport/countries').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].country,
+//                     label: resp[i].country
+//                 }
+//                 $scope.countryData.push(obj);
+//             }
+//             $scope.countryData = $scope.sortedOrder($scope.countryData);
+//         });
 
 
 
@@ -854,122 +2545,237 @@
              $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/supplyDemand/countries').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].country,
-                     label: resp[i].country
-                 }
-                 $scope.countryData.push(obj);
-             }
-             $scope.countryData = $scope.sortedOrder($scope.countryData);
-         });
+//         HttpService.get('/supplyDemand/countries').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].country,
+//                     label: resp[i].country
+//                 }
+//                 $scope.countryData.push(obj);
+//             }
+//             $scope.countryData = $scope.sortedOrder($scope.countryData);
+//         });
      };
 
 
      $rootScope.loadRefineriesFilter = function() {
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
          $scope.locationData = [];
          $scope.operatorData = [];
          $scope.ownerData = [];
-
-         HttpService.get('/refineries/locations').then(function(resp) {
+         $scope.statusData = [];
+         
+         HttpService.get('/refineries/regions').then(function(resp) {
              for (var i = 0; i < resp.length; i++) {
                  var obj = {
-                     id: resp[i].location,
-                     label: resp[i].location
+                     id: resp[i].region,
+                     label: resp[i].region
                  }
-                 $scope.locationData.push(obj);
+                 $scope.regionData.push(obj);
              }
-             $scope.locationData = $scope.sortedOrder($scope.locationData);
+             $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
-
-         HttpService.get('/refineries/operators').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].operator,
-                     label: resp[i].operator
-                 }
-                 $scope.operatorData.push(obj);
-             }
-             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
-         });
-
-         HttpService.get('/refineries/owners').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].owner,
-                     label: resp[i].owner
-                 }
-                 $scope.ownerData.push(obj);
-
-             }
-             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
-         });
+//         HttpService.get('/refineries/locations').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].location,
+//                     label: resp[i].location
+//                 }
+//                 $scope.locationData.push(obj);
+//             }
+//             $scope.locationData = $scope.sortedOrder($scope.locationData);
+//         });
+//
+//         HttpService.get('/refineries/operators').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].operator,
+//                     label: resp[i].operator
+//                 }
+//                 $scope.operatorData.push(obj);
+//             }
+//             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+//         });
+//
+//         HttpService.get('/refineries/owners').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].owner,
+//                     label: resp[i].owner
+//                 }
+//                 $scope.ownerData.push(obj);
+//
+//             }
+//             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+//         });
 
 
      };
 
      $rootScope.loadStorageFilter = function() {
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
          $scope.locationData = [];
          $scope.operatorData = [];
          $scope.ownerData = [];
-
-         HttpService.get('/storage/locations').then(function(resp) {
+         $scope.statusData = [];
+         
+         HttpService.get('/storage/regions').then(function(resp) {
              for (var i = 0; i < resp.length; i++) {
                  var obj = {
-                     id: resp[i].location,
-                     label: resp[i].location
+                     id: resp[i].region,
+                     label: resp[i].region
                  }
-                 $scope.locationData.push(obj);
+                 $scope.regionData.push(obj);
              }
-             $scope.locationData = $scope.sortedOrder($scope.locationData);
+             $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/storage/operators').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].operator,
-                     label: resp[i].operator
-                 }
-                 $scope.operatorData.push(obj);
-             }
-             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
-         });
-
-         HttpService.get('/storage/owners').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].owner,
-                     label: resp[i].owner
-                 }
-                 $scope.ownerData.push(obj);
-
-             }
-             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
-         });
+//         HttpService.get('/storage/locations').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].location,
+//                     label: resp[i].location
+//                 }
+//                 $scope.locationData.push(obj);
+//             }
+//             $scope.locationData = $scope.sortedOrder($scope.locationData);
+//         });
+//
+//         HttpService.get('/storage/operators').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].operator,
+//                     label: resp[i].operator
+//                 }
+//                 $scope.operatorData.push(obj);
+//             }
+//             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+//         });
+//
+//         HttpService.get('/storage/owners').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].owner,
+//                     label: resp[i].owner
+//                 }
+//                 $scope.ownerData.push(obj);
+//
+//             }
+//             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+//         });
 
 
      };
 
      $rootScope.loadProductionCompanyFilter = function() {
+    	 $scope.assetCountryData = [];
          $scope.countrySettings = {
              enableSearch: true,
              scrollable: true,
              selectionLimit: 1
          };
+         HttpService.get('/production/company/countries').then(function(resp) {
+           for (var i = 0; i < resp.length; i++) {
+               var obj = {
+                   id: resp[i].country,
+                   label: resp[i].country
+               }
+               $scope.assetCountryData.push(obj);
+           }
+           $scope.assetCountryData = $scope.sortedOrder($scope.assetCountryData);
+       });
+     };
+     
+     $rootScope.loadProductionAssetFilter = function() {
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
+    	 
+    	 HttpService.get('/production/asset/regions').then(function(resp) {
+             for (var i = 0; i < resp.length; i++) {
+                 var obj = {
+                     id: resp[i].region,
+                     label: resp[i].region
+                 }
+                 $scope.regionData.push(obj);
+             }
+             $scope.regionData = $scope.sortedOrder($scope.regionData);
+         });
      };
 
 
      $rootScope.loadPipelinesDomesticFilter = function() {
-
-
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
+    	 $scope.pdCommodityData = [];
+    	 $scope.pdStartPointData = [];
+    	 $scope.pdEndPointData = [];
+    	 $scope.statusData = [];
+    	 
+    	 HttpService.get('/pipeline/regions').then(function(resp) {
+             for (var i = 0; i < resp.length; i++) {
+                 var obj = {
+                     id: resp[i].region,
+                     label: resp[i].region
+                 }
+                 $scope.regionData.push(obj);
+             }
+             $scope.regionData = $scope.sortedOrder($scope.regionData);
+         });
+//    	 HttpService.get('/pipeline/commodities').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].commodity,
+//                     label: resp[i].commodity
+//                 }
+//                 $scope.pdCommodityData.push(obj);
+//             }
+//             $scope.pdCommodityData = $scope.sortedOrder($scope.pdCommodityData);
+//         });
+//    	 
+//    	 HttpService.get('/pipeline/startpoints').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].startPoint,
+//                     label: resp[i].startPoint
+//                 }
+//                 $scope.pdStartPointData.push(obj);
+//             }
+//             $scope.pdStartPointData = $scope.sortedOrder($scope.pdStartPointData);
+//         });
+//    	 HttpService.get('/pipeline/endpoints').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].endPoint,
+//                     label: resp[i].endPoint
+//                 }
+//                 $scope.pdEndPointData.push(obj);
+//             }
+//             $scope.pdEndPointData = $scope.sortedOrder($scope.pdEndPointData);
+//         });
+//    	 
+//    	 HttpService.get('/status').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].status,
+//                     label: resp[i].status
+//                 }
+//                 $scope.statusData.push(obj);
+//             }
+//             $scope.statusData = $scope.sortedOrder($scope.statusData);
+//         });
      }
 
      $rootScope.loadExplorationFilter = function() {
+    	 $scope.regionData = [];
+    	 $scope.countryData = [];
+    	 $scope.basinData = [];
          $scope.operatorData = [];
          $scope.ownerData = [];
+         $scope.statusData = [];
          $scope.unitsData = [];
-         $scope.typeData = [];
+         $scope.typeData = [];         
          /* KMs, Miles (Hardcode this values)
 	Type – Onshore, Offshore (Hardcode this values)*/
          //console.log("in /loadExplorationFilter")
@@ -981,36 +2787,60 @@
              id: 'Miles',
              label: "Miles"
          }];
-         $scope.typeData = [{
-             id: 'Onshore',
-             label: "Onshore"
-         }, {
-             id: 'Offshore',
-             label: "Offshore"
-         }];
-
-         HttpService.get('/exploration/operators').then(function(resp) {
+//         $scope.typeData = [{
+//             id: 'Onshore',
+//             label: "Onshore"
+//         }, {
+//             id: 'Offshore',
+//             label: "Offshore"
+//         }];
+         
+         HttpService.get('/exploration/regions').then(function(resp) {
              for (var i = 0; i < resp.length; i++) {
                  var obj = {
-                     id: resp[i].operator,
-                     label: resp[i].operator
+                     id: resp[i].region,
+                     label: resp[i].region
                  }
-                 $scope.operatorData.push(obj);
+                 $scope.regionData.push(obj);
              }
-             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+             $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
-
-         HttpService.get('/exploration/owners').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].owner,
-                     label: resp[i].owner
-                 }
-                 $scope.ownerData.push(obj);
-
-             }
-             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
-         });
+         
+//         HttpService.get('/exploration/basins').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].basin,
+//                     label: resp[i].basin
+//                 }
+//                 $scope.basinData.push(obj);
+//
+//             }
+//             $scope.basinData = $scope.sortedOrder($scope.basinData);
+//         });
+//
+//
+//         HttpService.get('/exploration/operators').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].operator,
+//                     label: resp[i].operator
+//                 }
+//                 $scope.operatorData.push(obj);
+//             }
+//             $scope.operatorData = $scope.sortedOrder($scope.operatorData);
+//         });
+//
+//         HttpService.get('/exploration/owners').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].owner,
+//                     label: resp[i].owner
+//                 }
+//                 $scope.ownerData.push(obj);
+//
+//             }
+//             $scope.ownerData = $scope.sortedOrder($scope.ownerData);
+//         });
      }
 
 
@@ -1018,6 +2848,9 @@
 
          $scope.regionData = [];
          $scope.countryData = [];
+         $scope.companyData=[];
+         $scope.technologyProviderData=[];
+         $scope.technologyData=[];
          $scope.locationData = [];
          $scope.statusData = [];
          $scope.typeData = [];
@@ -1034,83 +2867,83 @@
              $scope.regionData = $scope.sortedOrder($scope.regionData);
          });
 
-         HttpService.get('/smallscalelng/countries').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].country,
-                     label: resp[i].country
-                 }
-                 $scope.countryData.push(obj);
-             }
-             $scope.countryData = $scope.sortedOrder($scope.countryData);
-         });
-
-         HttpService.get('/smallscalelng/locations').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].location,
-                     label: resp[i].location
-                 }
-                 $scope.locationData.push(obj);
-             }
-             $scope.locationData = $scope.sortedOrder($scope.locationData);
-         });
-
-         HttpService.get('/smallscalelng/statuses').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].status,
-                     label: resp[i].status
-                 }
-                 $scope.statusData.push(obj);
-             }
-             $scope.statusData = $scope.sortedOrder($scope.statusData);
-         });
-
-
-         HttpService.get('/smallscalelng/types').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].type,
-                     label: resp[i].type
-                 }
-                 $scope.typeData.push(obj);
-             }
-             $scope.typeData = $scope.sortedOrder($scope.typeData);
-         });
-
-         HttpService.get('/smallscalelng/companies').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].company,
-                     label: resp[i].company
-                 }
-                 $scope.companyData.push(obj);
-             }
-             $scope.companyData = $scope.sortedOrder($scope.companyData);
-         });
-
-         HttpService.get('/smallscalelng/technologyproviders').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].technologyprovider,
-                     label: resp[i].technologyprovider
-                 }
-                 $scope.technologyProviderData.push(obj);
-             }
-             $scope.technologyProviderData = $scope.sortedOrder($scope.technologyProviderData);
-         });
-
-         HttpService.get('/smallscalelng/technologies').then(function(resp) {
-             for (var i = 0; i < resp.length; i++) {
-                 var obj = {
-                     id: resp[i].technology,
-                     label: resp[i].technology
-                 }
-                 $scope.technologyData.push(obj);
-             }
-             $scope.technologyData = $scope.sortedOrder($scope.technologyData);
-         });
+//         HttpService.get('/smallscalelng/countries').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].country,
+//                     label: resp[i].country
+//                 }
+//                 $scope.countryData.push(obj);
+//             }
+//             $scope.countryData = $scope.sortedOrder($scope.countryData);
+//         });
+//
+//         HttpService.get('/smallscalelng/locations').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].location,
+//                     label: resp[i].location
+//                 }
+//                 $scope.locationData.push(obj);
+//             }
+//             $scope.locationData = $scope.sortedOrder($scope.locationData);
+//         });
+//
+//         HttpService.get('/smallscalelng/statuses').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].status,
+//                     label: resp[i].status
+//                 }
+//                 $scope.statusData.push(obj);
+//             }
+//             $scope.statusData = $scope.sortedOrder($scope.statusData);
+//         });
+//
+//
+//         HttpService.get('/smallscalelng/types').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].type,
+//                     label: resp[i].type
+//                 }
+//                 $scope.typeData.push(obj);
+//             }
+//             $scope.typeData = $scope.sortedOrder($scope.typeData);
+//         });
+//
+//         HttpService.get('/smallscalelng/companies').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].company,
+//                     label: resp[i].company
+//                 }
+//                 $scope.companyData.push(obj);
+//             }
+//             $scope.companyData = $scope.sortedOrder($scope.companyData);
+//         });
+//
+//         HttpService.get('/smallscalelng/technologyproviders').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].technologyprovider,
+//                     label: resp[i].technologyprovider
+//                 }
+//                 $scope.technologyProviderData.push(obj);
+//             }
+//             $scope.technologyProviderData = $scope.sortedOrder($scope.technologyProviderData);
+//         });
+//
+//         HttpService.get('/smallscalelng/technologies').then(function(resp) {
+//             for (var i = 0; i < resp.length; i++) {
+//                 var obj = {
+//                     id: resp[i].technology,
+//                     label: resp[i].technology
+//                 }
+//                 $scope.technologyData.push(obj);
+//             }
+//             $scope.technologyData = $scope.sortedOrder($scope.technologyData);
+//         });
 
 
 
@@ -1122,6 +2955,18 @@
  });
 
  angular.module('OGAnalysis').controller('HeaderCtrl', function($scope, $state, $rootScope, URL, HttpService, $timeout) {
+	 
+	 
+	 $scope.changePwdErrorMsg="";
+	 $scope.changePwdErrorMsg1="";
+	 
+	 $rootScope.changePwdObj ={
+			 currpwd:"",
+	 		 newpwd:"",
+	 		 confirmpwd:""
+	 }
+	 
+	
      $rootScope.toggleNav = function() {
 
          if ($rootScope.table.liquefactionInst != undefined && $rootScope.table.liquefactionInst != "") {
@@ -1163,6 +3008,42 @@
      })
 
      $scope.userName = HttpService.getUserName();
+     
+     $scope.showChangePwdModal=function(){ 
+    	 $rootScope.changePwdObj.currpwd="";
+    	 $rootScope.changePwdObj.newpwd="";
+    	 $rootScope.changePwdObj.confirmpwd="";
+		 $("#myModalChangePwd").modal("show");			 
+     }
+         
+     $scope.changePwd=function(){    	
+    	 
+		   HttpService.get("/changepwd",$rootScope.changePwdObj).then(function(resp) {
+//				$http(request).success(function (resp){								 
+					 if(resp.st == 'success'){									 								
+						 $scope.changePwdErrorMsg = "Successfully Changed Password.";									 
+						 $timeout(function(){	
+							 $scope.changePwdErrorMsg = "";
+							 $("#myModalChangePwd").modal("hide");
+						 },3000)
+					 }else if(resp.st =='incorrect'){
+						 //alert("login failed!")
+						 $scope.changePwdErrorMsg = "Invalid Current Password.";									 
+						 $timeout(function(){
+							 $scope.changePwdErrorMsg = "";
+						 },3000)
+					 }else if(resp.st=='fail'){
+						 $scope.changePwdErrorMsg = "Unable to Change Password.";
+						 $scope.changePwdErrorMsg1="Please contact sales@ogexplorer.com.";
+						 $timeout(function(){
+							 $scope.changePwdErrorMsg = "";
+							 $scope.changePwdErrorMsg1="";
+						 },3000)
+					 }
+					 
+				});
+			
+     }
 
      $scope.logout = function() {
          HttpService.get('/logout').then(function(resp) {
@@ -1173,6 +3054,8 @@
          });
      }
  });
+ 
+ 
 
  angular.module('OGAnalysis').controller('CommonCtrl', function($scope, $state, $rootScope, URL, HttpService) {
      console.log("In common ctrl");
@@ -1376,7 +3259,25 @@
              $scope.formDataJSON[fromkey] = ary[i].id;
          }
      }
-
+//     $rootScope.loadCountries = function(){
+//    	 
+//    	 
+//    	 if($rootScope.filterObj.regionField == true){
+// 			$scope.generateFormData($rootScope.regionModel,'region');
+//  		}
+//    	 
+////    	 HttpService.get('/lng/countries').then(function(resp) {
+////           for (var i = 0; i < resp.length; i++) {
+////               var obj = {
+////                   id: resp[i].country,
+////                   label: resp[i].country
+////               }
+////               $scope.countryData.push(obj);
+////           }
+////           $scope.countryData = $scope.sortedOrder($scope.countryData);
+////       });
+//    	 
+//     }
      $rootScope.filterSubmit = function() {
 
          if ($rootScope.filterObj.regionField == true) {
@@ -1534,7 +3435,8 @@
          $rootScope.table = {
              inst: ""
          };
-
+                
+         
          $scope.occurrenceOptions = [{
              name: "Country",
              value: "country",

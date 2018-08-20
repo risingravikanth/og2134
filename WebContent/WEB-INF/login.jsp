@@ -108,7 +108,7 @@
 							</li>-->
 							<!--<li><a href="contact.html">Contact</a></li>-->
 							<li class="btn-ctn dropdown">
-								<a href="#" data-toggle="dropdown" id="loginShow"><span>Login</span></a>
+								<a href="#" data-toggle="dropdown" id="loginShow" ng-click="loginButton()"><span>Login</span></a>
 						 	</li>
 							<li class="btn-ctn dropdown">
 								<a href="#" data-toggle="dropdown" id="contactUsShow"><span>Contact Us</span></a>
@@ -130,11 +130,11 @@
 				<p class="login-box-msg" style="color:red;" ng-if="errorMessage != ''">{{ errorMessage}} </p>
 				<form id="loginForm" name="loginForm" >
 				  <div class="form-group has-feedback">
-					<input type="email" class="form-control" placeholder="Email" name="email" ng-Model="loginObj.username" required>
+					<input type="email" id="loginEmail" class="form-control" placeholder="Email" name="email" ng-Model="loginObj.username" required>
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				  </div>
 				  <div class="form-group has-feedback">
-					<input type="password" class="form-control" placeholder="Password" name="password" ng-Model="loginObj.password" required>
+					<input type="password" id="loginPwd" class="form-control" placeholder="Password" name="password" ng-Model="loginObj.password" required>
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				  </div>
 				  <div class="row">
@@ -142,9 +142,9 @@
 					  <div class="checkbox icheck">
 					   <!--  <label>
 						  <input id="rememberMe" type="checkbox"> Remember Me
-						</label> 
-						<a ng-click="forgotPassword()">I forgot my password</a><br>
-						<a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
+						</label> -->
+						<a href="" id="forgotpwd" ng-click="forgotPasswordButton()">Forgot Password</a><br>
+						<!-- <a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
 						
 					  </div>
 					</div><!-- /.col -->
@@ -165,6 +165,104 @@
 
 			  </div><!-- /.login-box-body -->
 			</div><!-- /.login-box -->
+			
+			<!-- Forgot Password -->
+				 <div class="forgotpwd-box animate-box" >
+			  <div class="login-logo">
+				<a href="#"><b>&nbsp;</b></a>
+			  </div><!-- /.login-logo -->
+			  <div class="login-box-body">
+				<p class="login-box-msg">Enter Registered Email ID</p>
+				<p class="login-box-msg" style="color:red;" ng-if="errorMessage != '' && errorMessage1 != ''">{{ errorMessage}} <br> <span ng-if="errorMessage1 != ''">{{ errorMessage1}} </span></p>				
+				<form id="forgotpwdForm" name="forgotpwdForm" >
+				  <div class="form-group has-feedback">
+					<input type="email" id="forgotpwdEmail" class="form-control" placeholder="Email" name="email" ng-Model="forgotPwdObj.email" required>
+					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+				  </div>
+				  
+				  <div class="row">
+					<div class="col-xs-8">
+					  <div class="checkbox icheck">
+					   <!--  <label>
+						  <input id="rememberMe" type="checkbox"> Remember Me
+						</label> 
+						<a href="" id="forgotpwd">I forgot my password</a><br>
+						<a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
+						
+					  </div>
+					</div><!-- /.col -->
+					<div class="col-xs-4">
+					  <button type="submit" class="btn btn-primary btn-block btn-flat"  ng-disabled="forgotpwdForm.$invalid" ng-click="forgotPwd()">Submit</button>
+					</div><!-- /.col -->
+				  </div>
+				</form>
+
+				<div class="social-auth-links text-center">
+				  <!--<p>- OR -</p>
+				  <!-- <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
+				  <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
+				 --></div><!-- /.social-auth-links -->
+
+				<!--<a ng-click="forgotPassword()">I forgot my password</a><br>
+				<a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
+
+			  </div><!-- /.login-box-body -->
+			</div><!-- /.login-box -->
+			<!-- End of Forgot Password -->
+			
+			<!-- Reset Password -->
+			
+			 <div class="resetpwd-box animate-box" >
+			  <div class="login-logo">
+				<a href="#"><b>&nbsp;</b></a>
+			  </div><!-- /.login-logo -->
+			  <div class="login-box-body">
+				<p class="login-box-msg">Reset Password</p>
+				<p class="login-box-msg" style="color:red;" ng-if="errorMessage != '' && errorMessage1 != ''">{{ errorMessage}} <br> <span ng-if="errorMessage1 != ''">{{ errorMessage1}} </span></p>
+				
+				<form id="resetPasswordForm" name="resetPasswordForm" >
+				   <div class="form-group has-feedback">
+					<input type="password" id="currpwd" class="form-control" placeholder="Current Password" name="password" ng-Model="resetPwdObj.currpwd" required>
+					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+				  </div>
+				  <div class="form-group has-feedback">
+					<input type="password" id="newpwd" class="form-control" placeholder="New Password" name="password" ng-Model="resetPwdObj.newpwd" required>
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				  </div>
+				   <div class="form-group has-feedback">
+					<input type="password" id="confirmpwd" class="form-control" placeholder="Confirm Password" name="password" ng-Model="resetPwdObj.confirmpwd" required>
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				  </div>
+				  <div class="row">
+					<div class="col-xs-8">
+					 <!--  <div class="checkbox icheck">-->
+					   <!--  <label>
+						  <input id="rememberMe" type="checkbox"> Remember Me
+						</label> -->
+						<!-- <a href="" id="forgotpwd">I forgot my password</a><br>-->
+						<!-- <a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
+						
+					  <!-- </div>-->
+					</div><!-- /.col -->
+					<div class="col-xs-4">
+					  <button type="submit" class="btn btn-primary btn-block btn-flat"  ng-disabled="resetPasswordForm.$invalid" ng-click="resetpwd()">Submit</button>
+					</div><!-- /.col -->
+				  </div>
+				</form>
+
+				<div class="social-auth-links text-center">
+				  <!--<p>- OR -</p>
+				  <!-- <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
+				  <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
+				 --></div><!-- /.social-auth-links -->
+
+				<!--<a ng-click="forgotPassword()">I forgot my password</a><br>
+				<a ng-click="showRegistrationForm()" class="text-center">Register a new membership</a>-->
+
+			  </div><!-- /.login-box-body -->
+			</div><!-- /.resetpwd-box -->
+			
+			<!-- End of Reset Password -->
 			<div class="fh5co-contact">
 				<div class="container">
 					<div class="col-md-12 animate-box contact-box">
@@ -878,19 +976,50 @@
 			});*/
 			$('#loginShow').on('click',function(){
 				//$("#loginPage").toggle();
-				
+				$('text#loginEmail').attr('value','');
+				$('text#loginPwd').attr('value','');
 				if($(".login-background").css('display') == 'block' && $(".login-box").css('display') == 'block'){
 					$(".login-background").hide();//('display','block');
 				}else{
 					$(".contact-box").hide();
+					$(".resetpwd-box").hide();
+					$(".forgotpwd-box").hide();
 					$(".login-box").show();
 					var displayPrpt = $(".login-background").css('display');
 					if(displayPrpt == 'none'){
 						$(".login-background").show();//('display','block');
 					}else{
 						if($(".login-box").css('display') == 'block'){
+							$(".forgotpwd-box").hide();
 							$(".contact-box").hide();
+							$(".resetpwd-box").hide();
 							$(".login-box").show();
+						}else{
+							$(".login-background").hide();//('display','block');
+						}
+					}
+				}
+			});
+			
+			$('#forgotpwd').on('click',function(){
+				//$("#loginPage").toggle();
+				$("#forgotpwdEmail").val("");
+				if($(".login-background").css('display') == 'block' && $(".register-box").css('display') == 'block'){
+					$(".login-background").hide();//('display','block');
+				}else{
+					$(".login-box").hide();
+					$(".contact-box").hide();
+					$(".resetpwd-box").hide();
+					$(".forgotpwd-box").show();
+					var displayPrpt = $(".login-background").css('display');
+					if(displayPrpt == 'none'){
+						$(".login-background").show();//('display','block');
+					}else{
+						if($(".forgotpwd-box").css('display') == 'block'){
+							$(".contact-box").hide();
+							$(".login-box").hide();
+							$(".resetpwd-box").hide();
+							$(".forgotpwd-box").show();
 						}else{
 							$(".login-background").hide();//('display','block');
 						}
@@ -904,14 +1033,18 @@
 					$(".login-background").hide();//('display','block');
 				}else{
 					$(".login-box").hide();
+					$(".forgotpwd-box").hide();
+					$(".resetpwd-box").hide();
 					$(".contact-box").show();
 					var displayPrpt = $(".login-background").css('display');
 					if(displayPrpt == 'none'){
 						$(".login-background").show();//('display','block');
 					}else{
 						if($(".contact-box").css('display') == 'block'){
-							$(".contact-box").show();
+							$(".forgotpwd-box").hide();
 							$(".login-box").hide();
+							$(".resetpwd-box").hide();
+							$(".contact-box").show();							
 						}else{
 							$(".login-background").hide();//('display','block');
 						}
@@ -934,6 +1067,8 @@
 						this.contextPath = "http://localhost:8080";
 						this.loginUrl = this.contextPath+'/oganalysis/login';
 						this.contactUsUrl = this.contextPath+'/oganalysis/contactus';
+						this.resetPwdUrl=this.contextPath+'/oganalysis/resetpwd';
+						this.forgotPwdUrl=this.contextPath+'/oganalysis/forgotpwd';
 						this.headerRequest = {	// TODO: Once api need user token then uncomment this.
 								"Content-type": 'application/x-www-form-urlencoded',
 								'Access-Control-Allow-Origin':'*'
@@ -941,6 +1076,14 @@
 					})
 			  angular.module('LoginApp').controller('LoginCtrl', function($scope,$rootScope,URL,$http, $timeout) {
 				  
+				  $scope.loginButton = function(){
+					  $scope.loginObj.username="";
+					  $scope.loginObj.password="";
+				  }
+				  
+				  $scope.forgotPasswordButton = function(){
+					  $scope.forgotPwdObj.email="";
+				  }
 				  $scope.login = function(){
 						   var request = {
 								method: 'POST',
@@ -949,17 +1092,22 @@
 								headers: URL.headerRequest
 							};
 							 
-							$http(request).success(function (resp){
-								 if(resp.st == 'correct'){
+							$http(request).success(function (resp){								 
+								 if(resp.st == 'correct'){									 								
 									localStorage.setItem("oganalysis-ud-name",resp.user);
 									window.location.href = "index.html#/"
 								 }else if(resp.st =='incorrect'){
 									 //alert("login failed!")
-									 $scope.errorMessage = "Invalid email or password.";
-									 
+									 $scope.errorMessage = "Invalid email or password.";									 
 									 $timeout(function(){
 										 $scope.errorMessage = "";
 									 },3000)
+								 }else if(resp.st=='reset'){
+									 $(".login-box").hide();
+									 $(".resetpwd-box").show();
+									 $scope.resetPwdObj.currpwd="";
+									 $scope.resetPwdObj.newpwd="";
+									 $scope.resetPwdObj.confirmpwd="";
 								 }
 								 
 							}).error(function (resp){
@@ -967,6 +1115,90 @@
 							});
 				  }
 				  
+				  $scope.resetpwd = function(){					 
+					  $scope.resetPwdObj.username=$scope.loginObj.username;
+					  var validFlag=true;
+					  if($scope.resetPwdObj.newpwd != $scope.resetPwdObj.confirmpwd){
+							validFlag = false;
+							$scope.errorMessage = "New and Confirm Password doesn't match";
+							$timeout(function(){
+								 $scope.errorMessage = "";
+							},3000)
+							
+						}
+					   var request = {
+							method: 'POST',
+							url: URL.resetPwdUrl,
+							data: $.param($scope.resetPwdObj),
+							headers: URL.headerRequest
+						};
+						if(validFlag)
+						{
+							$http(request).success(function (resp){								 
+								 if(resp.st == 'success'){									 								
+									 $scope.errorMessage = "Successfully Reset Password.";									 
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+										 $(".login-background").hide();
+									 },3000)
+								 }else if(resp.st =='incorrect'){
+									 //alert("login failed!")
+									 $scope.errorMessage = "Invalid Current Password.";									 
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+									 },3000)
+								 }else if(resp.st=='fail'){
+									 $scope.errorMessage = "Unable to Reset Password.";
+									 $scope.errorMessage1="Please contact sales@ogexplorer.com.";
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+										 $scope.errorMessage1="";
+									 },3000)
+								 }
+								 
+							}).error(function (resp){
+								console.log("Error")
+							});
+						}
+						
+			  	  }
+				  
+				  $scope.forgotPwd = function(){					 					 
+					   var request = {
+							method: 'POST',
+							url: URL.forgotPwdUrl,
+							data: $.param($scope.forgotPwdObj),
+							headers: URL.headerRequest
+						};
+						
+							$http(request).success(function (resp){								 
+								 if(resp.st == 'success'){									 								
+									 $scope.errorMessage = "Password has sent successfully.";									 
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+										 $(".login-background").hide();
+									 },3000)
+								 }else if(resp.st =='incorrect'){
+									 //alert("login failed!")
+									 $scope.errorMessage = "Invalid Registered Email ID.";									 
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+									 },3000)
+								 }else if(resp.st=='fail'){
+									 $scope.errorMessage = "Unable to Send Password.";
+									 $scope.errorMessage1="Please contact sales@ogexplorer.com.";
+									 $timeout(function(){
+										 $scope.errorMessage = "";
+										 $scope.errorMessage1="";
+									 },3000)
+								 }
+								 
+							}).error(function (resp){
+								console.log("Error")
+							});
+						
+						
+			  	  }
 				  $scope.sendMessage = function(){
 						var validFlag = true;
 						if($scope.contactUsObj.mobile == "" &&  $scope.contactUsObj.landline == ""){
@@ -1024,6 +1256,17 @@
 							landline:"",
 							email:"",
 							message :""
+					  };
+					  
+					  $scope.resetPwdObj={
+							  username:"",
+							  currpwd:"",
+							  newpwd:"",
+							  confirmpwd:""
+					  };
+					  
+					  $scope.forgotPwdObj={
+							  email:""							 
 					  };
 					  
 					  $scope.errorMessage = ""; 
