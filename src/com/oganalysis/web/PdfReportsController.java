@@ -35,8 +35,7 @@ public class PdfReportsController {
 	@RequestMapping(value="/pdfReports",method={RequestMethod.POST})
 	public String pdfReportsFileList(HttpServletRequest request)
 	{
-		String response=LOGIN;
-		System.out.println("Jeevan");
+		String response=LOGIN;		
 		if(null!=request.getSession().getAttribute(EMAIL))
 		{
 			Map<String,List<String>> selectedOptions=getSelectedOptionsData(request);
