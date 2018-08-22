@@ -146,7 +146,10 @@
 					 	scrollX: true,
 					 	columns: $scope.modelcolumns,
 						data :$scope.ModelDataList,
-						autowidth: false
+						autowidth: false,
+						fixedColumns:{
+							leftColumns:1
+						}
 					});
 		 			//tableInst.columns.adjust().draw();
 		 			//debugger;
@@ -696,16 +699,21 @@
  	};
  	
  	$rootScope.inItDataTable = function(){
- 		
+ 		$('#liquefaction').empty();
+ 		$("#regasification").empty();
  		if ( $.fn.dataTable.isDataTable( '#liquefaction' ) ) {
  		    table = $('#liquefaction').DataTable();
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				scrollX:true,
  				"drawCallback": function( settings ) {
  					if(!$("#liquefaction").parent().hasClass("table-responsive")){
- 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" );
+// 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" );
 				     }
+ 		 	    },
+ 		 	    fixedColumns:{
+ 		 	    	leftColumns:1
  		 	    },
  				"columnDefs": [
  				{
@@ -729,7 +737,9 @@
  							columns: $scope.columns,
  							data : $scope.liquefactionData
  				});
- 			
+	 			$timeout(function(){
+	 				liquefactionInst.columns.adjust().draw();				
+				},100);
  				$rootScope.table.liquefactionInst = liquefactionInst;
  			}
  	 		
@@ -738,10 +748,14 @@
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				scrollX:true,
 	 				"drawCallback": function( settings ) {
 	 					if(!$("#regasification").parent().hasClass("table-responsive")){
-	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );
+//	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );
 					     }
+	 		 	    },
+	 		 	    fixedColumns:{
+	 		 	    	leftColumns:1
 	 		 	    },
 	 				"columnDefs": [
 	 				{
@@ -763,6 +777,9 @@
 	 				 			columns: $scope.columns,
 	 							data : $scope.regasificationData
 	 				 });
+		 			$timeout(function(){
+		 				regasificationInst.columns.adjust().draw();				
+					},100);
 	 			$rootScope.table.regasificationInst = regasificationInst;
 	 		}
 		 			

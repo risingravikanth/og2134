@@ -128,13 +128,17 @@
 		 			var tableInst = $("#modelDatatable").DataTable({
 					 	scrollX: true,
 					 	columns: $scope.modelcolumns,
-						data :$scope.ModelDataList 
+						data :$scope.ModelDataList,
+						fixedColumns :{
+							leftColumns:1
+						}
 					});
 		 			//tableInst.columns.adjust().draw();
 		 			$timeout(function(){
 		 				tableInst.draw()
 		 			},100);
 		 			
+//		 			new $.fn.dataTable.FixedColumns(tableInst);
 		 			$rootScope.table.modelDatatableInst = tableInst;
 	 	 		}
 	  	 	} else{
@@ -403,26 +407,34 @@
  	};
  	
  	$rootScope.inItDataTable = function(){
+ 		$('#liquefaction').empty();
+ 		$("#regasification").empty();
+ 		var liquefactionInst;
  		
  		if ( $.fn.dataTable.isDataTable( '#liquefaction' ) ) {
  		    table = $('#liquefaction').DataTable();
+ 		   
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				scrollX:true,
  				"drawCallback": function( settings ) {
  					if(!$("#liquefaction").parent().hasClass("table-responsive")){
- 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" );
+// 						$("#liquefaction").wrap( "<div class='table-responsive'></div>" ); 						
 				     }
  		 	    },
+ 				fixedColumns :{
+ 					leftColumns:1
+ 				},
  				"columnDefs": [
  				{
  					// The `data` parameter refers to the data for the cell (defined by the
  					// `data` option, which defaults to the column being worked with, in
- 					// this case `data: 0`.
+ 					// this case `data: 0`. 					
  					"render": function ( data, type, row ) {
  						var commonHref = "";
  						if(data != ' Total'){
- 							var modalParam = "'"+data+"'";
+// 							var modalParam = "'"+data+"'";
  							commonHref =  '<a  recordName="'+data+'" type="liquefaction" class="openModel">'+data +'</a>';
  						}else{
  							commonHref =  '<p>'+data+'</p>';
@@ -436,20 +448,44 @@
  			 				data : $scope.liquefactionData,
  						 
  				});
+ 				
+	 			
+	 			$timeout(function(){
+	 				liquefactionInst.columns.adjust().draw();
+//					liquefactionInst.draw();
+				},100);
  			
+ 			
+	 			
+	 			 	
+//	 				new $.fn.dataTable.FixedColumns(liquefactionInst,{
+//		 				leftColumns:1
+//		 			});		 			
+//			   
+//	 				$timeout(function(){
+//						liquefactionInst.draw()
+//					},100);
+	 			
  				$rootScope.table.liquefactionInst = liquefactionInst;
  			}
  	 		
+// 	
+		
+			
 	 		if ( $.fn.dataTable.isDataTable( '#regasification' ) ) {
 	 		    table = $('#regasification').DataTable();
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				scrollX :true,
 	 				"drawCallback": function( settings ) {
 	 					if(!$("#regasification").parent().hasClass("table-responsive")){
-	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );
+//	 						$("#regasification").wrap( "<div class='table-responsive'></div>" );	 						
 					     }
 	 		 	    },
+	 				fixedColumns :{
+	 					leftColumns:1
+	 				},
 	 				"columnDefs": [
 	 				{
 	 					// The `data` parameter refers to the data for the cell (defined by the
@@ -470,6 +506,23 @@
 	 					 		columns: $scope.columns,
 	 					 		data : $scope.regasificationData,
 	 			 	 });
+	 			
+	 			$timeout(function(){
+//	 				regasificationInst.draw();	
+	 				regasificationInst.columns.adjust().draw();
+	 			},100);
+	 			
+	 		
+//	 				new $.fn.dataTable.FixedColumns(regasificationInst,{
+//		 				leftColumns:1
+//		 			});
+//			     
+//	 				$timeout(function(){
+//		 				regasificationInst.draw()
+//		 			},100);
+	 			
+	 			
+	 			
 	 			$rootScope.table.regasificationInst = regasificationInst;
 	 		}
 		 			
