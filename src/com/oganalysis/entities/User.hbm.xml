@@ -18,6 +18,7 @@
 		<property name="role" type="string"/>
 		<property name="userImage" type="string" column="image"/>
 		<property name="passwordReset" type="string"/>
+		<property name="status" type="string"/>
 	</class>
 	
 </hibernate-mapping>	

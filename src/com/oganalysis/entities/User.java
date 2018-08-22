@@ -13,6 +13,7 @@ public class User {
 	private String admin;
 	private String userImage;
 	private String passwordReset;
+	private String status;
 	
 	public String getUserName() {
 		return userName;
@@ -86,6 +87,12 @@ public class User {
 	}
 	public void setPasswordReset(String passwordReset) {
 		this.passwordReset = passwordReset;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

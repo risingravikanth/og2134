@@ -48,7 +48,7 @@ public class LoginBusinessServiceImpl implements LoginBusinessService {
 	public User validateUser(String email,String password) {
 		// TODO Auto-generated method stub			
 		User user=userDao.getUser(email);
-		if(null!=user && !password.equals(user.getPassword()))		
+		if(null!=user && (!password.equals(user.getPassword()) || !"A".equals(user.getStatus())))		
 			user=null;		
 		return user;
 	}
@@ -121,7 +121,7 @@ public class LoginBusinessServiceImpl implements LoginBusinessService {
 		String status=FAIL;
 		User user=userDao.getUser(email);
 		
-		if(null!=user && email.equals(user.getEmail()))
+		if(null!=user && email.equals(user.getEmail()) && "A".equals(user.getStatus()))
 		{
 			try{
 				int i=0;
