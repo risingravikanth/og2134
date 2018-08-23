@@ -603,6 +603,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadLngFilter();
    	};
    	
    	$scope.loadTableData = function(resp){
@@ -709,7 +710,8 @@
  		};
 		
 		$rootScope.tableHeaderObj = {
-				title:"Country Wise"
+				title:"Country Wise",
+				unit :"MTPA"
  		};
 				
 		if($scope.url != ''){

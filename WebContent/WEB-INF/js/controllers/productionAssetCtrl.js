@@ -341,6 +341,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadProductionAssetFilter();
  	};
 	
  	$scope.loadTableData = function(resp){

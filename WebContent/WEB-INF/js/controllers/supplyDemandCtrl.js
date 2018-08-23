@@ -301,6 +301,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadSupplyDemandFilter();
  	};
 	
 	

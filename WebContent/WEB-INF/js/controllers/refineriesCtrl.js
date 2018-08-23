@@ -860,7 +860,7 @@
 	 		});
 		}
  		
- 		
+ 		$rootScope.loadRefineriesFilter();
  		
    	};
    	$scope.loadTableData = function(resp){

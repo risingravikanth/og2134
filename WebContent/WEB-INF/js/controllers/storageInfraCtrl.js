@@ -755,6 +755,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadStorageFilter();
    	};
    	
    	$scope.loadTableData = function(resp){

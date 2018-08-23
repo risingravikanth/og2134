@@ -474,6 +474,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadLngFilter();
    	};
    	
 	$scope.loadTableData = function(resp){

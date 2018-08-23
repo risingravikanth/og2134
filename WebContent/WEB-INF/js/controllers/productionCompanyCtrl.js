@@ -362,6 +362,7 @@
 	 			}
 	 		});
 		}
+ 		$rootScope.loadProductionCompanyFilter();
  	};
 	
  	$scope.loadTableData = function(resp){

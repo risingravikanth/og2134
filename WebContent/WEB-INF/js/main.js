@@ -3421,8 +3421,8 @@
                      $rootScope.table.inst.draw();
                  }
              });
-         }
-
+         }         
+         $rootScope.loadReportsFilter();
      };
 
 
@@ -3478,7 +3478,7 @@
 
          $scope.setConfigurations();
          $scope.setDisplayPeriod();
-         $rootScope.resetFilter();
+//         $rootScope.resetFilter();
 
          if ($scope.url != '') {
              HttpService.get($scope.url).then(function(resp) {
