@@ -132,6 +132,43 @@ public class LngDataDisplayController {
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
 		return lngDataServiceImpl.getOwners(selectedOptions);			
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/default/countries",method={RequestMethod.POST})
+	public String getCountries()
+	{					
+		return lngDataServiceImpl.getCountries();				
+	}	
+	@ResponseBody
+	@RequestMapping(value="/default/status",method={RequestMethod.POST})
+	public String getStatus()
+	{							
+		return lngDataServiceImpl.getStatus();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/default/type",method={RequestMethod.POST})
+	public String getType()
+	{							
+		return lngDataServiceImpl.getType();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/default/locations",method={RequestMethod.POST})
+	public String getLngLocations()
+	{							
+		return lngDataServiceImpl.getLocations();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/default/operators",method={RequestMethod.POST})
+	public String getLngOperators()
+	{							
+		return lngDataServiceImpl.getOperators();				
+	}
+	@ResponseBody
+	@RequestMapping(value="/default/owners",method={RequestMethod.POST})
+	public String getLngOwners()
+	{							
+		return lngDataServiceImpl.getOwners();			
+	}
 	@RequestMapping("/download/terminaldetails")
 	public String downloadTerminalDetails(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 		

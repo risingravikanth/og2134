@@ -72,6 +72,142 @@ public class LngDaoImpl implements LngDao {
 		return regions;
 	}
 	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> countries=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			countries=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct country from Lng where country!=' ' order by country asc");
+			countries=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return countries;
+	}
+	@Override
+	public List<String> getStatus() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> status=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			status=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct status from Lng where status!=' ' order by status asc");
+			status=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return status;
+	}
+
+	@Override
+	public List<String> getType() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> type=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			type=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct type from Lng where type!=' ' order by type asc");
+			type=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return type;
+	}
+
+	@Override
+	public List<String> getLocations() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> locations=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			locations=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct area from Lng where area!=' ' order by area asc");
+			locations=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return locations;
+	}
+
+	@Override
+	public List<String> getOperators() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> operators=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			operators=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct operator from Lng where operator!=' ' order by operator asc");
+			operators=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return operators;
+	}
+
+	@Override
+	public List<String> getOwners() {
+		// TODO Auto-generated method stub
+		Session session=null;
+		List<String> owners=null;
+		try
+		{
+			session=sessionFactory.openSession();
+			Transaction tx=session.beginTransaction();
+			owners=new ArrayList<String>();
+			tx.begin();
+			Query query=session.createQuery("select distinct equityPartners from Lng where equityPartners!=' ' order by equityPartners asc");
+			owners=(List<String>)query.list();
+			tx.commit();
+		}
+		finally
+		{
+			if(null!=session)
+				session.close();
+		}			
+		return owners;
+	}
+	@Override
 	public List<String> getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
 		Session session=null;
@@ -720,7 +856,5 @@ public class LngDaoImpl implements LngDao {
 				session.close();
 		}			
 		return terminals;
-	}
-
-	
+	}	
 }

@@ -1,10 +1,5 @@
 package com.oganalysis.service.impl;
 
-import static com.oganalysis.constants.ApplicationConstants.COMPANY;
-import static com.oganalysis.constants.ApplicationConstants.COUNTRY;
-import static com.oganalysis.constants.ApplicationConstants.LNG_LIQUEFACTION;
-import static com.oganalysis.constants.ApplicationConstants.LNG_REGASIFICATION;
-import static com.oganalysis.constants.ApplicationConstants.TERMINAL;
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 import java.io.InputStream;
@@ -154,6 +149,7 @@ public class LngDataServiceImpl implements LngDataService{
 		jsonRes=res.createRegions(regionsList);
 		return jsonRes;
 	}
+	
 	@Override
 	public String getCountries(Map<String,List<String>> selectedOptions) {
 		// TODO Auto-generated method stub
@@ -237,6 +233,8 @@ public class LngDataServiceImpl implements LngDataService{
 		}
 		
 	}
+	
+	
 	public LngCapacityBusinessService getLngCapacityBusinessServiceImpl() {
 		return lngCapacityBusinessServiceImpl;
 	}
@@ -253,6 +251,60 @@ public class LngDataServiceImpl implements LngDataService{
 	}
 	public void setLngExcel(LngExcel lngExcel) {
 		this.lngExcel = lngExcel;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> countriesList=lngCapacityBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
+		return jsonRes;
+	}
+	@Override
+	public String getStatus() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> statusList=lngCapacityBusinessServiceImpl.getStatus();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createStatus(statusList);
+		return jsonRes;
+	}
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> typeList=lngCapacityBusinessServiceImpl.getType();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createType(typeList);
+		return jsonRes;
+	}
+	@Override
+	public String getLocations() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> locationsList=lngCapacityBusinessServiceImpl.getLocations();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createLocationsResponse(locationsList);
+		return jsonRes;
+	}
+	@Override
+	public String getOperators() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> operatorsList=lngCapacityBusinessServiceImpl.getOperators();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOperatorResponse(operatorsList);
+		return jsonRes;
+	}
+	@Override
+	public String getOwners() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> ownersList=lngCapacityBusinessServiceImpl.getOwners();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createOwnersResponse(ownersList);
+		return jsonRes;
 	}
 	
 	

@@ -27,6 +27,13 @@ public interface LngCapacityBusinessService {
 		List<String> getLocations(Map<String,List<String>> selectedOptions);
 		List<String> getOperators(Map<String,List<String>> selectedOptions);
 		List<String> getOwners(Map<String,List<String>> selectedOptions);
+		//Default
+		List<String> getCountries();
+		List<String> getStatus();
+		List<String> getType();	
+		List<String> getLocations();
+		List<String> getOperators();
+		List<String> getOwners();
 	
 
 }

@@ -27,6 +27,12 @@ public interface LngDao {
 	List<String> getOperators(Map<String,List<String>> selectedOptions);
 	List<String> getOwners(Map<String,List<String>> selectedOptions);
 	
+	List<String> getCountries();
+	List<String> getStatus();
+	List<String> getType();	
+	List<String> getLocations();
+	List<String> getOperators();
+	List<String> getOwners();
 				
 	List<String> getSelectedCompanies(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);
 	List<String> getSelectedCountries(Map<String,List<String>> selectedOptions,int startDate,int endDate,String type);

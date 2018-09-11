@@ -23,6 +23,14 @@ public interface LngDataService {
 		public String getLocations(Map<String,List<String>> selectedOptions);		
 		public String getOperators(Map<String,List<String>> selectedOptions);		
 		public String getOwners(Map<String,List<String>> selectedOptions);
+		//Default
+		public String getCountries();
+		public String getStatus();		
+		public String getType();		
+		public String getLocations();		
+		public String getOperators();		
+		public String getOwners();
+		
 		
 	  
 }	
