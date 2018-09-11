@@ -219,6 +219,7 @@
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				scrollY:"400px",
  				scrollX:true,
  				"drawCallback": function( settings ) {
  					if(!$("#liquefaction").parent().hasClass("table-responsive")){
@@ -253,6 +254,7 @@
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				scrollY:"400px",
 	 				scrollX:true,
 	 				"drawCallback": function( settings ) {
 	 					if(!$("#regasification").parent().hasClass("table-responsive")){

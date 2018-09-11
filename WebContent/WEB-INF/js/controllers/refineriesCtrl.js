@@ -143,6 +143,7 @@
 	 	 		else {
 			 
 		 			var tableInst = $("#modelDatatable").DataTable({
+		 				scrollY: "100px",
 					 	scrollX: true,
 					 	columns: $scope.modelcolumns,
 						data :$scope.ModelDataList,
@@ -706,6 +707,7 @@
  		}
  		else {
  			var liquefactionInst = $("#liquefaction").DataTable({
+ 				scrollY:"400px",
  				scrollX:true,
  				"drawCallback": function( settings ) {
  					if(!$("#liquefaction").parent().hasClass("table-responsive")){
@@ -748,6 +750,7 @@
 	 		}
 	 		else {
 	 			var regasificationInst = $("#regasification").DataTable({
+	 				scrollY:"400px",
 	 				scrollX:true,
 	 				"drawCallback": function( settings ) {
 	 					if(!$("#regasification").parent().hasClass("table-responsive")){
