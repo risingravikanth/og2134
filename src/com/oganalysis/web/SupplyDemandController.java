@@ -53,6 +53,12 @@ public class SupplyDemandController {
 		Map<String,List<String>> selectedOptions=getSelectedOptionsData(req);
 		return supplyDemandServiceImpl.getCountries(selectedOptions);				
 	}
+	@ResponseBody
+	@RequestMapping(value="/default/countries",method={RequestMethod.POST})
+	public String getCountries()
+	{							
+		return supplyDemandServiceImpl.getCountries();				
+	}
 	private Map<String,List<String>> getSelectedOptionsData(HttpServletRequest request)
 	{
 		Enumeration<String> selectedOptions=request.getParameterNames();

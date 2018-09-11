@@ -11,6 +11,7 @@ import com.oganalysis.entities.source.Region;
 import com.oganalysis.helper.JsonResponse;
 import com.oganalysis.helper.SupplyDemandJsonResponse;
 import com.oganalysis.service.SupplyDemandService;
+
 import static com.oganalysis.constants.ApplicationConstants.*;
 
 public class SupplyDemandServiceImpl implements SupplyDemandService {
@@ -52,12 +53,22 @@ public class SupplyDemandServiceImpl implements SupplyDemandService {
 		}
 		
 	}
+	
 	public SupplyDemandBusinessService getSupplyDemandBusinessServiceImpl() {
 		return supplyDemandBusinessServiceImpl;
 	}
 	public void setSupplyDemandBusinessServiceImpl(
 			SupplyDemandBusinessService supplyDemandBusinessServiceImpl) {
 		this.supplyDemandBusinessServiceImpl = supplyDemandBusinessServiceImpl;
+	}
+	@Override
+	public String getCountries() {
+		// TODO Auto-generated method stub
+		String jsonRes=null;
+		List<String> countriesList=supplyDemandBusinessServiceImpl.getCountries();
+		JsonResponse res=new JsonResponse();
+		jsonRes=res.createCountries(countriesList);
+		return jsonRes;
 	}
 	
 }

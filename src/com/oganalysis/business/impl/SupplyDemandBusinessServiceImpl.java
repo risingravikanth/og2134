@@ -123,5 +123,10 @@ public class SupplyDemandBusinessServiceImpl implements
 	public void setSupplyDemandDao(SupplyDemandDao supplyDemandDao) {
 		this.supplyDemandDao = supplyDemandDao;
 	}
+	@Override
+	public List<String> getCountries() {
+		// TODO Auto-generated method stub
+		return supplyDemandDao.getCountries();
+	}
 		
 }

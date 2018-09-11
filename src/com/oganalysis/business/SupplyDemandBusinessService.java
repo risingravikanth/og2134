@@ -8,4 +8,5 @@ public interface SupplyDemandBusinessService {
 	
 	public List<String> getRegions();
 	public List<String> getCountries(Map<String,List<String>> selectedOptions); 
+	public List<String> getCountries(); 
 }
